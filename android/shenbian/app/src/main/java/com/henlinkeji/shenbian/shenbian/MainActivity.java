@@ -8,7 +8,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.amap.api.maps.MapView;
+
 public class MainActivity extends AppCompatActivity {
+
+    MapView mMapView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+
+
+        mMapView = (MapView) findViewById(R.id.map);
+        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
+        mMapView.onCreate(savedInstanceState);
 
     }
 }
