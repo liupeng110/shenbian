@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">shenbian</string>
+    <string name="share">物品共享</string>
+    <string name="visit">上门服务</string>
 </resources>
