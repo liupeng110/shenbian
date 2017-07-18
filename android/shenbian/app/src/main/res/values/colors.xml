@@ -6,4 +6,5 @@
 
     <color name="transparence">#00000000</color>
     <color name="inkiness">#313036</color>
+    <color name="white">#FFFFFF</color>
 </resources>
