@@ -1,0 +1,10 @@
+platform:ios,'8.0'
+target ‘shenbianapp’ do
+pod 'AFNetworking'
+pod 'MJRefresh'
+pod 'SDWebImage'
+pod 'AMap2DMap' 
+pod 'AMapSearch' 
+end
+
+
