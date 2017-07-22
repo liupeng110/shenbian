@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+
         android:layout_marginTop="10dp"
         android:text="@string/share"
         android:textColor="@color/white"
@@ -47,8 +48,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/visit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="10dp"
         android:text="@string/visit"
         android:textColor="@color/white"
@@ -63,24 +66,27 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
+        android:background="@color/inkiness"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        >
 
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:text="首页"
+            android:text="@string/firstPage"
             android:drawableTop="@mipmap/ic_launcher"
             android:gravity="center"
-            android:paddingBottom="0dp"
+            android:paddingBottom="-5dp"
             android:paddingTop="0dp"
             android:checked="true"
-            tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="0dp" />
 
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            />
 
         <RadioButton
             android:layout_width="0dp"
@@ -90,25 +96,39 @@
             android:gravity="center"
             android:paddingBottom="0dp"
             android:paddingTop="0dp"
-            android:text="发现"
+            android:text="@string/attention"
             android:drawableTop="@mipmap/ic_launcher"
             android:textColor="@color/white"
             android:textSize="12sp"
-            tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <RadioButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:paddingBottom="0dp"
-            android:paddingTop="0dp"
-            android:text="我的"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:drawableTop="@mipmap/ic_launcher"
              />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingBottom="0dp"
+            android:paddingTop="0dp"
+            android:text="@string/discover"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+             />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+
+
+            android:text="@string/mine"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:drawablePadding="-2dp"
+            />
     </RadioGroup>
 </android.support.constraint.ConstraintLayout>
