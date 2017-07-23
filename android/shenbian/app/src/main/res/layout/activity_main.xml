@@ -30,27 +30,26 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/share"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-
+        android:layout_height="48dp"
         android:layout_marginTop="10dp"
         android:text="@string/share"
         android:textColor="@color/white"
+        android:background="@color/transparence"
 
         android:textSize="20sp"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.402"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/visit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:background="@color/transparence"
         android:layout_marginTop="10dp"
         android:text="@string/visit"
         android:textColor="@color/white"
@@ -124,8 +123,6 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-
-
             android:text="@string/mine"
             android:textColor="@color/white"
             android:textSize="12sp"
