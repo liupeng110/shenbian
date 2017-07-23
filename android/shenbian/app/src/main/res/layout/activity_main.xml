@@ -12,7 +12,6 @@
     <com.amap.api.maps.MapView
 
         android:id="@+id/map"
-
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -63,8 +62,8 @@
 
     <RadioGroup
         android:id="@+id/tab"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
         android:orientation="horizontal"
         android:background="@color/inkiness"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,6 +85,7 @@
 
             android:textColor="@color/white"
             android:textSize="12sp"
+
             />
 
         <RadioButton
@@ -100,7 +100,8 @@
             android:drawableTop="@mipmap/ic_launcher"
             android:textColor="@color/white"
             android:textSize="12sp"
-             />
+
+            />
 
         <RadioButton
             android:layout_width="0dp"
@@ -114,7 +115,8 @@
             android:drawableTop="@mipmap/ic_launcher"
             android:textColor="@color/white"
             android:textSize="12sp"
-             />
+
+            />
 
         <RadioButton
             android:layout_width="0dp"
@@ -128,7 +130,6 @@
             android:textColor="@color/white"
             android:textSize="12sp"
             android:drawableTop="@mipmap/ic_launcher"
-            android:drawablePadding="-2dp"
             />
     </RadioGroup>
 </android.support.constraint.ConstraintLayout>
