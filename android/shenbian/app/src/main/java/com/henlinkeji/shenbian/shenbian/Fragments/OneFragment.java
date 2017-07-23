@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amap.api.maps.MapView;
 import com.henlinkeji.shenbian.shenbian.R;
 
 /**
@@ -23,7 +24,7 @@ public class OneFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+   MapView mMapView = null;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -64,6 +65,9 @@ public class OneFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        mMapView = (MapView) findViewById(R.id.map);
+//        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
+//        mMapView.onCreate(savedInstanceState);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_one, container, false);
     }
@@ -104,6 +108,14 @@ public class OneFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setMenuVisibility(boolean menuVisibile) {
+        super.setMenuVisibility(menuVisibile);
+        if (this.getView() != null) {
+            this.getView().setVisibility(menuVisibile ? View.VISIBLE : View.GONE);
+        }
     }
 }

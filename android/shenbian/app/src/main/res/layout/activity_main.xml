@@ -14,30 +14,21 @@
         android:id="@+id/map"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="wrap_content"
-
-        android:layout_height="44dp"
-        android:background="@color/inkiness"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-<!-- custom segment -->
+    <!-- custom segment -->
     <RadioGroup
         android:id="@+id/top_tab"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@color/inkiness"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/inkiness"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
             android:layout_width="0dp"
@@ -45,43 +36,54 @@
             android:layout_weight="1"
             android:button="@null"
             android:checked="true"
-            android:gravity="center"
-            android:paddingTop="0dp"
-            android:text="@string/share"
-            android:paddingStart="100dp"
-            android:paddingEnd="10dp"
-            android:textColor="@color/white"
-            android:textSize="20sp"
             android:drawableBottom="@mipmap/selectedbar"
             android:drawablePadding="-10dp"
-            />
+            android:gravity="center"
+            android:paddingBottom="0dp"
+
+            android:paddingEnd="10dp"
+            android:paddingStart="80dp"
+            android:paddingTop="0dp"
+            android:text="@string/share"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginBottom="-5dp"
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
             android:paddingBottom="0dp"
+            android:paddingEnd="80dp"
+            android:paddingStart="10dp"
             android:paddingTop="0dp"
+
             android:text="@string/visit"
             android:textColor="@color/white"
-            android:textSize="20sp"
-
-            android:paddingStart="10dp"
-            android:paddingEnd="80dp"
-            android:drawablePadding="-10dp"
-
-            />
+            android:textSize="18sp" />
 
     </RadioGroup>
 
-    <!--推荐-->
+    <!--tab上方的显示区域-->
+    <FrameLayout
+        android:id="@+id/mHomeContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
 
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_tab"
+        >
 
-<!--底部栏-->
+    </FrameLayout>
+
+    <!--底部栏-->
     <RadioGroup
-        android:id="@+id/tab"
+        android:id="@+id/bottom_tab"
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:background="@color/inkiness"
@@ -91,61 +93,73 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <RadioButton
+            android:id="@+id/mHomeHomeRb"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
             android:checked="true"
-            android:drawableTop="@mipmap/ic_launcher"
             android:gravity="center"
             android:paddingBottom="-5dp"
             android:paddingTop="0dp"
             android:text="@string/firstPage"
-
-            android:textColor="@color/white"
             android:textSize="12sp"
 
+            android:textColor="@drawable/selector_tab_text_color"
+            android:background="@color/inkiness"
+            android:drawableTop="@drawable/selector_tab_home"
             />
 
         <RadioButton
+            android:id="@+id/mHomeFindRb"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
+
             android:gravity="center"
             android:paddingBottom="0dp"
             android:paddingTop="0dp"
             android:text="@string/attention"
-            android:textColor="@color/white"
             android:textSize="12sp"
 
+            android:textColor="@drawable/selector_tab_text_color"
+            android:background="@color/inkiness"
+            android:drawableTop="@drawable/selector_tab_search"
             />
 
         <RadioButton
+            android:id="@+id/mHomeSearchRb"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
             android:gravity="center"
             android:paddingBottom="0dp"
             android:paddingTop="0dp"
             android:text="@string/discover"
-            android:textColor="@color/white"
             android:textSize="12sp"
 
+            android:textColor="@drawable/selector_tab_text_color"
+            android:background="@color/inkiness"
+            android:drawableTop="@drawable/selector_tab_find"
             />
 
         <RadioButton
+            android:id="@+id/mHomeProfileRb"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
             android:gravity="center"
             android:text="@string/mine"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+
+            android:textColor="@drawable/selector_tab_text_color"
+            android:background="@color/inkiness"
+            android:drawableTop="@drawable/selector_tab_mine"
+            />
+
     </RadioGroup>
 </android.support.constraint.ConstraintLayout>
