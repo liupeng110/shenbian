@@ -21,7 +21,7 @@
         android:layout_height="55dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@color/tab_bg"  >
+        android:background="@color/inkiness"  >
 
         <RadioButton
             android:id="@+id/mHomeHomeRb"
@@ -32,7 +32,6 @@
             android:gravity="center"
             android:text="@string/home_home"
             android:textColor="@drawable/selector_tab_text_color"
-            android:background="@color/tab_bg"
             android:drawableTop="@drawable/selector_tab_home"
            />
 
@@ -43,9 +42,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="@string/home_find"
+            android:text="@string/attention"
             android:textColor="@drawable/selector_tab_text_color"
-            android:background="@color/tab_bg"
             android:drawableTop="@drawable/selector_tab_find"
             />
 
@@ -56,9 +54,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="@string/home_search"
+            android:text="@string/discover"
             android:textColor="@drawable/selector_tab_text_color"
-            android:background="@color/tab_bg"
             android:drawableTop="@drawable/selector_tab_search"
            />
 
@@ -71,7 +68,6 @@
             android:gravity="center"
             android:text="@string/home_profile"
             android:textColor="@drawable/selector_tab_text_color"
-            android:background="@color/tab_bg"
             android:drawableTop="@drawable/selector_tab_mine"
             android:checked="true"
            />
