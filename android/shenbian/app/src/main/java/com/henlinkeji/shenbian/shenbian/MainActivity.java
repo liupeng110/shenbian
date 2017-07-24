@@ -1,7 +1,6 @@
 package com.henlinkeji.shenbian.shenbian;
 
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,14 +14,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.amap.api.maps.MapView;
-import com.henlinkeji.shenbian.shenbian.Fragments.FourFragment;
-import com.henlinkeji.shenbian.shenbian.Fragments.OneFragment;
-import com.henlinkeji.shenbian.shenbian.Fragments.ThreeFragment;
-import com.henlinkeji.shenbian.shenbian.Fragments.TwoFragment;
+import com.henlinkeji.shenbian.shenbian.fragments.FindFagment;
+import com.henlinkeji.shenbian.shenbian.fragments.HomeFagment;
+import com.henlinkeji.shenbian.shenbian.fragments.MineFagment;
+import com.henlinkeji.shenbian.shenbian.fragments.SearchFagment;
 
-public class MainActivity extends AppCompatActivity implements  OneFragment.OnFragmentInteractionListener,
-        TwoFragment.OnFragmentInteractionListener,ThreeFragment.OnFragmentInteractionListener,
-        FourFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity{
 
     MapView mMapView = null;
 
@@ -38,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements  OneFragment.OnFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -48,47 +45,16 @@ public class MainActivity extends AppCompatActivity implements  OneFragment.OnFr
             window.setStatusBarColor(Color.TRANSPARENT);
         }
 
-
-        mMapView = (MapView) findViewById(R.id.map);
-        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
-        mMapView.onCreate(savedInstanceState);
-
         initView();
 
+
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
-        mMapView.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
-        mMapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
-        mMapView.onPause();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
-        mMapView.onSaveInstanceState(outState);
-    }
 
 
     protected void initView() {
         mHomeContent = (FrameLayout) findViewById(R.id.mHomeContent); //tab上方的区域
-        mHomeRadioGroup = (RadioGroup) findViewById(R.id.bottom_tab);  //底部的四个tab
+        mHomeRadioGroup = (RadioGroup) findViewById(R.id.mHomeRadioGroup);  //底部的四个tab
         mHomeHomeRb = (RadioButton) findViewById(R.id.mHomeHomeRb);
         mHomeFindRb = (RadioButton) findViewById(R.id.mHomeFindRb);
         mHomeSearchRb = (RadioButton) findViewById(R.id.mHomeSearchRb);
@@ -119,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements  OneFragment.OnFr
                 fragments.setPrimaryItem(mHomeContent, 0, fragment);
                 fragments.finishUpdate(mHomeContent);
 
-
             }
         });
     }
@@ -131,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements  OneFragment.OnFr
     @Override
     protected void onStart() {
         super.onStart();
+
         mHomeRadioGroup.check(R.id.mHomeHomeRb);
     }
 
@@ -148,21 +114,21 @@ public class MainActivity extends AppCompatActivity implements  OneFragment.OnFr
             Fragment fragment = null;
             switch (i) {
                 case 0://首页
-                    fragment = new OneFragment();
+                    fragment = new HomeFagment();
                     break;
                 case 1://发现
-                    fragment = new TwoFragment();
+                    fragment = new FindFagment();
                     break;
 
                 case 2://搜索
-                    fragment = new ThreeFragment();
+                    fragment = new SearchFagment();
                     break;
 
                 case 3://我的
-                    fragment = new FourFragment();
+                    fragment = new MineFagment();
                     break;
                 default:
-                    new OneFragment();
+                    new HomeFagment();
                     break;
             }
 
@@ -174,8 +140,5 @@ public class MainActivity extends AppCompatActivity implements  OneFragment.OnFr
 
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 }
