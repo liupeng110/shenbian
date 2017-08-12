@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
+
+    <RadioGroup
+        android:id="@+id/hjm_bottomtab_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"></RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/hjm_bottomtab_fragment_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/hjm_bottomtab_rg"
+        android:layout_marginBottom="1dp"></FrameLayout>
+</RelativeLayout>
