@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.sbh" />
+	<!-- 自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter
+        两个bean, 是spring MVC为@Controllers分发请求所必须的 ,并且提供了数据绑定支持,@NumberFormatannotation支持,
+        @DateTimeFormat支持,@Valid支持,读写XML的支持(JAXB),读写JSON的支持(Jackson) -->
+	<mvc:annotation-driven />
+	<!-- servlet在找页面时，走的是dispatcherServlet路线。找不到的时候会报404 加上这个默认的servlet时候，servlet在找不到的时候会去找静态的内容。 -->
+	<mvc:default-servlet-handler />
+
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+<!--	<bean id="mappingJacksonHttpMessageConverter"
+		  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>-->
+	<!--<mvc:annotation-driven>-->
+		<!--<mvc:message-converters>-->
+			<!--<ref bean="stringHttpMessageConverter" />-->
+			<!--<ref bean="mappingJackson2HttpMessageConverter" />-->
+		<!--</mvc:message-converters>-->
+	<!--</mvc:annotation-driven>-->
+	<mvc:annotation-driven>
+		<!-- 自定义消息转换器 -->
+		<mvc:message-converters register-defaults="true">
+			<!-- 自定义消息转换器，设置编码为utf-8，防止responseEntity<String>转换成json对象输出乱码 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg index="0" value="utf-8"></constructor-arg>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<bean
+			class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/pages</value>
+		</property>
+		<property name="suffix">
+			<value>.html</value>
+		</property>
+	</bean>
+</beans>

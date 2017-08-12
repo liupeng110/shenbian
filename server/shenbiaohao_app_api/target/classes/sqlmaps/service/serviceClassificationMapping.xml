@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sbh.dao.service.ServiceClassificationDao">
+   <resultMap type="com.sbh.model.service.ServiceClassificationInfo" id="BaseResultMap">
+       <id column="id" property="id"/>
+       <result column="service_classification" property="serviceClassification" />
+
+   </resultMap>
+   <select id="queryServiceClassifications" resultMap="BaseResultMap">
+       SELECT id,service_classification FROM  service_classification_info WHERE classification_state =1 AND classification_group_id=#{groupId}
+   </select>
+</mapper>
