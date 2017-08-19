@@ -40,7 +40,7 @@
 
 - (UILabel*)perName{
     if (!_perName) {
-        _perName = [[UILabel alloc]initWithFrame:CGRectMake(self.headImage.x+self.headImage.width+10, 0, ScreenWidth-15-40-10-15-50, 20)];
+        _perName = [[UILabel alloc]initWithFrame:CGRectMake(self.headImage.x+self.headImage.width+10, 0, kScreenWidth-15-40-10-15-50, 20)];
         _perName.textColor = [UIColor colorWithHexColor:@"#1d1d1d"];
         _perName.font = [UIFont systemFontOfSize:15.0];
         _perName.centerY = self.headImage.centerY;
@@ -51,7 +51,7 @@
 - (LXButton*)stateBtn{
     if (!_stateBtn) {
         _stateBtn = [LXButton buttonWithType:UIButtonTypeCustom];
-        _stateBtn.frame = CGRectMake(ScreenWidth-15-50, 0, 50, 25);
+        _stateBtn.frame = CGRectMake(kScreenWidth-15-50, 0, 50, 25);
         _stateBtn.clipsToBounds = YES;
         _stateBtn.layer.borderWidth = 0.5;
         _stateBtn.layer.cornerRadius = 2.0;
@@ -69,7 +69,7 @@
 
 - (UIView*)FocusContentView{
     if (!_FocusContentView) {
-        _FocusContentView = [[UIView alloc]initWithFrame:CGRectMake(15, self.headImage.y+self.headImage.height+15, ScreenWidth-30, 130)];
+        _FocusContentView = [[UIView alloc]initWithFrame:CGRectMake(15, self.headImage.y+self.headImage.height+15, kScreenWidth-30, 130)];
         _FocusContentView.backgroundColor = [UIColor whiteColor];
         _FocusContentView.layer.masksToBounds = NO;
         //_FocusContentView.layer.cornerRadius = 5.f;
@@ -91,7 +91,7 @@
 }
 - (UILabel*)FocusContenTitle{
     if (!_FocusContenTitle) {
-        _FocusContenTitle = [[UILabel alloc]initWithFrame:CGRectMake(self.FocusContenImage.x+self.FocusContenImage.width+8, 5, ScreenWidth-15-(self.FocusContenImage.x+self.FocusContenImage.width+8)-15, 20)];
+        _FocusContenTitle = [[UILabel alloc]initWithFrame:CGRectMake(self.FocusContenImage.x+self.FocusContenImage.width+8, 5, kScreenWidth-15-(self.FocusContenImage.x+self.FocusContenImage.width+8)-15, 20)];
         _FocusContenTitle.textColor = [UIColor blackColor];
         _FocusContenTitle.font = [UIFont boldSystemFontOfSize:14.0];
         _FocusContenTitle.text = @"标题标题标题";
@@ -135,7 +135,7 @@
 
 - (UILabel*)FocusContenNote{
     if (!_FocusContenNote) {
-        _FocusContenNote = [[UILabel alloc]initWithFrame:CGRectMake(self.FocusContenImage.x+self.FocusContenImage.width+8, self.FocusContenTitle.height+self.FocusContenTitle.y, ScreenWidth-30-130-8, 130-45-5)];
+        _FocusContenNote = [[UILabel alloc]initWithFrame:CGRectMake(self.FocusContenImage.x+self.FocusContenImage.width+8, self.FocusContenTitle.height+self.FocusContenTitle.y, kScreenWidth-30-130-8, 130-45-5)];
         _FocusContenNote.textColor = [UIColor colorWithHexColor:@"#1d1d1d"];
         _FocusContenNote.numberOfLines =0;
         _FocusContenNote.adjustsFontSizeToFitWidth = YES;

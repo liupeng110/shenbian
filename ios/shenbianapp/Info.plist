@@ -50,5 +50,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>‘身边’需要访问您的相册</string>
+	<key>Privacy - Camera Usage Description </key>
+	<string>‘身边’需要访问您的相机</string>
+	<key>CFBundleDisplayName</key>
+	<string>身边</string>
 </dict>
 </plist>

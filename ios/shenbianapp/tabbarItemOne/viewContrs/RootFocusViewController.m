@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navBarView.mhBaseTitleLabel.text = @"身边号";
-    self.focusTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight-64-49) style:UITableViewStylePlain];
+    self.focusTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:UITableViewStylePlain];
     self.focusTableView.delegate = self;
     self.focusTableView.dataSource = self;
     self.focusTableView.backgroundColor = [UIColor colorWithHexColor:@"#f6f7f9"];

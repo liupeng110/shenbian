@@ -3,25 +3,30 @@
 //  MAMapKit
 //
 //  Created by AutoNavi.
-//  Copyright (c) 2013年 Amap. All rights reserved.
+//  Copyright (c) 2013年 AutoNavi. All rights reserved.
 //
 
 #import "MAAnnotationView.h"
 
-///大头针颜色
 typedef NS_ENUM(NSInteger, MAPinAnnotationColor) {
-    MAPinAnnotationColorRed = 0,    ///< 红色大头针
-    MAPinAnnotationColorGreen,      ///< 绿色大头针
-    MAPinAnnotationColorPurple      ///< 紫色大头针
+    MAPinAnnotationColorRed = 0,
+    MAPinAnnotationColorGreen,
+    MAPinAnnotationColorPurple
 };
 
-///提供类似大头针效果的annotation view
+/*!
+ @brief 提供类似大头针效果的annotation view
+ */
 @interface MAPinAnnotationView : MAAnnotationView
 
-///大头针的颜色，有MAPinAnnotationColorRed, MAPinAnnotationColorGreen, MAPinAnnotationColorPurple三种
+/*!
+ @brief 大头针的颜色，有MAPinAnnotationColorRed, MAPinAnnotationColorGreen, MAPinAnnotationColorPurple三种
+ */
 @property (nonatomic) MAPinAnnotationColor pinColor;
 
-///动画效果
+/*!
+ @brief 动画效果
+ */
 @property (nonatomic) BOOL animatesDrop;
 
 @end

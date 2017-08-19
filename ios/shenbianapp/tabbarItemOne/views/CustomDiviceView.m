@@ -33,8 +33,8 @@
          CGFloat titleLength = [[NSString stringWithFormat:@"%@",lablemodel.object_name] boundingRectWithSize:CGSizeMake(self.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:titleTtributes context:nil].size.width;
          lasetBtnW = lasetBtnW+titleLength+20;
      }
-    if (lasetBtnW<=ScreenWidth) {
-        spaceW = 20+((ScreenWidth-lasetBtnW)/5.0);
+    if (lasetBtnW<=kScreenWidth) {
+        spaceW = 20+((kScreenWidth-lasetBtnW)/5.0);
     }else{
         spaceW = 20;
     }
@@ -83,7 +83,7 @@
 }
 - (UIView*)seachView{
     if (!_seachView) {
-        _seachView = [[UIView alloc]initWithFrame:CGRectMake(15, 15, ScreenWidth-30, 19)];
+        _seachView = [[UIView alloc]initWithFrame:CGRectMake(15, 15, kScreenWidth-30, 19)];
         _seachView.backgroundColor = [UIColor colorWithHexColor:@"#dfdfdf"];
         _seachView.clipsToBounds = YES;
         _seachView.layer.cornerRadius = 19.0/2.0;
@@ -92,7 +92,7 @@
 }
 - (UIScrollView*)navBarScroll{
     if (!_navBarScroll) {
-        _navBarScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 40, ScreenWidth, 30)];
+        _navBarScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 40, kScreenWidth, 30)];
         _navBarScroll.showsVerticalScrollIndicator = NO;
         _navBarScroll.showsHorizontalScrollIndicator = NO;
         _navBarScroll.scrollsToTop = NO;
@@ -143,7 +143,7 @@
         }
     }
     
-    if (self.contOffSetLeng>ScreenWidth) {
+    if (self.contOffSetLeng>kScreenWidth) {
         //当前点击的按钮是否超出屏幕范围
         LXButton * curentBtn = (LXButton*)[self.navBarScroll viewWithTag:index+100];
         LXButton * nextBtn = (LXButton*)[self.navBarScroll viewWithTag:index+100+1];//当前点击的下一个
@@ -158,13 +158,13 @@
         
         float spaceLength =nextBtn.x+nextBtn.width+20-self.navBarScroll.width;
         if (spaceLength>0) {
-            if (curentBtn.x+curentBtn.width+20-((ScreenWidth-curentBtn.width)/2.0)-20+self.navBarScroll.width>self.contOffSetLeng) {
+            if (curentBtn.x+curentBtn.width+20-((kScreenWidth-curentBtn.width)/2.0)-20+self.navBarScroll.width>self.contOffSetLeng) {
                 //[UIView animateWithDuration:0.3 animations:^{
                     self.navBarScroll.contentOffset = CGPointMake(self.contOffSetLeng-self.navBarScroll.width, 0);
                 //}];
             }else{
                 //[UIView animateWithDuration:0.3 animations:^{
-                    self.navBarScroll.contentOffset = CGPointMake(curentBtn.x+curentBtn.width+20-((ScreenWidth-curentBtn.width)/2.0)-20, 0);
+                    self.navBarScroll.contentOffset = CGPointMake(curentBtn.x+curentBtn.width+20-((kScreenWidth-curentBtn.width)/2.0)-20, 0);
                 //}];
                 
             }

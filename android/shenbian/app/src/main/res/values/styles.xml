@@ -7,7 +7,13 @@
         <item name="colorPrimaryDark">@color/transparence</item>
         <item name="colorAccent">@color/transparence</item>
     </style>
+    <style name="ActionBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/background</item>
+        <item name="background">@color/background</item>
+    </style>
 
-
+    <color name="winBackground">#98cb4a</color>
+    <color name="background">#f76d3c</color>
 
 </resources>

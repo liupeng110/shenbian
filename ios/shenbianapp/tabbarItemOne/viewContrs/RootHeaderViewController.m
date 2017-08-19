@@ -29,31 +29,32 @@
     [super viewDidLoad];
     self.navBarView.mhBaseTitleLabel.hidden = YES;
     [self.navBarView addSubview:self.NavView];
-    self.headItemArray = [[NSMutableArray alloc]init];
-    self.selectIndex = 0;
-    self.selectItemOneName = @"玩具";
-    self.selectItemTwoName = @"送水";
-    NSArray * arrayOne = [[NSArray alloc]initWithObjects:@"玩具",@"充电宝",@"雨伞",@"服装",@"图书",nil];
-    NSArray * arraytwo = [[NSArray alloc]initWithObjects:@"送水",@"邮件",@"清洁",@"家教" ,@"洗衣",@"送花",nil];
-    NSMutableArray * mutableOne = [[NSMutableArray alloc]init];
-    for (int i =0; i<arrayOne.count; i++) {
-        RootObjectModel * model = [[RootObjectModel alloc]init];
-        model.object_name = arrayOne[i];
-        [mutableOne addObject:model];
-    }
+//    self.headItemArray = [[NSMutableArray alloc]init];
+//    self.selectIndex = 0;
+//    self.selectItemOneName = @"玩具";
+//    self.selectItemTwoName = @"送水";
+//    NSArray * arrayOne = [[NSArray alloc]initWithObjects:@"玩具",@"充电宝",@"雨伞",@"服装",@"图书",nil];
+//    NSArray * arraytwo = [[NSArray alloc]initWithObjects:@"送水",@"邮件",@"清洁",@"家教" ,@"洗衣",@"送花",nil];
+//    NSMutableArray * mutableOne = [[NSMutableArray alloc]init];
+//    for (int i =0; i<arrayOne.count; i++) {
+//        RootObjectModel * model = [[RootObjectModel alloc]init];
+//        model.object_name = arrayOne[i];
+//        [mutableOne addObject:model];
+//    }
+//    
+//    NSMutableArray * mutableTwo = [[NSMutableArray alloc]init];
+//    for (int i =0; i<arraytwo.count; i++) {
+//        RootObjectModel * model = [[RootObjectModel alloc]init];
+//        model.object_name = arraytwo[i];
+//        [mutableTwo addObject:model];
+//    }
+//    
+//    [self.headItemArray addObject:mutableOne];
+//    [self.headItemArray addObject:mutableTwo];
+//    
+//    [self.view addSubview:self.headItemView];
+//    [self.headItemView setCustomDiviceViewByArray:self.headItemArray[0] andCureentObject:self.selectItemOneName];
     
-    NSMutableArray * mutableTwo = [[NSMutableArray alloc]init];
-    for (int i =0; i<arraytwo.count; i++) {
-        RootObjectModel * model = [[RootObjectModel alloc]init];
-        model.object_name = arraytwo[i];
-        [mutableTwo addObject:model];
-    }
-    
-    [self.headItemArray addObject:mutableOne];
-    [self.headItemArray addObject:mutableTwo];
-    
-    [self.view addSubview:self.headItemView];
-    [self.headItemView setCustomDiviceViewByArray:self.headItemArray[0] andCureentObject:self.selectItemOneName];
     [AMapServices sharedServices].enableHTTPS = YES;
     [self.view addSubview:self.mapView];
      MAMapView *apimapView = [[MAMapView alloc] initWithFrame:self.mapView.bounds];
@@ -87,7 +88,7 @@
 
 - (UIView*)infoCar{
     if (!_infoCar) {
-        _infoCar = [[UIView alloc]initWithFrame:CGRectMake(0, 64+70, ScreenWidth, ScreenHeight-64-70-49)];
+        _infoCar = [[UIView alloc]initWithFrame:CGRectMake(0, 64+70, kScreenWidth, kScreenHeight-64-70-49)];
         _infoCar.backgroundColor = [UIColor whiteColor];
     }
     return _infoCar;
@@ -95,7 +96,7 @@
 
 - (UIView*)mapView{
     if (!_mapView) {
-        _mapView = [[UIView alloc]initWithFrame:CGRectMake(0, 64+70, ScreenWidth, ScreenHeight-64-70-49)];
+        _mapView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight/2-64-49)];
         _mapView.backgroundColor = [UIColor lightGrayColor];
     }
     return _mapView;
@@ -103,7 +104,7 @@
 
 - (CustomDiviceView*)headItemView{
     if (!_headItemView) {
-        _headItemView = [[CustomDiviceView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, 70)];
+        _headItemView = [[CustomDiviceView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 70)];
         _headItemView.delegate = self;
     }
     return _headItemView;
@@ -111,11 +112,14 @@
 
 - (HomeNavView*)NavView{
     if (!_NavView) {
-        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake((ScreenWidth-190)/2.0, 24, 190, 40)];
+        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake((kScreenWidth-190)/2.0, 24, 190, 40)];
         _NavView.delegate = self;
     }
     return _NavView;
 }
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

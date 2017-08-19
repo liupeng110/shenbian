@@ -18,13 +18,13 @@
 }
 
 - (void)createUiPage{
-    NSArray * itemArray = [NSArray arrayWithObjects:@"物品共享",@"上门服务", nil];
+    NSArray * itemArray = [NSArray arrayWithObjects:@"找人",@"找事",@"找服务", nil];
     [self addSubview:self.lineLabel];
     for (int i =0; i<itemArray.count; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         btn.tag =  100+i;
         [btn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
-        btn.frame = CGRectMake((80+30)*i, 8,80, 18);
+        btn.frame = CGRectMake((kScreenWidth/itemArray.count+30)*i, 8,kScreenWidth/itemArray.count, 18);
         [btn setTitle:itemArray[i] forState:UIControlStateNormal];
         [self addSubview:btn];
         if (i==0) {

@@ -23,14 +23,14 @@
 
 - (UIView*)recommentContentView{
     if (!_recommentContentView) {
-        _recommentContentView = [[UIView alloc]initWithFrame:CGRectMake(0, 10, ScreenWidth, 195)];
+        _recommentContentView = [[UIView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, 195)];
         _recommentContentView.backgroundColor = [UIColor whiteColor];
     }
     return _recommentContentView;
 }
 - (UILabel*)titleName{
     if (!_titleName) {
-        _titleName = [[UILabel alloc]initWithFrame:CGRectMake((ScreenWidth-100)/2.0, 15, 100, 15)];
+        _titleName = [[UILabel alloc]initWithFrame:CGRectMake((kScreenWidth-100)/2.0, 15, 100, 15)];
         _titleName.textAlignment = NSTextAlignmentCenter;
         _titleName.textColor = [UIColor colorWithHexColor:@"#1d1d1d"];
         _titleName.font = [UIFont systemFontOfSize:13.0];
@@ -47,7 +47,7 @@
         flowLayOut.minimumInteritemSpacing = 10;
         flowLayOut.minimumLineSpacing = 10;
         flowLayOut.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
-        _recomentCollecttion = [[UICollectionView alloc] initWithFrame:CGRectMake(0,self.titleName.y+self.titleName.height+20, ScreenWidth, 130) collectionViewLayout:flowLayOut];
+        _recomentCollecttion = [[UICollectionView alloc] initWithFrame:CGRectMake(0,self.titleName.y+self.titleName.height+20, kScreenWidth, 130) collectionViewLayout:flowLayOut];
         _recomentCollecttion.backgroundColor = [UIColor colorWithHexColor:@"#ffffff"];
         _recomentCollecttion.delegate = self;
         _recomentCollecttion.dataSource = self;

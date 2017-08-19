@@ -25,8 +25,8 @@
     self.navigationController.navigationBar.hidden = YES;
     MHCollectionViewFlowLayout * stretchyLayout = [[MHCollectionViewFlowLayout alloc] init];
     stretchyLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    stretchyLayout.headerReferenceSize = CGSizeMake(ScreenWidth, 260);
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-49) collectionViewLayout:stretchyLayout];
+    stretchyLayout.headerReferenceSize = CGSizeMake(kScreenWidth, 260);
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-49) collectionViewLayout:stretchyLayout];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.showsVerticalScrollIndicator = NO;
@@ -55,7 +55,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     if (section== 0) {
-        return  CGSizeMake(ScreenWidth, 260);
+        return  CGSizeMake(kScreenWidth, 260);
         
     }else{
         return CGSizeMake(0, 10);
@@ -67,7 +67,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(ScreenWidth, 50);
+    return CGSizeMake(kScreenWidth, 50);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{

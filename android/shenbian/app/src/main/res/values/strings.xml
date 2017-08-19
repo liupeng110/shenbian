@@ -16,4 +16,7 @@
     <string name="umbrella">雨伞</string>
     <string name="clothing">服装</string>
     <string name="book">图书</string>
+    <string name="search_hint">搜索</string>
+    <string name="action_settings">动作设置</string>
+    <string name="menu_search">菜单搜索</string>
 </resources>

@@ -2,7 +2,10 @@ package com.henlinkeji.shenbian.shenbian.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +19,7 @@ import com.henlinkeji.shenbian.shenbian.R;
 public class HomeFagment extends Fragment {
 
     MapView mMapView = null;
+    private SearchView sv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,6 +28,16 @@ public class HomeFagment extends Fragment {
         mMapView = (MapView) view.findViewById(R.id.map);
 //        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
+
+//        SearchView searchView =
+//                (SearchView) view.findViewById(R.id.sv);
+//
+//        searchView.setIconifiedByDefault(false);
+//
+//        View underline = searchView.findViewById(R.id.search_plate);
+//
+//        Context context = getActivity();
+//        underline.setBackgroundColor(context.getColor(R.color.white));
 
 
         return view;
@@ -38,6 +52,16 @@ public class HomeFagment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+
+
+        //去掉搜索框的下划线
+
+
+    }
 }
 
 

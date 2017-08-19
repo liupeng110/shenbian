@@ -29,7 +29,7 @@
     if (nil == _navBarView) {
         _navBarView = [[[NSBundle mainBundle]loadNibNamed:@"MHBaseNavigationBar" owner:self options:nil] firstObject];
         //_navBarView.delegate = self;
-        _navBarView.frame = CGRectMake(0, 0, ScreenWidth, 64);
+        _navBarView.frame = CGRectMake(0, 0, kScreenWidth, 64);
     }
     
     return _navBarView;

@@ -11,7 +11,10 @@
 #import "RootFocusViewController.h"
 #import "RootFindeViewController.h"
 #import "RootMineViewController.h"
-@interface MainViewController ()
+#import "HQTabBar.h"
+#import "CHPublishViewController.h"
+
+@interface MainViewController ()<HQTabBardelegate>
 
 @end
 
@@ -27,6 +30,8 @@
     [self addChildVc:[[RootFindeViewController alloc] init] title:@"发现" image:@"2.4faxian1" selectedImage:@"2.4faxian1"];
     
     [self addChildVc:[[RootMineViewController alloc] init] title:@"我的" image:@"2.4wode1" selectedImage:@"2.4wode1"];
+    
+    [self creatHQTabBar];//中间➕号
 }
 
 - (void)addChildVc:(UIViewController *)childVc title:(NSString *)title image:(NSString *)image selectedImage:(NSString *)selectedImage
@@ -48,6 +53,54 @@
     
     
 }
+
+#pragma mark 创建tabbar
+- (void)creatHQTabBar{
+    HQTabBar *tabBar = [[HQTabBar alloc] init];
+    tabBar.delegate = self;
+    //    //去掉tabBar上黑线
+    //    CGRect rect = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    //    UIGraphicsBeginImageContext(rect.size);
+    //    CGContextRef context = UIGraphicsGetCurrentContext();
+    //    CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+    //    CGContextFillRect(context, rect);
+    //    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    //    UIGraphicsEndImageContext();
+    //    [tabBar setBackgroundImage:img];
+    //    [tabBar setShadowImage:img];
+    // KVC：如果要修系统的某些属性，但被设为readOnly，就是用KVC，即setValue：forKey：。
+    [self setValue:tabBar forKey:@"tabBar"];
+    //    UIImageView *bagImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 61)];
+    //    if (IPHONE4S || IPHONE5S) {
+    //        bagImgView.image = [UIImage imageNamed:@"bottomTabar.png"];
+    //    }else{
+    //        bagImgView.image = [SVGKImage imageNamed:@"1.5vdibudanghanglan.svg"].UIImage;
+    //    }
+    //    self.tabBar.barTintColor = [UIColor clearColor];
+    //    [self.tabBar insertSubview:bagImgView atIndex:0];
+    // self.tabBar.opaque = YES;
+    [[UITabBar appearance] setBackgroundColor:[UIColor whiteColor]];
+//    self.tabBar.barTintColor = [UIColor blackColor];
+}
+
+-(void)TabBarDidClickPlusButton:(HQTabBar *)tabBar{
+
+    //判断登录
+    BOOL login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
+    login = YES;
+    if (login) {
+        CHPublishViewController *publish = [[CHPublishViewController alloc]init];
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:publish];
+        nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        [self presentViewController:nav animated:NO completion:nil];
+        
+    } else {
+    
+    
+    }
+
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
