@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHPublishServeViewController : UIViewController
+#import "CHBasePresentViewController.h"
+
+
+@interface CHPublishServeViewController : CHBasePresentViewController
 
 @end

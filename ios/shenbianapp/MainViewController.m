@@ -89,6 +89,7 @@
     BOOL login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
     login = YES;
     if (login) {
+        self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         CHPublishViewController *publish = [[CHPublishViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:publish];
         nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;

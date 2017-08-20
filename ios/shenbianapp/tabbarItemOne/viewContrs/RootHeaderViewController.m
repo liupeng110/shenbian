@@ -96,7 +96,7 @@
 
 - (UIView*)mapView{
     if (!_mapView) {
-        _mapView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight/2-64-49)];
+        _mapView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
         _mapView.backgroundColor = [UIColor lightGrayColor];
     }
     return _mapView;
@@ -112,7 +112,7 @@
 
 - (HomeNavView*)NavView{
     if (!_NavView) {
-        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake((kScreenWidth-190)/2.0, 24, 190, 40)];
+        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 40)];
         _NavView.delegate = self;
     }
     return _NavView;

@@ -19,6 +19,7 @@ PODS:
   - AMapFoundation (1.1.0)
   - AMapSearch (4.1.0):
     - AMapFoundation (~> 1.0)
+  - IQKeyboardManager (4.0.11)
   - Masonry (1.0.2)
   - MJRefresh (3.1.12)
   - ReactiveCocoa (2.5):
@@ -39,6 +40,7 @@ DEPENDENCIES:
   - AFNetworking
   - AMap2DMap
   - AMapSearch
+  - IQKeyboardManager (~> 4.0.7)
   - Masonry (~> 1.0.1)
   - MJRefresh
   - ReactiveCocoa (~> 2.0)
@@ -50,12 +52,13 @@ SPEC CHECKSUMS:
   AMap2DMap: e69e7a598718bef0addeea41240646f5a045c41c
   AMapFoundation: 15db20567e6512422a086a01b42a88b145bc2500
   AMapSearch: cb4722480d2d4331a032d43bd1070ed0fa55dac9
+  IQKeyboardManager: 83eae5318483a34eb2069ef413d195b97605232e
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   YYKit: 843d1b26e20b82c695790c9a89907eaa1e99907f
 
-PODFILE CHECKSUM: 3991e1c47562392096aa3b02c7b54bfc93eebae5
+PODFILE CHECKSUM: 49545e9bf02618ec77adc7005fdd21c6bdca78d2
 
 COCOAPODS: 1.3.1

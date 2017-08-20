@@ -13,7 +13,7 @@
 
 @interface CHPublishViewController ()
 @property(nonatomic,strong) UIView *contentView;
-@property(nonatomic,strong) LXButton *closeBtn;
+
 @property(nonatomic,strong) LXButton *articleBtn;
 @property(nonatomic,strong) LXButton *serveBtn;
 
@@ -25,18 +25,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
-    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-    [self.view addSubview:self.closeBtn];
+    self.modalPresentationStyle = UIModalPresentationFullScreen;
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.rightTopButton.hidden = YES;
+    
+//    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    
     [self.view addSubview:self.contentView];
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.view);
         make.height.mas_equalTo(300);
     }];
-    [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.view).offset(20);
-        make.width.height.mas_equalTo(40);
-    }];
-    
     [self.contentView addSubview:self.articleBtn];
     [self.contentView addSubview:self.serveBtn];
     
@@ -52,14 +51,6 @@
     }];
 }
 
--(LXButton *)closeBtn{
-    if (_closeBtn == nil) {
-        _closeBtn = [LXButton buttonWithType:(UIButtonTypeCustom)];
-        [_closeBtn setImage:[UIImage imageNamed:@"close_page"] forState:(UIControlStateNormal)];
-        [_closeBtn addTarget:self action:@selector(dissMiss) forControlEvents:(UIControlEventTouchDown)];
-    }
-    return _closeBtn;
-}
 
 -(UIView *)contentView{
     if (_contentView == nil) {
@@ -94,27 +85,19 @@
 
 - (void)publishArticle{
     
-    [self dismissViewControllerAnimated:NO completion:nil];
-
-    UIViewController *presentedVC =   self.presentingViewController;
-    NSLog(@"presentedVC:%@",presentedVC);
     CHPublishArticleViewController *articleVC = [[CHPublishArticleViewController alloc]init];
+    [self presentViewController:articleVC animated:YES completion:nil];
     
-    [presentedVC presentViewController:articleVC animated:YES completion:nil];
-    
-
 }
 
 - (void)publishServe{
     
+    CHPublishServeViewController *serveVC = [[CHPublishServeViewController alloc]init];
+    [self presentViewController:serveVC animated:YES completion:nil];
     
 }
 
-- (void)dissMiss{
-    
-    [self dismissViewControllerAnimated:NO completion:nil];
-    
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -38,6 +38,9 @@
 		A9DDC33F1F16499100CFB5F3 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DDC33E1F16499100CFB5F3 /* BaseViewController.m */; };
 		A9DDC3411F164FFB00CFB5F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */; };
 		E4B1833D8426DB219D7C009A /* libPods-shenbianapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75880CF1E4E8A7C0152AF9D9 /* libPods-shenbianapp.a */; };
+		FD17740F1F492A4A00476D98 /* CHBasePresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD17740E1F492A4A00476D98 /* CHBasePresentViewController.m */; };
+		FD1774121F492A6500476D98 /* CHBaseNavgationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1774111F492A6500476D98 /* CHBaseNavgationViewController.m */; };
+		FD1774201F4955B000476D98 /* UIView+Dashline.m in Sources */ = {isa = PBXBuildFile; fileRef = FD17741F1F4955B000476D98 /* UIView+Dashline.m */; };
 		FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4611971F483601005D4FF6 /* HQTabBar.m */; };
 		FDC360701F483D9E00AC4A81 /* CHPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3606F1F483D9E00AC4A81 /* CHPublishViewController.m */; };
 		FDC360731F484DA700AC4A81 /* CHPublishArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC360721F484DA700AC4A81 /* CHPublishArticleViewController.m */; };
@@ -101,10 +104,17 @@
 		A9DDC3381F16443400CFB5F3 /* RootFindeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootFindeViewController.m; sourceTree = "<group>"; };
 		A9DDC33A1F16444900CFB5F3 /* RootMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootMineViewController.h; sourceTree = "<group>"; };
 		A9DDC33B1F16444900CFB5F3 /* RootMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootMineViewController.m; sourceTree = "<group>"; };
-		A9DDC33D1F16499100CFB5F3 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
-		A9DDC33E1F16499100CFB5F3 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		A9DDC33D1F16499100CFB5F3 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = ../BaseViewController.h; sourceTree = "<group>"; };
+		A9DDC33E1F16499100CFB5F3 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = ../BaseViewController.m; sourceTree = "<group>"; };
 		A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D0437902C935BCE328CB8E82 /* Pods-shenbianapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shenbianapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-shenbianapp/Pods-shenbianapp.release.xcconfig"; sourceTree = "<group>"; };
+		FD17740D1F492A4A00476D98 /* CHBasePresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHBasePresentViewController.h; sourceTree = "<group>"; };
+		FD17740E1F492A4A00476D98 /* CHBasePresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHBasePresentViewController.m; sourceTree = "<group>"; };
+		FD1774101F492A6500476D98 /* CHBaseNavgationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHBaseNavgationViewController.h; sourceTree = "<group>"; };
+		FD1774111F492A6500476D98 /* CHBaseNavgationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHBaseNavgationViewController.m; sourceTree = "<group>"; };
+		FD17741E1F4955B000476D98 /* UIView+Dashline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Dashline.h"; sourceTree = "<group>"; };
+		FD17741F1F4955B000476D98 /* UIView+Dashline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Dashline.m"; sourceTree = "<group>"; };
+		FD1774211F4956E000476D98 /* CHExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHExtension.h; sourceTree = "<group>"; };
 		FD4611961F483601005D4FF6 /* HQTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQTabBar.h; sourceTree = "<group>"; };
 		FD4611971F483601005D4FF6 /* HQTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HQTabBar.m; sourceTree = "<group>"; };
 		FDC3606E1F483D9E00AC4A81 /* CHPublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPublishViewController.h; sourceTree = "<group>"; };
@@ -183,12 +193,12 @@
 				A9DDC3291F16425000CFB5F3 /* tabbarItemThree */,
 				A9DDC32D1F16425C00CFB5F3 /* tabbarItemFour */,
 				FDC3606D1F483D9E00AC4A81 /* Publish */,
-				A9DA46061F1630CA00E3DB17 /* AppDelegate.m */,
+				FD17740C1F492A1B00476D98 /* BaseViewControllers */,
+				FD1774131F4950FB00476D98 /* CHExtension */,
 				A9DA46051F1630CA00E3DB17 /* AppDelegate.h */,
+				A9DA46061F1630CA00E3DB17 /* AppDelegate.m */,
 				A9DDC31E1F163FCD00CFB5F3 /* MainViewController.h */,
 				A9DDC31F1F163FCD00CFB5F3 /* MainViewController.m */,
-				A9DDC33D1F16499100CFB5F3 /* BaseViewController.h */,
-				A9DDC33E1F16499100CFB5F3 /* BaseViewController.m */,
 				A99FB67B1F18673700D6C447 /* MHBaseNavigationBar.h */,
 				A99FB67C1F18673700D6C447 /* MHBaseNavigationBar.m */,
 				A99FB67D1F18673700D6C447 /* MHBaseNavigationBar.xib */,
@@ -380,6 +390,29 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FD17740C1F492A1B00476D98 /* BaseViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A9DDC33D1F16499100CFB5F3 /* BaseViewController.h */,
+				A9DDC33E1F16499100CFB5F3 /* BaseViewController.m */,
+				FD17740D1F492A4A00476D98 /* CHBasePresentViewController.h */,
+				FD17740E1F492A4A00476D98 /* CHBasePresentViewController.m */,
+				FD1774101F492A6500476D98 /* CHBaseNavgationViewController.h */,
+				FD1774111F492A6500476D98 /* CHBaseNavgationViewController.m */,
+			);
+			path = BaseViewControllers;
+			sourceTree = "<group>";
+		};
+		FD1774131F4950FB00476D98 /* CHExtension */ = {
+			isa = PBXGroup;
+			children = (
+				FD17741E1F4955B000476D98 /* UIView+Dashline.h */,
+				FD17741F1F4955B000476D98 /* UIView+Dashline.m */,
+				FD1774211F4956E000476D98 /* CHExtension.h */,
+			);
+			path = CHExtension;
+			sourceTree = "<group>";
+		};
 		FDC3606D1F483D9E00AC4A81 /* Publish */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,7 +457,7 @@
 			attributes = {
 				CLASSPREFIX = CH;
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = "杨绍智";
+				ORGANIZATIONNAME = "陈坚";
 				TargetAttributes = {
 					A9DA45FE1F1630C900E3DB17 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -477,6 +510,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-shenbianapp/Pods-shenbianapp-resources.sh",
 				"${PODS_ROOT}/AMap2DMap/MAMapKit.framework/AMap.bundle",
+				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -542,6 +576,8 @@
 				FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */,
 				FDC360731F484DA700AC4A81 /* CHPublishArticleViewController.m in Sources */,
 				A99FB6AC1F1AF31000D6C447 /* MHMineHeaderCollectionReusableView.m in Sources */,
+				FD1774201F4955B000476D98 /* UIView+Dashline.m in Sources */,
+				FD17740F1F492A4A00476D98 /* CHBasePresentViewController.m in Sources */,
 				A99FB68F1F1872E700D6C447 /* CustomDiviceView.m in Sources */,
 				A99FB67E1F18673700D6C447 /* MHBaseNavigationBar.m in Sources */,
 				A9DDC3361F1643E800CFB5F3 /* RootHeaderViewController.m in Sources */,
@@ -550,6 +586,7 @@
 				A99FB6891F186E2000D6C447 /* UIView+UIViewAdditions.m in Sources */,
 				A99FB6861F186CDA00D6C447 /* UIColor+Common.m in Sources */,
 				A99FB6B01F1AF41200D6C447 /* MineCollectionViewCell.m in Sources */,
+				FD1774121F492A6500476D98 /* CHBaseNavgationViewController.m in Sources */,
 				A99FB6821F186B5A00D6C447 /* HomeNavView.m in Sources */,
 				A9DA46041F1630CA00E3DB17 /* main.m in Sources */,
 				FDC360761F484DC700AC4A81 /* CHPublishServeViewController.m in Sources */,
@@ -666,16 +703,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 581124BAB8EFB6F3CB2D9F2C /* Pods-shenbianapp.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2U48Q6V7KH;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shenbianapp/shenbianHeader.pch";
 				INFOPLIST_FILE = shenbianapp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.haiqiukeji.miaohi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haiqiukeji.shenbian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -683,16 +720,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0437902C935BCE328CB8E82 /* Pods-shenbianapp.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2U48Q6V7KH;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/shenbianapp/shenbianHeader.pch";
 				INFOPLIST_FILE = shenbianapp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.haiqiukeji.miaohi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haiqiukeji.shenbian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

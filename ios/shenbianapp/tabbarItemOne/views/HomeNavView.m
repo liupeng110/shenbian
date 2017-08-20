@@ -24,7 +24,8 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         btn.tag =  100+i;
         [btn addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
-        btn.frame = CGRectMake((kScreenWidth/itemArray.count+30)*i, 8,kScreenWidth/itemArray.count, 18);
+        btn.frame = CGRectMake((kScreenWidth/itemArray.count)*i , 8,kScreenWidth/itemArray.count, 18);
+
         [btn setTitle:itemArray[i] forState:UIControlStateNormal];
         [self addSubview:btn];
         if (i==0) {

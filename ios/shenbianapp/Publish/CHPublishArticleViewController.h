@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface CHPublishArticleViewController : UIViewController
+#import "CHBasePresentViewController.h"
+@interface CHPublishArticleViewController : CHBasePresentViewController
 
 @end
