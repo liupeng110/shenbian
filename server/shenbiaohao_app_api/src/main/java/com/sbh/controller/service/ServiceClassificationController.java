@@ -22,13 +22,21 @@ public class ServiceClassificationController {
     @Autowired
     private IServiceClassificationService serviceClassificationService;
 
+    /**
+     * 根据分类ID查询分类信息
+     * groupId:0:文章，服务，1：一级分类，2:二级分类 3：三级分类
+     *
+     *
+     * @param groupId
+     * @return
+     */
     @RequestMapping("v1/service/queryClassification")
     @ResponseBody
-    public ResponseEntity<Object> queryClassifications(String groupId){
+    public ResponseEntity queryClassifications(String groupId){
         List<ServiceClassificationInfo>  classificationInfos = serviceClassificationService.queryClassifications(groupId);
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object>  map = new HashMap<String, Object>();
-        map.put("infos",classificationInfos);
+        map.put("data",classificationInfos);
         map.put("status ","0000");
         map.put("success","查询成功");
         String jsonStr = null;
@@ -38,7 +46,7 @@ public class ServiceClassificationController {
             map.put("errors","查询超时,请稍后再试");
             e.printStackTrace();
         }
-        return ResponseEntity.ok(jsonStr);
+        return  ResponseEntity.ok(jsonStr);
     }
 
 }

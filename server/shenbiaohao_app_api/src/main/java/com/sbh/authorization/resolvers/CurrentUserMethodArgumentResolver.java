@@ -13,16 +13,16 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 /**
  * 澧炲姞鏂规硶娉ㄥ叆锛屽皢鍚湁CurrentUser娉ㄨВ鐨勬柟娉曞弬鏁版敞鍏ュ綋鍓嶇櫥褰曠敤鎴�
- * @see com.scienjus.authorization.annotation.CurrentUser
+ * @see
  * @author ScienJus
  * @date 2015/7/31.
  */
 public class CurrentUserMethodArgumentResolver<T> implements HandlerMethodArgumentResolver {
 
-    //鐢ㄦ埛妯″�?�鐨勭被鍚�
+    //
     private Class<T> userModelClass;
 
-    //閫氳繃Key鑾峰緱鐢ㄦ埛妯�?��?�鐨勫疄鐜扮�?
+    //
     private UserModelRepository<T> userModelRepository;
 
     public void setUserModelClass(String className) {
@@ -42,7 +42,7 @@ public class CurrentUserMethodArgumentResolver<T> implements HandlerMethodArgume
     }
 
     public boolean supportsParameter(MethodParameter parameter) {
-        //濡傛灉鍙傛暟绫诲瀷鏄疷ser骞朵笖鏈塁urrentUser娉ㄨВ鍒欐敮鎸�?
+        //濡傛灉鍙傛暟绫诲瀷鏄疷ser骞朵笖鏈塁urrentUser娉ㄨВ鍒欐敮鎸�?
         return parameter.getParameterType().isAssignableFrom(userModelClass) &&
                 parameter.hasParameterAnnotation(CurrentUser.class);
     }
@@ -52,7 +52,7 @@ public class CurrentUserMethodArgumentResolver<T> implements HandlerMethodArgume
         Object object = webRequest.getAttribute(AuthorizationInterceptor.REQUEST_CURRENT_KEY, RequestAttributes.SCOPE_REQUEST);
         if (object != null) {
             String key = String.valueOf(object);
-            //浠庢暟鎹簱涓煡璇㈠苟杩斿�?
+            //浠庢暟鎹簱涓煡璇㈠苟杩斿�?
             Object userModel = userModelRepository.getCurrentUser(key);
             if (userModel != null) {
                 return userModel;
@@ -60,7 +60,7 @@ public class CurrentUserMethodArgumentResolver<T> implements HandlerMethodArgume
             //鏈塳ey浣嗘槸寰椾笉鍒扮敤鎴凤紝鎶涘嚭寮傚父
             throw new MissingServletRequestPartException(AuthorizationInterceptor.REQUEST_CURRENT_KEY);
         }
-        //娌℃湁key灏辩洿鎺ヨ繑鍥�?�ull
+        //娌℃湁key灏辩洿鎺ヨ繑鍥�?�ull
         return null;
     }
 }

@@ -26,6 +26,14 @@ public class ServiceInfo implements Serializable{
     private Date createTime;//创建时间
     private Date updateTime;//更新时间
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getServiceTitle() {
         return serviceTitle;
     }

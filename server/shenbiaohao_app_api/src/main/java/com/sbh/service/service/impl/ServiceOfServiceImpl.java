@@ -5,10 +5,14 @@ import com.sbh.basedao.common.BaseService;
 import com.sbh.dao.service.ServiceDao;
 import com.sbh.model.service.ServiceInfo;
 import com.sbh.service.service.IServiceOfService;
+import com.sbh.vo.service.ServiceQueryVO;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/23.
@@ -26,5 +30,14 @@ public class ServiceOfServiceImpl extends BaseService<ServiceInfo> implements IS
         return serviceDao;
     }
 
-
+    /**
+     * 查询top5的位置信息
+     * @param map
+     * @return
+     */
+    @Override
+    public List<ServiceQueryVO> queryTopFivePosition(Map<String, Object> map) {
+        List<ServiceQueryVO> listResult = serviceDao.queryTopFivePosition(map);
+        return listResult;
+    }
 }

@@ -15,7 +15,8 @@ import com.sbh.basedao.utils.MYBATIS_SPECIAL_STRING;
 import com.sbh.common.IBaseService;
 import com.sbh.common.PageInfo;
 import com.sbh.common.RemotePage;
-import org.apache.commons.lang.StringUtils;
+//import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
