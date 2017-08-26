@@ -85,15 +85,22 @@
 
 - (void)publishArticle{
     
-    CHPublishArticleViewController *articleVC = [[CHPublishArticleViewController alloc]init];
-    [self presentViewController:articleVC animated:YES completion:nil];
-    
+    UIViewController *presentVC = self.presentingViewController;
+    [self dismissViewControllerAnimated:NO completion:^{
+
+        CHPublishArticleViewController *articleVC = [[CHPublishArticleViewController alloc]init];
+        [presentVC presentViewController:articleVC animated:YES completion:nil];
+    }];
 }
 
 - (void)publishServe{
-    
-    CHPublishServeViewController *serveVC = [[CHPublishServeViewController alloc]init];
-    [self presentViewController:serveVC animated:YES completion:nil];
+
+    UIViewController *presentVC = self.presentingViewController;
+    [self dismissViewControllerAnimated:NO completion:^{
+        
+        CHPublishServeViewController *serveVC = [[CHPublishServeViewController alloc]init];
+        [presentVC presentViewController:serveVC animated:YES completion:nil];
+    }];
     
 }
 

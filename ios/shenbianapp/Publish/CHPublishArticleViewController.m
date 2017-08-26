@@ -60,7 +60,7 @@
     
     [self.inputAccessoryView addSubview:self.btn_pickImage];
     [self.btn_pickImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.inputAccessoryView).offset(20);
+        make.left.equalTo(self.inputAccessoryView).offset(10);
         make.top.equalTo(self.inputAccessoryView).offset(10);
     }];
     [self.inputAccessoryView addSubview:self.btn_category];
@@ -85,7 +85,7 @@
         make.width.height.mas_equalTo(40);
     }];
     
-     [self.tv_content becomeFirstResponder];
+     [self.tf_articleTitle becomeFirstResponder];
 }
 /* 标题输入框  */
 -(UITextField *)tf_articleTitle{

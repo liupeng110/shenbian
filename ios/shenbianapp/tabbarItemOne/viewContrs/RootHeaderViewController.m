@@ -13,6 +13,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 @interface RootHeaderViewController ()<HomeNavViewdelegate,CustomDiviceViewdelegate>
+
 @property (nonatomic,strong)HomeNavView *NavView;
 @property (nonatomic,strong)CustomDiviceView * headItemView;
 @property (nonatomic,strong)NSMutableArray * headItemArray;
@@ -21,48 +22,26 @@
 @property (nonatomic,assign)NSInteger selectIndex;
 @property (nonatomic,strong)UIView * mapView;
 @property (nonatomic,strong)UIView * infoCar;
+
+
 @end
 
 @implementation RootHeaderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navBarView.mhBaseTitleLabel.hidden = YES;
+    
+//    self.navBarView.hidden = YES;
     [self.navBarView addSubview:self.NavView];
-//    self.headItemArray = [[NSMutableArray alloc]init];
-//    self.selectIndex = 0;
-//    self.selectItemOneName = @"玩具";
-//    self.selectItemTwoName = @"送水";
-//    NSArray * arrayOne = [[NSArray alloc]initWithObjects:@"玩具",@"充电宝",@"雨伞",@"服装",@"图书",nil];
-//    NSArray * arraytwo = [[NSArray alloc]initWithObjects:@"送水",@"邮件",@"清洁",@"家教" ,@"洗衣",@"送花",nil];
-//    NSMutableArray * mutableOne = [[NSMutableArray alloc]init];
-//    for (int i =0; i<arrayOne.count; i++) {
-//        RootObjectModel * model = [[RootObjectModel alloc]init];
-//        model.object_name = arrayOne[i];
-//        [mutableOne addObject:model];
-//    }
-//    
-//    NSMutableArray * mutableTwo = [[NSMutableArray alloc]init];
-//    for (int i =0; i<arraytwo.count; i++) {
-//        RootObjectModel * model = [[RootObjectModel alloc]init];
-//        model.object_name = arraytwo[i];
-//        [mutableTwo addObject:model];
-//    }
-//    
-//    [self.headItemArray addObject:mutableOne];
-//    [self.headItemArray addObject:mutableTwo];
-//    
-//    [self.view addSubview:self.headItemView];
-//    [self.headItemView setCustomDiviceViewByArray:self.headItemArray[0] andCureentObject:self.selectItemOneName];
     
-    [AMapServices sharedServices].enableHTTPS = YES;
-    [self.view addSubview:self.mapView];
-     MAMapView *apimapView = [[MAMapView alloc] initWithFrame:self.mapView.bounds];
-    [apimapView setZoomLevel:15 atPivot:self.mapView.center animated:YES];
-    [self.mapView addSubview:apimapView];
-    
-    apimapView.showsUserLocation = YES;
-    apimapView.userTrackingMode = MAUserTrackingModeFollow;
+//    [AMapServices sharedServices].enableHTTPS = YES;
+//    [self.view addSubview:self.mapView];
+//     MAMapView *apimapView = [[MAMapView alloc] initWithFrame:self.mapView.bounds];
+//    [apimapView setZoomLevel:15 atPivot:self.mapView.center animated:YES];
+//    [self.mapView addSubview:apimapView];
+//    
+//    apimapView.showsUserLocation = YES;
+//    apimapView.userTrackingMode = MAUserTrackingModeFollow;
     
 }
 
@@ -112,7 +91,7 @@
 
 - (HomeNavView*)NavView{
     if (!_NavView) {
-        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 40)];
+        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 70)];
         _NavView.delegate = self;
     }
     return _NavView;

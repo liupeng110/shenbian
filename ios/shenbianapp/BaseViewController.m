@@ -29,6 +29,7 @@
     if (nil == _navBarView) {
         _navBarView = [[[NSBundle mainBundle]loadNibNamed:@"MHBaseNavigationBar" owner:self options:nil] firstObject];
         //_navBarView.delegate = self;
+        _navBarView.backgroundColor = [UIColor colorWithHexColor:@"#008E8F"];
         _navBarView.frame = CGRectMake(0, 0, kScreenWidth, 64);
     }
     
