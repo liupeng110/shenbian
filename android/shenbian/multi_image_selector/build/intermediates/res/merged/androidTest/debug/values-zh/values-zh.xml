@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="folder_all">所有照片</string>
+    <string name="msg_amount_limit">最多可上传5张作品</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="preview">预览</string>
+</resources>
