@@ -15,7 +15,11 @@ import java.lang.reflect.Method;
 
 /**
  * 自定义拦截器，对请求进行身份验证
+<<<<<<< HEAD
  * @see com.scienjus.authorization.annotation.Authorization
+=======
+ * @see
+>>>>>>> e7eb74d832a92ae08214a7cb6b7869295e64c0c2
  * @author ScienJus
  * @date 2015/7/30.
  */
