@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sbh.dao.service.ServiceDao">
+  
+     <resultMap id="queryVO" type="com.sbh.vo.service.ServiceQueryVO">
+         <result column="id" property="id" />
+         <result column="service_address_latitude" property="serviceLatitude" />
+         <result column="service_address_longitude" property="serviceLongitude" />
+         <result column="service_title" property="serviceTitle"/>
+     </resultMap>
+
+    <select id="queryTopFivePosition" resultMap="queryVO">
+        SELECT t.id,t.service_title, t1.service_address_latitude,t1.service_address_longitude FROM service_info t  LEFT JOIN service_address_info t1 ON t.id = t1.service_id WHERE <!-- t.service_flag = #{serviceFlag} AND -->
+        t1.service_address_latitude <![CDATA[>]]> #{latitude}-1 AND t1.service_address_latitude <![CDATA[ < ]]>#{latitude} +1 AND t1.service_address_longitude  <![CDATA[>]]> #{longitude}-1   AND t1.service_address_longitude <![CDATA[<]]> #{longitude}+1
+        order by ACOS(SIN((#{latitude} * 3.1415) / 180 ) *SIN((t1.service_address_latitude * 3.1415) / 180 ) +COS((t1.service_address_latitude * 3.1415) / 180 ) * COS((t1.service_address_longitude * 3.1415) / 180 ) *COS((#{longitude}* 3.1415) / 180 - (t1.service_address_longitude * 3.1415) / 180 ) ) * 6380
+
+        ASC LIMIT 5
+
+    </select>
+</mapper>
