@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/incremental/mergeReleaseResources/merged.dir/values/values.xml",
+        "outputFile": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/incremental/mergeReleaseResources/merged.dir/values/values.xml",
         "map": [
             {
                 "to": {
@@ -2747,7 +2747,7 @@
                     "endOffset": 29845
                 },
                 "from": {
-                    "file": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/src/main/res/values/dimens.xml",
+                    "file": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/src/main/res/values/dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -2899,7 +2899,7 @@
                     "endOffset": 30499
                 },
                 "from": {
-                    "file": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/src/main/res/values/dimens.xml",
+                    "file": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/src/main/res/values/dimens.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -3203,7 +3203,7 @@
                     "endOffset": 31518
                 },
                 "from": {
-                    "file": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/src/main/res/values/dimens.xml",
+                    "file": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/src/main/res/values/dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -4096,7 +4096,7 @@
                     "endOffset": 34623
                 },
                 "from": {
-                    "file": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
+                    "file": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,
@@ -4115,7 +4115,7 @@
                     "endOffset": 34678
                 },
                 "from": {
-                    "file": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
+                    "file": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -4134,7 +4134,7 @@
                     "endOffset": 34743
                 },
                 "from": {
-                    "file": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
+                    "file": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -4153,7 +4153,7 @@
                     "endOffset": 34787
                 },
                 "from": {
-                    "file": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
+                    "file": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

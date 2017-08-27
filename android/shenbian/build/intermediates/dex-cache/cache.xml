@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/libs/AMap_Search_V5.3.1_20170817.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b4e1d1d93f686f1a6efe4e49d798b27801d4d301">
+        <dex dex="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/build/intermediates/transforms/dex/debug/folders/1000/2/AMap_Search_V5.3.1_20170817_95c1633cdefbbe18fa96d92b9026b309d3a06445/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_987f3829035b16f6a191c48588bad15496810e6b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/libs/Amap_2DMap_V5.2.0_20170627.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="15d491b0412f57284157d356bfcb9d6ea017226f">
+        <dex dex="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/build/intermediates/transforms/dex/debug/folders/1000/2/Amap_2DMap_V5.2.0_20170627_6adfb4094986ff6effa4a130158dc938bd23f7ee/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b12f53684d4f7d8cf55f8e771d633a53b23789c3">
+        <dex dex="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f0094c779c5b8fedc818fdb3b53c1f4c2e92b3ab/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/bundles/default/libs/picasso-2.5.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4be4b04501b974e1be142024285f925b7ad9ff88">
+        <dex dex="/Users/buybuyart/helinkeji/shenbian/android/shenbian/app/build/intermediates/transforms/dex/debug/folders/1000/8/picasso-2.5.2_870f29c56eeda6429fa43d4f21685c3eb39793fc/classes.dex" />
+    </item>
+
+</items>
