@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "MHBaseNavigationBar.h"
+#import "CHBaseViewCModel.h"
 @interface BaseViewController : UIViewController
 @property (nonatomic,strong)MHBaseNavigationBar *navBarView;
+
+@property(nonatomic,strong) CHBaseViewCModel *viewCModel;
+
+- (void)bindViewControllerModel;
+
+- (void)setupViews;
+
 @end

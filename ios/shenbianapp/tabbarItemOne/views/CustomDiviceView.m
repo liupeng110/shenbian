@@ -29,9 +29,9 @@
      for (int i = 0; i < lableArray.count; i++) {
          RootObjectModel * lablemodel =lableArray[i];
          //根据文字长度适当增加按钮宽度,按照最大文字字体增大
-         NSDictionary *titleTtributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.0]};
-         CGFloat titleLength = [[NSString stringWithFormat:@"%@",lablemodel.object_name] boundingRectWithSize:CGSizeMake(self.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:titleTtributes context:nil].size.width;
-         lasetBtnW = lasetBtnW+titleLength+20;
+//         NSDictionary *titleTtributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.0]};
+//         CGFloat titleLength = [[NSString stringWithFormat:@"%@",lablemodel.object_name] boundingRectWithSize:CGSizeMake(self.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:titleTtributes context:nil].size.width;
+//         lasetBtnW = lasetBtnW+titleLength+20;
      }
     if (lasetBtnW<=kScreenWidth) {
         spaceW = 20+((kScreenWidth-lasetBtnW)/5.0);
@@ -48,27 +48,27 @@
         RootObjectModel * lablemodel =lableArray[i];
         //根据文字长度适当增加按钮宽度,按照最大文字字体增大
         NSDictionary *titleTtributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.0]};
-        CGFloat titleLength = [[NSString stringWithFormat:@"%@",lablemodel.object_name] boundingRectWithSize:CGSizeMake(self.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:titleTtributes context:nil].size.width;
-        btn.frame = CGRectMake(lasetBtnW, 2, titleLength, 26);
-        
-        if (i==lableArray.count-1) {
-           lasetBtnW = lasetBtnW+titleLength+20;
-        }else{
-           lasetBtnW = lasetBtnW+titleLength+spaceW;
-        }
-        [btn setTitle:lablemodel.object_name forState:UIControlStateNormal];
-        [self.navBarScroll addSubview:btn];
-        if ([lablemodel.object_name isEqualToString:kind_name]) {
-            //btn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0];
-            //[btn setTitleColor:[UIColor colorWithHexColor:@"#ffffff"] forState:UIControlStateNormal];
-            self.lineLabel.centerX = btn.centerX;
-            self.lineLabel.frame = CGRectMake(btn.x-2, 28, btn.width+4, 2);
-
-        }else{
-            btn.titleLabel.font = [UIFont systemFontOfSize:14.0];
-        }
-        [btn setTitleColor:[UIColor colorWithHexColor:@"#666666"] forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//        CGFloat titleLength = [[NSString stringWithFormat:@"%@",lablemodel.object_name] boundingRectWithSize:CGSizeMake(self.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:titleTtributes context:nil].size.width;
+//        btn.frame = CGRectMake(lasetBtnW, 2, titleLength, 26);
+//        
+//        if (i==lableArray.count-1) {
+//           lasetBtnW = lasetBtnW+titleLength+20;
+//        }else{
+//           lasetBtnW = lasetBtnW+titleLength+spaceW;
+//        }
+//        [btn setTitle:lablemodel.object_name forState:UIControlStateNormal];
+//        [self.navBarScroll addSubview:btn];
+//        if ([lablemodel.object_name isEqualToString:kind_name]) {
+//            //btn.titleLabel.font = [UIFont boldSystemFontOfSize:15.0];
+//            //[btn setTitleColor:[UIColor colorWithHexColor:@"#ffffff"] forState:UIControlStateNormal];
+//            self.lineLabel.centerX = btn.centerX;
+//            self.lineLabel.frame = CGRectMake(btn.x-2, 28, btn.width+4, 2);
+//
+//        }else{
+//            btn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//        }
+//        [btn setTitleColor:[UIColor colorWithHexColor:@"#666666"] forState:UIControlStateNormal];
+//        btn.titleLabel.font = [UIFont systemFontOfSize:14.0];
     }
     self.navBarScroll.contentSize = CGSizeMake(lasetBtnW, 30);
     self.contOffSetLeng = lasetBtnW;

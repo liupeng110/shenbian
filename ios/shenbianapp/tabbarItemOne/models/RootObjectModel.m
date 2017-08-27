@@ -8,6 +8,36 @@
 
 #import "RootObjectModel.h"
 
+@interface RootObjectModel ()
+
+
+
+@end
+
 @implementation RootObjectModel
+
+-(RACCommand *)loadPagedata{
+    if (_loadPagedata == nil) {
+        
+        _loadPagedata = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
+            
+            RACSignal *singal = [CHNetWork loadHomePageDataWithParam:param];
+            
+            [singal subscribeNext:^(id x) {
+                
+                
+                self.loadModels = x;
+                
+            } error:^(NSError *error) {
+                NSLog(@"error:%@",error);
+                //模拟数据
+                self.loadModels = @[@"寄快递",@"洗车",@"家教",@"海报设计",@"找律师",@"搬家",@"美妆",@"结婚"];
+            }];
+            
+            return singal;
+        }];
+    }
+    return _loadPagedata;
+}
 
 @end

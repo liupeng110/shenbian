@@ -42,6 +42,8 @@
 		FD1774121F492A6500476D98 /* CHBaseNavgationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1774111F492A6500476D98 /* CHBaseNavgationViewController.m */; };
 		FD1774201F4955B000476D98 /* UIView+Dashline.m in Sources */ = {isa = PBXBuildFile; fileRef = FD17741F1F4955B000476D98 /* UIView+Dashline.m */; };
 		FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4611971F483601005D4FF6 /* HQTabBar.m */; };
+		FD9448A91F52D82E001FC5CD /* CHBaseViewCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9448A81F52D82E001FC5CD /* CHBaseViewCModel.m */; };
+		FD9448AD1F52EE3D001FC5CD /* CHNetWorkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */; };
 		FDC360701F483D9E00AC4A81 /* CHPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3606F1F483D9E00AC4A81 /* CHPublishViewController.m */; };
 		FDC360731F484DA700AC4A81 /* CHPublishArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC360721F484DA700AC4A81 /* CHPublishArticleViewController.m */; };
 		FDC360761F484DC700AC4A81 /* CHPublishServeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC360751F484DC700AC4A81 /* CHPublishServeViewController.m */; };
@@ -117,6 +119,10 @@
 		FD1774211F4956E000476D98 /* CHExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHExtension.h; sourceTree = "<group>"; };
 		FD4611961F483601005D4FF6 /* HQTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQTabBar.h; sourceTree = "<group>"; };
 		FD4611971F483601005D4FF6 /* HQTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HQTabBar.m; sourceTree = "<group>"; };
+		FD9448A71F52D82E001FC5CD /* CHBaseViewCModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHBaseViewCModel.h; sourceTree = "<group>"; };
+		FD9448A81F52D82E001FC5CD /* CHBaseViewCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHBaseViewCModel.m; sourceTree = "<group>"; };
+		FD9448AB1F52EE3D001FC5CD /* CHNetWorkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHNetWorkHelper.h; sourceTree = "<group>"; };
+		FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHNetWorkHelper.m; sourceTree = "<group>"; };
 		FDC3606E1F483D9E00AC4A81 /* CHPublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPublishViewController.h; sourceTree = "<group>"; };
 		FDC3606F1F483D9E00AC4A81 /* CHPublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPublishViewController.m; sourceTree = "<group>"; };
 		FDC360711F484DA700AC4A81 /* CHPublishArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPublishArticleViewController.h; sourceTree = "<group>"; };
@@ -187,6 +193,7 @@
 		A9DA46011F1630CA00E3DB17 /* shenbianapp */ = {
 			isa = PBXGroup;
 			children = (
+				FD9448AA1F52ED48001FC5CD /* Network */,
 				A99FB6831F186C9600D6C447 /* shenbianTools */,
 				A9DDC3211F16422C00CFB5F3 /* tabbarItemOne */,
 				A9DDC3251F16424200CFB5F3 /* tabbarItemTwo */,
@@ -393,6 +400,8 @@
 		FD17740C1F492A1B00476D98 /* BaseViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FD9448A71F52D82E001FC5CD /* CHBaseViewCModel.h */,
+				FD9448A81F52D82E001FC5CD /* CHBaseViewCModel.m */,
 				A9DDC33D1F16499100CFB5F3 /* BaseViewController.h */,
 				A9DDC33E1F16499100CFB5F3 /* BaseViewController.m */,
 				FD17740D1F492A4A00476D98 /* CHBasePresentViewController.h */,
@@ -411,6 +420,15 @@
 				FD1774211F4956E000476D98 /* CHExtension.h */,
 			);
 			path = CHExtension;
+			sourceTree = "<group>";
+		};
+		FD9448AA1F52ED48001FC5CD /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				FD9448AB1F52EE3D001FC5CD /* CHNetWorkHelper.h */,
+				FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		FDC3606D1F483D9E00AC4A81 /* Publish */ = {
@@ -563,6 +581,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A99FB6A91F1AEEEA00D6C447 /* MHCollectionViewFlowLayout.m in Sources */,
+				FD9448AD1F52EE3D001FC5CD /* CHNetWorkHelper.m in Sources */,
 				FDC360701F483D9E00AC4A81 /* CHPublishViewController.m in Sources */,
 				A99FB69E1F1A2C6400D6C447 /* RecommentCardCell.m in Sources */,
 				A9DDC33C1F16444900CFB5F3 /* RootMineViewController.m in Sources */,
@@ -579,6 +598,7 @@
 				FD1774201F4955B000476D98 /* UIView+Dashline.m in Sources */,
 				FD17740F1F492A4A00476D98 /* CHBasePresentViewController.m in Sources */,
 				A99FB68F1F1872E700D6C447 /* CustomDiviceView.m in Sources */,
+				FD9448A91F52D82E001FC5CD /* CHBaseViewCModel.m in Sources */,
 				A99FB67E1F18673700D6C447 /* MHBaseNavigationBar.m in Sources */,
 				A9DDC3361F1643E800CFB5F3 /* RootHeaderViewController.m in Sources */,
 				A99FB6B71F1AFA6000D6C447 /* CellSPaceCollectionReusableView.m in Sources */,

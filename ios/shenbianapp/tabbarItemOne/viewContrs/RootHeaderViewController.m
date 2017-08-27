@@ -23,17 +23,16 @@
 @property (nonatomic,strong)UIView * mapView;
 @property (nonatomic,strong)UIView * infoCar;
 
+@property (nonatomic,strong) RootObjectModel *viewCModel;
 
 @end
 
 @implementation RootHeaderViewController
-
+@dynamic viewCModel;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
 //    self.navBarView.hidden = YES;
-    [self.navBarView addSubview:self.NavView];
-    
 //    [AMapServices sharedServices].enableHTTPS = YES;
 //    [self.view addSubview:self.mapView];
 //     MAMapView *apimapView = [[MAMapView alloc] initWithFrame:self.mapView.bounds];
@@ -43,6 +42,27 @@
 //    apimapView.showsUserLocation = YES;
 //    apimapView.userTrackingMode = MAUserTrackingModeFollow;
     
+}
+
+-(void)bindViewControllerModel{
+    [super bindViewControllerModel];
+    
+    self.viewCModel = [[RootObjectModel alloc]init];
+    
+    NSDictionary *param = @{@"latitude":@"23.1230",@"longitude":@"36.023"};
+   
+    [self.viewCModel.loadPagedata execute:param];
+
+    [RACObserve(self.viewCModel, loadModels) subscribeNext:^(id x) {
+        self.NavView.quikSearchList = x;
+    }];
+    
+}
+
+-(void)setupViews{
+
+    [self.view addSubview:self.NavView];
+
 }
 
 - (void)HomeNavViewClickIndex:(NSInteger)index{
@@ -55,14 +75,8 @@
 }
 
 - (void)CustomDiviceViewClickIndex:(NSInteger)index{
-    RootObjectModel * model;
-    if (self.selectIndex==0) {
-        model = self.headItemArray[0][index];
-        self.selectItemOneName =model.object_name;
-    }else{
-        model = self.headItemArray[1][index];
-        self.selectItemTwoName = model.object_name;
-    }
+    
+
 }
 
 - (UIView*)infoCar{
@@ -91,13 +105,11 @@
 
 - (HomeNavView*)NavView{
     if (!_NavView) {
-        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 70)];
+        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 109)];
         _NavView.delegate = self;
     }
     return _NavView;
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

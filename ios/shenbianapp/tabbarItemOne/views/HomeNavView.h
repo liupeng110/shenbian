@@ -14,5 +14,7 @@
 @interface HomeNavView : UIView
 @property (nonatomic,weak)id<HomeNavViewdelegate>delegate;
 
+@property(nonatomic,strong)UIButton *locationButton;
+@property(nonatomic,strong)NSArray *quikSearchList;
 
 @end

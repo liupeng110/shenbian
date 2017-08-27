@@ -8,9 +8,9 @@
 
 #import "HomeNavView.h"
 
-@interface HomeNavView ()
-@property(nonatomic,strong)UISearchBar *searchBar;
-@property(nonatomic,strong)UIButton *locationButton;
+@interface HomeNavView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@property(nonatomic,strong)UIButton *searchButton;
+@property(nonatomic,strong)UICollectionView *quikCollectionView;
 
 @end
 
@@ -19,7 +19,19 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor colorWithHexColor:@"#008e8f"];
         [self addSubview:self.locationButton];
-        [self addSubview:self.searchBar];
+        [self addSubview:self.searchButton];
+        [self addSubview:self.quikCollectionView];
+        [self.quikCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(10);
+            make.right.equalTo(self).offset(-10);
+            make.bottom.equalTo(self).offset(-5);
+            make.top.equalTo(self.searchButton.mas_bottom).offset(5);
+        }];
+        [RACObserve(self, quikSearchList) subscribeNext:^(id x) {
+            if (x) {
+                [self.quikCollectionView reloadData];
+            }
+        }];
     }
     return self;
 }
@@ -27,19 +39,69 @@
 -(UIButton *)locationButton{
     if (_locationButton == nil) {
         _locationButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        _locationButton.frame = CGRectMake(5, -5, 40, 40);
-        [_locationButton setImage:[UIImage imageNamed:@"location"] forState:(UIControlStateNormal)];
+        _locationButton.frame = CGRectMake(20, 0, 40, 40);
+        [_locationButton setImage:[UIImage imageNamed:@"sy_dw"] forState:(UIControlStateNormal)];
+        [_locationButton setTitle:@"北京" forState:(UIControlStateNormal)];
+        _locationButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        _locationButton.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        _locationButton.imageEdgeInsets = UIEdgeInsetsMake(0, -18, 0, 0);
     }
     return _locationButton;
 }
 
--(UISearchBar *)searchBar{
-    if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc]initWithFrame:(CGRectMake(60, -5, kScreenWidth - 120, 40))];
-        _searchBar.backgroundColor = [UIColor clearColor];
-        
+-(UIButton *)searchButton{
+    if (_searchButton == nil) {
+        _searchButton = [[UIButton alloc]initWithFrame:(CGRectMake(10, 40, kScreenWidth - 20, 35))];
+        _searchButton.backgroundColor = [UIColor whiteColor];
+        [_searchButton setImage:[UIImage imageNamed:@"sy_ss"] forState:(UIControlStateNormal)];
+        [_searchButton setTitle:@"搜索" forState:(UIControlStateNormal)];
+        [_searchButton setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
+        _searchButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        _searchButton.titleLabel.font = [UIFont systemFontOfSize:15];
     }
-    return _searchBar;
+    return _searchButton;
+}
+
+-(UICollectionView *)quikCollectionView{
+
+    if (_quikCollectionView == nil) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _quikCollectionView = [[UICollectionView alloc]initWithFrame:(CGRectZero) collectionViewLayout:flowLayout];
+        _quikCollectionView.delegate = self;
+        _quikCollectionView.dataSource = self;
+        [_quikCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"quikCell"];
+        _quikCollectionView.backgroundColor = [UIColor clearColor];
+        _quikCollectionView.showsHorizontalScrollIndicator = NO;
+    }
+    return _quikCollectionView;
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+
+   return  self.quikSearchList.count;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"quikCell" forIndexPath:indexPath];
+    UILabel *label = cell.contentView.subviews.firstObject;
+    if (label == nil) {
+        label = [[UILabel alloc]init];
+        label.font = [UIFont systemFontOfSize:12];
+        label.textColor = [UIColor whiteColor];
+        [cell.contentView addSubview:label];
+        label.frame= cell.contentView.bounds;
+    }
+    NSString *name = [self.quikSearchList objectAtIndex:indexPath.row];
+    label.text= name;
+    return cell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *name = [self.quikSearchList objectAtIndex:indexPath.row];
+    CGSize size = [name sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    return size;
 }
 
 @end
