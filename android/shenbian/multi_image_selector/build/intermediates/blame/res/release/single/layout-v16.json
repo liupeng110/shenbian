@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/layout-v16/notification_template_custom_big.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/layout-v16/notification_template_custom_big.xml"
-    },
-    {
         "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/layout-v16/notification_template_custom_big.xml",
         "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/layout-v16/notification_template_custom_big.xml"
     }
