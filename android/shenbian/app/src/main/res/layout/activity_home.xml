@@ -24,10 +24,10 @@
 
             <ImageView
                 android:id="@+id/iv_head"
-                android:layout_width="50px"
-                android:layout_height="50px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/head_selected" />
+                android:background="@mipmap/headselected" />
 
             <TextView
                 android:id="@+id/btn_head"
@@ -37,7 +37,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7px"
                 android:text="首页"
-                android:textColor="#1296db"
+                android:textColor="#009698"
                 android:textSize="20px" />
         </RelativeLayout>
 
@@ -50,10 +50,10 @@
 
             <ImageView
                 android:id="@+id/iv_attention"
-                android:layout_width="50px"
-                android:layout_height="50px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/attention_unselected" />
+                android:background="@mipmap/attentionunselect" />
 
             <TextView
                 android:id="@+id/btn_attention"
@@ -76,8 +76,8 @@
 
             <ImageView
                 android:id="@+id/iv_add"
-                android:layout_width="78px"
-                android:layout_height="78px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="@mipmap/add" />
 
@@ -92,10 +92,10 @@
 
             <ImageView
                 android:id="@+id/iv_discover"
-                android:layout_width="50px"
-                android:layout_height="50px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/discover_unselected" />
+                android:background="@mipmap/discoverunselect" />
 
             <TextView
                 android:id="@+id/btn_discover"
@@ -118,10 +118,10 @@
 
             <ImageView
                 android:id="@+id/iv_my"
-                android:layout_width="50px"
-                android:layout_height="50px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/mine_unselected" />
+                android:background="@mipmap/mineunselect" />
 
             <TextView
                 android:id="@+id/btn_my"

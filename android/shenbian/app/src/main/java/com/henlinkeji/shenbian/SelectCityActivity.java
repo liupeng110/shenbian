@@ -36,6 +36,7 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.henlinkeji.shenbian.base.amap.InputTipTask;
 import com.henlinkeji.shenbian.base.amap.LocationBean;
 import com.henlinkeji.shenbian.base.amap.PoiSearchTask;
+import com.henlinkeji.shenbian.base.listener.EndLessOnScrollListener;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.LogUtil;
@@ -55,7 +56,7 @@ import butterknife.ButterKnife;
 public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiSearchListener {
 
     @BindView(R.id.lv_location_nearby)
-    ListView mapList;
+    RecyclerView mapList;
     @BindView(R.id.no_result)
     TextView noResultTv;
     @BindView(R.id.head_cancel_lin)
@@ -67,11 +68,15 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
     @BindView(R.id.head_search_edt)
     EditText searchEdt;
 
-    private PoiAdapter poiAdapter;
-
     private LoadingDialog loadingDialog;
 
     private String city;
+    private String keyWord;
+    private int page = 1;
+
+    private CommonAdapter<LocationBean> adapter;
+
+    private List<LocationBean> datas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,43 +96,42 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
 
     @Override
     protected void initInstence() {
+        mapList.setLayoutManager(new LinearLayoutManager(this));
         loadingDialog = new LoadingDialog(this, true);
         loadingDialog.show("身边");
         if (getIntent() != null) {
             city = getIntent().getStringExtra("city");
         }
+        adapter = new CommonAdapter<LocationBean>(this, R.layout.amap_poi_item_layout) {
+            @Override
+            protected void convert(ViewHolder holder, LocationBean locationBean, int position) {
+                holder.setText(R.id.address, locationBean.getTitle());
+                holder.setText(R.id.address_desc, locationBean.getContent());
+                holder.setVisible(R.id.right, false);
+            }
+        };
+        mapList.setAdapter(adapter);
     }
 
     @Override
     protected void initData() {
-        search(city);
+        keyWord = city;
+        search();
     }
 
-    private void search(String keyWord) {
+    private void search() {
         PoiSearch.Query query = new PoiSearch.Query(keyWord, "", city);
         PoiSearch poiSearch = new PoiSearch(this, query);
         poiSearch.setOnPoiSearchListener(this);
         poiSearch.searchPOIAsyn();
-
-        poiAdapter = new PoiAdapter(this);
-        mapList.setAdapter(poiAdapter);
+        query.setPageSize(10);// 设置每页最多返回多少条poiitem
+        query.setPageNum(page);//设置查询页码
 
         locTv.setText(city);
     }
 
     @Override
     protected void initListener() {
-        mapList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //POI的地址的listview的item的点击
-                LocationBean slectLoc = (LocationBean) poiAdapter.getItem(position);
-                Intent intent = new Intent();
-                intent.putExtra("bean", slectLoc);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
         cancelLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +149,10 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
                 if (s.length() <= 0) {
                     return;
                 } else {
-                    search(s.toString().trim());
+                    keyWord = s.toString().trim();
+                    page = 1;
+                    datas.clear();
+                    search();
                 }
             }
 
@@ -160,14 +167,37 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
                 showPop(v);
             }
         });
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                //POI的地址的listview的item的点击
+                LocationBean slectLoc = datas.get(position);
+                Intent intent = new Intent();
+                intent.putExtra("bean", slectLoc);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+        mapList.addOnScrollListener(new EndLessOnScrollListener() {
+            @Override
+            public void onLoadMore(int currentPage) {
+                page++;
+                search();
+            }
+        });
     }
 
     @Override
     public void onPoiSearched(PoiResult poiResult, int i) {
         if (i == 1000) {
             if (poiResult != null && poiResult.getQuery() != null) {
-                ArrayList<LocationBean> datas = new ArrayList<>();
                 ArrayList<PoiItem> items = poiResult.getPois();
+                ArrayList<LocationBean> list = new ArrayList<>();
                 for (PoiItem item : items) {
                     //获取经纬度对象
                     LatLonPoint llp = item.getLatLonPoint();
@@ -177,10 +207,18 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
                     String title = item.getTitle();
                     //获取内容
                     String text = item.getSnippet();
-                    datas.add(new LocationBean(lon, lat, title, text));
+                    list.add(new LocationBean(lon, lat, title, text));
                 }
-                poiAdapter.setData(datas);
-                poiAdapter.notifyDataSetChanged();
+                datas.addAll(datas.size(), list);
+                loadingDialog.exit();
+                adapter.setDatas(datas);
+                if (datas.size() > 0) {
+                    mapList.setVisibility(View.VISIBLE);
+                    noResultTv.setVisibility(View.GONE);
+                } else {
+                    mapList.setVisibility(View.GONE);
+                    noResultTv.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -188,73 +226,6 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
     @Override
     public void onPoiItemSearched(PoiItem poiItem, int i) {
 
-    }
-
-    //POI搜索显示地址adapter
-    public class PoiAdapter extends BaseAdapter {
-
-        private List<LocationBean> datas = new ArrayList<>();
-
-        private static final int RESOURCE = R.layout.amap_poi_item_layout;
-
-        public PoiAdapter(Context context) {
-
-        }
-
-        @Override
-        public int getCount() {
-            return datas.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return datas.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder vh = null;
-            if (convertView == null) {
-                vh = new ViewHolder();
-                convertView = getLayoutInflater().inflate(RESOURCE, null);
-                vh.tv_title = (TextView) convertView.findViewById(R.id.address);
-                vh.tv_text = (TextView) convertView.findViewById(R.id.address_desc);
-                vh.rightImg = (ImageView) convertView.findViewById(R.id.right);
-                vh.positionRl = (RelativeLayout) convertView.findViewById(R.id.position_rl);
-                convertView.setTag(vh);
-            } else {
-                vh = (ViewHolder) convertView.getTag();
-            }
-            LocationBean bean = (LocationBean) getItem(position);
-            vh.tv_title.setText(bean.getTitle());
-            vh.tv_text.setText(bean.getContent());
-            vh.rightImg.setVisibility(View.GONE);
-            return convertView;
-        }
-
-        private class ViewHolder {
-            public TextView tv_title;
-            public TextView tv_text;
-            public ImageView rightImg;
-            public RelativeLayout positionRl;
-        }
-
-        public void setData(List<LocationBean> datas) {
-            loadingDialog.exit();
-            this.datas = datas;
-            if (datas.size() > 0) {
-                mapList.setVisibility(View.VISIBLE);
-                noResultTv.setVisibility(View.GONE);
-            } else {
-                mapList.setVisibility(View.GONE);
-                noResultTv.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
     private void showPop(View view) {
@@ -292,7 +263,10 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 city = list.get(position);
-                search(city);
+                keyWord = city;
+                page = 1;
+                datas.clear();
+                search();
                 popWindow.dismiss();
             }
 

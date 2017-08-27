@@ -11,14 +11,17 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.henlinkeji.shenbian.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Miracler on 17/8/26.
  */
 
 public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridViewAdapter.ViewHolder> {
     private Context mContext;
-    private String[] data;
-    private int[] imgdata;
+    private List<String> data=new ArrayList<>();
+    private List<String> imgdata=new ArrayList<>();
     private LayoutInflater inf;
 
     public interface OnRecyclerViewItemListener {
@@ -33,14 +36,17 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
         mOnRecyclerViewItemListener = listener;
     }
 
-    public RecyclerGridViewAdapter(Context mContext, String[] data, int[] imgdata) {
+    public RecyclerGridViewAdapter(Context mContext) {
         this.mContext = mContext;
-        this.data = data;
-        this.imgdata = imgdata;
         inf = LayoutInflater.from(mContext);
-
     }
 
+    public void setData(List<String> data,List<String> imgdata) {
+        this.data = data;
+        this.imgdata = imgdata;
+        notifyDataSetChanged();
+
+    }
 
     //RecyclerView显示的子View
     //该方法返回是ViewHolder，当有可复用View时，就不再调用
@@ -60,16 +66,14 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             itemOnClick(viewHolder);
             itemOnLongClick(viewHolder);
         }
-        viewHolder.textView.setText(data[i]);
-        viewHolder.imageView.setImageURI(Uri.parse("res://" +
-                mContext.getPackageName() +
-                "/" +imgdata[i]));
+        viewHolder.textView.setText(data.get(i));
+        viewHolder.imageView.setImageURI(Uri.parse(imgdata.get(i)));
     }
 
     //RecyclerView显示数据条数
     @Override
     public int getItemCount() {
-        return data.length;
+        return data.size();
     }
 
     //自定义的ViewHolder,减少findViewById调用次数
