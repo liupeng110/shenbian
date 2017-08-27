@@ -1,42 +1,42 @@
 [
     {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_popup_enter.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_popup_enter.xml"
-    },
-    {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_out_top.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_slide_out_top.xml"
-    },
-    {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_grow_fade_in_from_bottom.xml",
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_grow_fade_in_from_bottom.xml",
         "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_grow_fade_in_from_bottom.xml"
     },
     {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_popup_exit.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_popup_exit.xml"
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_popup_enter.xml",
+        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_popup_enter.xml"
     },
     {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_in_bottom.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_slide_in_bottom.xml"
-    },
-    {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_fade_out.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_fade_out.xml"
-    },
-    {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_fade_in.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_fade_in.xml"
-    },
-    {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_shrink_fade_out_from_bottom.xml",
-        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
-    },
-    {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_out_bottom.xml",
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_out_bottom.xml",
         "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_slide_out_bottom.xml"
     },
     {
-        "merged": "/Users/buybuyart/Downloads/helinkeji/shenbian-master/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_in_top.xml",
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_in_top.xml",
         "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_fade_in.xml",
+        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_popup_exit.xml",
+        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_popup_exit.xml"
+    },
+    {
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_fade_out.xml",
+        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_fade_out.xml"
+    },
+    {
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/buybuyart/helinkeji/shenbian/android/shenbian/multi_image_selector/build/intermediates/res/merged/release/anim/abc_slide_out_top.xml",
+        "source": "/Users/buybuyart/.android/build-cache/728e212698a1fdffa0a113d5732618301153cf3b/output/res/anim/abc_slide_out_top.xml"
     }
 ]
