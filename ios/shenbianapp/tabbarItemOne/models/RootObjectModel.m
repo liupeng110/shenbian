@@ -11,10 +11,12 @@
 @interface RootObjectModel ()
 
 
-
 @end
 
 @implementation RootObjectModel
+
+@synthesize loadPagedata = _loadPagedata;//初始化父类属性需要这样写
+@synthesize loadModels = _loadModels;
 
 -(RACCommand *)loadPagedata{
     if (_loadPagedata == nil) {
@@ -37,6 +39,7 @@
             return singal;
         }];
     }
+    
     return _loadPagedata;
 }
 
