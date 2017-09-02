@@ -11,8 +11,5 @@
 
 @interface RootObjectModel : CHBaseViewCModel
 
-@property(nonatomic,strong)RACCommand *loadPagedata;
-
-@property(nonatomic,strong) NSArray *loadModels;
 
 @end

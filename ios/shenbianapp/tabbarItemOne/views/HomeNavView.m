@@ -11,6 +11,7 @@
 @interface HomeNavView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property(nonatomic,strong)UIButton *searchButton;
 @property(nonatomic,strong)UICollectionView *quikCollectionView;
+@property(nonatomic,strong)UIButton *shoppingCart;
 
 @end
 
@@ -20,6 +21,14 @@
         self.backgroundColor = [UIColor colorWithHexColor:@"#008e8f"];
         [self addSubview:self.locationButton];
         [self addSubview:self.searchButton];
+        
+        [self addSubview:self.shoppingCart];
+        [self.shoppingCart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self);
+            make.right.equalTo(self).offset(-2);
+            make.width.height.mas_equalTo(40);
+        }];
+        
         [self addSubview:self.quikCollectionView];
         [self.quikCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(10);
@@ -60,6 +69,15 @@
         _searchButton.titleLabel.font = [UIFont systemFontOfSize:15];
     }
     return _searchButton;
+}
+
+- (UIButton*)shoppingCart{
+
+    if (_shoppingCart == nil) {
+        _shoppingCart = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [_shoppingCart setImage:[UIImage imageNamed:@"sy_gwc"] forState:(UIControlStateNormal)];
+    }
+    return _shoppingCart;
 }
 
 -(UICollectionView *)quikCollectionView{
