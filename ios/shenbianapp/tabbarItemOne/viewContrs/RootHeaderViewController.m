@@ -10,8 +10,9 @@
 #import "HomeNavView.h"
 #import "RootObjectModel.h"
 #import "CustomDiviceView.h"
-#import <MAMapKit/MAMapKit.h>
-#import <AMapFoundationKit/AMapFoundationKit.h>
+#import "CHMapView.h"
+#import "CHKindView.h"
+
 @interface RootHeaderViewController ()<HomeNavViewdelegate,CustomDiviceViewdelegate>
 
 @property (nonatomic,strong)HomeNavView *NavView;
@@ -20,49 +21,70 @@
 @property (nonatomic,copy)NSString * selectItemOneName;
 @property (nonatomic,copy)NSString * selectItemTwoName;
 @property (nonatomic,assign)NSInteger selectIndex;
-@property (nonatomic,strong)UIView * mapView;
+
 @property (nonatomic,strong)UIView * infoCar;
+
+@property (nonatomic,strong) RootObjectModel *viewCModel;
+
+@property(nonatomic,strong) CHMapView *mapView;
 
 
 @end
 
 @implementation RootHeaderViewController
+@dynamic viewCModel;
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+
+-(void)bindViewControllerModel{
+    [super bindViewControllerModel];
     
-//    self.navBarView.hidden = YES;
-    [self.navBarView addSubview:self.NavView];
+    self.viewCModel = [[RootObjectModel alloc]init];
     
-//    [AMapServices sharedServices].enableHTTPS = YES;
-//    [self.view addSubview:self.mapView];
-//     MAMapView *apimapView = [[MAMapView alloc] initWithFrame:self.mapView.bounds];
-//    [apimapView setZoomLevel:15 atPivot:self.mapView.center animated:YES];
-//    [self.mapView addSubview:apimapView];
-//    
-//    apimapView.showsUserLocation = YES;
-//    apimapView.userTrackingMode = MAUserTrackingModeFollow;
+    NSDictionary *param = @{@"latitude":@"23.1230",@"longitude":@"36.023"};
+    
+    [self.viewCModel.loadPagedata execute:param];
+    
+    [RACObserve(self.viewCModel, loadModels) subscribeNext:^(NSDictionary *x) {
+        
+        if (x) {
+            
+            self.NavView.quikSearchList = [x objectForKey:@"quik_search"];
+            self.headItemView.categoryItemList = [x objectForKey:@"category_item"];
+        }
+        
+    }];
+    
+}
+
+-(void)setupViews{
+    
+    [self.view addSubview:self.NavView];
+    
+    [self.view addSubview:self.headItemView];
+    [self.headItemView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.NavView.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(220);
+    }];
+    
+    [self.view addSubview:self.mapView];
+    [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.headItemView.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(102);
+    }];
+    
     
 }
 
 - (void)HomeNavViewClickIndex:(NSInteger)index{
     self.selectIndex = index;
-    if (index==0) {
-        [self.headItemView setCustomDiviceViewByArray:self.headItemArray[index] andCureentObject:self.selectItemOneName];
-    }else{
-       [self.headItemView setCustomDiviceViewByArray:self.headItemArray[index] andCureentObject:self.selectItemTwoName];
-    }
+    
 }
 
 - (void)CustomDiviceViewClickIndex:(NSInteger)index{
-    RootObjectModel * model;
-    if (self.selectIndex==0) {
-        model = self.headItemArray[0][index];
-        self.selectItemOneName =model.object_name;
-    }else{
-        model = self.headItemArray[1][index];
-        self.selectItemTwoName = model.object_name;
-    }
+    
+    
 }
 
 - (UIView*)infoCar{
@@ -75,29 +97,29 @@
 
 - (UIView*)mapView{
     if (!_mapView) {
-        _mapView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
-        _mapView.backgroundColor = [UIColor lightGrayColor];
+        _mapView = [[CHMapView alloc]init];
+        _mapView.backgroundColor = [UIColor whiteColor];
     }
     return _mapView;
 }
 
 - (CustomDiviceView*)headItemView{
     if (!_headItemView) {
-        _headItemView = [[CustomDiviceView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 70)];
+        _headItemView = [[CustomDiviceView alloc]init];
         _headItemView.delegate = self;
     }
     return _headItemView;
 }
 
+
+
 - (HomeNavView*)NavView{
     if (!_NavView) {
-        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 70)];
+        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 109)];
         _NavView.delegate = self;
     }
     return _NavView;
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             android:padding="10dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/shoping_car"/>
+            android:src="@mipmap/shoppingcar"/>
 
     </RelativeLayout>
 

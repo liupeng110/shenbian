@@ -18,8 +18,9 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
-    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self.view addSubview:self.navBarView];
+    [self bindViewControllerModel];
+    [self setupViews];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -32,9 +33,20 @@
         _navBarView.backgroundColor = [UIColor colorWithHexColor:@"#008E8F"];
         _navBarView.frame = CGRectMake(0, 0, kScreenWidth, 64);
     }
-    
     return _navBarView;
     
+}
+
+-(void)bindViewControllerModel{
+
+    [RACObserve(self, viewCModel) subscribeNext:^(id x) {
+        [self setupViews];
+    }];
+    
+}
+
+-(void)setupViews{
+
 }
 
 - (void)didReceiveMemoryWarning {

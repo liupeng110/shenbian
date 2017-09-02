@@ -18,9 +18,9 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         UIButton *plusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [plusBtn setImage:[UIImage imageNamed:@"add_btn"] forState:UIControlStateNormal];
-        [plusBtn setImage:[UIImage imageNamed:@"add_btn"] forState:UIControlStateFocused];
-        plusBtn.frame = CGRectMake(0, 0, 48,48);
+        [plusBtn setImage:[UIImage imageNamed:@"sy_plus"] forState:UIControlStateNormal];
+        [plusBtn setImage:[UIImage imageNamed:@"sy_plus"] forState:UIControlStateFocused];
+        plusBtn.frame = CGRectMake(0, 0, 70,35);
         [plusBtn addTarget:self action:@selector(plusBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:plusBtn];
         self.plusBtn = plusBtn;
