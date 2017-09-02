@@ -41,19 +41,23 @@
     self.viewCModel = [[RootObjectModel alloc]init];
     
     NSDictionary *param = @{@"latitude":@"23.1230",@"longitude":@"36.023"};
-   
+    
     [self.viewCModel.loadPagedata execute:param];
-
+    
     [RACObserve(self.viewCModel, loadModels) subscribeNext:^(NSDictionary *x) {
-        self.NavView.quikSearchList = [x objectForKey:@"quik_search"];
-        self.headItemView.categoryItemList = [x objectForKey:@"category_item"];
-
+        
+        if (x) {
+            
+            self.NavView.quikSearchList = [x objectForKey:@"quik_search"];
+            self.headItemView.categoryItemList = [x objectForKey:@"category_item"];
+        }
+        
     }];
     
 }
 
 -(void)setupViews{
-
+    
     [self.view addSubview:self.NavView];
     
     [self.view addSubview:self.headItemView];
@@ -80,7 +84,7 @@
 
 - (void)CustomDiviceViewClickIndex:(NSInteger)index{
     
-
+    
 }
 
 - (UIView*)infoCar{
