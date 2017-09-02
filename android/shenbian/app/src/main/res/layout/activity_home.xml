@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/headselected" />
+                android:background="@mipmap/head_selected" />
 
             <TextView
                 android:id="@+id/btn_head"
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/attentionunselect" />
+                android:background="@mipmap/attention" />
 
             <TextView
                 android:id="@+id/btn_attention"
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/discoverunselect" />
+                android:background="@mipmap/discover" />
 
             <TextView
                 android:id="@+id/btn_discover"
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/mineunselect" />
+                android:background="@mipmap/mine" />
 
             <TextView
                 android:id="@+id/btn_my"

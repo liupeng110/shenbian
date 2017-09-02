@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,8 @@ public class LoginActivity extends BaseActivity {
     EditText passwordEdt;
     @BindView(R.id.register_retrieve_code)
     Button retrieveCodeBtn;
+    @BindView(R.id.agree)
+    TextView agreeTv;
 
     private CountDownTimer countDownTimer;
 
@@ -72,7 +75,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        String str="温馨提示：未注册身边的手机号，登录时将自动注册，且代表您已同意<font color='#009698'>《用户服务协议》</font>";
+        agreeTv.setText(Html.fromHtml(str));
     }
 
     @Override

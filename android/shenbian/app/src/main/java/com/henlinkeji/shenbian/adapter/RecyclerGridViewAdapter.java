@@ -21,7 +21,8 @@ import java.util.List;
 public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridViewAdapter.ViewHolder> {
     private Context mContext;
     private List<String> data=new ArrayList<>();
-    private List<String> imgdata=new ArrayList<>();
+    private List<String> imgdata1=new ArrayList<>();
+    private List<Integer> imgdata2=new ArrayList<>();
     private LayoutInflater inf;
 
     public interface OnRecyclerViewItemListener {
@@ -41,11 +42,15 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
         inf = LayoutInflater.from(mContext);
     }
 
-    public void setData(List<String> data,List<String> imgdata) {
+    public void setNetData(List<String> data,List<String> imgdata) {
         this.data = data;
-        this.imgdata = imgdata;
+        this.imgdata1 = imgdata;
         notifyDataSetChanged();
-
+    }
+    public void setLocalData(List<String> data,List<Integer> imgdata) {
+        this.data = data;
+        this.imgdata2 = imgdata;
+        notifyDataSetChanged();
     }
 
     //RecyclerView显示的子View
@@ -67,7 +72,11 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             itemOnLongClick(viewHolder);
         }
         viewHolder.textView.setText(data.get(i));
-        viewHolder.imageView.setImageURI(Uri.parse(imgdata.get(i)));
+        if (imgdata2!=null){
+            viewHolder.imageView.setBackgroundResource(imgdata2.get(i));
+        }else if (imgdata1!=null){
+            viewHolder.imageView.setImageURI(Uri.parse(imgdata1.get(i)));
+        }
     }
 
     //RecyclerView显示数据条数

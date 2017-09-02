@@ -82,7 +82,8 @@ public class HeadFragment extends Fragment {
     private CommonAdapter<HotSell> hotSellAdapter;
     private List<String> searchList = new ArrayList<>();
     private List<String> classfyTextList = new ArrayList<>();
-    private List<String> classfyImgList = new ArrayList<>();
+    private List<String> classfyImgList1 = new ArrayList<>();
+    private List<Integer> classfyImgList2 = new ArrayList<>();
     private List<HotSell> hotSellList = new ArrayList<>();
 
     private AMapLocationClient mlocationClient = null;
@@ -148,6 +149,24 @@ public class HeadFragment extends Fragment {
     }
 
     protected void initData() {
+        classfyTextList.add("找服务");
+        classfyTextList.add("找人");
+        classfyTextList.add("找活动");
+        classfyTextList.add("找工作");
+        classfyTextList.add("找租房");
+        classfyTextList.add("学技能");
+        classfyTextList.add("修手机、电脑");
+        classfyTextList.add("全部");
+
+        classfyImgList2.add(R.mipmap.zhaofuwu);
+        classfyImgList2.add(R.mipmap.zhaoren);
+        classfyImgList2.add(R.mipmap.zhaohuodong);
+        classfyImgList2.add(R.mipmap.zhaogongzuo);
+        classfyImgList2.add(R.mipmap.zhaozufang);
+        classfyImgList2.add(R.mipmap.xuejineng);
+        classfyImgList2.add(R.mipmap.xiushouji);
+        classfyImgList2.add(R.mipmap.quanbu);
+
         quickSearchAdapter = new CommonAdapter<String>(getActivity(), R.layout.quick_search_item_layout) {
             @Override
             protected void convert(ViewHolder holder, String bean, int position) {
@@ -165,6 +184,8 @@ public class HeadFragment extends Fragment {
         //设置适配器
         recyclerGridViewAdapter = new RecyclerGridViewAdapter(getActivity());
         classfyRecy.setAdapter(recyclerGridViewAdapter);
+        recyclerGridViewAdapter.setLocalData(classfyTextList, classfyImgList2);
+        recyclerGridViewAdapter.notifyDataSetChanged();
 
         hotSellAdapter = new CommonAdapter<HotSell>(getActivity(), R.layout.hot_sell_item_layout) {
             @Override
@@ -326,7 +347,6 @@ public class HeadFragment extends Fragment {
         HttpUtils.post(getActivity(), MyConfig.HEAD, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                LogUtil.e("=====onSuccess====="+response);
                 loadingDialog.exit();
                 HeadTop headTop = new Gson().fromJson(response, HeadTop.class);
                 if (!TextUtils.isEmpty(headTop.getStatus())) {
@@ -338,9 +358,9 @@ public class HeadFragment extends Fragment {
                         quickSearchAdapter.notifyDataSetChanged();
                         for (int i = 0; i < headTop.getData().getImgInfo().size(); i++) {
                             classfyTextList.add(headTop.getData().getImgInfo().get(i).getText());
-                            classfyImgList.add(headTop.getData().getImgInfo().get(i).getUrl());
+                            classfyImgList1.add(headTop.getData().getImgInfo().get(i).getUrl());
                         }
-                        recyclerGridViewAdapter.setData(classfyTextList, classfyImgList);
+                        recyclerGridViewAdapter.setNetData(classfyTextList, classfyImgList1);
                         recyclerGridViewAdapter.notifyDataSetChanged();
                     }
                 }
@@ -349,7 +369,6 @@ public class HeadFragment extends Fragment {
             @Override
             public void onFailure(String response) {
                 loadingDialog.exit();
-                LogUtil.e("=====onFailure====="+response);
             }
         });
     }
