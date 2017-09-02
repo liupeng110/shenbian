@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,21 +26,30 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.henlinkeji.shenbian.R;
+import com.henlinkeji.shenbian.SearchActivity;
 import com.henlinkeji.shenbian.SelectCityActivity;
 import com.henlinkeji.shenbian.adapter.RecyclerGridViewAdapter;
 import com.henlinkeji.shenbian.base.amap.LocationBean;
+import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
+import com.henlinkeji.shenbian.base.utils.HttpUtils;
+import com.henlinkeji.shenbian.base.utils.LogUtil;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.view.rvadapter.CommonAdapter;
 import com.henlinkeji.shenbian.base.view.rvadapter.MultiItemTypeAdapter;
 import com.henlinkeji.shenbian.base.view.rvadapter.base.ViewHolder;
+import com.henlinkeji.shenbian.bean.HeadTop;
+import com.henlinkeji.shenbian.bean.HotSell;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,19 +65,25 @@ public class HeadFragment extends Fragment {
     MapView mMapView;
     @BindView(R.id.head_loc_tv)
     TextView locTv;
-    @BindView(R.id.head_search_edt)
-    EditText searchEdt;
-    @BindView(R.id.head_car_lin)
-    LinearLayout headCarLin;
+    @BindView(R.id.head_search_lin)
+    LinearLayout searchLin;
+    @BindView(R.id.shopping_car_iv)
+    ImageView headCarIv;
     @BindView(R.id.head_loc_lin)
     LinearLayout headLocLin;
     @BindView(R.id.quick_search_recy)
     RecyclerView quickSearchRecy;
     @BindView(R.id.classfy_recy)
     RecyclerView classfyRecy;
+    @BindView(R.id.hot_recy)
+    RecyclerView hotRecy;
 
     private CommonAdapter<String> quickSearchAdapter;
+    private CommonAdapter<HotSell> hotSellAdapter;
     private List<String> searchList = new ArrayList<>();
+    private List<String> classfyTextList = new ArrayList<>();
+    private List<String> classfyImgList = new ArrayList<>();
+    private List<HotSell> hotSellList = new ArrayList<>();
 
     private AMapLocationClient mlocationClient = null;
     private LoadingDialog loadingDialog;
@@ -79,11 +96,10 @@ public class HeadFragment extends Fragment {
 
     private RecyclerGridViewAdapter recyclerGridViewAdapter;
 
-    private String[] data = {"多福多寿", "撒到", "啥地方都是", "是非得失的", "阿萨德", "安抚", "sdsafsa", "全部分类"};
-    private int[] imgdata = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.close};
-
     //初始化地图控制器对象
     private AMap aMap;
+
+    private boolean isGetJW = false;
 
     @Nullable
     @Override
@@ -109,6 +125,9 @@ public class HeadFragment extends Fragment {
         gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         classfyRecy.setLayoutManager(gridLayoutManager);
 
+        //设置布局管理器
+        hotRecy.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         mlocationClient = new AMapLocationClient(getActivity().getApplicationContext());
         //声明mLocationOption对象
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
@@ -129,10 +148,6 @@ public class HeadFragment extends Fragment {
     }
 
     protected void initData() {
-        searchList.add("大部分的");
-        searchList.add("的神烦大叔");
-        searchList.add("大富科技啊");
-        searchList.add("半份饭的但是");
         quickSearchAdapter = new CommonAdapter<String>(getActivity(), R.layout.quick_search_item_layout) {
             @Override
             protected void convert(ViewHolder holder, String bean, int position) {
@@ -146,13 +161,54 @@ public class HeadFragment extends Fragment {
             }
         };
         quickSearchRecy.setAdapter(quickSearchAdapter);
-        quickSearchAdapter.setDatas(searchList);
 
         //设置适配器
-        recyclerGridViewAdapter = new RecyclerGridViewAdapter(getActivity(), data, imgdata);
+        recyclerGridViewAdapter = new RecyclerGridViewAdapter(getActivity());
         classfyRecy.setAdapter(recyclerGridViewAdapter);
 
+        hotSellAdapter = new CommonAdapter<HotSell>(getActivity(), R.layout.hot_sell_item_layout) {
+            @Override
+            protected void convert(ViewHolder holder, HotSell hotSell, int position) {
+                    holder.setText(R.id.name,hotSell.getName());
+                    holder.setText(R.id.content,hotSell.getContent());
+            }
+            @Override
+            public void onViewHolderCreated(ViewHolder holder, View itemView) {
+                super.onViewHolderCreated(holder, itemView);
+                AutoUtils.autoSize(itemView);
+            }
+        };
+        hotRecy.setAdapter(hotSellAdapter);
+
+        HotSell h1 = new HotSell();
+        h1.setName("服务1");
+        h1.setContent("内容1内容1内容1内容1内容1内容1内容1内容1");
+        HotSell h2 = new HotSell();
+        h2.setName("服务2");
+        h2.setContent("内容1内容1内容1内容1内容1内容2222222222222222222");
+        HotSell h3 = new HotSell();
+        h3.setName("服务3");
+        h3.setContent("内容3333333333");
+        HotSell h4 = new HotSell();
+        h4.setName("服务4");
+        h4.setContent("内容1内容1内容444444");
+        HotSell h5 = new HotSell();
+        h5.setName("服务5");
+        h5.setContent("内容1内容1内容5555555");
+        HotSell h6 = new HotSell();
+        h6.setName("服务6");
+        h6.setContent("内容1内容1内容66666666");
+        hotSellList.add(h1);
+        hotSellList.add(h2);
+        hotSellList.add(h3);
+        hotSellList.add(h4);
+        hotSellList.add(h5);
+        hotSellList.add(h6);
+
+        hotSellAdapter.setDatas(hotSellList);
+
         aMap.getUiSettings().setZoomControlsEnabled(false);
+
     }
 
     protected void initListener() {
@@ -161,7 +217,6 @@ public class HeadFragment extends Fragment {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
-                    loadingDialog.exit();
                     if (aMapLocation.getErrorCode() == 0) {
                         //定位成功回调信息，设置相关消息
                         aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
@@ -179,12 +234,16 @@ public class HeadFragment extends Fragment {
 //                                    aMapLocation.getStreet() +//街道信息
 //                                    aMapLocation.getStreetNum());//街道门牌号信息);
                         if (!isSlect) {
-                            locTv.setText(aMapLocation.getStreet());
+                            locTv.setText(aMapLocation.getCity());
                         }
                         city = aMapLocation.getCity();
                         //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
                         CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15, 0, 0));
                         aMap.moveCamera(mCameraUpdate);
+                        if (!isGetJW) {
+                            isGetJW = true;
+                            getHead(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                        }
                     } else {
                         locTv.setText("定位失败");
                     }
@@ -216,16 +275,23 @@ public class HeadFragment extends Fragment {
         recyclerGridViewAdapter.setOnRecyclerViewItemListener(new RecyclerGridViewAdapter.OnRecyclerViewItemListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                if (position!=data.length-1) {
-                    ToastUtils.disPlayShortCenter(getActivity(), data[position]);
-                }else {
-                    ToastUtils.disPlayShort(getActivity(), data[position]);
+                if (position != classfyTextList.size() - 1) {
+                    ToastUtils.disPlayShortCenter(getActivity(), classfyTextList.get(position));
+                } else {
+                    ToastUtils.disPlayShort(getActivity(), classfyTextList.get(position));
                 }
             }
 
             @Override
             public void onItemLongClickListener(View view, int position) {
 
+            }
+        });
+
+        searchLin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SearchActivity.class));
             }
         });
     }
@@ -251,6 +317,41 @@ public class HeadFragment extends Fragment {
         if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
+    }
+
+    private void getHead(double latitude, double longitude) {
+        Map<String, String> params = new HashMap<>();
+        params.put("latitude", latitude + "");
+        params.put("longitude", longitude + "");
+        HttpUtils.post(getActivity(), MyConfig.HEAD, params, new HttpUtils.HttpPostCallBackListener() {
+            @Override
+            public void onSuccess(String response) {
+                LogUtil.e("=====onSuccess====="+response);
+                loadingDialog.exit();
+                HeadTop headTop = new Gson().fromJson(response, HeadTop.class);
+                if (!TextUtils.isEmpty(headTop.getStatus())) {
+                    if (headTop.getStatus().equals("0000")) {
+                        for (int i = 0; i < headTop.getData().getCategories().size(); i++) {
+                            searchList.add(headTop.getData().getCategories().get(i));
+                        }
+                        quickSearchAdapter.setDatas(searchList);
+                        quickSearchAdapter.notifyDataSetChanged();
+                        for (int i = 0; i < headTop.getData().getImgInfo().size(); i++) {
+                            classfyTextList.add(headTop.getData().getImgInfo().get(i).getText());
+                            classfyImgList.add(headTop.getData().getImgInfo().get(i).getUrl());
+                        }
+                        recyclerGridViewAdapter.setData(classfyTextList, classfyImgList);
+                        recyclerGridViewAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String response) {
+                loadingDialog.exit();
+                LogUtil.e("=====onFailure====="+response);
+            }
+        });
     }
 
 }
