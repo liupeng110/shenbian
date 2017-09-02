@@ -25,7 +25,6 @@
             
             [singal subscribeNext:^(id x) {
                 
-                
                 self.loadModels = x;
                 
             } error:^(NSError *error) {
