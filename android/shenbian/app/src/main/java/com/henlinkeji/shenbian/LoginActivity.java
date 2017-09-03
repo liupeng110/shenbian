@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -18,6 +19,7 @@ import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.HttpUtils;
+import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;
 import com.henlinkeji.shenbian.base.view.ShowDialog;
 
@@ -36,15 +38,24 @@ public class LoginActivity extends BaseActivity {
     EditText passwordEdt;
     @BindView(R.id.register_retrieve_code)
     Button retrieveCodeBtn;
+    @BindView(R.id.login_submit)
+    TextView submitTv;
     @BindView(R.id.agree)
     TextView agreeTv;
+    @BindView(R.id.wechat_rl)
+    RelativeLayout wechatRl;
+    @BindView(R.id.weibo_rl)
+    RelativeLayout weiboRl;
+    @BindView(R.id.qq_rl)
+    RelativeLayout qqRl;
+    @BindView(R.id.taobao_rl)
+    RelativeLayout taobaoRl;
 
     private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -164,6 +175,62 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        submitTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (phoneEdt.getText().toString().length()<=0){
+                    ShowDialog.showTipPopup(LoginActivity.this, "未输入手机号", R.string.sure, new OperationCallback() {
+                        @Override
+                        public void execute() {
+
+                        }
+                    });
+                    return;
+                }else if (!Utils.isMobileNumber(phoneEdt.getText().toString().replace(" ", ""))){
+                    ShowDialog.showTipPopup(LoginActivity.this, "手机号格式不正确", R.string.sure, new OperationCallback() {
+                        @Override
+                        public void execute() {
+
+                        }
+                    });
+                    return;
+                }else if (passwordEdt.getText().toString().length()<=0) {
+                    ShowDialog.showTipPopup(LoginActivity.this, "未输入验证码", R.string.sure, new OperationCallback() {
+                        @Override
+                        public void execute() {
+
+                        }
+                    });
+                    return;
+                }else {
+                    ToastUtils.disPlayShort(LoginActivity.this, "登录");
+                }
+            }
+        });
+        wechatRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.disPlayShort(LoginActivity.this,"微信登录");
+            }
+        });
+        weiboRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.disPlayShort(LoginActivity.this,"微博登录");
+            }
+        });
+        qqRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.disPlayShort(LoginActivity.this,"QQ登录");
+            }
+        });
+        taobaoRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.disPlayShort(LoginActivity.this,"淘宝登录");
             }
         });
     }

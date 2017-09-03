@@ -27,6 +27,7 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.henlinkeji.shenbian.LoginActivity;
 import com.henlinkeji.shenbian.R;
 import com.henlinkeji.shenbian.SearchActivity;
 import com.henlinkeji.shenbian.SelectCityActivity;
@@ -313,6 +314,12 @@ public class HeadFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), SearchActivity.class));
+            }
+        });
+        headCarIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
     }
