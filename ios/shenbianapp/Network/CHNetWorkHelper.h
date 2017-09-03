@@ -10,7 +10,7 @@
 
 #define CHNetWork [CHNetWorkHelper shareInstance]
 
-#define DomainURL @"https://www.yixiang.com"
+#define DomainURL @"https://60.205.220.80/v1/service/query1.htm"
 
 @interface CHNetWorkHelper : NSObject
 +(CHNetWorkHelper*)shareInstance;

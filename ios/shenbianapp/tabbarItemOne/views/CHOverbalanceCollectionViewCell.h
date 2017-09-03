@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CHKindModel.h"
-@interface CHKindCollectionViewCell : UICollectionViewCell
-@property(nonatomic,strong) CHKindModel *model;
+#import "CHOverbalanceModel.h"
+@interface CHOverbalanceCollectionViewCell : UICollectionViewCell
+@property(nonatomic,strong) CHOverbalanceModel *model;
 @end

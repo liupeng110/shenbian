@@ -24,7 +24,7 @@
     self.window.rootViewController = main;
     [self.window makeKeyAndVisible];
     [[AMapServices sharedServices] setEnableHTTPS:YES];
-    [AMapServices sharedServices].apiKey = @"c75fdc4006085f1973e8d3334ba2d31d";
+    [AMapServices sharedServices].apiKey = @"0dc1126a57b00e8babb475778cd99e81";
     return YES;
 }
 

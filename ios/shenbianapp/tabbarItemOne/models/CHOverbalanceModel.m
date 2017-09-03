@@ -1,13 +1,13 @@
 //
-//  CHKindView.h
+//  CHKindModel.m
 //  shenbianapp
 //
 //  Created by book on 2017/9/2.
 //  Copyright © 2017年 陈坚. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CHOverbalanceModel.h"
 
-@interface CHKindView : UIView
-@property(nonatomic,strong)NSArray *kindList;
+@implementation CHOverbalanceModel
+
 @end

@@ -29,7 +29,7 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
+    [IQKeyboardManager sharedManager].shouldShowToolbarPlaceholder = NO;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
     [self.view addSubview:self.tf_articleTitle];
     [self.tf_articleTitle mas_makeConstraints:^(MASConstraintMaker *make) {
