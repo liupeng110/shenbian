@@ -151,7 +151,7 @@
         _wrapSrollview = [[UIScrollView alloc]init];
         _wrapSrollview.showsVerticalScrollIndicator = NO;
         _wrapSrollview.showsHorizontalScrollIndicator = NO;
-        _wrapSrollview.backgroundColor = [UIColor purpleColor];
+//        _wrapSrollview.backgroundColor = [UIColor purpleColor];
         _wrapSrollview.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
     }
     return _wrapSrollview;
