@@ -23,9 +23,16 @@
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]init];
     
-    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-   
-    manager.requestSerializer = requestSerializer;
+    AFSecurityPolicy *security = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    
+    [security setValidatesDomainName:NO];
+    
+    security.allowInvalidCertificates = YES;
+    
+    manager.securityPolicy = security;
+
+    manager.responseSerializer.acceptableContentTypes = [manager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     
     NSString *urlString = [NSString stringWithFormat:@"%@,%@",DomainURL,@"--------"];
     

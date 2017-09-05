@@ -19,8 +19,8 @@
 -(instancetype)initWithFrame:(CGRect)frame{
 
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor purpleColor];
 
+        
         [self addSubview:self.iconImageView];
         [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);

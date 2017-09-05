@@ -47,7 +47,7 @@
     
     self.viewCModel = [[RootObjectModel alloc]init];
     
-    NSDictionary *param = @{@"latitude":@"23.1230",@"longitude":@"36.023"};
+    NSDictionary *param = @{@"center":@"116.542951,39.639531",@"city":@"北京"};
     
     [self.viewCModel.loadPagedata execute:param];
     
