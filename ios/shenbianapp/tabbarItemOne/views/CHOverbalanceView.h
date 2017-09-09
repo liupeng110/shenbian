@@ -1,5 +1,5 @@
 //
-//  CHMapView.h
+//  CHKindView.h
 //  shenbianapp
 //
 //  Created by book on 2017/9/2.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHMapView : UIView
-
-- (void)setMapZoomSacle:(float)zoomScale  animated:(BOOL)animated;
+@interface CHOverbalanceView : UIView
+@property(nonatomic,strong)NSArray *overBablanceList;
 @end

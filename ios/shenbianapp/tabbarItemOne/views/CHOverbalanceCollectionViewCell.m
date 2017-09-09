@@ -6,18 +6,20 @@
 //  Copyright © 2017年 陈坚. All rights reserved.
 //
 
-#import "CHKindCollectionViewCell.h"
+#import "CHOverbalanceCollectionViewCell.h"
 
-@interface CHKindCollectionViewCell ()
+@interface CHOverbalanceCollectionViewCell ()
 @property(nonatomic,strong)UIImageView *coverImageView;
 @end
 
-@implementation CHKindCollectionViewCell
+@implementation CHOverbalanceCollectionViewCell
 
 -(instancetype)initWithFrame:(CGRect)frame{
 
     if (self = [super initWithFrame:frame]) {
-        [self addSubview:self.coverImageView];
+        self.contentView.clipsToBounds = YES;
+        self.contentView.layer.cornerRadius = 5;
+        [self.contentView addSubview:self.coverImageView];
         [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
         }];
@@ -32,14 +34,14 @@
         
         _coverImageView = [UIImageView new];
         _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
-        
+        _coverImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     }
     return _coverImageView;
 }
 
-- (void)setModel:(CHKindModel *)model{
+- (void)setModel:(CHOverbalanceModel *)model{
     
-    
+    [self.coverImageView setImageWithURL:[NSURL URLWithString:model.coverUrl] placeholder:[UIImage imageNamed:model.placeHolder]];
 }
 
 @end

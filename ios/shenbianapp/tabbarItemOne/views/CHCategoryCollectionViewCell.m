@@ -19,6 +19,7 @@
 -(instancetype)initWithFrame:(CGRect)frame{
 
     if (self = [super initWithFrame:frame]) {
+
         
         [self addSubview:self.iconImageView];
         [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CHKindModel : NSObject
+@interface CHOverbalanceModel : NSObject
 @property(nonatomic,copy)NSString *coverUrl;
 @property(nonatomic,copy)NSString *placeHolder;
 

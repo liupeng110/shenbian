@@ -19,6 +19,7 @@
     if (self = [super initWithFrame:frame]) {
        
         self.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.5];
+
         [self addSubview:self.itemCollectionView];
         [self.itemCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
@@ -46,7 +47,6 @@
         _itemCollectionView.delegate = self;
         [_itemCollectionView registerClass:[CHCategoryCollectionViewCell class] forCellWithReuseIdentifier:@"itemCell"];
     }
-    
     return _itemCollectionView;
 }
 
