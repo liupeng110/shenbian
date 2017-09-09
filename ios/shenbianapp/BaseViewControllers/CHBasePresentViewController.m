@@ -20,7 +20,8 @@
     
     [self.view addSubview:self.closeBtn];
     [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.view).offset(20);
+        make.top.equalTo(self.view).offset(25);
+        make.left.equalTo(self.view).offset(15 );
         make.width.height.mas_equalTo(40);
     }];
     
@@ -32,10 +33,11 @@
     }];
 }
 
+
 -(LXButton *)closeBtn{
     if (_closeBtn == nil) {
         _closeBtn = [LXButton buttonWithType:(UIButtonTypeCustom)];
-        [_closeBtn setImage:[UIImage imageNamed:@"close_page"] forState:(UIControlStateNormal)];
+        [_closeBtn setImage:[UIImage imageNamed:@"fbwz_gb"] forState:(UIControlStateNormal)];
         [_closeBtn addTarget:self action:@selector(dissMiss) forControlEvents:(UIControlEventTouchDown)];
     }
     return _closeBtn;

@@ -10,8 +10,8 @@
 
 #define CHNetWork [CHNetWorkHelper shareInstance]
 
-#define DomainURL @"https://60.205.220.80/v1/service/query.htm"
-
+#define HomeTopData @"http://60.205.220.80:8081/v1/index/query.htm"//首页顶部数据
+#define HomeBottomData @"http://60.205.220.80:8081/v1/service/query.htm" //首页底部数据
 
 @interface CHNetWorkHelper : NSObject
 +(CHNetWorkHelper*)shareInstance;
@@ -20,6 +20,6 @@
 @property (nonatomic, strong, readonly) AFHTTPSessionManager* jsonHTTPSClient;
 
 /*加载首页数据*/
-- (RACSignal*)loadHomePageDataWithParam:(NSDictionary*)param;
+-(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString;
 
 @end

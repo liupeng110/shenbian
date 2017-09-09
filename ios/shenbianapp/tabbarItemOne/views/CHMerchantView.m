@@ -31,7 +31,7 @@
             [self.merchentTableView reloadData];
         }];
 
-        self.placeHolderList = @[@"leftHolder",@"rightHolder"];
+        self.placeHolderList = @[@"sy_sj_cover",@"sy_sj_cover"];
     }
     return self;
 }
@@ -67,6 +67,7 @@
     model.slodOut = [[dic objectForKey:@"sold_out"] integerValue];
     model.tagName = [dic objectForKey:@"tag_name"];
     cell.model = model;
+    cell.layer.cornerRadius = 5;
     return cell;
 }
 

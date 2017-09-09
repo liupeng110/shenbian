@@ -13,7 +13,7 @@
 #import "RootMineViewController.h"
 #import "HQTabBar.h"
 #import "CHPublishViewController.h"
-
+#import "CHLoginViewController.h"
 @interface MainViewController ()<HQTabBardelegate>
 
 @end
@@ -87,21 +87,19 @@
 
     //判断登录
     BOOL login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
-    login = YES;
     if (login) {
-        self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+
         CHPublishViewController *publish = [[CHPublishViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:publish];
         nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-        [self presentViewController:nav animated:NO completion:nil];
+        [self presentViewController:nav animated:YES completion:nil];
         
     } else {
-    
-    
+        CHLoginViewController *logoinVC = [[CHLoginViewController alloc]init];
+        [self presentViewController:logoinVC animated:YES completion:nil];
     }
 
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

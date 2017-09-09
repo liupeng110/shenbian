@@ -59,8 +59,8 @@
     CHCategoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"itemCell" forIndexPath:indexPath];
     NSDictionary *dic = self.categoryItemList[indexPath.row];
     CHCategoryItemModel *model = [[CHCategoryItemModel alloc]init];
-    model.name = [dic objectForKey:@"item_name"];
-    model.iconUrl = [dic objectForKey:@"iconimage_url"];
+    model.name = [dic objectForKey:@"text"];
+    model.iconUrl = [dic objectForKey:@"url"];
     model.placeHolder = self.placeHolderList[indexPath.row];
     cell.itemModel = model;
     

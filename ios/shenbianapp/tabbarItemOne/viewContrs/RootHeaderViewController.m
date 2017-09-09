@@ -47,16 +47,26 @@
     
     self.viewCModel = [[RootObjectModel alloc]init];
     
-    NSDictionary *param = @{@"center":@"116.542951,39.639531",@"city":@"北京"};
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary: @{@"center":@"116.542951,39.639531",@"city":@"北京"}];
     
-    [self.viewCModel.loadPagedata execute:param];
+    [self.viewCModel.loadTopData execute:param];
     
-    [RACObserve(self.viewCModel, loadModels) subscribeNext:^(NSDictionary *x) {
+    [RACObserve(self.viewCModel, topDataList) subscribeNext:^(NSDictionary *x) {
         if (x) {
-            self.NavView.quikSearchList = [x objectForKey:@"quik_search"];
-            self.headItemView.categoryItemList = [x objectForKey:@"category_item"];
-            self.overBalanceView.overBablanceList = [x objectForKey:@"over_balance"];
-            self.merchentView.merchentList = [x objectForKey:@"merchent"];
+            NSDictionary *tempDic = [x objectForKey:@"data"];
+            self.NavView.quikSearchList = [tempDic objectForKey:@"categories"];
+            self.headItemView.categoryItemList = [tempDic objectForKey:@"imgInfo"];
+          
+        }
+    }];
+    
+    NSDictionary *bottmParam = @{@"center":@"116.542951,39.639531",@"city":@"北京",@"page":@"1",@"limit":@"10",};
+    [self.viewCModel.loadBottomData execute:bottmParam];
+    [RACObserve(self.viewCModel, bottomDataList) subscribeNext:^(NSDictionary *x) {
+        if (x) {
+            NSDictionary *tempDic = [x objectForKey:@"data"];
+            self.overBalanceView.overBablanceList = [tempDic objectForKey:@"over_balance"];
+            self.merchentView.merchentList = [tempDic objectForKey:@"merchent"];
         }
     }];
 }

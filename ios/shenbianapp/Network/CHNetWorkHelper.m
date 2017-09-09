@@ -19,7 +19,7 @@
     return instance;
 }
 
--(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param{
+-(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]init];
     
@@ -28,13 +28,17 @@
     [security setValidatesDomainName:NO];
     
     security.allowInvalidCertificates = YES;
-    
+//
     manager.securityPolicy = security;
-
     manager.responseSerializer.acceptableContentTypes = [manager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
-    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+//    
+//    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+//    [requestSerializer setValue:@"*/*" forHTTPHeaderField:@"accept"];
+//    [requestSerializer setValue:@"*/*; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+//    [requestSerializer setValue:@"Keep-Alive" forHTTPHeaderField:@"connection"];
+//    
+//    manager.requestSerializer = requestSerializer;
     
-    NSString *urlString = [NSString stringWithFormat:@"%@,%@",DomainURL,@"--------"];
     
     RACSignal *signal = [manager rac_POST:urlString parameters:param];
     
@@ -49,13 +53,11 @@
                 NSError *error = [NSError errorWithDomain:@"json 出错" code:10000 userInfo:nil];
                 [subscriber sendError:error];
             }
-            
             return nil;
         }];
     }];
     
     return signal;
-    
 }
 
 @end

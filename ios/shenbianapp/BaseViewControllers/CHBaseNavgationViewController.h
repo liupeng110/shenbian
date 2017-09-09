@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CHBaseNavgationViewController : UIViewController
+@property(nonatomic,strong) UIButton * backButton;
 
 @end

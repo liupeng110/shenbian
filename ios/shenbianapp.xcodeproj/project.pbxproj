@@ -48,6 +48,7 @@
 		FD1DCEB51F5AAD2D00136B3D /* CHOverbalanceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1DCEB41F5AAD2D00136B3D /* CHOverbalanceCollectionViewCell.m */; };
 		FD1DCEB81F5AAD6400136B3D /* CHOverbalanceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1DCEB71F5AAD6400136B3D /* CHOverbalanceModel.m */; };
 		FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4611971F483601005D4FF6 /* HQTabBar.m */; };
+		FD5919301F63167900FD7913 /* CHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD59192F1F63167900FD7913 /* CHLoginViewController.m */; };
 		FD9448A91F52D82E001FC5CD /* CHBaseViewCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9448A81F52D82E001FC5CD /* CHBaseViewCModel.m */; };
 		FD9448AD1F52EE3D001FC5CD /* CHNetWorkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */; };
 		FDB516A61F5C19D000FE6196 /* CHMerchantView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB516A51F5C19D000FE6196 /* CHMerchantView.m */; };
@@ -140,6 +141,8 @@
 		FD1DCEB71F5AAD6400136B3D /* CHOverbalanceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverbalanceModel.m; sourceTree = "<group>"; };
 		FD4611961F483601005D4FF6 /* HQTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQTabBar.h; sourceTree = "<group>"; };
 		FD4611971F483601005D4FF6 /* HQTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HQTabBar.m; sourceTree = "<group>"; };
+		FD59192E1F63167900FD7913 /* CHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLoginViewController.h; sourceTree = "<group>"; };
+		FD59192F1F63167900FD7913 /* CHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLoginViewController.m; sourceTree = "<group>"; };
 		FD9448A71F52D82E001FC5CD /* CHBaseViewCModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHBaseViewCModel.h; sourceTree = "<group>"; };
 		FD9448A81F52D82E001FC5CD /* CHBaseViewCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHBaseViewCModel.m; sourceTree = "<group>"; };
 		FD9448AB1F52EE3D001FC5CD /* CHNetWorkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHNetWorkHelper.h; sourceTree = "<group>"; };
@@ -221,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				FD9448AA1F52ED48001FC5CD /* Network */,
+				FD59192A1F63161100FD7913 /* Login */,
 				A99FB6831F186C9600D6C447 /* shenbianTools */,
 				A9DDC3211F16422C00CFB5F3 /* tabbarItemOne */,
 				A9DDC3251F16424200CFB5F3 /* tabbarItemTwo */,
@@ -467,6 +471,15 @@
 			path = CHExtension;
 			sourceTree = "<group>";
 		};
+		FD59192A1F63161100FD7913 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				FD59192E1F63167900FD7913 /* CHLoginViewController.h */,
+				FD59192F1F63167900FD7913 /* CHLoginViewController.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		FD9448AA1F52ED48001FC5CD /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -600,7 +613,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E55540464768C1AE42016042 /* [CP] Embed Pods Frameworks */ = {
@@ -666,6 +679,7 @@
 				A99FB6981F1A159C00D6C447 /* FocusTableViewCell.m in Sources */,
 				FD1DCEB81F5AAD6400136B3D /* CHOverbalanceModel.m in Sources */,
 				FD1DCEB21F5AA99C00136B3D /* CHOverbalanceView.m in Sources */,
+				FD5919301F63167900FD7913 /* CHLoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,7 +23,6 @@
 
 #import "IQTextView.h"
 
-#import <UIKit/NSTextContainer.h>
 #import <UIKit/UILabel.h>
 #import <UIKit/UINibLoading.h>
 
@@ -108,13 +107,8 @@
 {
     [super layoutSubviews];
 
-    CGFloat offsetLeft = self.textContainerInset.left + self.textContainer.lineFragmentPadding;
-    CGFloat offsetRight = self.textContainerInset.right + self.textContainer.lineFragmentPadding;
-    CGFloat offsetTop = self.textContainerInset.top;
-    CGFloat offsetBottom = self.textContainerInset.bottom;
-
-    CGSize expectedSize = [placeHolderLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.frame)-offsetLeft-offsetRight, CGRectGetHeight(self.frame)-offsetTop-offsetBottom)];
-    placeHolderLabel.frame = CGRectMake(offsetLeft, offsetTop, expectedSize.width, expectedSize.height);
+    [placeHolderLabel sizeToFit];
+    placeHolderLabel.frame = CGRectMake(4, 8, CGRectGetWidth(self.frame)-16, CGRectGetHeight(placeHolderLabel.frame));
 }
 
 -(void)setPlaceholder:(NSString *)placeholder

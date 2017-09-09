@@ -29,11 +29,11 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [IQKeyboardManager sharedManager].shouldShowToolbarPlaceholder = NO;
+    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
     [self.view addSubview:self.tf_articleTitle];
     [self.tf_articleTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view).offset(10);
+        make.left.right.equalTo(self.view).offset(20);
         make.top.mas_equalTo(70);
         make.height.mas_equalTo(40);
         
@@ -51,7 +51,7 @@
     
     [self.view addSubview:self.tv_content];
     [self.tv_content mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.equalTo(self.view).offset(10);
+        make.left.bottom.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-10);
         make.top.equalTo(self.dashLine.mas_bottom).offset(10);
     }];

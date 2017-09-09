@@ -44,6 +44,7 @@
     if (_iconImageView == nil) {
         _iconImageView = [[UIImageView alloc]init];
         _iconImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _iconImageView.layer.cornerRadius = 5;
     }
     return _iconImageView;
 }
