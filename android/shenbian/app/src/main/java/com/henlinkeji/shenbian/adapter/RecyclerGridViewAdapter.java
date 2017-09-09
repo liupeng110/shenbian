@@ -20,9 +20,9 @@ import java.util.List;
 
 public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridViewAdapter.ViewHolder> {
     private Context mContext;
-    private List<String> data=new ArrayList<>();
-    private List<String> imgdata1=new ArrayList<>();
-    private List<Integer> imgdata2=new ArrayList<>();
+    private List<String> data = new ArrayList<>();
+    private List<String> imgdata1 = new ArrayList<>();
+    private List<Integer> imgdata2 = new ArrayList<>();
     private LayoutInflater inf;
 
     public interface OnRecyclerViewItemListener {
@@ -42,12 +42,13 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
         inf = LayoutInflater.from(mContext);
     }
 
-    public void setNetData(List<String> data,List<String> imgdata) {
+    public void setNetData(List<String> data, List<String> imgdata) {
         this.data = data;
         this.imgdata1 = imgdata;
         notifyDataSetChanged();
     }
-    public void setLocalData(List<String> data,List<Integer> imgdata) {
+
+    public void setLocalData(List<String> data, List<Integer> imgdata) {
         this.data = data;
         this.imgdata2 = imgdata;
         notifyDataSetChanged();
@@ -72,10 +73,10 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             itemOnLongClick(viewHolder);
         }
         viewHolder.textView.setText(data.get(i));
-        if (imgdata2!=null){
-            viewHolder.imageView.setBackgroundResource(imgdata2.get(i));
-        }else if (imgdata1!=null){
+        if (imgdata1.size()>=data.size()) {
             viewHolder.imageView.setImageURI(Uri.parse(imgdata1.get(i)));
+        } else {
+            viewHolder.imageView.setBackgroundResource(imgdata2.get(i));
         }
     }
 
@@ -98,6 +99,7 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             imageView = (SimpleDraweeView) itemView.findViewById(R.id.img);
         }
     }
+
     //单机事件
     private void itemOnClick(final RecyclerView.ViewHolder holder) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +110,7 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             }
         });
     }
+
     //长按事件
     private void itemOnLongClick(final RecyclerView.ViewHolder holder) {
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

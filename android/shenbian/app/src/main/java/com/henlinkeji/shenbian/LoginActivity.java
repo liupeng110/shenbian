@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +18,14 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.callback.OperationCallback;
+import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.HttpUtils;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;
 import com.henlinkeji.shenbian.base.view.ShowDialog;
+import com.henlinkeji.shenbian.bean.LoginResult;
+import com.henlinkeji.shenbian.bean.SendCode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +56,8 @@ public class LoginActivity extends BaseActivity {
     RelativeLayout taobaoRl;
 
     private CountDownTimer countDownTimer;
+
+    private String smsSessionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +92,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        String str="温馨提示：未注册身边的手机号，登录时将自动注册，且代表您已同意<font color='#009698'>《用户服务协议》</font>";
+        String str = "温馨提示：未注册身边的手机号，登录时将自动注册，且代表您已同意<font color='#009698'>《用户服务协议》</font>";
         agreeTv.setText(Html.fromHtml(str));
     }
 
@@ -103,10 +109,11 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 if (phoneEdt.getText().toString().length() > 0) {
                     if (Utils.isMobileNumber(phoneEdt.getText().toString().replace(" ", ""))) {
-                        ShowDialog.showSelectNoTitlePopup(LoginActivity.this, "我们将验证码发送至"+ phoneEdt.getText().toString().replace(" ", ""), R.string.sure, R.string.cancel, new OperationCallback() {
+                        ShowDialog.showSelectNoTitlePopup(LoginActivity.this, "我们将验证码发送至" + phoneEdt.getText().toString().replace(" ", ""), R.string.sure, R.string.cancel, new OperationCallback() {
                             @Override
                             public void execute() {
                                 requestVerifyCode(phoneEdt.getText().toString().replace(" ", ""));
+                                passwordEdt.setText("");
                             }
                         }, new OperationCallback() {
                             @Override
@@ -180,7 +187,7 @@ public class LoginActivity extends BaseActivity {
         submitTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (phoneEdt.getText().toString().length()<=0){
+                if (phoneEdt.getText().toString().length() <= 0) {
                     ShowDialog.showTipPopup(LoginActivity.this, "未输入手机号", R.string.sure, new OperationCallback() {
                         @Override
                         public void execute() {
@@ -188,7 +195,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     });
                     return;
-                }else if (!Utils.isMobileNumber(phoneEdt.getText().toString().replace(" ", ""))){
+                } else if (!Utils.isMobileNumber(phoneEdt.getText().toString().replace(" ", ""))) {
                     ShowDialog.showTipPopup(LoginActivity.this, "手机号格式不正确", R.string.sure, new OperationCallback() {
                         @Override
                         public void execute() {
@@ -196,7 +203,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     });
                     return;
-                }else if (passwordEdt.getText().toString().length()<=0) {
+                } else if (passwordEdt.getText().toString().length() <= 0) {
                     ShowDialog.showTipPopup(LoginActivity.this, "未输入验证码", R.string.sure, new OperationCallback() {
                         @Override
                         public void execute() {
@@ -204,57 +211,106 @@ public class LoginActivity extends BaseActivity {
                         }
                     });
                     return;
-                }else {
-                    ToastUtils.disPlayShort(LoginActivity.this, "登录");
+                } else {
+                    login();
                 }
             }
         });
         wechatRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.disPlayShort(LoginActivity.this,"微信登录");
+                ToastUtils.disPlayShort(LoginActivity.this, "微信登录");
             }
         });
         weiboRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.disPlayShort(LoginActivity.this,"微博登录");
+                ToastUtils.disPlayShort(LoginActivity.this, "微博登录");
             }
         });
         qqRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.disPlayShort(LoginActivity.this,"QQ登录");
+                ToastUtils.disPlayShort(LoginActivity.this, "QQ登录");
             }
         });
         taobaoRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.disPlayShort(LoginActivity.this,"淘宝登录");
+                ToastUtils.disPlayShort(LoginActivity.this, "淘宝登录");
             }
         });
     }
 
     private void requestVerifyCode(String phone) {
         Map<String, String> params = new HashMap<>();
-        params.put("phone", phone);
-        countDownTimer.start();
-//        HttpUtils.post(this, "", params, new HttpUtils.HttpPostCallBackListener() {
-//            @Override
-//            public void onSuccess(String response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(String response) {
-//                ShowDialog.showTipPopup(LoginActivity.this, "验证码发送失败请重新发送", R.string.sure, new OperationCallback() {
-//                    @Override
-//                    public void execute() {
-//
-//                    }
-//                });
-//            }
-//        });
+        params.put("mobile", phone);
+        HttpUtils.post(this, MyConfig.SEND_CODE, params, new HttpUtils.HttpPostCallBackListener() {
+            @Override
+            public void onSuccess(String response) {
+                SendCode sendCode=new  Gson().fromJson(response,SendCode.class);
+                if (sendCode.getStatus().equals("0000")) {
+                    if (sendCode.getData() != null) {
+                        countDownTimer.start();
+                        smsSessionId= sendCode.getData().getSmsSessionId();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String response) {
+                ShowDialog.showTipPopup(LoginActivity.this, "验证码发送失败请重新发送", R.string.sure, new OperationCallback() {
+                    @Override
+                    public void execute() {
+
+                    }
+                });
+            }
+        });
+    }
+    private void login() {
+        String phone=phoneEdt.getText().toString().replace(" ", "");
+        String code=passwordEdt.getText().toString().replace(" ", "");
+        Map<String, String> params = new HashMap<>();
+        params.put("mobile", phone);
+        params.put("code", code);
+        if (!TextUtils.isEmpty(smsSessionId)) {
+            params.put("smsSessionId", smsSessionId);
+        }else {
+            ShowDialog.showTipPopup(LoginActivity.this, "验证码已失效请重新获取", R.string.sure, new OperationCallback() {
+                @Override
+                public void execute() {
+
+                }
+            });
+            return;
+        }
+        HttpUtils.post(this, MyConfig.LOGIN, params, new HttpUtils.HttpPostCallBackListener() {
+            @Override
+            public void onSuccess(String response) {
+                LoginResult loginResult=new Gson().fromJson(response,LoginResult.class);
+                if (loginResult.getStatus().equals("0000")){
+
+                }else {
+                    ShowDialog.showTipPopup(LoginActivity.this, loginResult.getError(), R.string.sure, new OperationCallback() {
+                        @Override
+                        public void execute() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(String response) {
+                ShowDialog.showTipPopup(LoginActivity.this, "服务器内部错误，请稍后重试", R.string.sure, new OperationCallback() {
+                    @Override
+                    public void execute() {
+
+                    }
+                });
+            }
+        });
     }
 
 }
