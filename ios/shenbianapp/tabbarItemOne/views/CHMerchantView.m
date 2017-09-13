@@ -8,6 +8,7 @@
 
 #import "CHMerchantView.h"
 #import "CHMerchentTableViewCell.h"
+
 @interface CHMerchantView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UITableView *merchentTableView;
@@ -31,7 +32,7 @@
             [self.merchentTableView reloadData];
         }];
 
-        self.placeHolderList = @[@"leftHolder",@"rightHolder"];
+        self.placeHolderList = @[@"sy_sj_cover",@"sy_sj_cover"];
     }
     return self;
 }
@@ -67,12 +68,21 @@
     model.slodOut = [[dic objectForKey:@"sold_out"] integerValue];
     model.tagName = [dic objectForKey:@"tag_name"];
     cell.model = model;
+    cell.layer.cornerRadius = 5;
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     return 127;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+    CHMerchentModel *model = [[CHMerchentModel alloc] init];
+
+    self.selectedMerchant(model);
+
 }
 
 @end

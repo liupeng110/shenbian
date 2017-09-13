@@ -19,36 +19,83 @@
 @synthesize loadModels = _loadModels;
 
 -(RACCommand *)loadPagedata{
+    
     if (_loadPagedata == nil) {
         
         _loadPagedata = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
             
-            RACSignal *singal = [CHNetWork loadHomePageDataWithParam:param];
             
-            [singal subscribeNext:^(id x) {
-                
-                self.loadModels = x;
-                
-                                
-            } error:^(NSError *error) {
-                NSLog(@"error:%@",error);
-                //模拟数据
-                self.loadModels = @{
-                                    @"quik_search":@[@"寄快递",@"洗车",@"家教",@"海报设计",@"找律师",@"搬家",@"美妆",@"结婚"],@"category_item":@[@{@"item_name":@"找服务",@"iconimage_url":@""},@{@"item_name":@"找人",@"iconimage_url":@"" },@{@"item_name":@"找活动",@"iconimage_url":@"" },@{@"item_name":@"找工作",@"iconimage_url":@"" },@{@"item_name":@"找租房",@"iconimage_url":@"" },@{@"item_name":@"学技能",@"iconimage_url":@"" },@{@"item_name":@"修手机、修电脑",@"iconimage_url":@""},@{@"item_name":@"全部分类",@"iconimage_url":@"" }],
-                                    
-                                    @"over_balance":@[@{@"cover_url":@"title",@"cover_url":@"title",},@{@"cover_url":@"title",@"cover_url":@"title",}],
-                                    
-                                    @"merchent":@[@{@"icon_url":@"",@"rating":@"4.8(122)",@"distance":@(300),@"merchent_name":@"永和打印店",@"content":@"大家好，世界就好",@"sold_out":@(980),@"tag_name":@"设计",@"":@"",},@{@"icon_url":@"",@"rating":@"4.8(122)",@"distance":@(300),@"merchent_name":@"嘉和一品店",@"content":@"大家好，世界就好，你来了就好",@"sold_out":@(980),@"tag_name":@"设计",@"":@"",}],
-                                    
-                                    };
-                
-            }];
             
-            return singal;
+            return nil;
         }];
     }
     
     return _loadPagedata;
 }
+
+
+-(RACCommand *)loadTopData{
+    
+    if (_loadTopData == nil) {
+        _loadTopData = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
+            
+            RACSignal *singal = [CHNetWork loadHomePageDataWithParam:param withUrlString:HomeTopData];
+            
+            return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                
+                [singal subscribeNext:^(id x) {
+                    
+                    self.topDataList = x;
+                    
+                } error:^(NSError *error) {
+                    NSLog(@"error:%@",error);
+                    //模拟数据
+                    self.topDataList = @{@"data":@{
+                                                 @"categories":@[@"寄快递",@"洗车",@"家教",@"海报设计",@"找律师",@"搬家",@"美妆",@"结婚"],@"imgInfo":@[@{@"text":@"找服务",@"url":@""},@{@"text":@"找人",@"url":@"" },@{@"text":@"找活动",@"url":@"" },@{@"text":@"找工作",@"url":@"" },@{@"text":@"找租房",@"url":@"" },@{@"text":@"学技能",@"url":@"" },@{@"text":@"修手机、修电脑",@"url":@""},@{@"text":@"全部分类",@"url":@"" }]},};
+                    
+                }];
+                
+                return  nil;
+            }];
+            
+           
+        }];
+    }
+    
+    return _loadTopData;
+}
+
+
+-(RACCommand *)loadBottomData{
+    
+    
+    if (_loadBottomData == nil) {
+        
+        _loadBottomData = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
+            RACSignal *singal = [CHNetWork loadHomePageDataWithParam:param withUrlString:HomeBottomData];
+            
+            return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                
+                [singal subscribeNext:^(id x) {
+                    
+                    self.bottomDataList = x;
+                    
+                } error:^(NSError *error) {
+                    NSLog(@"error:%@",error);
+                    //模拟数据
+                    self.bottomDataList = @{@"data":@{
+                                                 @"categories":@[@"寄快递",@"洗车",@"家教",@"海报设计",@"找律师",@"搬家",@"美妆",@"结婚"],@"imgInfo":@[@{@"text":@"找服务",@"url":@""},@{@"text":@"找人",@"url":@"" },@{@"text":@"找活动",@"url":@"" },@{@"text":@"找工作",@"url":@"" },@{@"text":@"找租房",@"url":@"" },@{@"text":@"学技能",@"url":@"" },@{@"text":@"修手机、修电脑",@"url":@""},@{@"text":@"全部分类",@"url":@"" }]},};
+                    
+                }];
+                
+                return  nil;
+            }];
+            
+        }];
+        
+    }
+    return _loadBottomData;
+}
+
 
 @end

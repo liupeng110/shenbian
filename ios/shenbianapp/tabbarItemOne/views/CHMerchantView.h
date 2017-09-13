@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHMerchentModel.h"
+
+typedef void(^SelectedMerchant)(CHMerchentModel *model);
 
 @interface CHMerchantView : UIView
 @property(nonatomic,strong)NSArray *merchentList;
+@property(nonatomic,copy)SelectedMerchant selectedMerchant;
+
 @end

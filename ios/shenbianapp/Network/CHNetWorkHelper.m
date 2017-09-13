@@ -19,36 +19,52 @@
     return instance;
 }
 
--(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param{
+-(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
+    
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]init];
     
-    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-   
-    manager.requestSerializer = requestSerializer;
+    AFSecurityPolicy *security = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
     
-    NSString *urlString = [NSString stringWithFormat:@"%@,%@",DomainURL,@"--------"];
+    [security setValidatesDomainName:NO];
     
-    RACSignal *signal = [manager rac_POST:urlString parameters:param];
+    security.allowInvalidCertificates = YES;
+    //
+    manager.securityPolicy = security;
+    manager.responseSerializer.acceptableContentTypes = [manager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
+    //
+    //    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+    //    [requestSerializer setValue:@"*/*" forHTTPHeaderField:@"accept"];
+    //    [requestSerializer setValue:@"*/*; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+    //    [requestSerializer setValue:@"Keep-Alive" forHTTPHeaderField:@"connection"];
+    //
+    //    manager.requestSerializer = requestSerializer;
     
-    signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
+     RACSignal *signal =  [manager rac_POST:urlString parameters:param];
+    
+      signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
+        
+
         RACTupleUnpack(NSDictionary *json) = tuple;
+        
         return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
             
+
             if (json != nil) {
                 [subscriber sendNext:json];
                 [subscriber sendCompleted];
             } else {
                 NSError *error = [NSError errorWithDomain:@"json 出错" code:10000 userInfo:nil];
                 [subscriber sendError:error];
+                [subscriber sendCompleted];
+
             }
-            
-            return nil;
+            return  nil;
         }];
     }];
     
-    return signal;
     
+    return signal;
 }
 
 @end

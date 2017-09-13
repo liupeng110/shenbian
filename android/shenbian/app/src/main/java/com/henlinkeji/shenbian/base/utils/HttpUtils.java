@@ -64,6 +64,7 @@ public class HttpUtils {
         OkHttpUtils.post().url(url).params(params).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                LogUtil.e("===onError====" + e.getMessage());
                 loadingDialog.exit();
                 if (httpPostCallBackListener != null) {
                     httpPostCallBackListener.onFailure(e.getMessage());
@@ -72,6 +73,7 @@ public class HttpUtils {
 
             @Override
             public void onResponse(String response, int id) {
+                LogUtil.e("===onResponse====" + response);
                 loadingDialog.exit();
                 if (httpPostCallBackListener != null) {
                     httpPostCallBackListener.onSuccess(response);

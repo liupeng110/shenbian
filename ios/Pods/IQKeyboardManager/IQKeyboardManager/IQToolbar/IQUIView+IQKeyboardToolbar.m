@@ -23,7 +23,10 @@
 
 
 #import "IQUIView+IQKeyboardToolbar.h"
+#import "IQToolbar.h"
+#import "IQTitleBarButtonItem.h"
 #import "IQKeyboardManagerConstantsInternal.h"
+#import "IQBarButtonItem.h"
 #import "IQKeyboardManager.h"
 #import <UIKit/UIImage.h>
 #import <UIKit/UILabel.h>
@@ -33,83 +36,51 @@
 /*UIKeyboardToolbar Category implementation*/
 @implementation UIView (IQToolbarAddition)
 
--(IQToolbar *)keyboardToolbar
-{
-    IQToolbar *keyboardToolbar = nil;
-    if ([[self inputAccessoryView] isKindOfClass:[IQToolbar class]])
-    {
-        keyboardToolbar = [self inputAccessoryView];
-    }
-    else
-    {
-        keyboardToolbar = objc_getAssociatedObject(self, @selector(keyboardToolbar));
-        
-        if (keyboardToolbar == nil)
-        {
-            keyboardToolbar = [[IQToolbar alloc] init];
-            
-            objc_setAssociatedObject(self, @selector(keyboardToolbar), keyboardToolbar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        }
-    }
-    
-    return keyboardToolbar;
-}
-
--(void)setShouldHideToolbarPlaceholder:(BOOL)shouldHideToolbarPlaceholder
-{
-    objc_setAssociatedObject(self, @selector(shouldHideToolbarPlaceholder), @(shouldHideToolbarPlaceholder), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-
-    self.keyboardToolbar.titleBarButton.title = self.drawingToolbarPlaceholder;
-}
-
--(BOOL)shouldHideToolbarPlaceholder
-{
-    NSNumber *shouldHideToolbarPlaceholder = objc_getAssociatedObject(self, @selector(shouldHideToolbarPlaceholder));
-    return [shouldHideToolbarPlaceholder boolValue];
-}
-
 -(void)setShouldHidePlaceholderText:(BOOL)shouldHidePlaceholderText
 {
-    [self setShouldHideToolbarPlaceholder:shouldHidePlaceholderText];
+    objc_setAssociatedObject(self, @selector(shouldHidePlaceholderText), @(shouldHidePlaceholderText), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    if ([self respondsToSelector:@selector(placeholder)] && [self.inputAccessoryView respondsToSelector:@selector(setTitle:)])
+    {
+        UITextField *textField = (UITextField*)self;
+        IQToolbar *toolbar = (IQToolbar*)[self inputAccessoryView];
+        toolbar.title = textField.drawingPlaceholderText;
+    }
 }
 
 -(BOOL)shouldHidePlaceholderText
 {
-    return [self shouldHideToolbarPlaceholder];
-}
-
--(void)setToolbarPlaceholder:(NSString *)toolbarPlaceholder
-{
-    objc_setAssociatedObject(self, @selector(toolbarPlaceholder), toolbarPlaceholder, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-
-    self.keyboardToolbar.titleBarButton.title = self.drawingToolbarPlaceholder;
-}
-
--(NSString *)toolbarPlaceholder
-{
-    NSString *toolbarPlaceholder = objc_getAssociatedObject(self, @selector(toolbarPlaceholder));
-    return toolbarPlaceholder;
+    NSNumber *shouldHidePlaceholderText = objc_getAssociatedObject(self, @selector(shouldHidePlaceholderText));
+    return [shouldHidePlaceholderText boolValue];
 }
 
 -(void)setPlaceholderText:(NSString*)placeholderText
 {
-    [self setToolbarPlaceholder:placeholderText];
+    objc_setAssociatedObject(self, @selector(placeholderText), placeholderText, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+    if ([self respondsToSelector:@selector(placeholder)] && [self.inputAccessoryView respondsToSelector:@selector(setTitle:)])
+    {
+        UITextField *textField = (UITextField*)self;
+        IQToolbar *toolbar = (IQToolbar*)[self inputAccessoryView];
+        toolbar.title = textField.drawingPlaceholderText;
+    }
 }
 
 -(NSString*)placeholderText
 {
-    return [self toolbarPlaceholder];
+    NSString *placeholderText = objc_getAssociatedObject(self, @selector(placeholderText));
+    return placeholderText;
 }
 
--(NSString *)drawingToolbarPlaceholder
+-(NSString*)drawingPlaceholderText
 {
-    if (self.shouldHideToolbarPlaceholder)
+    if (self.shouldHidePlaceholderText)
     {
         return nil;
     }
-    else if (self.toolbarPlaceholder.length != 0)
+    else if (self.placeholderText.length != 0)
     {
-        return self.toolbarPlaceholder;
+        return self.placeholderText;
     }
     else if ([self respondsToSelector:@selector(placeholder)])
     {
@@ -121,14 +92,120 @@
     }
 }
 
--(NSString*)drawingPlaceholderText
+-(void)setTitleTarget:(nullable id)target action:(nullable SEL)action
 {
-    return [self drawingToolbarPlaceholder];
+    NSInvocation *invocation = nil;
+    
+    if (target && action)
+    {
+        invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:action]];
+        invocation.target = target;
+        invocation.selector = action;
+        UIView *selfObject = self;
+        [invocation setArgument:&selfObject atIndex:2];
+    }
+    
+    self.titleInvocation = invocation;
+}
+
+-(void)setTitleInvocation:(NSInvocation *)titleInvocation
+{
+    objc_setAssociatedObject(self, @selector(titleInvocation), titleInvocation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+    if ([self.inputAccessoryView isKindOfClass:[IQToolbar class]])
+    {
+        IQToolbar *toolbar = (IQToolbar*)[self inputAccessoryView];
+        toolbar.titleInvocation = titleInvocation;
+    }
+}
+
+-(NSInvocation *)titleInvocation
+{
+    return objc_getAssociatedObject(self, @selector(titleInvocation));
+}
+
+
+-(void)setCustomPreviousTarget:(id)target action:(SEL)action
+{
+    NSInvocation *invocation = nil;
+    
+    if (target && action)
+    {
+        invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:action]];
+        invocation.target = target;
+        invocation.selector = action;
+        UIView *selfObject = self;
+        [invocation setArgument:&selfObject atIndex:2];
+    }
+    
+    self.previousInvocation = invocation;
+}
+
+-(void)setCustomNextTarget:(id)target action:(SEL)action
+{
+    NSInvocation *invocation = nil;
+    
+    if (target && action)
+    {
+        invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:action]];
+        invocation.target = target;
+        invocation.selector = action;
+        UIView *selfObject = self;
+        [invocation setArgument:&selfObject atIndex:2];
+    }
+    
+    self.nextInvocation = invocation;
+}
+
+-(void)setCustomDoneTarget:(id)target action:(SEL)action
+{
+    NSInvocation *invocation = nil;
+    
+    if (target && action)
+    {
+        invocation = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:action]];
+        invocation.target = target;
+        invocation.selector = action;
+        UIView *selfObject = self;
+        [invocation setArgument:&selfObject atIndex:2];
+    }
+    
+    self.doneInvocation = invocation;
+}
+
+-(void)setPreviousInvocation:(NSInvocation *)previousInvocation
+{
+    objc_setAssociatedObject(self, @selector(previousInvocation), previousInvocation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(void)setNextInvocation:(NSInvocation *)nextInvocation
+{
+    objc_setAssociatedObject(self, @selector(nextInvocation), nextInvocation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(void)setDoneInvocation:(NSInvocation *)doneInvocation
+{
+    objc_setAssociatedObject(self, @selector(doneInvocation), doneInvocation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(NSInvocation *)previousInvocation
+{
+    return objc_getAssociatedObject(self, @selector(previousInvocation));
+}
+
+-(NSInvocation *)nextInvocation
+{
+    return objc_getAssociatedObject(self, @selector(nextInvocation));
+}
+
+-(NSInvocation *)doneInvocation
+{
+    return objc_getAssociatedObject(self, @selector(doneInvocation));
 }
 
 #pragma mark - Private helper
 
-+(IQBarButtonItem*)flexibleBarButtonItem
++(UIBarButtonItem*)flexibleBarButtonItem
 {
     static IQBarButtonItem *nilButton = nil;
     
@@ -148,7 +225,8 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
+    toolbar.doneImage = image;
     
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
@@ -159,45 +237,25 @@
         }
     }
     
-    NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
     
-    //Flexible space
-    [items addObject:[[self class] flexibleBarButtonItem]];
-
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Right button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton.title = nil;
-        doneButton.image = image;
-        doneButton.target = target;
-        doneButton.action = action;
-    }
-    else
-    {
-        doneButton = [[IQBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleDone target:target action:action];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-    
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleDone target:target action:action];
+    doneButton.accessibilityLabel = @"Toolbar Done Button";
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
-    //  Setting toolbar to keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
+    //  Setting toolbar to textFieldPhoneNumber keyboard.
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -206,7 +264,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addRightButtonOnKeyboardWithImage:image target:target action:action titleText:title];
 }
@@ -217,7 +275,8 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
+    toolbar.doneTitle = text;
 
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
@@ -228,45 +287,24 @@
         }
     }
     
-	NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
+	NSMutableArray *items = [[NSMutableArray alloc] init];
     
-    //Flexible space
-    [items addObject:[[self class] flexibleBarButtonItem]];
-
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Right button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton.title = text;
-        doneButton.image = nil;
-        doneButton.target = target;
-        doneButton.action = action;
-    }
-    else
-    {
-        doneButton =[[IQBarButtonItem alloc] initWithTitle:text style:UIBarButtonItemStyleDone target:target action:action];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:text style:UIBarButtonItemStyleDone target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
-    //  Setting toolbar to keyboard.
+    //  Setting toolbar to textFieldPhoneNumber keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -275,7 +313,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addRightButtonOnKeyboardWithText:text target:target action:action titleText:title];
 }
@@ -292,7 +330,7 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
 
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
@@ -303,38 +341,24 @@
         }
     }
  	
-	NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
-
-    //Flexible space
-    [items addObject:[[self class] flexibleBarButtonItem]];
+	NSMutableArray *items = [[NSMutableArray alloc] init];
 
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Done button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:action];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-    
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:action];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
-    //  Setting toolbar to keyboard.
+    //  Setting toolbar to textFieldPhoneNumber keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -343,7 +367,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addDoneOnKeyboardWithTarget:target action:action titleText:title];
 }
@@ -359,7 +383,8 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
+    toolbar.doneTitle = rightTitle;
     
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
@@ -370,64 +395,31 @@
         }
     }
     
-    NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
     
     //Left button
-    IQBarButtonItem *cancelButton = toolbar.previousBarButton;
-    if (cancelButton.isSystemItem == NO)
-    {
-        cancelButton.title = leftTitle;
-        cancelButton.image = nil;
-        cancelButton.target = target;
-        cancelButton.action = leftAction;
-    }
-    else
-    {
-        cancelButton = [[IQBarButtonItem alloc] initWithTitle:leftTitle style:UIBarButtonItemStylePlain target:target action:leftAction];
-        cancelButton.invocation = toolbar.previousBarButton.invocation;
-        cancelButton.accessibilityLabel = toolbar.previousBarButton.accessibilityLabel;
-        toolbar.previousBarButton = cancelButton;
-    }
-
+    IQBarButtonItem *cancelButton =[[IQBarButtonItem alloc] initWithTitle:leftTitle style:UIBarButtonItemStylePlain target:target action:leftAction];
     [items addObject:cancelButton];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Right button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton.title = rightTitle;
-        doneButton.image = nil;
-        doneButton.target = target;
-        doneButton.action = rightAction;
-    }
-    else
-    {
-        doneButton =[[IQBarButtonItem alloc] initWithTitle:rightTitle style:UIBarButtonItemStyleDone target:target action:rightAction];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:rightTitle style:UIBarButtonItemStyleDone target:target action:rightAction];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
     //  Setting toolbar to keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -436,7 +428,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addLeftRightOnKeyboardWithTarget:target leftButtonTitle:leftTitle rightButtonTitle:rightTitle leftButtonAction:leftAction rightButtonAction:rightAction titleText:title];
 }
@@ -452,7 +444,7 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
         switch ([(UITextField*)self keyboardAppearance])
@@ -462,50 +454,31 @@
         }
     }
     
-    NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
     
     //Cancel button
-    IQBarButtonItem *cancelButton = toolbar.previousBarButton;
-    if (cancelButton.isSystemItem == NO)
-    {
-        cancelButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:target action:cancelAction];
-        cancelButton.invocation = toolbar.previousBarButton.invocation;
-        cancelButton.accessibilityLabel = toolbar.previousBarButton.accessibilityLabel;
-        toolbar.previousBarButton = cancelButton;
-    }
-
+    IQBarButtonItem *cancelButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:target action:cancelAction];
     [items addObject:cancelButton];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Done button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
     //  Setting toolbar to keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -514,7 +487,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addCancelDoneOnKeyboardWithTarget:target cancelAction:cancelAction doneAction:doneAction titleText:title];
 }
@@ -530,7 +503,7 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for phoneNumber keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
         switch ([(UITextField*)self keyboardAppearance])
@@ -540,8 +513,11 @@
         }
     }
  
-	NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
+	NSMutableArray *items = [[NSMutableArray alloc] init];
 	
+    //        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
+    //        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
+    
     // Get the top level "bundle" which may actually be the framework
     NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
     
@@ -574,22 +550,8 @@
     }
     
     //Previous button
-    IQBarButtonItem *prev = toolbar.previousBarButton;
-    if (prev.isSystemItem == NO)
-    {
-        prev.title = nil;
-        prev.image = imageLeftArrow;
-        prev.target = target;
-        prev.action = previousAction;
-    }
-    else
-    {
-        prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
-        prev.invocation = toolbar.previousBarButton.invocation;
-        prev.accessibilityLabel = toolbar.previousBarButton.accessibilityLabel;
-        toolbar.previousBarButton = prev;
-    }
-    
+    IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
+    prev.accessibilityLabel = @"Toolbar Previous Button";
     [items addObject:prev];
 
     //Fixed space
@@ -602,54 +564,29 @@
     [items addObject:fixed];
     
     //Next button
-    IQBarButtonItem *next = toolbar.nextBarButton;
-    if (next.isSystemItem == NO)
-    {
-        next.title = nil;
-        next.image = imageRightArrow;
-        next.target = target;
-        next.action = nextAction;
-    }
-    else
-    {
-        next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
-        next.invocation = toolbar.nextBarButton.invocation;
-        next.accessibilityLabel = toolbar.nextBarButton.accessibilityLabel;
-        toolbar.nextBarButton = next;
-    }
-
+    IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
+    next.accessibilityLabel = @"Toolbar Next Button";
     [items addObject:next];
 
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Done button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-
-    [items addObject:doneButton];
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:target action:doneAction];
+	[items addObject:doneButton];
 	
     //  Adding button to toolBar.
     [toolbar setItems:items];
 	
     //  Setting toolbar to keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -658,7 +595,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addPreviousNextDoneOnKeyboardWithTarget:target previousAction:previousAction nextAction:nextAction doneAction:doneAction titleText:title];
 }
@@ -674,7 +611,8 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for phoneNumber keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
+    toolbar.doneImage = rightButtonImage;
     
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
@@ -685,7 +623,10 @@
         }
     }
     
-    NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    
+    //        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
+    //        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
     
     // Get the top level "bundle" which may actually be the framework
     NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
@@ -716,22 +657,8 @@
     }
 
     //Previous button
-    IQBarButtonItem *prev = toolbar.previousBarButton;
-    if (prev.isSystemItem == NO)
-    {
-        prev.title = nil;
-        prev.image = imageLeftArrow;
-        prev.target = target;
-        prev.action = previousAction;
-    }
-    else
-    {
-        prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
-        prev.invocation = toolbar.previousBarButton.invocation;
-        prev.accessibilityLabel = toolbar.previousBarButton.accessibilityLabel;
-        toolbar.previousBarButton = prev;
-    }
-
+    IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
+    prev.accessibilityLabel = @"Toolbar Previous Button";
     [items addObject:prev];
     
     //Fixed space
@@ -744,61 +671,30 @@
     [items addObject:fixed];
     
     //Next button
-    IQBarButtonItem *next = toolbar.nextBarButton;
-    if (next.isSystemItem == NO)
-    {
-        next.title = nil;
-        next.image = imageRightArrow;
-        next.target = target;
-        next.action = nextAction;
-    }
-    else
-    {
-        next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
-        next.invocation = toolbar.nextBarButton.invocation;
-        next.accessibilityLabel = toolbar.nextBarButton.accessibilityLabel;
-        toolbar.nextBarButton = next;
-    }
-
+    IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
+    next.accessibilityLabel = @"Toolbar Next Button";
     [items addObject:next];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Right button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton.title = nil;
-        doneButton.image = rightButtonImage;
-        doneButton.target = target;
-        doneButton.action = rightButtonAction;
-    }
-    else
-    {
-        doneButton = [[IQBarButtonItem alloc] initWithImage:rightButtonImage style:UIBarButtonItemStyleDone target:target action:rightButtonAction];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-
+    IQBarButtonItem *doneButton = [[IQBarButtonItem alloc] initWithImage:rightButtonImage style:UIBarButtonItemStyleDone target:target action:rightButtonAction];
+    doneButton.accessibilityLabel = @"Toolbar Done Button";
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
     //  Setting toolbar to keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -807,7 +703,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addPreviousNextRightOnKeyboardWithTarget:target rightButtonImage:rightButtonImage previousAction:previousAction nextAction:nextAction rightButtonAction:rightButtonAction titleText:title];
 }
@@ -818,7 +714,8 @@
     if (![self respondsToSelector:@selector(setInputAccessoryView:)])    return;
     
     //  Creating a toolBar for phoneNumber keyboard
-    IQToolbar *toolbar = self.keyboardToolbar;
+    IQToolbar *toolbar = [[IQToolbar alloc] init];
+    toolbar.doneTitle = rightButtonTitle;
 
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
@@ -829,7 +726,10 @@
         }
     }
     
-    NSMutableArray<UIBarButtonItem*> *items = [[NSMutableArray alloc] init];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    
+    //        UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:105 target:target action:previousAction];
+    //        UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:106 target:target action:nextAction];
     
     // Get the top level "bundle" which may actually be the framework
     NSBundle *mainBundle = [NSBundle bundleForClass:[IQKeyboardManager class]];
@@ -860,21 +760,8 @@
     }
     
     //Previous button
-    IQBarButtonItem *prev = toolbar.previousBarButton;
-    if (prev.isSystemItem == NO)
-    {
-        prev.title = nil;
-        prev.image = imageLeftArrow;
-        prev.target = target;
-        prev.action = previousAction;
-    }
-    else
-    {
-        prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
-        prev.invocation = toolbar.previousBarButton.invocation;
-        prev.accessibilityLabel = toolbar.previousBarButton.accessibilityLabel;
-        toolbar.previousBarButton = prev;
-    }
+    IQBarButtonItem *prev = [[IQBarButtonItem alloc] initWithImage:imageLeftArrow style:UIBarButtonItemStylePlain target:target action:previousAction];
+    prev.accessibilityLabel = @"Toolbar Previous Button";
     [items addObject:prev];
     
     //Fixed space
@@ -887,60 +774,29 @@
     [items addObject:fixed];
     
     //Next button
-    IQBarButtonItem *next = toolbar.nextBarButton;
-    if (next.isSystemItem == NO)
-    {
-        next.title = nil;
-        next.image = imageRightArrow;
-        next.target = target;
-        next.action = nextAction;
-    }
-    else
-    {
-        next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
-        next.invocation = toolbar.nextBarButton.invocation;
-        next.accessibilityLabel = toolbar.nextBarButton.accessibilityLabel;
-        toolbar.nextBarButton = next;
-    }
+    IQBarButtonItem *next = [[IQBarButtonItem alloc] initWithImage:imageRightArrow style:UIBarButtonItemStylePlain target:target action:nextAction];
+    next.accessibilityLabel = @"Toolbar Next Button";
     [items addObject:next];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Title button
-    toolbar.titleBarButton.title = self.shouldHideToolbarPlaceholder?nil:titleText;
-    if (IQ_IS_IOS11_OR_GREATER == NO)
-    {
-        toolbar.titleBarButton.customView.frame = CGRectZero;
-    }
-    [items addObject:toolbar.titleBarButton];
+    IQTitleBarButtonItem *title = [[IQTitleBarButtonItem alloc] initWithTitle:self.shouldHidePlaceholderText?nil:titleText];
+    [items addObject:title];
     
     //Flexible space
     [items addObject:[[self class] flexibleBarButtonItem]];
     
     //Right button
-    IQBarButtonItem *doneButton = toolbar.doneBarButton;
-    if (doneButton.isSystemItem == NO)
-    {
-        doneButton.title = rightButtonTitle;
-        doneButton.image = nil;
-        doneButton.target = target;
-        doneButton.action = rightButtonAction;
-    }
-    else
-    {
-        doneButton =[[IQBarButtonItem alloc] initWithTitle:rightButtonTitle style:UIBarButtonItemStyleDone target:target action:rightButtonAction];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
-    }
-
+    IQBarButtonItem *doneButton =[[IQBarButtonItem alloc] initWithTitle:rightButtonTitle style:UIBarButtonItemStyleDone target:target action:rightButtonAction];
     [items addObject:doneButton];
     
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
     //  Setting toolbar to keyboard.
+    toolbar.titleInvocation = self.titleInvocation;
     [(UITextField*)self setInputAccessoryView:toolbar];
 }
 
@@ -949,7 +805,7 @@
     NSString *title = nil;
     
     if (shouldShowPlaceholder)
-        title = [self drawingToolbarPlaceholder];
+        title = [self drawingPlaceholderText];
     
     [self addPreviousNextRightOnKeyboardWithTarget:target rightButtonTitle:rightButtonTitle previousAction:previousAction nextAction:nextAction rightButtonAction:rightButtonAction titleText:title];
 }
@@ -957,6 +813,32 @@
 - (void)addPreviousNextRightOnKeyboardWithTarget:(id)target rightButtonTitle:(NSString*)rightButtonTitle previousAction:(SEL)previousAction nextAction:(SEL)nextAction rightButtonAction:(SEL)rightButtonAction
 {
     [self addPreviousNextRightOnKeyboardWithTarget:target rightButtonTitle:rightButtonTitle previousAction:previousAction nextAction:nextAction rightButtonAction:rightButtonAction titleText:nil];
+}
+
+-(void)setEnablePrevious:(BOOL)isPreviousEnabled next:(BOOL)isNextEnabled
+{
+    //  Getting inputAccessoryView.
+    IQToolbar *inputAccessoryView = (IQToolbar*)[self inputAccessoryView];
+    
+    //  If it is IQToolbar and it's items are greater than zero.
+    if ([inputAccessoryView isKindOfClass:[IQToolbar class]] && [[inputAccessoryView items] count]>0)
+    {
+		if ([[inputAccessoryView items] count]>3)
+		{
+			//  Getting first item from inputAccessoryView.
+			IQBarButtonItem *prevButton = (IQBarButtonItem*)[inputAccessoryView items][0];
+			IQBarButtonItem *nextButton = (IQBarButtonItem*)[inputAccessoryView items][2];
+			
+			//  If it is UIBarButtonItem and it's customView is not nil.
+			if ([prevButton isKindOfClass:[IQBarButtonItem class]] && [nextButton isKindOfClass:[IQBarButtonItem class]])
+			{
+                if (prevButton.enabled != isPreviousEnabled)
+                    [prevButton setEnabled:isPreviousEnabled];
+                if (nextButton.enabled != isNextEnabled)
+                    [nextButton setEnabled:isNextEnabled];
+			}
+		}
+    }
 }
 
 @end

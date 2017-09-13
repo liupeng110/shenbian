@@ -25,7 +25,6 @@
         self.originRect =  frame;
         self.clipsToBounds = YES;
 
-        self.backgroundColor = [UIColor purpleColor];
 
         [self addSubview:self.leftTopLabel];
         [self.leftTopLabel mas_makeConstraints:^(MASConstraintMaker *make) {

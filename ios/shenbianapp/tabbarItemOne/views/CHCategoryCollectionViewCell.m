@@ -19,8 +19,8 @@
 -(instancetype)initWithFrame:(CGRect)frame{
 
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor purpleColor];
 
+        
         [self addSubview:self.iconImageView];
         [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
@@ -44,6 +44,7 @@
     if (_iconImageView == nil) {
         _iconImageView = [[UIImageView alloc]init];
         _iconImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _iconImageView.layer.cornerRadius = 5;
     }
     return _iconImageView;
 }

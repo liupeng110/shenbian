@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CHBasePresentViewController : UIViewController
-@property(nonatomic,strong) LXButton *closeBtn;
+@property(nonatomic,strong) LXButton *lefgtButton;
 @property(nonatomic,strong) LXButton *rightTopButton;
+@property(nonatomic,strong)UIView *topView;
 
 - (void)clickRightTopButton:(UIButton*)button;
 @end
