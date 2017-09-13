@@ -8,6 +8,7 @@
 
 #import "CHMerchantView.h"
 #import "CHMerchentTableViewCell.h"
+
 @interface CHMerchantView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UITableView *merchentTableView;
@@ -74,6 +75,14 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     return 127;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+    CHMerchentModel *model = [[CHMerchentModel alloc] init];
+
+    self.selectedMerchant(model);
+
 }
 
 @end

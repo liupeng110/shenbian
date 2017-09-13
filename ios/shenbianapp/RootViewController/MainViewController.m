@@ -25,7 +25,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self addChildVc:[[RootHeaderViewController alloc]init] title:@"首页" image:@"sy_syb" selectedImage:@"sy_sya"];
     
-    [self addChildVc:[[RootFocusViewController alloc] init] title:@"关注" image:@"sy_gzb" selectedImage:@"sy_gza"];
+    [self addChildVc:[[RootFocusViewController alloc] init] title:@"消息" image:@"sy_gzb" selectedImage:@"sy_gza"];
     
     [self addChildVc:[[RootFindeViewController alloc] init] title:@"发现" image:@"sy_fxb" selectedImage:@"sy_fxa"];
     
@@ -50,7 +50,6 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:childVc];
     nav.navigationBarHidden = YES;
     [self addChildViewController:nav];
-    
     
 }
 
@@ -87,6 +86,7 @@
 
     //判断登录
     BOOL login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
+    login = YES;
     if (login) {
 
         CHPublishViewController *publish = [[CHPublishViewController alloc]init];
@@ -96,7 +96,9 @@
         
     } else {
         CHLoginViewController *logoinVC = [[CHLoginViewController alloc]init];
-        [self presentViewController:logoinVC animated:YES completion:nil];
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:logoinVC];
+
+        [self presentViewController:nav animated:YES completion:nil];
     }
 
 }

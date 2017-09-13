@@ -15,6 +15,7 @@
 
 #import "CHMerchantView.h"
 
+#import "CHServiceDetailsViewController.h"
 
 @interface RootHeaderViewController ()<UIScrollViewDelegate>
 
@@ -64,11 +65,19 @@
     [self.viewCModel.loadBottomData execute:bottmParam];
     [RACObserve(self.viewCModel, bottomDataList) subscribeNext:^(NSDictionary *x) {
         if (x) {
-            NSDictionary *tempDic = [x objectForKey:@"data"];
-            self.overBalanceView.overBablanceList = [tempDic objectForKey:@"over_balance"];
-            self.merchentView.merchentList = [tempDic objectForKey:@"merchent"];
+//            NSDictionary *tempDic = [x objectForKey:@"datas"];
+//            self.overBalanceView.overBablanceList = [x objectForKey:@"datas"];;
+            self.merchentView.merchentList = [x objectForKey:@"datas"];
         }
     }];
+    
+    @weakify(self);
+    self.merchentView.selectedMerchant = ^(CHMerchentModel *model) {
+        @strongify(self);
+        CHServiceDetailsViewController *serviceDetailsVC = [[CHServiceDetailsViewController alloc]init];
+        [self.navigationController pushViewController:serviceDetailsVC animated:YES];
+        
+    };
 }
 
 -(void)setupViews{

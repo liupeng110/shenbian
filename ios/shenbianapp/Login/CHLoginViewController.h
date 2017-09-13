@@ -8,6 +8,6 @@
 
 #import "CHBaseNavgationViewController.h"
 
-@interface CHLoginViewController : CHBaseNavgationViewController
+@interface CHLoginViewController : UIViewController
 
 @end

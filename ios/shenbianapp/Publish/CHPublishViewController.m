@@ -16,21 +16,18 @@
 
 @property(nonatomic,strong) LXButton *articleBtn;
 @property(nonatomic,strong) LXButton *serviceBtn;
-
+@property(nonatomic,strong) LXButton *closeBtn;
 @end
 
 @implementation CHPublishViewController
-@synthesize closeBtn = _closeBtn;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
     self.modalPresentationStyle = UIModalPresentationFullScreen;
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    self.rightTopButton.hidden = YES;
-    [self.closeBtn removeFromSuperview];
- //  self.closeBtn.hidden = YES;
-//   self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    self.topView.hidden = YES;
     
     [self.view addSubview:self.contentView];
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,7 +115,8 @@
     [self dismissViewControllerAnimated:NO completion:^{
         
         CHPublishServeViewController *serveVC = [[CHPublishServeViewController alloc]init];
-        [presentVC presentViewController:serveVC animated:YES completion:nil];
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:serveVC];
+        [presentVC presentViewController:nav animated:YES completion:nil];
     }];
     
 }

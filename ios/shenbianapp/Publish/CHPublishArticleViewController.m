@@ -9,7 +9,7 @@
 #import "CHPublishArticleViewController.h"
 #import "UIView+Dashline.h"
 #import <IQTextView.h>
-@interface CHPublishArticleViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface CHPublishArticleViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>
 @property(nonatomic,strong) UITextField *tf_articleTitle;//文章标题
 @property(nonatomic,strong) UILabel *dashLine;//
 @property(nonatomic,strong) IQTextView *tv_content;
@@ -19,6 +19,9 @@
 @property(nonatomic,strong) UIButton *btn_category;
 @property(nonatomic,strong) UIButton *btn_location;
 
+@property(nonatomic,strong) UILabel *straightLine;
+
+@property(nonatomic,strong) UILabel *wordNoLabel;
 
 @end
 
@@ -29,8 +32,23 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
-    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+    [IQKeyboardManager sharedManager].enable = NO;
+    
+    [self.view addSubview:self.wordNoLabel];
+    [self.wordNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.lefgtButton.mas_right).offset(5);
+        make.top.equalTo(self.view).offset(30);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(20);
+    }];
+    
+    [self.view addSubview:self.straightLine];
+    [self.straightLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.top.mas_equalTo(64);
+        make.height.mas_equalTo(1);
+    }];
+    
     [self.view addSubview:self.tf_articleTitle];
     [self.tf_articleTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view).offset(20);
@@ -67,14 +85,14 @@
     [self.btn_category mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.btn_pickImage.mas_right).offset(20);
         make.top.equalTo(self.inputAccessoryView).offset(10);
-//        make.width.height.mas_equalTo(30);
+        //        make.width.height.mas_equalTo(30);
     }];
     
     [self.inputAccessoryView addSubview:self.btn_location];
     [self.btn_location mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.inputAccessoryView).offset(10);
         make.left.equalTo(self.btn_category.mas_right).offset(20);
-//        make.width.height.mas_equalTo(30);
+        //        make.width.height.mas_equalTo(30);
     }];
     
     
@@ -85,8 +103,44 @@
         make.width.height.mas_equalTo(40);
     }];
     
-     [self.tf_articleTitle becomeFirstResponder];
+    [self.tf_articleTitle becomeFirstResponder];
+    
+    [self bindViewCModel];
 }
+
+- (void)bindViewCModel{
+    
+    @weakify(self);
+    [self.tv_content.rac_textSignal subscribeNext:^(id x) {
+        @strongify(self);
+        if (x) {
+            self.wordNoLabel.text = [NSString stringWithFormat:@"%ld 字",self.tv_content.text.length];
+        }
+    }];
+    
+}
+
+-(UILabel *)wordNoLabel{
+    if (_wordNoLabel == nil) {
+        _wordNoLabel = [UILabel new];
+        _wordNoLabel.font = [UIFont systemFontOfSize:15];
+        _wordNoLabel.textColor = [UIColor colorWithHexColor:@"#a2a5aa"];
+        _wordNoLabel.text = @"0字";
+    }
+    return _wordNoLabel;
+}
+
+
+- (UILabel *)straightLine{
+    
+    if (_straightLine == nil) {
+        _straightLine = [UILabel new];
+        _straightLine.backgroundColor = [UIColor colorWithHexColor:@"#ebebeb"];
+        
+    }
+    return _straightLine;
+}
+
 /* 标题输入框  */
 -(UITextField *)tf_articleTitle{
     if (_tf_articleTitle == nil) {
@@ -116,8 +170,7 @@
     if (_tv_content == nil) {
         _tv_content = [[IQTextView alloc]init];
         _tv_content.placeholder = @"请输入正文";
-        _tv_content.font = [UIFont systemFontOfSize:18];
-        
+        _tv_content.font = [UIFont systemFontOfSize:15];
     }
     return _tv_content;
 }
@@ -134,7 +187,7 @@
  选取图片
  */
 -(UIButton *)btn_pickImage{
-
+    
     if (_btn_pickImage == nil) {
         _btn_pickImage = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [_btn_pickImage setImage:[UIImage imageNamed:@"pick_image"] forState:(UIControlStateNormal)];
@@ -153,12 +206,12 @@
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -174,7 +227,7 @@
 }
 
 - (void)clickCategoryButton:(UIButton*)button{
-
+    
 }
 
 /* 位置按钮  */
@@ -189,8 +242,8 @@
 }
 
 - (void)clickLocationButton:(UIButton*)button{
-
-
+    
+    
 }
 
 /*
@@ -198,7 +251,7 @@
  */
 
 -(UIButton *)btn_done{
-
+    
     if (_btn_done == nil) {
         _btn_done = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [_btn_done setTitle:@"完成" forState:(UIControlStateNormal)];
@@ -219,6 +272,8 @@
     
     
 }
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

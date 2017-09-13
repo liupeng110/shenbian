@@ -14,36 +14,39 @@
 @end
 
 @implementation CHBaseNavgationViewController
+@synthesize backButton,rightButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
-    self.navigationItem.backBarButtonItem.title = @"";
-    
-    [self.view addSubview:self.backButton];
-    [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(15);
-        make.top.equalTo(self.view).offset(40);
-        make.width.mas_equalTo(10);
-        make.height.mas_equalTo(18);
-    }];
-}
+    self.view.backgroundColor = [UIColor whiteColor];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexColor:@"#009698"]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont systemFontOfSize:17],NSFontAttributeName,nil]];
 
--(UIButton *)backButton{
-    if (_backButton == nil) {
-        _backButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_backButton  setImage:[UIImage imageNamed:@"tx_fh"] forState:(UIControlStateNormal)];
-        [_backButton addTarget:self action:@selector(clickBackButton) forControlEvents:(UIControlEventTouchUpInside)];
-    }
-    return _backButton;
+    self.navigationItem.backBarButtonItem.title = @"";
+     backButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [backButton setImage:[UIImage imageNamed:@"tx_fh"] forState:(UIControlStateNormal)];
+    [backButton addTarget:self action:@selector(clickBackButton) forControlEvents:(UIControlEventTouchUpInside)];
+    backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+    backButton.frame = CGRectMake(0, 0, 40, 40);
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
+    
+    rightButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [rightButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
+    [rightButton addTarget:self action:@selector(clicRightBUtton) forControlEvents:(UIControlEventTouchUpInside)];
+    rightButton.frame = CGRectMake(0, 0, 40, 40);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
 }
 
 - (void)clickBackButton{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void) clicRightBUtton{
 
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
