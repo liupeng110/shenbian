@@ -130,10 +130,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.rl_head:
                 showFragment(0);
-                headImg.setBackgroundResource(R.mipmap.headselected);
-                attentionImg.setBackgroundResource(R.mipmap.attentionunselect);
-                diacoverImg.setBackgroundResource(R.mipmap.discoverunselect);
-                myImg.setBackgroundResource(R.mipmap.mineunselect);
+                headImg.setBackgroundResource(R.mipmap.head_selected);
+                attentionImg.setBackgroundResource(R.mipmap.attention);
+                diacoverImg.setBackgroundResource(R.mipmap.discover);
+                myImg.setBackgroundResource(R.mipmap.mine);
                 headTv.setTextColor(Color.parseColor("#009698"));
                 attentionTv.setTextColor(Color.parseColor("#8f959c"));
                 diacoverTv.setTextColor(Color.parseColor("#8f959c"));
@@ -141,10 +141,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.rl_attention:
                 showFragment(1);
-                headImg.setBackgroundResource(R.mipmap.headunselect);
-                attentionImg.setBackgroundResource(R.mipmap.attentionselected);
-                diacoverImg.setBackgroundResource(R.mipmap.discoverunselect);
-                myImg.setBackgroundResource(R.mipmap.mineunselect);
+                headImg.setBackgroundResource(R.mipmap.head);
+                attentionImg.setBackgroundResource(R.mipmap.attention_selected);
+                diacoverImg.setBackgroundResource(R.mipmap.discover);
+                myImg.setBackgroundResource(R.mipmap.mine);
                 headTv.setTextColor(Color.parseColor("#8f959c"));
                 attentionTv.setTextColor(Color.parseColor("#009698"));
                 diacoverTv.setTextColor(Color.parseColor("#8f959c"));
@@ -155,10 +155,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.rl_discover:
                 showFragment(3);
-                headImg.setBackgroundResource(R.mipmap.headunselect);
-                attentionImg.setBackgroundResource(R.mipmap.attentionunselect);
-                diacoverImg.setBackgroundResource(R.mipmap.discoverselected);
-                myImg.setBackgroundResource(R.mipmap.mineunselect);
+                headImg.setBackgroundResource(R.mipmap.head);
+                attentionImg.setBackgroundResource(R.mipmap.attention);
+                diacoverImg.setBackgroundResource(R.mipmap.discover_selected);
+                myImg.setBackgroundResource(R.mipmap.mine);
                 headTv.setTextColor(Color.parseColor("#8f959c"));
                 attentionTv.setTextColor(Color.parseColor("#8f959c"));
                 diacoverTv.setTextColor(Color.parseColor("#009698"));
@@ -166,10 +166,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.rl_my:
                 showFragment(4);
-                headImg.setBackgroundResource(R.mipmap.headunselect);
-                attentionImg.setBackgroundResource(R.mipmap.attentionunselect);
-                diacoverImg.setBackgroundResource(R.mipmap.discoverunselect);
-                myImg.setBackgroundResource(R.mipmap.mineselected);
+                headImg.setBackgroundResource(R.mipmap.head);
+                attentionImg.setBackgroundResource(R.mipmap.attention);
+                diacoverImg.setBackgroundResource(R.mipmap.discover);
+                myImg.setBackgroundResource(R.mipmap.mine_selected);
                 headTv.setTextColor(Color.parseColor("#8f959c"));
                 attentionTv.setTextColor(Color.parseColor("#8f959c"));
                 diacoverTv.setTextColor(Color.parseColor("#8f959c"));
