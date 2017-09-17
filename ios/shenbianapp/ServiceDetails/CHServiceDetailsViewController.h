@@ -7,7 +7,9 @@
 //
 
 #import "CHBaseNavgationViewController.h"
-
+#import "CHServiceUperView.h"
+#import "CHServiceMiddleView.h"
+#import "CHServiceBottomView.h"
 @interface CHServiceDetailsViewController : CHBaseNavgationViewController
 
 @end

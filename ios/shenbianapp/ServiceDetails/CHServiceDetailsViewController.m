@@ -9,98 +9,74 @@
 #import "CHServiceDetailsViewController.h"
 
 @interface CHServiceDetailsViewController ()
-@property(nonatomic,strong)UIButton *collectButton;
-@property(nonatomic,strong) UIView * topView;
-@property(nonatomic,strong)UIButton *topShareButton;
-@property(nonatomic,strong)UIImageView *introduceImageView;
+@property(nonatomic,strong) CHServiceUperView * topView;
+
+@property(nonatomic,strong)CHServiceMiddleView *middleView;
+@property(nonatomic,strong)CHServiceBottomView *bottomView;
+
 @end
 
 @implementation CHServiceDetailsViewController
-//@synthesize  backButton =_backButton;
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.view);
         make.height.mas_equalTo(230);
     }];
+    
     [self.topView addSubview:self.backButton];
-    [self.backButton setImage:[UIImage imageNamed:@"ydwz_fh"] forState:(UIControlStateNormal)];
-
     [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.topView).offset(8);
         make.top.equalTo(self.topView).offset(20);
         make.width.mas_equalTo(40);
         make.height.mas_equalTo(40);
     }];
+    [self.backButton setImage:[UIImage imageNamed:@"ydwz_fh"] forState:(UIControlStateNormal)];
+
     
-    [self.topView addSubview:self.topShareButton];
-    [self.topShareButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.topView).offset(-15);
-        make.top.equalTo(self.topView).offset(20);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
+    [self.view addSubview:self.bottomView];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.height.mas_equalTo(150);
     }];
     
-    [self.topView addSubview:self.collectButton];
-    [self.collectButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.topShareButton.mas_left).offset(-15);
-        make.top.equalTo(self.topView).offset(20);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
-    }];
     
-    [self.topView addSubview:self.introduceImageView];
-    [self.introduceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.topView);
-        make.bottom.equalTo(self.topView);
-        make.width.mas_equalTo(216);
-        make.height.mas_equalTo(144);
+    [self.view addSubview:self.middleView];
+    [self.middleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(self.topView.mas_bottom);
+        make.bottom.equalTo(self.bottomView.mas_top);
     }];
 }
 
--(UIView *)topView{
 
+-(UIView *)topView{
     if (_topView == nil) {
-        _topView = [UIView new];
+        _topView = [CHServiceUperView new];
         _topView.backgroundColor = [UIColor colorWithHexString:@"#f9ee82"];
     }
     return _topView;
 }
 
--(UIButton *)topShareButton{
-    if (_topShareButton == nil) {
-        _topShareButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_topShareButton setImage:[UIImage imageNamed:@"ydwz_zf"] forState:(UIControlStateNormal)];
-        [_topShareButton addTarget:self action:@selector(clickShareButton) forControlEvents:(UIControlEventTouchUpInside)];
+-(CHServiceMiddleView *)middleView{
+    if (_middleView == nil) {
+        _middleView = [CHServiceMiddleView new];
     }
-    
-    return _topShareButton;
+    return _middleView;
 }
 
--(void)clickShareButton{
-
-}
-
--(UIButton *)collectButton{
-    if (_collectButton == nil) {
-        _collectButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        _collectButton.frame = CGRectMake(0, 0, 40, 40);
-        [_collectButton setImage:[UIImage imageNamed:@"ydwz_sc"] forState:UIControlStateNormal];
+-(CHServiceBottomView *)bottomView{
+    if (_bottomView == nil) {
+        _bottomView = [CHServiceBottomView new];
     }
-    return _collectButton;
+    return _bottomView;
 }
 
--(UIImageView *)introduceImageView{
-
-    if (_introduceImageView == nil) {
-        _introduceImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
-    }
-    return _introduceImageView;
-
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
