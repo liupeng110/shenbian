@@ -18,13 +18,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dl_wx" translatesAutoresizingMaskIntoConstraints="NO" id="CoZ-Y7-a59">
-                        <rect key="frame" x="296" y="18" width="14" height="14"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="14" id="9Ib-lQ-Zng"/>
-                            <constraint firstAttribute="width" constant="14" id="BSc-ZA-lr5"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9GQ-xa-dcw">
                         <rect key="frame" x="10" y="17" width="150" height="16"/>
                         <constraints>
@@ -36,7 +29,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DG8-cr-WRA">
-                        <rect key="frame" x="0.0" y="49.5" width="296" height="0.5"/>
+                        <rect key="frame" x="0.0" y="49" width="296" height="1"/>
                         <color key="backgroundColor" red="0.87450980392156863" green="0.87450980392156863" blue="0.87450980392156863" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="0.5" id="SF3-ji-X2x"/>
@@ -45,9 +38,7 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="CoZ-Y7-a59" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="0lq-hd-Hfi"/>
-                <constraint firstAttribute="trailing" secondItem="CoZ-Y7-a59" secondAttribute="trailing" constant="10" id="RTN-0y-Jlp"/>
-                <constraint firstItem="CoZ-Y7-a59" firstAttribute="leading" secondItem="DG8-cr-WRA" secondAttribute="trailing" id="TxG-Ic-FiF"/>
+                <constraint firstAttribute="trailing" secondItem="DG8-cr-WRA" secondAttribute="trailing" constant="24" id="XH0-E8-N1h"/>
                 <constraint firstItem="9GQ-xa-dcw" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="dKi-rr-FtL"/>
                 <constraint firstAttribute="bottom" secondItem="DG8-cr-WRA" secondAttribute="bottom" id="e0z-Eo-QrX"/>
                 <constraint firstItem="9GQ-xa-dcw" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="hZ4-mt-R1k"/>
@@ -58,7 +49,4 @@
             </connections>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="dl_wx" width="30" height="25"/>
-    </resources>
 </document>

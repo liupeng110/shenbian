@@ -34,7 +34,7 @@
     
     rightButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [rightButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
-    [rightButton addTarget:self action:@selector(clicRightBUtton) forControlEvents:(UIControlEventTouchUpInside)];
+    [rightButton addTarget:self action:@selector(clickRightBUtton) forControlEvents:(UIControlEventTouchUpInside)];
     rightButton.frame = CGRectMake(0, 0, 40, 40);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
 }
@@ -43,7 +43,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void) clicRightBUtton{
+- (void) clickRightBUtton{
 
 }
 

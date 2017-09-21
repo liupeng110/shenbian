@@ -134,6 +134,11 @@
     self.navigationController.navigationBarHidden = NO;
 
 }
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)bindVieWCModel{
     self.serviceTitleList = @[@"价格",@"位置",@"服务类型",@"编辑频道信息"];
     self.serviceKind  = @[@"在线服务",@"上门服务",@"到店服务"];

@@ -180,7 +180,7 @@
             
             [self addSubview:self.recommendScrollView];
             [self.recommendScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self);
+                make.left.right.bottom.equalTo(self);
                 make.top.equalTo(self).offset(30);
             }];
         
@@ -358,12 +358,44 @@
     return _recommendLabel;
 }
 
--(UIImageView *)recommentImageV{}
+
 
 -(void)setCellModel:(CHServiceCellModel *)cellModel{
     
-    for (NSString *url in self.recommentArray) {
+    switch (_indexPath.row) {
+        case 0:
+            
+            break;
+        case 1:
+            
+            break;
+        case 2:
+            
+            break;
+        case 3:
+        {
         
+        }
+            break;
+        case 4:{
+            NSInteger index = 0;
+            for (NSString *url in self.recommentArray) {
+                
+                CGFloat space = 10;
+                CGFloat sideSpace = 30;//左右两边边距
+                CGFloat imgWidth = (kScreenWidth - sideSpace - space * 2) / 3 ;
+                
+                CGFloat left = (imgWidth + space) * index + 15;
+                UIImageView *recommentImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(left, 15, imgWidth, imgWidth * 0.8))];
+                [recommentImageView setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"sy_sj_cover"]];
+                [self.recommendScrollView addSubview:recommentImageView];
+
+                index++;
+            }
+        }
+            
+        default:
+            break;
     }
     
 }

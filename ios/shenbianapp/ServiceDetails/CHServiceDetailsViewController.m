@@ -26,7 +26,7 @@
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.view);
-        make.height.mas_equalTo(230);
+        make.height.mas_equalTo(200);
     }];
     
     [self.topView addSubview:self.backButton];
@@ -38,13 +38,12 @@
     }];
     [self.backButton setImage:[UIImage imageNamed:@"ydwz_fh"] forState:(UIControlStateNormal)];
 
-    
     [self.view addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.view);
-        make.height.mas_equalTo(150);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+        make.height.mas_equalTo(55);
     }];
-    
     
     [self.view addSubview:self.middleView];
     [self.middleView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -75,6 +74,18 @@
         _bottomView = [CHServiceBottomView new];
     }
     return _bottomView;
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+
 }
 
 - (void)didReceiveMemoryWarning {

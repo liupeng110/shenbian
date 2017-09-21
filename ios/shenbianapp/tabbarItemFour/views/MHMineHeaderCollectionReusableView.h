@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-
+typedef void (^ClickMyArticle)();
+typedef void (^ClickMyService)();
 
 //@protocol MHMineHeaderCollectionReusableViewDelegate <NSObject>
 
@@ -29,6 +30,10 @@
 
 @property (nonatomic,strong)LXButton * fansBtn;
 @property (nonatomic,strong)LXButton * attentionsBtn;
+
+@property (nonatomic,copy) ClickMyArticle clickMyArticle;
+@property (nonatomic,copy) ClickMyService clickMyService;
+
 //@property (weak, nonatomic) id<MHMineHeaderCollectionReusableViewDelegate>delegate;
 //- (void)creatMhHeaderViewithUserInfoModel:(PersonsetInfoModel *)personModel VieWith:(BOOL)isMyHomePage;
 @end
