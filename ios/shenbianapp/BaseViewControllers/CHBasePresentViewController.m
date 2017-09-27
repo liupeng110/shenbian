@@ -10,6 +10,7 @@
 
 @interface CHBasePresentViewController ()
 
+
 @end
 
 @implementation CHBasePresentViewController
@@ -18,27 +19,42 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self.view addSubview:self.closeBtn];
-    [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.view).offset(20);
+    [self.view addSubview:self.topView];
+    [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.equalTo(self.view);
+        make.height.mas_equalTo(64);
+    }];
+    
+    [self.topView addSubview:self.lefgtButton];
+    [self.lefgtButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topView).offset(22);
+        make.left.equalTo(self.topView).offset(6);
         make.width.height.mas_equalTo(40);
     }];
     
-    [self.view addSubview:self.rightTopButton];
+    [self.topView addSubview:self.rightTopButton];
     [self.rightTopButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(20);
-        make.right.equalTo(self.view).offset(-20);;
+        make.top.equalTo(self.topView).offset(20);
+        make.right.equalTo(self.topView).offset(-20);;
         make.width.height.mas_equalTo(40);
     }];
 }
 
--(LXButton *)closeBtn{
-    if (_closeBtn == nil) {
-        _closeBtn = [LXButton buttonWithType:(UIButtonTypeCustom)];
-        [_closeBtn setImage:[UIImage imageNamed:@"close_page"] forState:(UIControlStateNormal)];
-        [_closeBtn addTarget:self action:@selector(dissMiss) forControlEvents:(UIControlEventTouchDown)];
+-(UIView *)topView{
+    if (_topView == nil) {
+        _topView = [UIView new];
+        _topView.backgroundColor = [UIColor whiteColor];
     }
-    return _closeBtn;
+    return _topView;
+}
+
+-(LXButton *)lefgtButton{
+    if (_lefgtButton == nil) {
+        _lefgtButton = [LXButton buttonWithType:(UIButtonTypeCustom)];
+        [_lefgtButton setImage:[UIImage imageNamed:@"fbwz_gb"] forState:(UIControlStateNormal)];
+        [_lefgtButton addTarget:self action:@selector(dissMiss) forControlEvents:(UIControlEventTouchDown)];
+    }
+    return _lefgtButton;
 }
 - (void)dissMiss{
     

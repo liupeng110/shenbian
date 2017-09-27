@@ -10,38 +10,37 @@
 #import "HomeNavView.h"
 #import "RootObjectModel.h"
 #import "CustomDiviceView.h"
-#import <MAMapKit/MAMapKit.h>
-#import <AMapFoundationKit/AMapFoundationKit.h>
-@interface RootHeaderViewController ()<HomeNavViewdelegate,CustomDiviceViewdelegate>
+#import "CHMapView.h"
+#import "CHOverbalanceView.h"
+
+#import "CHMerchantView.h"
+
+#import "CHServiceDetailsViewController.h"
+
+@interface RootHeaderViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong)HomeNavView *NavView;
 @property (nonatomic,strong)CustomDiviceView * headItemView;
-@property (nonatomic,strong)NSMutableArray * headItemArray;
-@property (nonatomic,copy)NSString * selectItemOneName;
-@property (nonatomic,copy)NSString * selectItemTwoName;
-@property (nonatomic,assign)NSInteger selectIndex;
-@property (nonatomic,strong)UIView * mapView;
-@property (nonatomic,strong)UIView * infoCar;
-
 @property (nonatomic,strong) RootObjectModel *viewCModel;
+
+@property(nonatomic,strong) CHMapView *mapView;
+
+
+@property(nonatomic,strong)CHOverbalanceView *overBalanceView;
+
+@property(nonatomic,strong) UIScrollView *wrapSrollview;
+
+@property(nonatomic,strong) CHMerchantView *merchentView;
+
 
 @end
 
 @implementation RootHeaderViewController
 @dynamic viewCModel;
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-//    self.navBarView.hidden = YES;
-//    [AMapServices sharedServices].enableHTTPS = YES;
-//    [self.view addSubview:self.mapView];
-//     MAMapView *apimapView = [[MAMapView alloc] initWithFrame:self.mapView.bounds];
-//    [apimapView setZoomLevel:15 atPivot:self.mapView.center animated:YES];
-//    [self.mapView addSubview:apimapView];
-//    
-//    apimapView.showsUserLocation = YES;
-//    apimapView.userTrackingMode = MAUserTrackingModeFollow;
-    
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+//    [self.mapView setMapZoomSacle:15 animated:NO];
 }
 
 -(void)bindViewControllerModel{
@@ -49,71 +48,148 @@
     
     self.viewCModel = [[RootObjectModel alloc]init];
     
-    NSDictionary *param = @{@"latitude":@"23.1230",@"longitude":@"36.023"};
-   
-    [self.viewCModel.loadPagedata execute:param];
-
-    [RACObserve(self.viewCModel, loadModels) subscribeNext:^(id x) {
-        self.NavView.quikSearchList = x;
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary: @{@"center":@"116.542951,39.639531",@"city":@"北京"}];
+    
+    [self.viewCModel.loadTopData execute:param];
+    
+    [RACObserve(self.viewCModel, topDataList) subscribeNext:^(NSDictionary *x) {
+        if (x) {
+            NSDictionary *tempDic = [x objectForKey:@"data"];
+            self.NavView.quikSearchList = [tempDic objectForKey:@"categories"];
+            self.headItemView.categoryItemList = [tempDic objectForKey:@"imgInfo"];
+          
+        }
     }];
     
+    NSDictionary *bottmParam = @{@"center":@"116.542951,39.639531",@"city":@"北京",@"page":@"1",@"limit":@"10",};
+    [self.viewCModel.loadBottomData execute:bottmParam];
+    [RACObserve(self.viewCModel, bottomDataList) subscribeNext:^(NSDictionary *x) {
+        if (x) {
+//            NSDictionary *tempDic = [x objectForKey:@"datas"];
+//            self.overBalanceView.overBablanceList = [x objectForKey:@"datas"];;
+            self.merchentView.merchentList = [x objectForKey:@"datas"];
+        }
+    }];
+    
+    @weakify(self);
+    self.merchentView.selectedMerchant = ^(CHMerchentModel *model) {
+        @strongify(self);
+        CHServiceDetailsViewController *serviceDetailsVC = [[CHServiceDetailsViewController alloc]init];
+        [self.navigationController pushViewController:serviceDetailsVC animated:YES];
+        
+    };
 }
 
 -(void)setupViews{
-
+    
     [self.view addSubview:self.NavView];
 
-}
-
-- (void)HomeNavViewClickIndex:(NSInteger)index{
-    self.selectIndex = index;
-    if (index==0) {
-        [self.headItemView setCustomDiviceViewByArray:self.headItemArray[index] andCureentObject:self.selectItemOneName];
-    }else{
-       [self.headItemView setCustomDiviceViewByArray:self.headItemArray[index] andCureentObject:self.selectItemTwoName];
-    }
-}
-
-- (void)CustomDiviceViewClickIndex:(NSInteger)index{
+    [self.view addSubview:self.wrapSrollview];
+    [self.wrapSrollview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.NavView.mas_bottom);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+    }];
+    
+    [self.wrapSrollview addSubview:self.headItemView];
+    [self.headItemView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.wrapSrollview);
+        make.left.right.equalTo(self.wrapSrollview);
+        make.height.mas_equalTo(200);
+        make.width.mas_equalTo(kScreenWidth);
+    }];
+    
+    [self.wrapSrollview addSubview:self.mapView];
+    [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.headItemView.mas_bottom);
+        make.left.equalTo(self.wrapSrollview).offset(15);
+        make.right.equalTo(self.wrapSrollview).offset(-15);
+        make.height.mas_equalTo(120);
+    }];
+    
+    [self.wrapSrollview addSubview:self.overBalanceView];
+    [self.overBalanceView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mapView.mas_bottom).offset(10);
+        make.left.equalTo(self.wrapSrollview).offset(15);
+        make.right.equalTo(self.wrapSrollview).offset(-15);
+        make.height.mas_equalTo(150);
+    }];
     
 
+    [self.wrapSrollview addSubview:self.merchentView];
+    [self.merchentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.overBalanceView.mas_bottom).offset(10);
+        make.left.equalTo(self.wrapSrollview).offset(0);
+        make.right.equalTo(self.wrapSrollview).offset(0);
+        make.height.mas_equalTo(300);
+        make.bottom.equalTo(self.wrapSrollview);
+    }];
 }
 
-- (UIView*)infoCar{
-    if (!_infoCar) {
-        _infoCar = [[UIView alloc]initWithFrame:CGRectMake(0, 64+70, kScreenWidth, kScreenHeight-64-70-49)];
-        _infoCar.backgroundColor = [UIColor whiteColor];
-    }
-    return _infoCar;
-}
 
 - (UIView*)mapView{
     if (!_mapView) {
-        _mapView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
-        _mapView.backgroundColor = [UIColor lightGrayColor];
+        _mapView = [[CHMapView alloc]init];
+        _mapView.backgroundColor = [UIColor whiteColor];
+        _mapView.layer.cornerRadius = 5;
     }
     return _mapView;
 }
 
 - (CustomDiviceView*)headItemView{
     if (!_headItemView) {
-        _headItemView = [[CustomDiviceView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 70)];
-        _headItemView.delegate = self;
+        _headItemView = [[CustomDiviceView alloc]init];
+
     }
     return _headItemView;
 }
 
+-(CHOverbalanceView *)overBalanceView{
+
+    if (_overBalanceView == nil) {
+        _overBalanceView = [[CHOverbalanceView alloc] init];
+        _overBalanceView.layer.cornerRadius = 5;
+    }
+
+    return _overBalanceView;
+}
+
 - (HomeNavView*)NavView{
     if (!_NavView) {
-        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 24, kScreenWidth, 109)];
-        _NavView.delegate = self;
+        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, 109)];
     }
     return _NavView;
+}
+
+
+
+- (UIScrollView *)wrapSrollview{
+
+    if (_wrapSrollview == nil) {
+        _wrapSrollview = [[UIScrollView alloc]init];
+        _wrapSrollview.showsVerticalScrollIndicator = NO;
+        _wrapSrollview.showsHorizontalScrollIndicator = NO;
+//        _wrapSrollview.backgroundColor = [UIColor purpleColor];
+        _wrapSrollview.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
+    }
+    return _wrapSrollview;
+}
+
+-(CHMerchantView *)merchentView{
+
+    if (_merchentView == nil) {
+        _merchentView = [[CHMerchantView alloc]init];
+        _merchentView.backgroundColor = [UIColor redColor];
+    }
+    return _merchentView;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 @end

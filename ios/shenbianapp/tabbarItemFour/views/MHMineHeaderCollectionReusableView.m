@@ -7,6 +7,15 @@
 //
 
 #import "MHMineHeaderCollectionReusableView.h"
+@interface MHMineHeaderCollectionReusableView()
+@property (weak, nonatomic) IBOutlet UIButton *myArticleButton;
+@property (weak, nonatomic) IBOutlet UIButton *myService;
+@property (weak, nonatomic) IBOutlet UILabel *publishedNOLabel;
+@property (weak, nonatomic) IBOutlet UILabel *collectedNOLabel;
+@property (weak, nonatomic) IBOutlet UILabel *attentionNoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fansNOLabel;
+
+@end
 
 @implementation MHMineHeaderCollectionReusableView
 
@@ -16,7 +25,37 @@
     self.mhUserHeaderImgView.layer.cornerRadius = 75.0/2.0;
     [self.focusAndFansView addSubview:self.attentionsBtn];
     [self.focusAndFansView addSubview:self.fansBtn];
+    
+   
+    [self.myArticleButton addTarget:self action:@selector(clickMyArticleNButton:) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.myService addTarget:self action:@selector(clickMyServiceButton:) forControlEvents:(UIControlEventTouchUpInside)];
+
 }
+
+-(instancetype)initWithFrame:(CGRect)frame{
+
+    if ([super initWithFrame:frame]) {
+       
+       
+    }
+    return self;
+}
+
+- (void)clickMyArticleNButton:(UIButton*)button{
+
+    if (self.clickMyArticle) {
+        self.clickMyArticle();
+    }
+    
+}
+
+- (void)clickMyServiceButton:(UIButton*)button{
+
+    if (self.clickMyService) {
+        self.clickMyService();
+    }
+}
+
 //编辑个人资料101
 //关注按钮102
 //映答103

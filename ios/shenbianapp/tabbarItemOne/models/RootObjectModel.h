@@ -11,5 +11,9 @@
 
 @interface RootObjectModel : CHBaseViewCModel
 
+@property(nonatomic,strong) RACCommand *loadTopData;
+@property(nonatomic,strong) RACCommand *loadBottomData;
 
+@property(nonatomic,strong) NSDictionary *topDataList;
+@property(nonatomic,strong) NSDictionary *bottomDataList;
 @end

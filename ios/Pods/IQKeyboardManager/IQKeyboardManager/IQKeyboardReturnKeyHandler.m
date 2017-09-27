@@ -26,6 +26,8 @@
 #import "IQUIView+Hierarchy.h"
 #import "IQNSArray+Sort.h"
 
+#import <Foundation/NSSet.h>
+
 #import <UIKit/UITextField.h>
 #import <UIKit/UITextView.h>
 #import <UIKit/UIViewController.h>

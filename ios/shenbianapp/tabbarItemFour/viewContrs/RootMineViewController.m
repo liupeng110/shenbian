@@ -11,9 +11,17 @@
 #import "MHMineHeaderCollectionReusableView.h"
 #import "MineCollectionViewCell.h"
 #import "CellSPaceCollectionReusableView.h"
+
+#import "CHArticleDetailsViewController.h"
+#import "CHServiceDetailsViewController.h"
+
+#import "CHArticleAndServiceListViewController.h"
+
 @interface RootMineViewController ()<UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong)UICollectionView * collectionView;
 @property (nonatomic,strong)MHMineHeaderCollectionReusableView *headView;
+@property (nonatomic,copy) ClickMyService clickMyService;
+@property (nonatomic,copy) ClickMyArticle clickMyArticle;
 @end
 
 @implementation RootMineViewController
@@ -22,7 +30,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.navigationController.navigationBar.hidden = YES;
     MHCollectionViewFlowLayout * stretchyLayout = [[MHCollectionViewFlowLayout alloc] init];
     stretchyLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
     stretchyLayout.headerReferenceSize = CGSizeMake(kScreenWidth, 260);
@@ -38,6 +45,33 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"CellSPaceCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"cellspace"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"MineCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"mine"];
 
+    @weakify(self);
+    self.clickMyArticle = ^(){
+        @strongify(self);
+        CHArticleAndServiceListViewController *articleVC = [[CHArticleAndServiceListViewController alloc]init];
+        articleVC.title = @"我的文章";
+        [self.navigationController pushViewController:articleVC animated:YES];
+    };
+    
+    self.clickMyService = ^{
+        @strongify(self);
+        CHArticleAndServiceListViewController *serviceDetail = [[CHArticleAndServiceListViewController alloc]init];
+        serviceDetail.title = @"我的服务";
+        [self.navigationController pushViewController:serviceDetail animated:YES];
+    };
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -48,16 +82,18 @@
     if (section==0) {
        return 4;
     }else{
-      return 2;
+        return 2;
     }
     
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     if (section== 0) {
+        
         return  CGSizeMake(kScreenWidth, 260);
         
-    }else{
+    } else {
+        
         return CGSizeMake(0, 10);
     }
 }
@@ -96,11 +132,13 @@
     if (kind == UICollectionElementKindSectionHeader) {
         if (indexPath.section == 0) {
             self.headView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
-            //self.headView.delegate = self;
+            self.headView.clickMyService = self.clickMyService;
+            self.headView.clickMyArticle = self.clickMyArticle;
             //如果是登录用户的默认
             return self.headView;
         }else{
             CellSPaceCollectionReusableView * view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"cellspace" forIndexPath:indexPath];
+        
             return view;
         }
     }

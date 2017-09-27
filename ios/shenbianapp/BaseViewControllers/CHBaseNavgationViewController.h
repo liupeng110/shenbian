@@ -10,4 +10,8 @@
 
 @interface CHBaseNavgationViewController : UIViewController
 
+@property(nonatomic,strong)UIButton *rightButton;
+@property(nonatomic,strong)UIButton *backButton;
+- (void)clickBackButton;
+- (void)clickRightBUtton;
 @end

@@ -10,13 +10,41 @@
 
 @interface CHBaseNavgationViewController ()
 
+
 @end
 
 @implementation CHBaseNavgationViewController
+@synthesize backButton,rightButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexColor:@"#009698"]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont systemFontOfSize:17],NSFontAttributeName,nil]];
+
+    self.navigationItem.backBarButtonItem.title = @"";
+     backButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [backButton setImage:[UIImage imageNamed:@"tx_fh"] forState:(UIControlStateNormal)];
+    [backButton addTarget:self action:@selector(clickBackButton) forControlEvents:(UIControlEventTouchUpInside)];
+    backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+    backButton.frame = CGRectMake(0, 0, 40, 40);
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
+    
+    rightButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [rightButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
+    [rightButton addTarget:self action:@selector(clickRightBUtton) forControlEvents:(UIControlEventTouchUpInside)];
+    rightButton.frame = CGRectMake(0, 0, 40, 40);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+}
+
+- (void)clickBackButton{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) clickRightBUtton{
+
 }
 
 - (void)didReceiveMemoryWarning {
