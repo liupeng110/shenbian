@@ -2,6 +2,7 @@
 曹雪：230703198908010126
 电话号码：15501170996
 邮箱：caoxue15@outlook.com
+
 融云账号：toms_chen@163.com
 密码：helinkeji2017
 
@@ -10,3 +11,7 @@
 远程登录密码：YIxiang2017
 阿里云控制台登录用户名：root 密码：Yixiangkeji2017 
 阿里云网页登录控制台密码：183943
+
+高德账号密码：A：15501170996，P：YIxiang2017
+支付宝账号密码：
+微信账号密码：username:caoxue15@outlook.com  password:yixiangkeji2017
