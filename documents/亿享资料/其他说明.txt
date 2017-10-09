@@ -21,3 +21,8 @@
 
 iOS  appid ：1288095892
 
+阿里云开发测试账号：helinkeji_toms
+密码：helinkeji2017
+远程登陆密码：960554
+控制台登陆账户：root 密码：Helinkeji2017
+数据库用户名： root  密码： helinkeji2017_test
