@@ -67,7 +67,7 @@
         if (x) {
 //            NSDictionary *tempDic = [x objectForKey:@"datas"];
 //            self.overBalanceView.overBablanceList = [x objectForKey:@"datas"];;
-            self.merchentView.merchentList = [x objectForKey:@"datas"];
+            self.merchentView.merchentList = [x objectForKey:@"data"];
         }
     }];
     
@@ -115,7 +115,6 @@
         make.right.equalTo(self.wrapSrollview).offset(-15);
         make.height.mas_equalTo(150);
     }];
-    
 
     [self.wrapSrollview addSubview:self.merchentView];
     [self.merchentView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -170,7 +169,7 @@
         _wrapSrollview = [[UIScrollView alloc]init];
         _wrapSrollview.showsVerticalScrollIndicator = NO;
         _wrapSrollview.showsHorizontalScrollIndicator = NO;
-//        _wrapSrollview.backgroundColor = [UIColor purpleColor];
+        _wrapSrollview.backgroundColor = [UIColor purpleColor];
         _wrapSrollview.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
     }
     return _wrapSrollview;
@@ -189,7 +188,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 
 @end

@@ -7,6 +7,11 @@
 //
 
 #import "CHArticleAndServiceListViewController.h"
+#import "CHMyArticleAndServiceViewModel.h"
+
+#import "CHArticleDetailsViewController.h"
+#import "CHArticleListTableViewCell.h"
+
 
 @interface CHArticleAndServiceListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -14,10 +19,14 @@
 @property(nonatomic,strong) UIButton *myArticleButton;
 @property(nonatomic,strong) UIButton *myServiceButton;
 @property(nonatomic,strong) UITableView *tableView;
+@property(nonatomic,strong) CHMyArticleAndServiceViewModel *viewCModel;
+@property(nonatomic,strong) UILabel *switcherLabel;
 
 @end
 
 @implementation CHArticleAndServiceListViewController
+
+@dynamic viewCModel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,6 +53,14 @@
         make.width.mas_equalTo(kScreenWidth/2);
     }];
     
+    [self.topview addSubview:self.switcherLabel];
+    [self.switcherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.topview);
+        make.centerX.equalTo(self.myArticleButton);
+        make.height.mas_equalTo(2);
+        make.width.mas_equalTo(30);
+    }];
+    
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
@@ -52,6 +69,16 @@
     
 }
 
+-(void)bindViewControllerModel{
+    [super bindViewControllerModel];
+    self.viewCModel = [CHMyArticleAndServiceViewModel new];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#009698"];
+
+}
 -(UIView *)topview{
     if (_topview == nil) {
         _topview = [UIView new];
@@ -68,6 +95,8 @@
         [_myArticleButton setTitle:@"文章" forState:(UIControlStateNormal)];
         [_myArticleButton setTitleColor:[UIColor colorWithHexString:@"#009698"] forState:(UIControlStateNormal)];
         _myArticleButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [_myArticleButton addTarget:self action:@selector(switchArticleAndService:) forControlEvents:(UIControlEventTouchUpInside)];
+
     }
     return _myArticleButton;
 }
@@ -79,10 +108,55 @@
         _myServiceButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_myServiceButton setTitle:@"服务" forState:(UIControlStateNormal)];
         [_myServiceButton setTitleColor:[UIColor colorWithHexString:@"#4f5965"] forState:(UIControlStateNormal)];
+        [_myServiceButton addTarget:self action:@selector(switchArticleAndService:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
     return _myServiceButton;
 }
+
+-(UILabel *)switcherLabel{
+    if (!_switcherLabel) {
+        _switcherLabel = [UILabel new];
+        _switcherLabel.backgroundColor = [UIColor colorWithHexString:@"#009698"];
+    }
+    return _switcherLabel;
+}
+
+- (void)switchArticleAndService:(UIButton*)button{
+
+    if (button == self.myServiceButton) {
+        [_myServiceButton setTitleColor:[UIColor colorWithHexString:@"#009698"] forState:(UIControlStateNormal)];
+        [_myArticleButton setTitleColor:[UIColor colorWithHexString:@"#4f5965"] forState:(UIControlStateNormal)];
+        [self.switcherLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.myServiceButton);
+            make.bottom.equalTo(self.topview);
+            make.height.mas_equalTo(2);
+            make.width.mas_equalTo(30);
+        }];
+        self.viewCModel.provideTye = ProvideTypeService;
+    } else {
+        [_myArticleButton setTitleColor:[UIColor colorWithHexString:@"#009698"] forState:(UIControlStateNormal)];
+        [_myServiceButton setTitleColor:[UIColor colorWithHexString:@"#4f5965"] forState:(UIControlStateNormal)];
+        [self.switcherLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.topview);
+            make.centerX.equalTo(self.myArticleButton);
+            make.height.mas_equalTo(2);
+            make.width.mas_equalTo(30);
+
+        }];
+        self.viewCModel.provideTye = ProvideTypeArticle;
+
+    }
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        [self.topview layoutIfNeeded];
+
+    }];
+}
+
+
+
+#pragma -mark  tableview
 
 -(UITableView *)tableView{
 
@@ -90,7 +164,7 @@
         _tableView = [[UITableView alloc]init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"myCell"];
+        [_tableView registerClass:[CHArticleListTableViewCell class] forCellReuseIdentifier:@"articleListCell"];
     }
     return _tableView;
 }
@@ -101,11 +175,31 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"myCell"];
-    
+    CHArticleListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"articleListCell" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.indexPath = indexPath;
+    cell.detailTextLabel.text = @"CHArticleListTableViewCellCHArticleListTableViewCell";
     return cell;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    return 120;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    if (self.viewCModel.provideTye == ProvideTypeArticle) {
+        
+        CHArticleDetailsViewController *articleDetailVC = [CHArticleDetailsViewController new];
+        [self.navigationController pushViewController:articleDetailVC animated:YES];
+        
+    } else {
+    
+    
+    }
+    
+}
 
 
 @end

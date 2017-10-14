@@ -33,6 +33,7 @@
 		A9DDC33C1F16444900CFB5F3 /* RootMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DDC33B1F16444900CFB5F3 /* RootMineViewController.m */; };
 		A9DDC3411F164FFB00CFB5F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */; };
 		E4B1833D8426DB219D7C009A /* libPods-shenbianapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75880CF1E4E8A7C0152AF9D9 /* libPods-shenbianapp.a */; };
+		FD05C56C1F76BE6C00D1D1BA /* CHMyArticleAndServiceViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD05C56B1F76BE6C00D1D1BA /* CHMyArticleAndServiceViewModel.m */; };
 		FD0CFF5F1F63F7FB004FA3CF /* CHLoginVCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD0CFF5E1F63F7FB004FA3CF /* CHLoginVCModel.m */; };
 		FD0CFF681F640A21004FA3CF /* CHLoginAgreement.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD0CFF671F640A21004FA3CF /* CHLoginAgreement.xib */; };
 		FD0CFF6A1F6431D7004FA3CF /* CHPulishAnswer.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD0CFF691F6431D7004FA3CF /* CHPulishAnswer.xib */; };
@@ -69,6 +70,10 @@
 		FDC360731F484DA700AC4A81 /* CHPublishArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC360721F484DA700AC4A81 /* CHPublishArticleViewController.m */; };
 		FDC360761F484DC700AC4A81 /* CHPublishServeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC360751F484DC700AC4A81 /* CHPublishServeViewController.m */; };
 		FDDD73411F6C37E100652666 /* CHServiceCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDD73401F6C37E100652666 /* CHServiceCellModel.m */; };
+		FDDDC10B1F7768B600242F3E /* CHArticleDetailsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDDC10A1F7768B600242F3E /* CHArticleDetailsTableViewCell.m */; };
+		FDDDC10E1F777ED300242F3E /* CHArticleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDDC10D1F777ED300242F3E /* CHArticleContentView.m */; };
+		FDDDC1121F779E5300242F3E /* CHArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDDC1111F779E5300242F3E /* CHArticleListTableViewCell.m */; };
+		FDDDC1161F77C01500242F3E /* CHPublishArticleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDDC1151F77C01500242F3E /* CHPublishArticleModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,6 +128,8 @@
 		A9DDC33B1F16444900CFB5F3 /* RootMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootMineViewController.m; sourceTree = "<group>"; };
 		A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D0437902C935BCE328CB8E82 /* Pods-shenbianapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shenbianapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-shenbianapp/Pods-shenbianapp.release.xcconfig"; sourceTree = "<group>"; };
+		FD05C56A1F76BE6C00D1D1BA /* CHMyArticleAndServiceViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHMyArticleAndServiceViewModel.h; path = shenbianapp/tabbarItemFour/viewContrs/CHMyArticleAndServiceViewModel.h; sourceTree = SOURCE_ROOT; };
+		FD05C56B1F76BE6C00D1D1BA /* CHMyArticleAndServiceViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHMyArticleAndServiceViewModel.m; path = shenbianapp/tabbarItemFour/viewContrs/CHMyArticleAndServiceViewModel.m; sourceTree = SOURCE_ROOT; };
 		FD0CFF5D1F63F7FB004FA3CF /* CHLoginVCModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLoginVCModel.h; sourceTree = "<group>"; };
 		FD0CFF5E1F63F7FB004FA3CF /* CHLoginVCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLoginVCModel.m; sourceTree = "<group>"; };
 		FD0CFF671F640A21004FA3CF /* CHLoginAgreement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLoginAgreement.xib; sourceTree = "<group>"; };
@@ -193,6 +200,14 @@
 		FDC360751F484DC700AC4A81 /* CHPublishServeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPublishServeViewController.m; sourceTree = "<group>"; };
 		FDDD733F1F6C37E100652666 /* CHServiceCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHServiceCellModel.h; sourceTree = "<group>"; };
 		FDDD73401F6C37E100652666 /* CHServiceCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHServiceCellModel.m; sourceTree = "<group>"; };
+		FDDDC1091F7768B600242F3E /* CHArticleDetailsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHArticleDetailsTableViewCell.h; sourceTree = "<group>"; };
+		FDDDC10A1F7768B600242F3E /* CHArticleDetailsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHArticleDetailsTableViewCell.m; sourceTree = "<group>"; };
+		FDDDC10C1F777ED300242F3E /* CHArticleContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHArticleContentView.h; sourceTree = "<group>"; };
+		FDDDC10D1F777ED300242F3E /* CHArticleContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHArticleContentView.m; sourceTree = "<group>"; };
+		FDDDC1101F779E5300242F3E /* CHArticleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHArticleListTableViewCell.h; sourceTree = "<group>"; };
+		FDDDC1111F779E5300242F3E /* CHArticleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHArticleListTableViewCell.m; sourceTree = "<group>"; };
+		FDDDC1141F77C01500242F3E /* CHPublishArticleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPublishArticleModel.h; sourceTree = "<group>"; };
+		FDDDC1151F77C01500242F3E /* CHPublishArticleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPublishArticleModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,6 +444,7 @@
 		A9DDC32D1F16425C00CFB5F3 /* tabbarItemFour */ = {
 			isa = PBXGroup;
 			children = (
+				FDDDC10F1F779DE800242F3E /* Cells */,
 				A9DDC32E1F16425C00CFB5F3 /* models */,
 				A9DDC32F1F16425C00CFB5F3 /* viewContrs */,
 				A9DDC3301F16425C00CFB5F3 /* views */,
@@ -439,6 +455,8 @@
 		A9DDC32E1F16425C00CFB5F3 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FD05C56A1F76BE6C00D1D1BA /* CHMyArticleAndServiceViewModel.h */,
+				FD05C56B1F76BE6C00D1D1BA /* CHMyArticleAndServiceViewModel.m */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -557,6 +575,7 @@
 		FD8F2D441F6E460500C2BA13 /* ArticleDetails */ = {
 			isa = PBXGroup;
 			children = (
+				FDDDC1081F77687600242F3E /* views */,
 				FD8F2D451F6E464500C2BA13 /* CHArticleDetailsViewController.h */,
 				FD8F2D461F6E464500C2BA13 /* CHArticleDetailsViewController.m */,
 			);
@@ -575,6 +594,7 @@
 		FDC3606D1F483D9E00AC4A81 /* Publish */ = {
 			isa = PBXGroup;
 			children = (
+				FDDDC1131F77BFEA00242F3E /* Models */,
 				FDC3606E1F483D9E00AC4A81 /* CHPublishViewController.h */,
 				FDC3606F1F483D9E00AC4A81 /* CHPublishViewController.m */,
 				FDC360711F484DA700AC4A81 /* CHPublishArticleViewController.h */,
@@ -604,6 +624,35 @@
 				FDDD73401F6C37E100652666 /* CHServiceCellModel.m */,
 			);
 			path = CellModels;
+			sourceTree = "<group>";
+		};
+		FDDDC1081F77687600242F3E /* views */ = {
+			isa = PBXGroup;
+			children = (
+				FDDDC1091F7768B600242F3E /* CHArticleDetailsTableViewCell.h */,
+				FDDDC10A1F7768B600242F3E /* CHArticleDetailsTableViewCell.m */,
+				FDDDC10C1F777ED300242F3E /* CHArticleContentView.h */,
+				FDDDC10D1F777ED300242F3E /* CHArticleContentView.m */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		FDDDC10F1F779DE800242F3E /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FDDDC1101F779E5300242F3E /* CHArticleListTableViewCell.h */,
+				FDDDC1111F779E5300242F3E /* CHArticleListTableViewCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		FDDDC1131F77BFEA00242F3E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FDDDC1141F77C01500242F3E /* CHPublishArticleModel.h */,
+				FDDDC1151F77C01500242F3E /* CHPublishArticleModel.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -757,11 +806,13 @@
 				A99FB69E1F1A2C6400D6C447 /* RecommentCardCell.m in Sources */,
 				A9DDC33C1F16444900CFB5F3 /* RootMineViewController.m in Sources */,
 				A99FB69B1F1A27CA00D6C447 /* FocusRecommentTableViewCell.m in Sources */,
+				FDDDC1161F77C01500242F3E /* CHPublishArticleModel.m in Sources */,
 				FD1DCEAC1F5A694000136B3D /* CHCategoryCollectionViewCell.m in Sources */,
 				FD7967B31F6ADB890049DCDB /* CHServiceBottomView.m in Sources */,
 				A99FB68C1F186EA100D6C447 /* UIView+Extension.m in Sources */,
 				FD2480221F6836F500CA30BB /* MainViewController.m in Sources */,
 				A99FB6921F18736800D6C447 /* RootObjectModel.m in Sources */,
+				FDDDC10B1F7768B600242F3E /* CHArticleDetailsTableViewCell.m in Sources */,
 				A99FB6951F18764200D6C447 /* LXButton.m in Sources */,
 				FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */,
 				FDC360731F484DA700AC4A81 /* CHPublishArticleViewController.m in Sources */,
@@ -775,9 +826,12 @@
 				FD7967AD1F6ADA1B0049DCDB /* CHServiceUperView.m in Sources */,
 				FD2480111F682CDF00CA30BB /* BaseViewController.m in Sources */,
 				A9DDC3361F1643E800CFB5F3 /* RootHeaderViewController.m in Sources */,
+				FD05C56C1F76BE6C00D1D1BA /* CHMyArticleAndServiceViewModel.m in Sources */,
+				FDDDC10E1F777ED300242F3E /* CHArticleContentView.m in Sources */,
 				A99FB6B71F1AFA6000D6C447 /* CellSPaceCollectionReusableView.m in Sources */,
 				FD0CFF5F1F63F7FB004FA3CF /* CHLoginVCModel.m in Sources */,
 				A9DDC3391F16443400CFB5F3 /* RootFindeViewController.m in Sources */,
+				FDDDC1121F779E5300242F3E /* CHArticleListTableViewCell.m in Sources */,
 				A99FB6891F186E2000D6C447 /* UIView+UIViewAdditions.m in Sources */,
 				FD0CFF6D1F64545C004FA3CF /* CHPublishServiceTableViewCell.m in Sources */,
 				A99FB6861F186CDA00D6C447 /* UIColor+Common.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHBasePresentViewController : UIViewController
+@interface CHBasePresentViewController : BaseViewController
 @property(nonatomic,strong) LXButton *lefgtButton;
 @property(nonatomic,strong) LXButton *rightTopButton;
 @property(nonatomic,strong)UIView *topView;

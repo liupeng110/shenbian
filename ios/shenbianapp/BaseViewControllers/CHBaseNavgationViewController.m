@@ -36,7 +36,7 @@
     [rightButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
     [rightButton addTarget:self action:@selector(clickRightBUtton) forControlEvents:(UIControlEventTouchUpInside)];
     rightButton.frame = CGRectMake(0, 0, 40, 40);
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
 }
 
 - (void)clickBackButton{

@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>HappyDNS.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>IQKeyboardManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -30,6 +35,11 @@
 			<false/>
 		</dict>
 		<key>Pods-shenbianapp.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Qiniu.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -57,17 +67,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>05994BC734B327AC0D2EA8BB9E23806E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>32BF30E54E97F8E3DEEDE0065C89B30B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3AF95BD7EE4848EB14611FA7264D1898</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>53B2B897D64E4516E75AC86348B86622</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>5FD8274EC406C2C65519046733AE732D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>83E653CE51D9072B42F233B04EB13ACE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8FDACD25424E3ED1419198D2B128ED22</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,12 +102,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ADC7535811CFD3BBCD2690D5986A2BB2</key>
+		<key>A9D6CBD5AF1BD931BF26B88B3490D171</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AFA6289D9FD5C32842BBBC7F51FB605E</key>
+		<key>ADC7535811CFD3BBCD2690D5986A2BB2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

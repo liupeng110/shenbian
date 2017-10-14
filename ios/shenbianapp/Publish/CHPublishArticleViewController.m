@@ -6,9 +6,14 @@
 //  Copyright © 2017年 杨绍智. All rights reserved.
 //
 
+
 #import "CHPublishArticleViewController.h"
+#import "CHPublishArticleModel.h"
+
 #import "UIView+Dashline.h"
 #import <IQTextView.h>
+
+
 @interface CHPublishArticleViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>
 @property(nonatomic,strong) UITextField *tf_articleTitle;//文章标题
 @property(nonatomic,strong) UILabel *dashLine;//
@@ -22,6 +27,8 @@
 @property(nonatomic,strong) UILabel *straightLine;
 
 @property(nonatomic,strong) UILabel *wordNoLabel;
+
+@property(nonatomic,strong) CHPublishArticleModel *viewModel;
 
 @end
 
@@ -117,7 +124,7 @@
             self.wordNoLabel.text = [NSString stringWithFormat:@"%ld 字",self.tv_content.text.length];
         }
     }];
-    
+    self.viewModel = [CHPublishArticleModel new];
 }
 
 -(UILabel *)wordNoLabel{

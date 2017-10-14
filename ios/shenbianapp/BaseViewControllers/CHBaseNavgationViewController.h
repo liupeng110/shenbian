@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHBaseNavgationViewController : UIViewController
+@interface CHBaseNavgationViewController : BaseViewController
 
 @property(nonatomic,strong)UIButton *rightButton;
 @property(nonatomic,strong)UIButton *backButton;
