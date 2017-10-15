@@ -50,7 +50,11 @@
             RACSignal *signal = [CHNetWork loadHomePageDataWithParam:input withUrlString:LoginVerify];
             [signal subscribeNext:^(id x) {
                 if ([[x objectForKey:@"status"] intValue] == 0) {
-                    
+                    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+                    [ud setBool:YES forKey:@"login"];
+                    NSString *token = [x objectForKey:@"token"];
+                    [ud setObject:token forKey:@"server_token"];
+                    [ud synchronize];
                 }
             } error:^(NSError *error) {
                 

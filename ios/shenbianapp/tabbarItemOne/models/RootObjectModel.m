@@ -22,9 +22,7 @@
     
     if (_loadPagedata == nil) {
         
-        _loadPagedata = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
-            
-            
+        _loadPagedata = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {            
             
             return nil;
         }];
@@ -51,7 +49,10 @@
                     NSLog(@"error:%@",error);
                     //模拟数据
                     self.topDataList = @{@"data":@{
-                                                 @"categories":@[@"寄快递",@"洗车",@"家教",@"海报设计",@"找律师",@"搬家",@"美妆",@"结婚"],@"imgInfo":@[@{@"text":@"找服务",@"url":@""},@{@"text":@"找人",@"url":@"" },@{@"text":@"找活动",@"url":@"" },@{@"text":@"找工作",@"url":@"" },@{@"text":@"找租房",@"url":@"" },@{@"text":@"学技能",@"url":@"" },@{@"text":@"修手机、修电脑",@"url":@""},@{@"text":@"全部分类",@"url":@"" }]},};
+                                                 @"categories":@[@"寄快递",@"洗车",@"家教",@"海报设计",@"找律师",@"搬家",@"美妆",@"结婚"],
+                                                 @"imgInfo":@[@{@"text":@"找服务",@"url":@""},@{@"text":@"找人",@"url":@"" },@{@"text":@"找活动",@"url":@"" },@{@"text":@"找工作",@"url":@"" },@{@"text":@"找租房",@"url":@"" },@{@"text":@"学技能",@"url":@"" },@{@"text":@"修手机、修电脑",@"url":@""},@{@"text":@"全部分类",@"url":@"" }]},
+                                         @"positions":@""
+                                         };
                     
                 }];
                 
@@ -72,6 +73,7 @@
     if (_loadBottomData == nil) {
         
         _loadBottomData = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
+            
             RACSignal *singal = [CHNetWork loadHomePageDataWithParam:param withUrlString:HomeBottomData];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -84,7 +86,8 @@
                     NSLog(@"error:%@",error);
                     //模拟数据
                     self.bottomDataList = @{@"data":@{
-                                                 @"categories":@[@"寄快递",@"洗车",@"家教",@"海报设计",@"找律师",@"搬家",@"美妆",@"结婚"],@"imgInfo":@[@{@"text":@"找服务",@"url":@""},@{@"text":@"找人",@"url":@"" },@{@"text":@"找活动",@"url":@"" },@{@"text":@"找工作",@"url":@"" },@{@"text":@"找租房",@"url":@"" },@{@"text":@"学技能",@"url":@"" },@{@"text":@"修手机、修电脑",@"url":@""},@{@"text":@"全部分类",@"url":@"" }]},};
+                                                    @"overbalance":@[@{@"cover_url":@"",@"description":@"",},@{@"cover_url":@"",@"description":@""}],
+                                                    @"hotRecommend":@[@{@"text":@"找服务",@"url":@""},@{@"text":@"找人",@"url":@"" },@{@"text":@"找活动",@"url":@"" },@{@"text":@"找工作",@"url":@"" },]},};
                     
                 }];
                 

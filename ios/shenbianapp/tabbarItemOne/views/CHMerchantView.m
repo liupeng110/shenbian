@@ -32,7 +32,7 @@
             [self.merchentTableView reloadData];
         }];
 
-        self.placeHolderList = @[@"sy_sj_cover",@"sy_sj_cover"];
+        self.placeHolderList = @[@"sy_sj_cover",@"sy_sj_cover",@"sy_sj_cover"];
     }
     return self;
 }

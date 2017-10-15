@@ -28,7 +28,7 @@
     self.modalPresentationStyle = UIModalPresentationFullScreen;
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     self.topView.hidden = YES;
-    
+    self.view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.contentView];
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);

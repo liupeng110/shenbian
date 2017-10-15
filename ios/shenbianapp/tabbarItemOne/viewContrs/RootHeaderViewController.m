@@ -57,7 +57,7 @@
             NSDictionary *tempDic = [x objectForKey:@"data"];
             self.NavView.quikSearchList = [tempDic objectForKey:@"categories"];
             self.headItemView.categoryItemList = [tempDic objectForKey:@"imgInfo"];
-          
+            
         }
     }];
     
@@ -65,9 +65,9 @@
     [self.viewCModel.loadBottomData execute:bottmParam];
     [RACObserve(self.viewCModel, bottomDataList) subscribeNext:^(NSDictionary *x) {
         if (x) {
-//            NSDictionary *tempDic = [x objectForKey:@"datas"];
-//            self.overBalanceView.overBablanceList = [x objectForKey:@"datas"];;
-            self.merchentView.merchentList = [x objectForKey:@"data"];
+//            NSDictionary *tempDic = [x objectForKey:@"data"];
+//            self.overBalanceView.overBablanceList = [tempDic objectForKey:@"overbalance"];;
+//            self.merchentView.merchentList = [tempDic objectForKey:@"hotRecommend"];
         }
     }];
     
@@ -169,7 +169,7 @@
         _wrapSrollview = [[UIScrollView alloc]init];
         _wrapSrollview.showsVerticalScrollIndicator = NO;
         _wrapSrollview.showsHorizontalScrollIndicator = NO;
-        _wrapSrollview.backgroundColor = [UIColor purpleColor];
+        _wrapSrollview.backgroundColor = [UIColor whiteColor];
         _wrapSrollview.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
     }
     return _wrapSrollview;

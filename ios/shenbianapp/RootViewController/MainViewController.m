@@ -86,7 +86,7 @@
 
     //判断登录
     BOOL login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
-    login = YES;
+//    login = YES;
     if (login) {
 
         CHPublishViewController *publish = [[CHPublishViewController alloc]init];

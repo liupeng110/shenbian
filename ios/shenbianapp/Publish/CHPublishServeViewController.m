@@ -7,9 +7,10 @@
 //
 
 #import "CHPublishServeViewController.h"
+
 #import <IQTextView.h>
 #import "CHPublishServiceTableViewCell.h"
-
+#import "CHPublishServiceModel.h"
 @interface CHPublishServeViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong) UIView *upperView;
 @property(nonatomic,strong) UIView *lowerView;
@@ -29,6 +30,8 @@
 @property(nonatomic,strong) NSArray *serviceKind;
 @property(nonatomic,strong) UIButton *publishButton;
 @property(nonatomic,strong) UILabel *titleLabel;
+
+@property(nonatomic,strong) CHPublishServiceModel *serviceModel;
 
 @end
 
@@ -120,6 +123,11 @@
     }];
     
     [self bindVieWCModel];
+}
+
+-(void)bindViewControllerModel{
+    self.serviceModel = [[CHPublishServiceModel alloc]init];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -253,6 +261,7 @@
         _publishButton.backgroundColor = [UIColor colorWithHexString:@"#ff7f7a"];
         [_publishButton setTitle:@"一键发布" forState:(UIControlStateNormal)];
         [_publishButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        [_publishButton addTarget:self action:@selector(clickPublishButton) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _publishButton;
 }
@@ -322,6 +331,20 @@
 
     [self.navigationController pushViewController:answerVC animated:YES];
 
+}
+
+- (void)clickPublishButton{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *token = [ud objectForKey:@"server_token"];
+    NSString *position = [NSString stringWithFormat:@"116.542951,39.639531"];
+    NSDictionary *param = @{@"title":@"hello world",@"price":@"100.00",@"serviceFlag":@"1",@"serviceType":@"0",@"center":position,@"descriptions":@"",@"token":token};
+    RACSignal *signal = [self.serviceModel.uploadComand execute:param];
+    [signal subscribeNext:^(id x) {
+        if ([x objectForKey:@"status"] == 0) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
+    
 }
 
 /*
