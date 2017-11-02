@@ -44,6 +44,7 @@
         _merchentTableView.delegate = self;
         _merchentTableView.dataSource = self;
         [_merchentTableView registerClass:[CHMerchentTableViewCell class] forCellReuseIdentifier:@"merchentCell"];
+        _merchentTableView.tableFooterView = [UIView new];
     }
     return _merchentTableView;
 }
