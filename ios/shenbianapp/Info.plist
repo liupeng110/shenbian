@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
-	<string>身边</string>
+	<string>U服</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
@@ -22,8 +22,19 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>userviceRedPacket</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>20171102</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -33,6 +44,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>‘U服’需要访问您的相机</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>始终允许访问</string>
 	<key>NSLocationUsageDescription</key>
@@ -40,9 +53,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>使用应用期间允许访问位置信息</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>‘身边’需要访问您的相册</string>
-	<key>Privacy - Camera Usage Description </key>
-	<string>‘身边’需要访问您的相机</string>
+	<string>‘U服’需要访问您的相册</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

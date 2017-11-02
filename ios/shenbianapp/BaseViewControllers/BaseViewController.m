@@ -32,6 +32,7 @@
         //_navBarView.delegate = self;
         _navBarView.backgroundColor = [UIColor colorWithHexColor:@"#008E8F"];
         _navBarView.frame = CGRectMake(0, 0, kScreenWidth, 64);
+        _navBarView.mhBaseTitleLabel.backgroundColor = [UIColor colorWithHexColor:@"#008E8F"];
     }
     return _navBarView;
     

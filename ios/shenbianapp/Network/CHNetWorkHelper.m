@@ -35,7 +35,7 @@
         security.allowInvalidCertificates = YES;
         //
         self.sessionManager.securityPolicy = security;
-
+        
         self.sessionManager.responseSerializer.acceptableContentTypes = [self.sessionManager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
         //
         //    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -49,14 +49,14 @@
 }
 
 -(RACSignal*)postRequestWithParam:(NSDictionary*)param withUrlString:(NSString*)urlString{
-
-    RACSignal *signal =  [self.sessionManager rac_POST:urlString parameters:param];
     
-    signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-        RACTupleUnpack(NSDictionary *json) = tuple;
+        RACSignal *signal =  [self.sessionManager rac_POST:urlString parameters:param];
         
-        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
+            
+            RACTupleUnpack(NSDictionary *json) = tuple;
             
             if (json != nil) {
                 [subscriber sendNext:json];
@@ -67,17 +67,21 @@
                 [subscriber sendCompleted];
                 
             }
-            return  nil;
+            
+            return nil;
         }];
+        
+        [signal subscribeError:^(NSError *error) {
+            
+            NSLog(@"服务器错误：%@",error);
+        }];
+        
+        
+        return [RACDisposable disposableWithBlock:^{
+            [signal rac_deallocDisposable];
+        }];;
     }];
     
-    [signal subscribeError:^(NSError *error) {
-      
-        NSLog(@"服务器错误：%@",error);
-    }];
-    
-    return signal;
-
 }
 
 -(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
@@ -88,7 +92,7 @@
 }
 
 -(RACSignal *)uploadServiceAndArticleWithParam:(NSDictionary *)param{
-
+    
     NSString *urlString = [NSString stringWithFormat:@"%@",addService];
     RACSignal *singal = [self postRequestWithParam:param withUrlString:urlString];
     

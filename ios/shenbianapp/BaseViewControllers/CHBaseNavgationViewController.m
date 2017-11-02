@@ -33,17 +33,18 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
     
     rightButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    [rightButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
-    [rightButton addTarget:self action:@selector(clickRightBUtton) forControlEvents:(UIControlEventTouchUpInside)];
+    [rightButton addTarget:self action:@selector(clickRightButton) forControlEvents:(UIControlEventTouchUpInside)];
+    [rightButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     rightButton.frame = CGRectMake(0, 0, 40, 40);
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    self.rightButton.hidden = YES;
 }
 
 - (void)clickBackButton{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void) clickRightBUtton{
+- (void) clickRightButton{
 
 }
 
