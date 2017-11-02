@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="#f8f8f8"
               android:focusable="true"
               android:focusableInTouchMode="true"
               android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#fff">
+        android:background="#fff"
+        android:layout_height="40dp">
 
         <ImageView
             android:id="@+id/back"
@@ -27,286 +28,145 @@
             android:textColor="#333"
             android:textSize="15sp"
             />
+
+        <TextView
+            android:id="@+id/publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="发布"
+            android:textColor="#dd544d"
+            android:textSize="15sp"
+            />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/title_edt"
+    <TextView
+        android:id="@+id/question"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/publish_service_desc_back"
-        android:gravity="center_vertical"
-        android:hint="标题 一句话描述你的服务"
-        android:paddingLeft="5dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/publish_service_back"
+        android:lineSpacingExtra="3dp"
+        android:padding="10dp"
+        android:text="1、就看着办滁州西涧\n2、河北师大佛靠金装
+\n3、多福多寿\n4、谁知道初三\n5、最底层大丈夫\n6、的字符串水电费的
+\n7、咋操作瑟瑟發抖"
+        android:textColor="#333"
         android:textSize="13sp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@drawable/publish_article_title_line"
-        android:layerType="software"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp">
-
-        <com.henlinkeji.shenbian.base.view.PictureAndTextEditorView
-            android:id="@+id/edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:background="@drawable/publish_service_desc_back"
-            android:maxEms="500"
-            android:hint="详细介绍一下你的服务"
-            android:textSize="13sp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            />
-
-        <TextView
-            android:id="@+id/residue_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
-            android:text="0/500"
-            android:textColor="#000"
-            android:textSize="12sp"/>
-        <ImageView
-            android:id="@+id/add_img_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="10dp"
-            android:src="@mipmap/addpicture"/>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="10dp"
+        android:text="添加描述，最多300字"
+        android:textSize="15sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
         android:background="#cfcfcf"/>
 
-    <RelativeLayout
-        android:id="@+id/price_rl"
+    <EditText
+        android:id="@+id/edit_text"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#fff"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/price_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingLeft="20dp"
-            android:text="价格"
-            android:textColor="#000"
-            android:textSize="15sp"/>
-
-        <EditText
-            android:id="@+id/price_edt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/price_name_tv"
-            android:background="@drawable/publish_service_desc_back"
-            android:gravity="center_vertical"
-            android:hint="输入价格"
-            android:inputType="numberDecimal"
-            android:paddingLeft="20dp"
-            android:textSize="15sp"/>
-    </RelativeLayout>
+        android:layout_height="120dp"
+        android:background="@drawable/publish_service_desc_back"
+        android:gravity="start"
+        android:hint="请编辑内容"
+        android:maxEms="300"
+        android:padding="10dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        android:textSize="14sp"
+        />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
+        android:background="#cfcfcf"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:text="选择分类"
+        android:textSize="15sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:background="#cfcfcf"/>
 
     <RelativeLayout
         android:id="@+id/classfy_rl"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
         android:background="#fff"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/classfy_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingLeft="20dp"
-            android:text="分类"
-            android:textColor="#000"
-            android:textSize="15sp"/>
-
+        android:orientation="horizontal"
+        android:layout_height="40dp">
         <TextView
             android:id="@+id/classfy_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"
-            android:layout_toRightOf="@+id/classfy_name_tv"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
-            android:singleLine="true"
+            android:text="请选择分类"
             android:textSize="15sp"/>
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:src="@mipmap/arrow_right"/>
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:text="位置(选填)"
+        android:textSize="15sp"/>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:background="#cfcfcf"/>
 
     <RelativeLayout
         android:id="@+id/position_rl"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
         android:background="#fff"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/position_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingLeft="20dp"
-            android:text="位置"
-            android:textColor="#000"
-            android:textSize="15sp"/>
-
+        android:orientation="horizontal"
+        android:layout_height="40dp">
         <TextView
             android:id="@+id/position_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"
-            android:layout_toRightOf="@+id/position_name_tv"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
-            android:singleLine="true"
+            android:text="请选择位置"
             android:textSize="15sp"/>
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:src="@mipmap/arrow_right"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:background="#cfcfcf"/>
-
-    <RelativeLayout
-        android:id="@+id/type_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff">
-
-        <TextView
-            android:id="@+id/type_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:text="服务类型"
-            android:textColor="#000"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:id="@+id/online_service_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/type_name_tv"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/add_service_type_back1"
-            android:gravity="center_vertical"
-            android:text="在线服务"
-            android:textColor="#fff"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:id="@+id/door_service_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/type_name_tv"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/online_service_tv"
-            android:background="@drawable/add_service_type_back2"
-            android:gravity="center_vertical"
-            android:text="上门服务"
-            android:textColor="#333"
-            android:textSize="15sp"/>
-        <TextView
-            android:id="@+id/shop_service_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/type_name_tv"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/door_service_tv"
-            android:background="@drawable/add_service_type_back2"
-            android:gravity="center_vertical"
-            android:text="到店服务"
-            android:textColor="#333"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:id="@+id/agree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/online_service_tv"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:text="发表服务代表您同意北京亿享科技"
-            android:textSize="12sp"/>
-
-        <TextView
-            android:id="@+id/agree_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/online_service_tv"
-            android:layout_toRightOf="@+id/agree"
-            android:text="《用户服务协议》"
-            android:textColor="#009698"
-            android:textSize="12sp"/>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/publish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="#dd544d"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="一键发布"
-            android:textColor="#fff"
-            android:textSize="15sp"
-            />
-    </LinearLayout>
 
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.henlinkeji.shenbian.fragments;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,17 +21,12 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
 import com.google.gson.Gson;
-import com.henlinkeji.shenbian.LoginActivity;
 import com.henlinkeji.shenbian.R;
 import com.henlinkeji.shenbian.SearchActivity;
 import com.henlinkeji.shenbian.SelectCityActivity;
@@ -46,7 +40,6 @@ import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.view.rvadapter.CommonAdapter;
 import com.henlinkeji.shenbian.base.view.rvadapter.MultiItemTypeAdapter;
 import com.henlinkeji.shenbian.base.view.rvadapter.base.ViewHolder;
-import com.henlinkeji.shenbian.bean.HeadBottom;
 import com.henlinkeji.shenbian.bean.HeadTop;
 import com.henlinkeji.shenbian.bean.HotSell;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -86,15 +79,11 @@ public class HeadFragment extends Fragment {
     RecyclerView hotRecy;
 
     private CommonAdapter<String> quickSearchAdapter;
-    private CommonAdapter<HeadBottom.DatasBean> hotSellAdapter;
+    private CommonAdapter<HotSell> hotSellAdapter;
     private List<String> searchList = new ArrayList<>();
-
     private List<String> classfyTextList = new ArrayList<>();
-
-    private List<String> classfyImgList1 = new ArrayList<>();
-    private List<Integer> classfyImgList2 = new ArrayList<>();
-
-    private List<HeadBottom.DatasBean> hotSellList = new ArrayList<>();
+    private List<String> classfyImgList = new ArrayList<>();
+    private List<HotSell> hotSellList = new ArrayList<>();
 
     private AMapLocationClient mlocationClient = null;
     private LoadingDialog loadingDialog;
@@ -104,8 +93,6 @@ public class HeadFragment extends Fragment {
     private boolean isSlect = false;
 
     private String city;
-    private double currentLatitude;
-    private double currentLongitude;
 
     private RecyclerGridViewAdapter recyclerGridViewAdapter;
 
@@ -161,25 +148,6 @@ public class HeadFragment extends Fragment {
     }
 
     protected void initData() {
-        classfyTextList.clear();
-        classfyTextList.add("找服务");
-        classfyTextList.add("找人");
-        classfyTextList.add("找活动");
-        classfyTextList.add("找工作");
-        classfyTextList.add("找租房");
-        classfyTextList.add("学技能");
-        classfyTextList.add("修手机、电脑");
-        classfyTextList.add("全部");
-
-        classfyImgList2.add(R.mipmap.zhaofuwu);
-        classfyImgList2.add(R.mipmap.zhaoren);
-        classfyImgList2.add(R.mipmap.zhaohuodong);
-        classfyImgList2.add(R.mipmap.zhaogongzuo);
-        classfyImgList2.add(R.mipmap.zhaozufang);
-        classfyImgList2.add(R.mipmap.xuejineng);
-        classfyImgList2.add(R.mipmap.xiushouji);
-        classfyImgList2.add(R.mipmap.quanbu);
-
         quickSearchAdapter = new CommonAdapter<String>(getActivity(), R.layout.quick_search_item_layout) {
             @Override
             protected void convert(ViewHolder holder, String bean, int position) {
@@ -197,23 +165,13 @@ public class HeadFragment extends Fragment {
         //设置适配器
         recyclerGridViewAdapter = new RecyclerGridViewAdapter(getActivity());
         classfyRecy.setAdapter(recyclerGridViewAdapter);
-        recyclerGridViewAdapter.setLocalData(classfyTextList, classfyImgList2);
-        recyclerGridViewAdapter.notifyDataSetChanged();
 
-        hotSellAdapter = new CommonAdapter<HeadBottom.DatasBean>(getActivity(), R.layout.hot_sell_item_layout) {
+        hotSellAdapter = new CommonAdapter<HotSell>(getActivity(), R.layout.hot_sell_item_layout) {
             @Override
-            protected void convert(ViewHolder holder, HeadBottom.DatasBean hotSell, int position) {
-                holder.setText(R.id.name, hotSell.getTitle());
-                holder.setText(R.id.content, hotSell.getDescription());
-                LatLng latLng1 = new LatLng(currentLatitude, currentLongitude);
-                String[] locs = hotSell.getLocation().split(",");
-                LatLng latLng2 = null;
-                if (locs.length >= 1) {
-                    latLng2 = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
-                }
-                holder.setText(R.id.distance, AMapUtils.calculateLineDistance(latLng1,latLng2)+"");
+            protected void convert(ViewHolder holder, HotSell hotSell, int position) {
+                    holder.setText(R.id.name,hotSell.getName());
+                    holder.setText(R.id.content,hotSell.getContent());
             }
-
             @Override
             public void onViewHolderCreated(ViewHolder holder, View itemView) {
                 super.onViewHolderCreated(holder, itemView);
@@ -221,6 +179,33 @@ public class HeadFragment extends Fragment {
             }
         };
         hotRecy.setAdapter(hotSellAdapter);
+
+        HotSell h1 = new HotSell();
+        h1.setName("服务1");
+        h1.setContent("内容1内容1内容1内容1内容1内容1内容1内容1");
+        HotSell h2 = new HotSell();
+        h2.setName("服务2");
+        h2.setContent("内容1内容1内容1内容1内容1内容2222222222222222222");
+        HotSell h3 = new HotSell();
+        h3.setName("服务3");
+        h3.setContent("内容3333333333");
+        HotSell h4 = new HotSell();
+        h4.setName("服务4");
+        h4.setContent("内容1内容1内容444444");
+        HotSell h5 = new HotSell();
+        h5.setName("服务5");
+        h5.setContent("内容1内容1内容5555555");
+        HotSell h6 = new HotSell();
+        h6.setName("服务6");
+        h6.setContent("内容1内容1内容66666666");
+        hotSellList.add(h1);
+        hotSellList.add(h2);
+        hotSellList.add(h3);
+        hotSellList.add(h4);
+        hotSellList.add(h5);
+        hotSellList.add(h6);
+
+        hotSellAdapter.setDatas(hotSellList);
 
         aMap.getUiSettings().setZoomControlsEnabled(false);
 
@@ -235,8 +220,8 @@ public class HeadFragment extends Fragment {
                     if (aMapLocation.getErrorCode() == 0) {
                         //定位成功回调信息，设置相关消息
                         aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
-                        currentLatitude=aMapLocation.getLatitude();//获取纬度
-                        currentLongitude=aMapLocation.getLongitude();//获取经度
+                        aMapLocation.getLatitude();//获取纬度
+                        aMapLocation.getLongitude();//获取经度
                         aMapLocation.getAccuracy();//获取精度信息
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(aMapLocation.getTime());
@@ -253,12 +238,11 @@ public class HeadFragment extends Fragment {
                         }
                         city = aMapLocation.getCity();
                         //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
-//                        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15, 0, 0));
-//                        aMap.moveCamera(mCameraUpdate);
+                        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15, 0, 0));
+                        aMap.moveCamera(mCameraUpdate);
                         if (!isGetJW) {
                             isGetJW = true;
-                            getHead();
-                            getHeadBottom();
+                            getHead(aMapLocation.getLatitude(), aMapLocation.getLongitude());
                         }
                     } else {
                         locTv.setText("定位失败");
@@ -310,12 +294,6 @@ public class HeadFragment extends Fragment {
                 startActivity(new Intent(getActivity(), SearchActivity.class));
             }
         });
-        headCarIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-            }
-        });
     }
 
     @Override
@@ -341,17 +319,15 @@ public class HeadFragment extends Fragment {
         }
     }
 
-    private void getHead() {
+    private void getHead(double latitude, double longitude) {
         Map<String, String> params = new HashMap<>();
-        params.put("city", city);
-        params.put("center", currentLatitude + "," + currentLongitude);
-        params.put("center", "116.542951,39.639531");
-        HttpUtils.post(getActivity(), MyConfig.HEAD_TOP, params, new HttpUtils.HttpPostCallBackListener() {
+        params.put("latitude", latitude + "");
+        params.put("longitude", longitude + "");
+        HttpUtils.post(getActivity(), MyConfig.HEAD, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
+                LogUtil.e("=====onSuccess====="+response);
                 loadingDialog.exit();
-                classfyTextList.clear();
-                classfyImgList1.clear();
                 HeadTop headTop = new Gson().fromJson(response, HeadTop.class);
                 if (!TextUtils.isEmpty(headTop.getStatus())) {
                     if (headTop.getStatus().equals("0000")) {
@@ -362,27 +338,10 @@ public class HeadFragment extends Fragment {
                         quickSearchAdapter.notifyDataSetChanged();
                         for (int i = 0; i < headTop.getData().getImgInfo().size(); i++) {
                             classfyTextList.add(headTop.getData().getImgInfo().get(i).getText());
-                            classfyImgList1.add(headTop.getData().getImgInfo().get(i).getUrl());
+                            classfyImgList.add(headTop.getData().getImgInfo().get(i).getUrl());
                         }
-                        recyclerGridViewAdapter.setNetData(classfyTextList, classfyImgList1);
+                        recyclerGridViewAdapter.setData(classfyTextList, classfyImgList);
                         recyclerGridViewAdapter.notifyDataSetChanged();
-                        for (int i = 0; i < headTop.getData().getPositions().size(); i++) {
-                            String loc = headTop.getData().getPositions().get(i).get_location();
-                            String[] locs = loc.split(",");
-                            if (locs.length >= 1) {
-                                LatLng latLng = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
-                                final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng));
-                                MarkerOptions markerOption = new MarkerOptions();
-                                markerOption.position(latLng);
-                                markerOption.draggable(false);//设置Marker可拖动
-                                markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon)));
-                                // 将Marker设置为贴地显示，可以双指下拉地图查看效果
-                                markerOption.setFlat(false);//设置marker平贴地图效果
-                                marker.setMarkerOptions(markerOption);
-                                CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0])), 10, 0, 0));
-                                aMap.moveCamera(mCameraUpdate);
-                            }
-                        }
                     }
                 }
             }
@@ -390,30 +349,7 @@ public class HeadFragment extends Fragment {
             @Override
             public void onFailure(String response) {
                 loadingDialog.exit();
-            }
-        });
-    }
-
-    private void getHeadBottom() {
-        Map<String, String> params = new HashMap<>();
-        params.put("city", city);
-//        params.put("center", currentLatitude + "," + currentLongitude);
-        params.put("center", "116.542951,39.639531");
-        params.put("page", 1+"");
-        HttpUtils.post(getActivity(), MyConfig.HEAD_BOTTOM, params, new HttpUtils.HttpPostCallBackListener() {
-            @Override
-            public void onSuccess(String response) {
-                HeadBottom headBottom=new Gson().fromJson(response,HeadBottom.class);
-//                if (headBottom.getStatus().equals("0000")){
-//                    hotSellList=headBottom.getDatas();
-//                    hotSellAdapter.setDatas(hotSellList);
-//                }
-                loadingDialog.exit();
-            }
-
-            @Override
-            public void onFailure(String response) {
-                loadingDialog.exit();
+                LogUtil.e("=====onFailure====="+response);
             }
         });
     }

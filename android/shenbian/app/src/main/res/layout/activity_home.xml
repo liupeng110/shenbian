@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/head_selected" />
+                android:background="@mipmap/headselected" />
 
             <TextView
                 android:id="@+id/btn_head"
