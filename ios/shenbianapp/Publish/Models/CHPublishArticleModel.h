@@ -11,6 +11,5 @@
 @interface CHPublishArticleModel : CHBaseViewCModel
 
 @property(nonatomic,strong,readonly)RACCommand *uploadComand;
-@property(nonatomic,strong,readonly)RACCommand *obtainToken;
 
 @end

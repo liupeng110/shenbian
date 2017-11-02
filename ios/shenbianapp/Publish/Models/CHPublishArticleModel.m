@@ -10,28 +10,14 @@
 
 @implementation CHPublishArticleModel
 @synthesize uploadComand = _uploadComand;
-@synthesize obtainToken = _obtainToken;
-
--(RACCommand *)obtainToken{
-    
-    if (!_obtainToken) {
-        _obtainToken = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *input) {
-            
-            AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]init];
-            
-            RACSignal *signal =  [manager rac_POST:[input objectForKey:@"urlString"] parameters:[input objectForKey:@"param"]];
-            
-            return signal;
-        }];
-    }
-    return _obtainToken;
-}
 
 -(RACCommand *)uploadComand{
     
     if (!_uploadComand) {
-        _uploadComand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+        _uploadComand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
             RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                
+                [CHNetWork uploadServiceAndArticleWithParam:param];
                 
                 return [RACDisposable disposableWithBlock:^{
                     

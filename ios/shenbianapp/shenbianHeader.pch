@@ -9,11 +9,11 @@
 #ifndef shenbianHeader_pch
 #define shenbianHeader_pch
 
-
 #import <YYKit.h>
 #import <ReactiveCocoa.h>
 #import <Masonry.h>
 #import <IQKeyboardManager.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #import <AFNetworking.h>
 #import <AFNetworking-RACExtensions/RACAFNetworking.h>
@@ -25,6 +25,6 @@
 #import "UIView+UIViewAdditions.h"
 #import "UIView+Extension.h"
 #import "LXButton.h"
-
+#import "GlobalDataHeader.h"
 
 #endif 

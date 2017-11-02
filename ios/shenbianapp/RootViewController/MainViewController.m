@@ -8,12 +8,12 @@
 
 #import "MainViewController.h"
 #import "RootHeaderViewController.h"
-#import "RootFocusViewController.h"
-#import "RootFindeViewController.h"
+#import "CHDiscoverViewController.h"
 #import "RootMineViewController.h"
 #import "HQTabBar.h"
 #import "CHPublishViewController.h"
 #import "CHLoginViewController.h"
+#import "CHMessageViewController.h"
 @interface MainViewController ()<HQTabBardelegate>
 
 @end
@@ -25,9 +25,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self addChildVc:[[RootHeaderViewController alloc]init] title:@"首页" image:@"sy_syb" selectedImage:@"sy_sya"];
     
-    [self addChildVc:[[RootFocusViewController alloc] init] title:@"消息" image:@"sy_gzb" selectedImage:@"sy_gza"];
+    [self addChildVc:[[CHMessageViewController alloc] init] title:@"消息" image:@"sy_gzb" selectedImage:@"sy_gza"];
     
-    [self addChildVc:[[RootFindeViewController alloc] init] title:@"发现" image:@"sy_fxb" selectedImage:@"sy_fxa"];
+    [self addChildVc:[[CHDiscoverViewController alloc] init] title:@"发现" image:@"sy_fxb" selectedImage:@"sy_fxa"];
     
     [self addChildVc:[[RootMineViewController alloc] init] title:@"我的" image:@"sy_wdb" selectedImage:@"sy_wda"];
     
@@ -86,7 +86,7 @@
 
     //判断登录
     BOOL login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
-    login = YES;
+//    login = YES;
     if (login) {
 
         CHPublishViewController *publish = [[CHPublishViewController alloc]init];

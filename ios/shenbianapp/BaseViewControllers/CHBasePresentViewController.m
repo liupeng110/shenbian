@@ -38,6 +38,7 @@
         make.right.equalTo(self.topView).offset(-20);;
         make.width.height.mas_equalTo(40);
     }];
+    self.navBarView.hidden = YES;
 }
 
 -(UIView *)topView{

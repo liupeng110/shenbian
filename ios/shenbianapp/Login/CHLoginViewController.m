@@ -208,11 +208,10 @@
 -(UITextField *)validCodeTF{
     
     if (_validCodeTF == nil) {
-        _validCodeTF = [UITextField new];
+        _validCodeTF = [[UITextField alloc]init];
         _validCodeTF.font = [UIFont systemFontOfSize:15];
         _validCodeTF.placeholder = @"验证码";
         _validCodeTF.keyboardType = UIKeyboardTypeNumberPad;
-        
     }
     return  _validCodeTF;
 }
@@ -234,14 +233,9 @@
     NSString *text = self.phoneNoTF.text;
     if (text.length == 11 && [[text substringToIndex:1] isEqualToString:@"1"]) {
         NSDictionary *param = @{@"mobile":self.phoneNoTF.text};
-        RACSignal *signal =  [self.loginModel.sendValidCode execute:param];
-        [signal subscribeNext:^(id x) {
-            NSInteger status = [[x objectForKey:@"status"] integerValue];
-            if (status == 0) {
-            
-            }
-            
-        }];
+        
+        [self.loginModel.sendValidCode execute:param];
+        
         
         [self countDown];
 
@@ -311,7 +305,7 @@
     
    
     NSString *text = self.phoneNoTF.text;
-    if (text.length == 11 && [[text substringToIndex:1] isEqualToString:@"1"] && self.loginModel.msgSessionId.length > 0) {
+    if (text.length == 11 && [text hasPrefix:@"1"] && self.loginModel.msgSessionId.length > 0) {
     
         NSDictionary *param = @{@"mobile":self.phoneNoTF.text,@"code":self.validCodeTF.text,@"smsSessionId":self.loginModel.msgSessionId};
         RACSignal *signal =  [self.loginModel.loginCommand execute:param];

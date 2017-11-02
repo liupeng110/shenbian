@@ -7,6 +7,11 @@
 //
 
 #import "CHNetWorkHelper.h"
+@interface CHNetWorkHelper ()
+
+@property(nonatomic,strong)AFHTTPSessionManager *sessionManager;
+
+@end
 
 @implementation CHNetWorkHelper
 +(CHNetWorkHelper*)shareInstance{
@@ -19,37 +24,40 @@
     return instance;
 }
 
--(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
-    
-    
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]init];
-    
-    AFSecurityPolicy *security = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
-    
-    [security setValidatesDomainName:NO];
-    
-    security.allowInvalidCertificates = YES;
-    //
-    manager.securityPolicy = security;
-    manager.responseSerializer.acceptableContentTypes = [manager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
-    //
-    //    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-    //    [requestSerializer setValue:@"*/*" forHTTPHeaderField:@"accept"];
-    //    [requestSerializer setValue:@"*/*; charset=utf-8" forHTTPHeaderField:@"Content-type"];
-    //    [requestSerializer setValue:@"Keep-Alive" forHTTPHeaderField:@"connection"];
-    //
-    //    manager.requestSerializer = requestSerializer;
-    
-     RACSignal *signal =  [manager rac_POST:urlString parameters:param];
-    
-      signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
+-(instancetype)init{
+    if (self = [super init]) {
+        self.sessionManager = [[AFHTTPSessionManager alloc]init];
         
+        AFSecurityPolicy *security = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        
+        [security setValidatesDomainName:NO];
+        
+        security.allowInvalidCertificates = YES;
+        //
+        self.sessionManager.securityPolicy = security;
+        
+        self.sessionManager.responseSerializer.acceptableContentTypes = [self.sessionManager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
+        //
+        //    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+        //    [requestSerializer setValue:@"*/*" forHTTPHeaderField:@"accept"];
+        //    [requestSerializer setValue:@"*/*; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+        //    [requestSerializer setValue:@"Keep-Alive" forHTTPHeaderField:@"connection"];
+        //
+        //    manager.requestSerializer = requestSerializer;
+    }
+    return self;
+}
 
-        RACTupleUnpack(NSDictionary *json) = tuple;
+-(RACSignal*)postRequestWithParam:(NSDictionary*)param withUrlString:(NSString*)urlString{
+    
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        RACSignal *signal =  [self.sessionManager rac_POST:urlString parameters:param];
+        
+        signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
             
-
+            RACTupleUnpack(NSDictionary *json) = tuple;
+            
             if (json != nil) {
                 [subscriber sendNext:json];
                 [subscriber sendCompleted];
@@ -57,14 +65,38 @@
                 NSError *error = [NSError errorWithDomain:@"json 出错" code:10000 userInfo:nil];
                 [subscriber sendError:error];
                 [subscriber sendCompleted];
-
+                
             }
-            return  nil;
+            
+            return nil;
         }];
+        
+        [signal subscribeError:^(NSError *error) {
+            
+            NSLog(@"服务器错误：%@",error);
+        }];
+        
+        
+        return [RACDisposable disposableWithBlock:^{
+            [signal rac_deallocDisposable];
+        }];;
     }];
     
+}
+
+-(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
+    
+    RACSignal *signal = [self postRequestWithParam:param withUrlString:urlString];
     
     return signal;
+}
+
+-(RACSignal *)uploadServiceAndArticleWithParam:(NSDictionary *)param{
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@",addService];
+    RACSignal *singal = [self postRequestWithParam:param withUrlString:urlString];
+    
+    return singal;
 }
 
 @end

@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import <AMapFoundationKit/AMapFoundationKit.h>
+
+#import <RongIMLib/RongIMLib.h>
+#import <RongIMKit/RongIMKit.h>
 @interface AppDelegate ()
 
 @end
@@ -25,6 +28,15 @@
     [self.window makeKeyAndVisible];
     [[AMapServices sharedServices] setEnableHTTPS:YES];
     [AMapServices sharedServices].apiKey = @"0dc1126a57b00e8babb475778cd99e81";
+    [[RCIM sharedRCIM] initWithAppKey:@"mgb7ka1nmwffg"];
+    [[RCIM sharedRCIM] setScheme:@"userviceRedPacket" forExtensionModule:@"JrmfPacketManager"];
+    [[RCIM sharedRCIM] connectWithToken:@"lZxlQOonERbH4OZlaoGCskfahqlL3dhxC0IyB1eTNaLD5DUa4755NDXSK1BuVqVEcoyQ3XWiZ83lPu8m+jj4uw==" success:^(NSString *userId) {
+        
+    } error:^(RCConnectErrorCode status) {
+        
+    } tokenIncorrect:^{
+        
+    }];
     return YES;
 }
 
@@ -55,5 +67,17 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+    if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
+        return YES;
+    }
+    return YES;
+}
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
+        return YES;
+    }
+    return YES;
+}
 @end
