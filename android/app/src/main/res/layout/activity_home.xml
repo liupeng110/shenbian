@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:id="@+id/home_rl"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_height="50dp">
+        <RelativeLayout
+            android:id="@+id/rl_head"
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@mipmap/head_selected" />
+
+            <TextView
+                android:id="@+id/btn_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_head"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7px"
+                android:text="首页"
+                android:textColor="#009698"
+                android:textSize="20px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_attention"
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@mipmap/attentionunselect" />
+
+            <TextView
+                android:id="@+id/btn_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_attention"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7px"
+                android:text="关注"
+                android:textColor="#8f959c"
+                android:textSize="20px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_add"
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@mipmap/add" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_discover"
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_discover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@mipmap/discoverunselect" />
+
+            <TextView
+                android:id="@+id/btn_discover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_discover"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7px"
+                android:text="发现"
+                android:textColor="#8f959c"
+                android:textSize="20px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_my"
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_my"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@mipmap/mineunselect" />
+
+            <TextView
+                android:id="@+id/btn_my"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_my"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7px"
+                android:text="我的"
+                android:textColor="#8f959c"
+                android:textSize="20px" />
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#cfcfcf"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"/>
+</RelativeLayout>
