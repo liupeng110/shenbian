@@ -93,6 +93,7 @@
         [_tableView registerClass:[CHArticleDetailsTableViewCell class] forCellReuseIdentifier:@"articleCell"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.tableFooterView = [UIView new];
     }
     return _tableView;
 

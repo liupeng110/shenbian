@@ -110,7 +110,7 @@
         label.textColor = [UIColor whiteColor];
         [cell.contentView addSubview:label];
         label.frame= cell.contentView.bounds;
-    }
+    } 
     NSString *name = [self.quikSearchList objectAtIndex:indexPath.row];
     label.text= name;
     return cell;

@@ -54,7 +54,7 @@
 }
 
 -(void)setIndexPath:(NSIndexPath *)indexPath{
- 
+    _indexPath = indexPath;
     self.titleLabel.text = @"文章标题文章标题文章标题文章标题文章标题文章标题文章标题";
     self.readLabel.text = [NSString stringWithFormat: @"阅读 4  评论 6  喜欢 8"];
 }

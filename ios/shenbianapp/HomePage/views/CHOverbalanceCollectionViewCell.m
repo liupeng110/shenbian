@@ -19,9 +19,12 @@
     if (self = [super initWithFrame:frame]) {
         self.contentView.clipsToBounds = YES;
         self.contentView.layer.cornerRadius = 5;
+//        self.backgroundColor = [UIColor redColor];
+//        self.contentView.layer.borderWidth = 0.7f;
+        self.contentView.layer.masksToBounds = YES;
         [self.contentView addSubview:self.coverImageView];
         [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self);
+            make.edges.equalTo(self.contentView);
         }];
     }
     return self;
@@ -33,8 +36,10 @@
     if (_coverImageView == nil) {
         
         _coverImageView = [UIImageView new];
-        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFit;
         _coverImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        _coverImageView.clipsToBounds = YES;
+        _coverImageView.layer.cornerRadius = 5;
     }
     return _coverImageView;
 }

@@ -150,13 +150,15 @@
 
     if (_collectionView == nil) {
         UICollectionViewFlowLayout *flowout = [[UICollectionViewFlowLayout alloc]init];
-        
+        flowout.minimumLineSpacing = 5;
+        flowout.minimumInteritemSpacing = 5;
         _collectionView = [[UICollectionView alloc]initWithFrame:(CGRectZero) collectionViewLayout:flowout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"pictureCell"];
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.scrollEnabled = NO;
+        
     }
     
     return _collectionView;
@@ -184,7 +186,7 @@
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
 
-    return CGSizeMake(120, 120);
+    return CGSizeMake(100, 100);
 }
 
 @end

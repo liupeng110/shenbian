@@ -8,6 +8,6 @@
 
 #import "CHBaseNavgationViewController.h"
 
-@interface CHDiscoverViewController : CHBaseNavgationViewController
+@interface CHDiscoverViewController : BaseViewController
 
 @end

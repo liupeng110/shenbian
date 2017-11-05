@@ -161,7 +161,7 @@
 
     if (_tagName == nil) {
         _tagName = [[UILabel alloc]init];
-        _tagName.backgroundColor = [UIColor colorWithHexString:@"#009698"];
+        _tagName.backgroundColor = [UIColor colorWithHexString:@"#f0f0f0"];
         _tagName.layer.cornerRadius = 12;
         _tagName.font = [UIFont fontWithName:@"PingFangSC-Regular" size:13];
         _tagName.clipsToBounds = YES;

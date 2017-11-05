@@ -17,24 +17,34 @@
     if (_sendValidCode == nil) {
         _sendValidCode = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *input) {
             
+            RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:SendValidCode];
             
-            RACSignal *signal = [CHNetWork loadHomePageDataWithParam:input withUrlString:SendValidCode];
-            [signal doNext:^(id x) {
+            return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                 
-                if ([[x objectForKey:@"status"] intValue] == 0) {
+                [signal subscribeNext:^(id x) {
+                    NSInteger status = [[x objectForKey:@"status"] integerValue];
+                    if (status == 0) {
+                        self.msgSessionId = [[x objectForKey:@"data"] objectForKey:@"smsSessionId"];
+
+                        [subscriber sendNext:x];
+                        [subscriber sendCompleted];
+                    } else {
+                        NSError *error = [NSError errorWithDomain:[x objectForKey:@"error"] code:100 userInfo:nil];
+                        [subscriber sendError:error];
+                        [subscriber sendCompleted];
+                        NSLog(@"错误%@",error);
+
+                    }
+                } error:^(NSError *error) {
+                    NSLog(@"错误%@",error);
+                    [subscriber sendError:error];
+                    [subscriber sendCompleted];
+                } completed:^{
                     
-                    self.msgSessionId = [[x objectForKey:@"data"] objectForKey:@"smsSessionId"];
-                    
-                } else {
-                    UIAlertView *alert = [[UIAlertView alloc]init];
-                    alert.title = @"发送提示";
-                    alert.message =  [x objectForKey:@"error"];
-                    [alert addButtonWithTitle:@"确定"];
-                    [alert show];
-                    
-                }
+                }];
+                
+                return nil;
             }];
-            return signal;
                         
         }];
     }
@@ -47,17 +57,28 @@
     if (_loginCommand == nil) {
         _loginCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
             
-            RACSignal *signal = [CHNetWork loadHomePageDataWithParam:input withUrlString:LoginVerify];
-            [signal doNext:^(id x) {
-                if ([[x objectForKey:@"status"] intValue] == 0) {
-                    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-                    [ud setBool:YES forKey:@"login"];
-                    NSString *token = [x objectForKey:@"token"];
-                    [ud setObject:token forKey:@"server_token"];
-                    [ud synchronize];
-                }
+            RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:LoginVerify];
+            return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                [signal subscribeNext:^(id x) {
+                    if ([[x objectForKey:@"status"] intValue] == 0) {
+                        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+                        [ud setBool:YES forKey:@"login"];
+                        NSString *token = [x objectForKey:@"token"];
+                        [ud setObject:token forKey:@"server_token"];
+                        [ud synchronize];
+                    } else {
+                        NSLog(@"error:%@",[x objectForKey:@"error"]);
+                        [subscriber sendNext:x];
+                        [subscriber sendCompleted];
+                    }
+                } error:^(NSError *error) {
+                    [subscriber sendError:error];
+                    [subscriber sendCompleted];
+                } completed:^{
+                    
+                }];
+                return nil;
             }];
-            return signal;
         }];
     }
     return  _loginCommand;

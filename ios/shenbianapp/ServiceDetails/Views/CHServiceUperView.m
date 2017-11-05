@@ -19,6 +19,12 @@
 -(instancetype)initWithFrame:(CGRect)frame{
 
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor redColor];
+        
+        [self addSubview:self.introduceImageView];
+        [self.introduceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
         
         [self addSubview:self.topShareButton];
         [self.topShareButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -36,14 +42,7 @@
             make.width.mas_equalTo(40);
             make.height.mas_equalTo(40);
         }];
-        
-        [self addSubview:self.introduceImageView];
-        [self.introduceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self);
-            make.bottom.equalTo(self);
-            make.width.mas_equalTo(216);
-            make.height.mas_equalTo(144);
-        }];
+       
     }
     return self;
 }
@@ -74,7 +73,7 @@
 -(UIImageView *)introduceImageView{
     
     if (_introduceImageView == nil) {
-        _introduceImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
+        _introduceImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_image"]];
     }
     return _introduceImageView;
     

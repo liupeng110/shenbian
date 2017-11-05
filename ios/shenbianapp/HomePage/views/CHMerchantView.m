@@ -32,7 +32,7 @@
             [self.merchentTableView reloadData];
         }];
 
-        self.placeHolderList = @[@"sy_sj_cover",@"sy_sj_cover",@"sy_sj_cover"];
+        self.placeHolderList = @[@"default_scenery",@"default_scenery",@"default_scenery"];
     }
     return self;
 }
@@ -45,6 +45,7 @@
         _merchentTableView.dataSource = self;
         [_merchentTableView registerClass:[CHMerchentTableViewCell class] forCellReuseIdentifier:@"merchentCell"];
         _merchentTableView.tableFooterView = [UIView new];
+        _merchentTableView.scrollEnabled = NO;
     }
     return _merchentTableView;
 }

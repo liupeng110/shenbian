@@ -12,6 +12,6 @@
 @property(nonatomic,strong) RACCommand *sendValidCode;
 @property(nonatomic,strong) RACCommand *loginCommand;
 
-@property(nonatomic,strong) NSString *msgSessionId;
+@property(nonatomic,copy) NSString *msgSessionId;
 
 @end

@@ -37,7 +37,7 @@
     if (_loadTopData == nil) {
         _loadTopData = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
             
-            RACSignal *singal = [CHNetWork loadHomePageDataWithParam:param withUrlString:HomeTopData];
+            RACSignal *singal = [CHNetWork loadDataWithParam:param withUrlString:HomeTopData];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                 
@@ -74,7 +74,7 @@
         
         _loadBottomData = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
             
-            RACSignal *singal = [CHNetWork loadHomePageDataWithParam:param withUrlString:HomeBottomData];
+            RACSignal *singal = [CHNetWork loadDataWithParam:param withUrlString:HomeBottomData];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                 

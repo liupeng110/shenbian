@@ -22,7 +22,8 @@
     [super viewDidLoad];
     //Do any additional setup after loading the view.
     self.navBarView.mhBaseTitleLabel.text = @"发现";
-    
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithHexColor:@"#008E8F"];
+
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -51,7 +52,6 @@
     CHDiscoverTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"discoverCell"];
     
     return cell;
-
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -66,14 +66,9 @@
     return 300;
 }
 
-/*
-#pragma mark - Navigation
+-(UIStatusBarStyle)preferredStatusBarStyle{
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    return UIStatusBarStyleLightContent;
 }
-*/
 
 @end

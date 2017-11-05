@@ -22,6 +22,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title =@"编辑商店信息";
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+//    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#404040"];
+
     [self.view addSubview:self.storeInfoTableView];
     [self.storeInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);

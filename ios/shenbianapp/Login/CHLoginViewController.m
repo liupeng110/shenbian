@@ -234,8 +234,12 @@
     if (text.length == 11 && [[text substringToIndex:1] isEqualToString:@"1"]) {
         NSDictionary *param = @{@"mobile":self.phoneNoTF.text};
         
-        [self.loginModel.sendValidCode execute:param];
+        RACSignal *singal =  [self.loginModel.sendValidCode execute:param];
         
+        [singal subscribeNext:^(NSDictionary *x) {
+
+            self.loginModel.msgSessionId = [[x objectForKey:@"data"] objectForKey:@"smsSessionId"];
+        } ];
         
         [self countDown];
 

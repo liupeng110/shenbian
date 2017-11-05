@@ -9,18 +9,22 @@
 #import "RootHeaderViewController.h"
 #import "HomeNavView.h"
 #import "RootObjectModel.h"
-#import "CustomDiviceView.h"
+#import "CHCardsPanelView.h"
 #import "CHMapView.h"
 #import "CHOverbalanceView.h"
 
 #import "CHMerchantView.h"
 
 #import "CHServiceDetailsViewController.h"
-
+#import "CHFindServiceViewController.h"
+#import "CHFindPeopleViewController.h"
+#import "CHServiceAllSerViewController.h"
+#import "CHFJobSearchViewController.h"
+#import "CHSeeMapViewController.h"
 @interface RootHeaderViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong)HomeNavView *NavView;
-@property (nonatomic,strong)CustomDiviceView * headItemView;
+@property (nonatomic,strong)CHCardsPanelView * headItemView;
 @property (nonatomic,strong) RootObjectModel *viewCModel;
 
 @property(nonatomic,strong) CHMapView *mapView;
@@ -79,7 +83,62 @@
         
     };
     
+    self.headItemView.selectFindType = ^(CHFindType type) {
+        @strongify(self);
+        UIViewController *vc = [UIViewController new];
+        switch (type) {
+            case 0:
+                vc = [CHFindServiceViewController new];
+                break;
+            case 1:
+                vc = [CHFindPeopleViewController new];
+
+                break;
+            case 2:
+                vc = [CHFJobSearchViewController new];
+                vc.title = @"找活动";
+                break;
+            case 3:
+                vc = [CHFJobSearchViewController new];
+                vc.title = @"找工作";
+
+                break;
+            case 4:
+                vc = [CHFJobSearchViewController new];
+                vc.title = @"找租房";
+
+                break;
+            case 5:
+                vc = [CHFJobSearchViewController new];
+                vc.title = @"学技能";
+
+                break;
+            case 6:
+                vc = [CHFJobSearchViewController new];
+                vc.title = @"修电脑";
+
+                break;
+            case 7:
+                vc = [CHServiceAllSerViewController new];
+                break;
+
+            default:
+                vc = [CHFJobSearchViewController new];
+                vc.title = @"全部分类";
+                break;
+        }
+        [self.navigationController pushViewController:vc animated:YES];
+    };
     
+    self.mapView.seeAllLocation = ^{
+        @strongify(self);
+        CHSeeMapViewController *seeMap = [[CHSeeMapViewController alloc]init];
+        [self.navigationController pushViewController:seeMap animated:YES];
+    };
+    self.overBalanceView.seeAllCategory = ^{
+//        @strongify(self);
+        
+    };
 }
 
 -(void)setupViews{
@@ -98,16 +157,15 @@
     [self.headItemView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.wrapSrollview);
         make.left.right.equalTo(self.wrapSrollview);
-        make.height.mas_equalTo(200);
+        make.height.mas_equalTo(210);
         make.width.mas_equalTo(kScreenWidth);
     }];
     
     [self.wrapSrollview addSubview:self.mapView];
     [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.headItemView.mas_bottom);
-        make.left.equalTo(self.wrapSrollview).offset(15);
-        make.right.equalTo(self.wrapSrollview).offset(-15);
-        make.height.mas_equalTo(120);
+        make.top.equalTo(self.headItemView.mas_bottom).offset(10);
+        make.left.right.equalTo(self.wrapSrollview);
+        make.height.mas_equalTo(150);
     }];
     
     [self.wrapSrollview addSubview:self.overBalanceView];
@@ -115,7 +173,7 @@
         make.top.equalTo(self.mapView.mas_bottom).offset(10);
         make.left.equalTo(self.wrapSrollview).offset(15);
         make.right.equalTo(self.wrapSrollview).offset(-15);
-        make.height.mas_equalTo(150);
+        make.height.mas_equalTo(200);
     }];
 
     [self.wrapSrollview addSubview:self.merchentView];
@@ -123,7 +181,7 @@
         make.top.equalTo(self.overBalanceView.mas_bottom).offset(10);
         make.left.equalTo(self.wrapSrollview).offset(0);
         make.right.equalTo(self.wrapSrollview).offset(0);
-        make.height.mas_equalTo(300);
+        make.height.mas_equalTo(400);
         make.bottom.equalTo(self.wrapSrollview).offset(-49);
     }];
     
@@ -139,9 +197,9 @@
     return _mapView;
 }
 
-- (CustomDiviceView*)headItemView{
+- (CHCardsPanelView*)headItemView{
     if (!_headItemView) {
-        _headItemView = [[CustomDiviceView alloc]init];
+        _headItemView = [[CHCardsPanelView alloc]init];
 
     }
     return _headItemView;
@@ -192,5 +250,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
 
 @end

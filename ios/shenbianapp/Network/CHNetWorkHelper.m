@@ -50,10 +50,10 @@
 
 -(RACSignal*)postRequestWithParam:(NSDictionary*)param withUrlString:(NSString*)urlString{
     
-    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
         RACSignal *signal =  [self.sessionManager rac_POST:urlString parameters:param];
-        
+
         signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
             
             RACTupleUnpack(NSDictionary *json) = tuple;
@@ -68,23 +68,26 @@
                 
             }
             
+            
             return nil;
         }];
         
+
         [signal subscribeError:^(NSError *error) {
             
             NSLog(@"服务器错误：%@",error);
         }];
         
-        
         return [RACDisposable disposableWithBlock:^{
             [signal rac_deallocDisposable];
-        }];;
+        }];
+    }] doNext:^(id x) {
+        
     }];
     
 }
 
--(RACSignal*)loadHomePageDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
+-(RACSignal*)loadDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
     
     RACSignal *signal = [self postRequestWithParam:param withUrlString:urlString];
     

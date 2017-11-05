@@ -13,31 +13,37 @@
 
 @property(nonatomic,strong)CHServiceMiddleView *middleView;
 @property(nonatomic,strong)CHServiceBottomView *bottomView;
-
+@property(nonatomic,strong)UIButton *topBackButton;
 @end
 
 @implementation CHServiceDetailsViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.navigationController.navigationBarHidden = YES;
+}
+
+-(void)bindViewControllerModel{
+
+}
+
+-(void)setupViews{
+
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.view);
-        make.height.mas_equalTo(200);
+        make.height.mas_equalTo(220);
     }];
-    
-    [self.topView addSubview:self.backButton];
-    [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.topBackButton removeFromSuperview];
+    [self.view addSubview:self.topBackButton];
+    [self.topBackButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.topView).offset(8);
         make.top.equalTo(self.topView).offset(20);
         make.width.mas_equalTo(40);
         make.height.mas_equalTo(40);
     }];
-    [self.backButton setImage:[UIImage imageNamed:@"ydwz_fh"] forState:(UIControlStateNormal)];
-
+    
     [self.view addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -48,11 +54,20 @@
     [self.view addSubview:self.middleView];
     [self.middleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.topView.mas_bottom);
+        make.top.equalTo(self.topView.mas_bottom).offset(10);
         make.bottom.equalTo(self.bottomView.mas_top);
     }];
+
 }
 
+-(UIButton *)topBackButton{
+    if (_topBackButton == nil) {
+        _topBackButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [_topBackButton setImage:[UIImage imageNamed:@"ydwz_fh"] forState:(UIControlStateNormal)];
+        [_topBackButton addTarget:self action:@selector(clickBackButton) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    return _topBackButton;
+}
 
 -(UIView *)topView{
     if (_topView == nil) {
