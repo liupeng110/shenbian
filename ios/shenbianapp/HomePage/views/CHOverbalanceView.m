@@ -39,7 +39,7 @@
         [self insertSubview:self.kindCollectionView atIndex:0];
         [self.kindCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self);
-            make.top.equalTo(self).offset(5);
+            make.top.equalTo(self.overBalanceLabel.mas_bottom);
         }];
         
         self.placeHolderList = @[@"leftHolder",@"rightHolder"];

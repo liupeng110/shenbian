@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol HomeNavViewdelegate<NSObject>
-- (void)HomeNavViewClickIndex:(NSInteger)index;
-@end
+typedef void(^GoShoppingCart)();
+
+
 @interface HomeNavView : UIView
-@property (nonatomic,weak)id<HomeNavViewdelegate>delegate;
 
 @property(nonatomic,strong)UIButton *locationButton;
 @property(nonatomic,strong)NSArray *quikSearchList;
-
+@property(nonatomic,strong)GoShoppingCart goShoppingCart;
 @end

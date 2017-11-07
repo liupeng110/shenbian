@@ -299,7 +299,7 @@
         @weakify(self);
         _shopCartButton.rac_command = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
             @strongify(self);
-            self.clickShopCart();
+            self.clickAddShopCart();
             return nil;
         }];
     }

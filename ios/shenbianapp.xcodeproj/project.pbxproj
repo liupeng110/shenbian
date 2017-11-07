@@ -96,6 +96,9 @@
 		FDE397541FA5C80600143D1B /* CHDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE3974F1FA5C80600143D1B /* CHDiscoverViewController.m */; };
 		FDE397551FA5C80600143D1B /* CHDiscoverTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397521FA5C80600143D1B /* CHDiscoverTableViewCell.m */; };
 		FDE46CAC1FAB21790013F684 /* CHStoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE46CAB1FAB21790013F684 /* CHStoreInfoViewController.m */; };
+		FDF4BAAA1FB00FAA002A90A3 /* CHShoppingCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */; };
+		FDF4BAAE1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAAD1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m */; };
+		FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAB01FB054E2002A90A3 /* CHSubmitOrderViewController.m */; };
 		FDFC98181FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFC98171FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m */; };
 /* End PBXBuildFile section */
 
@@ -274,6 +277,12 @@
 		FDE397521FA5C80600143D1B /* CHDiscoverTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDiscoverTableViewCell.m; sourceTree = "<group>"; };
 		FDE46CAA1FAB21790013F684 /* CHStoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStoreInfoViewController.h; sourceTree = "<group>"; };
 		FDE46CAB1FAB21790013F684 /* CHStoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStoreInfoViewController.m; sourceTree = "<group>"; };
+		FDF4BAA81FB00FAA002A90A3 /* CHShoppingCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHShoppingCartViewController.h; sourceTree = "<group>"; };
+		FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHShoppingCartViewController.m; sourceTree = "<group>"; };
+		FDF4BAAC1FB024B3002A90A3 /* CHShoppingCartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHShoppingCartTableViewCell.h; sourceTree = "<group>"; };
+		FDF4BAAD1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHShoppingCartTableViewCell.m; sourceTree = "<group>"; };
+		FDF4BAAF1FB054E2002A90A3 /* CHSubmitOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHSubmitOrderViewController.h; sourceTree = "<group>"; };
+		FDF4BAB01FB054E2002A90A3 /* CHSubmitOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHSubmitOrderViewController.m; sourceTree = "<group>"; };
 		FDFC98161FAE0BAE0039CF32 /* CHFindPeopleBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFindPeopleBrowseView.h; sourceTree = "<group>"; };
 		FDFC98171FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFindPeopleBrowseView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -355,6 +364,7 @@
 				FDC3606D1F483D9E00AC4A81 /* Publish */,
 				FD2480181F682D8600CA30BB /* ServiceDetails */,
 				FD8F2D441F6E460500C2BA13 /* ArticleDetails */,
+				FDF4BAA71FB00F92002A90A3 /* ShoppingCart */,
 				FD2F7DF91FA4DE4500CF5B40 /* ThirdLibs */,
 				A9DA46021F1630CA00E3DB17 /* Supporting Files */,
 			);
@@ -628,13 +638,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		FDE0A3B11FAF075F00058149 /* New Group */ = {
+		FDE0A3B11FAF075F00058149 /* AllCategory */ = {
 			isa = PBXGroup;
 			children = (
 				FDE0A3AE1FAF075800058149 /* CHAllServiceTableViewCell.h */,
 				FDE0A3AF1FAF075800058149 /* CHAllServiceTableViewCell.m */,
 			);
-			name = "New Group";
+			name = AllCategory;
 			sourceTree = "<group>";
 		};
 		FDE396C81FA5BABC00143D1B /* HomePage */ = {
@@ -690,7 +700,7 @@
 				FD22A60E1FAC3CA700C1F926 /* FindServiceViews */,
 				FD22A60D1FAC3C5B00C1F926 /* HomeViews */,
 				FD3E39521FAEAD57009E78CB /* SearchJob */,
-				FDE0A3B11FAF075F00058149 /* New Group */,
+				FDE0A3B11FAF075F00058149 /* AllCategory */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -822,6 +832,27 @@
 				FDE397521FA5C80600143D1B /* CHDiscoverTableViewCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		FDF4BAA71FB00F92002A90A3 /* ShoppingCart */ = {
+			isa = PBXGroup;
+			children = (
+				FDF4BAAB1FB02497002A90A3 /* Cells */,
+				FDF4BAA81FB00FAA002A90A3 /* CHShoppingCartViewController.h */,
+				FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */,
+				FDF4BAAF1FB054E2002A90A3 /* CHSubmitOrderViewController.h */,
+				FDF4BAB01FB054E2002A90A3 /* CHSubmitOrderViewController.m */,
+			);
+			path = ShoppingCart;
+			sourceTree = "<group>";
+		};
+		FDF4BAAB1FB02497002A90A3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FDF4BAAC1FB024B3002A90A3 /* CHShoppingCartTableViewCell.h */,
+				FDF4BAAD1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		FDFC98151FAE0B590039CF32 /* FindPeople */ = {
@@ -1007,6 +1038,7 @@
 				FDE397141FA5BABC00143D1B /* CHOverbalanceModel.m in Sources */,
 				FDE397551FA5C80600143D1B /* CHDiscoverTableViewCell.m in Sources */,
 				FDE397271FA5BABC00143D1B /* CHArticleAndServiceListViewController.m in Sources */,
+				FDF4BAAE1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m in Sources */,
 				FD7967B31F6ADB890049DCDB /* CHServiceBottomView.m in Sources */,
 				FDAE51CC1FAC7CE100A8FF10 /* CHFindServicePopPanel.m in Sources */,
 				A99FB68C1F186EA100D6C447 /* UIView+Extension.m in Sources */,
@@ -1019,6 +1051,7 @@
 				FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */,
 				FDE3971F1FA5BABC00143D1B /* HomeNavView.m in Sources */,
 				FDC360731F484DA700AC4A81 /* CHPublishArticleViewController.m in Sources */,
+				FDF4BAAA1FB00FAA002A90A3 /* CHShoppingCartViewController.m in Sources */,
 				FD8F2D471F6E464500C2BA13 /* CHArticleDetailsViewController.m in Sources */,
 				FDE397531FA5C80600143D1B /* CHDiscoverModel.m in Sources */,
 				FD22A6021FAC287D00C1F926 /* CHFJobSearchViewController.m in Sources */,
@@ -1045,6 +1078,7 @@
 				A9DA46041F1630CA00E3DB17 /* main.m in Sources */,
 				FDE397291FA5BABC00143D1B /* RootMineViewController.m in Sources */,
 				FD282B411FAACEA900B2D52D /* CHStoreInfoModel.m in Sources */,
+				FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */,
 				FDE397281FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m in Sources */,
 				FDE397151FA5BABC00143D1B /* RootObjectModel.m in Sources */,
 				FDFC98181FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m in Sources */,

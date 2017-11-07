@@ -11,7 +11,7 @@
 
 #import "CHArticleDetailsViewController.h"
 #import "CHArticleListTableViewCell.h"
-
+#import "CHServiceDetailsViewController.h"
 
 @interface CHArticleAndServiceListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -196,6 +196,10 @@
         
     } else {
     
+        CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
+        [self.navigationController pushViewController:serviceDetail animated:YES];
+        
+ 
     
     }
     

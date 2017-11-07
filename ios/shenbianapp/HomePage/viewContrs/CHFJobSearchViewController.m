@@ -72,7 +72,7 @@
         make.height.mas_equalTo(150);
     }];
     
-    [self.view addSubview:self.tableView];
+    [self.view insertSubview:self.tableView atIndex:0];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.headView.mas_bottom);
         make.left.right.bottom.equalTo(self);

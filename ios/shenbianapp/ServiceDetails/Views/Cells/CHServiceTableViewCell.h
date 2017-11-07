@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "CHServiceCellModel.h"
 
-typedef void(^ClickShopCart)();
+typedef void(^ClickAddShopCart)();
 
 @interface CHServiceTableViewCell : UITableViewCell
 
 @property(nonatomic,strong)NSIndexPath *indexPath;
 @property(nonatomic,strong) CHServiceCellModel *cellModel;
 
-@property(nonatomic,copy) ClickShopCart clickShopCart;
+@property(nonatomic,copy) ClickAddShopCart clickAddShopCart;
 
 @end

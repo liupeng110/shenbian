@@ -76,8 +76,15 @@
     if (_shoppingCart == nil) {
         _shoppingCart = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [_shoppingCart setImage:[UIImage imageNamed:@"sy_gwc"] forState:(UIControlStateNormal)];
+        [_shoppingCart addTarget:self action:@selector(clickShoppingCart) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _shoppingCart;
+}
+
+- (void)clickShoppingCart{
+    if (self.shoppingCart) {
+        self.goShoppingCart();
+    }
 }
 
 -(UICollectionView *)quikCollectionView{

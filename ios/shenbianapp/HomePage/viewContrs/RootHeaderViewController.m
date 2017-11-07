@@ -21,6 +21,7 @@
 #import "CHServiceAllSerViewController.h"
 #import "CHFJobSearchViewController.h"
 #import "CHSeeMapViewController.h"
+#import "CHShoppingCartViewController.h"
 @interface RootHeaderViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong)HomeNavView *NavView;
@@ -90,6 +91,7 @@
             case 0:
                 vc = [CHFindServiceViewController new];
                 break;
+                
             case 1:
                 vc = [CHFindPeopleViewController new];
 
@@ -139,6 +141,13 @@
 //        @strongify(self);
         
     };
+    
+    self.NavView.goShoppingCart = ^{
+        @strongify(self);
+        CHShoppingCartViewController *shoppingCart = [[CHShoppingCartViewController alloc]init];
+        [self.navigationController pushViewController:shoppingCart animated:YES];
+        
+    };
 }
 
 -(void)setupViews{
@@ -163,14 +172,14 @@
     
     [self.wrapSrollview addSubview:self.mapView];
     [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.headItemView.mas_bottom).offset(10);
+        make.top.equalTo(self.headItemView.mas_bottom).offset(0);
         make.left.right.equalTo(self.wrapSrollview);
         make.height.mas_equalTo(150);
     }];
     
     [self.wrapSrollview addSubview:self.overBalanceView];
     [self.overBalanceView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mapView.mas_bottom).offset(10);
+        make.top.equalTo(self.mapView.mas_bottom).offset(15);
         make.left.equalTo(self.wrapSrollview).offset(15);
         make.right.equalTo(self.wrapSrollview).offset(-15);
         make.height.mas_equalTo(200);
@@ -221,8 +230,6 @@
     }
     return _NavView;
 }
-
-
 
 - (UIScrollView *)wrapSrollview{
 
