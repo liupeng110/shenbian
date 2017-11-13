@@ -170,4 +170,11 @@
     return cell;
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    if (self.optimizedSelected) {
+        self.optimizedSelected(@"");
+    }
+}
+
 @end

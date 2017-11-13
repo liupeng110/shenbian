@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "CHServiceTableViewCell.h"
+
 @interface CHServiceUperView : UIView
 @property(nonatomic,strong)UIButton *backButton;
+@property(nonatomic,copy)ClickAddShopCart clickAddShopCart ;
 
 @end

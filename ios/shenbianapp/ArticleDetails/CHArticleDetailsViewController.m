@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/17.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017. All rights reserved.
 //
 
 
@@ -14,8 +14,8 @@
 
 @interface CHArticleDetailsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-@property(nonatomic,strong)UIButton *collectButton;
-@property(nonatomic,strong)UIButton *topShareButton;
+@property(nonatomic,strong)UIButton *favoriteButton;
+@property(nonatomic,strong)UIButton *shareButton;
 
 @property(nonatomic,strong) UITableView *tableView;
 
@@ -29,16 +29,22 @@
 
     [self.backButton setImage:[UIImage imageNamed:@"ydwz_fh"] forState:(UIControlStateNormal)];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+   
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithCustomView:self.shareButton];
+    UIBarButtonItem *favoriteItem = [[UIBarButtonItem alloc]initWithCustomView:self.favoriteButton ];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    
+    self.navigationItem.rightBarButtonItems = @[shareItem,spaceItem,favoriteItem];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#009698"];
 
 }
 
 - (void)setupViews{
-    self.navigationItem.rightBarButtonItem = nil;
 
-    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithCustomView:self.topShareButton];
-    UIBarButtonItem *collectItem = [[UIBarButtonItem alloc]initWithCustomView:self.collectButton ];
-    self.navigationItem.rightBarButtonItems = @[shareItem,collectItem];
-    
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -53,34 +59,34 @@
 
 }
 
--(UIButton *)topShareButton{
-    if (_topShareButton == nil) {
-        _topShareButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_topShareButton setImage:[UIImage imageNamed:@"ydwz_zf"] forState:(UIControlStateNormal)];
-        [_topShareButton addTarget:self action:@selector(clickShareButton) forControlEvents:(UIControlEventTouchUpInside)];
-        _topShareButton.frame = CGRectMake(0, 0, 40, 40);
+-(UIButton *)shareButton{
+   
+    if (_shareButton == nil) {
+        _shareButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [_shareButton setImage:[UIImage imageNamed:@"ydwz_zf"] forState:(UIControlStateNormal)];
+        [_shareButton addTarget:self action:@selector(clickShareButton) forControlEvents:(UIControlEventTouchUpInside)];
+        _shareButton.frame = CGRectMake(0, 0, 40, 40);
     }
     
-    return _topShareButton;
+    return _shareButton;
 }
 
 -(void)clickShareButton{
     
 }
 
-
--(UIButton *)collectButton{
-    if (_collectButton == nil) {
-        _collectButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        _collectButton.frame = CGRectMake(0, 0, 40, 40);
-        [_collectButton setImage:[UIImage imageNamed:@"ydwz_sc"] forState:UIControlStateNormal];
-        [_collectButton addTarget:self action:@selector(clickCollectButton) forControlEvents:(UIControlEventTouchUpInside)];
+-(UIButton *)favoriteButton{
+    if (_favoriteButton == nil) {
+        _favoriteButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        _favoriteButton.frame = CGRectMake(0, 0, 40, 40);
+        [_favoriteButton setImage:[UIImage imageNamed:@"ydwz_sc"] forState:UIControlStateNormal];
+        [_favoriteButton addTarget:self action:@selector(clickFavoriteButton) forControlEvents:(UIControlEventTouchUpInside)];
 
     }
-    return _collectButton;
+    return _favoriteButton;
 }
 
--(void)clickCollectButton{
+-(void)clickFavoriteButton{
     
 }
 
@@ -123,11 +129,14 @@
 
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+
+    return UIStatusBarStyleDefault;
+}
 
 @end

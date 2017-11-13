@@ -17,6 +17,11 @@
 		A9DA46121F1630CA00E3DB17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DA46101F1630CA00E3DB17 /* LaunchScreen.storyboard */; };
 		A9DDC3411F164FFB00CFB5F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */; };
 		E4B1833D8426DB219D7C009A /* libPods-shenbianapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75880CF1E4E8A7C0152AF9D9 /* libPods-shenbianapp.a */; };
+		FD06FBBF1FB31DEF008F70CB /* CHInputAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD06FBBE1FB31DEF008F70CB /* CHInputAddressViewController.m */; };
+		FD06FBC31FB590AE008F70CB /* CHLoacationSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD06FBC21FB590AE008F70CB /* CHLoacationSearchViewController.m */; };
+		FD06FBC81FB5CAAD008F70CB /* CHSelectCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD06FBC71FB5CAAD008F70CB /* CHSelectCategoryViewController.m */; };
+		FD06FBCB1FB5E18E008F70CB /* CHMyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD06FBCA1FB5E18E008F70CB /* CHMyOrdersViewController.m */; };
+		FD06FBCE1FB5E2CF008F70CB /* CHMyOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FD06FBCD1FB5E2CF008F70CB /* CHMyOrderTableViewCell.m */; };
 		FD0CFF5F1F63F7FB004FA3CF /* CHLoginVCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD0CFF5E1F63F7FB004FA3CF /* CHLoginVCModel.m */; };
 		FD0CFF681F640A21004FA3CF /* CHLoginAgreement.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD0CFF671F640A21004FA3CF /* CHLoginAgreement.xib */; };
 		FD0CFF6A1F6431D7004FA3CF /* CHPulishAnswer.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD0CFF691F6431D7004FA3CF /* CHPulishAnswer.xib */; };
@@ -46,11 +51,12 @@
 		FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4611971F483601005D4FF6 /* HQTabBar.m */; };
 		FD5919301F63167900FD7913 /* CHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD59192F1F63167900FD7913 /* CHLoginViewController.m */; };
 		FD7967AD1F6ADA1B0049DCDB /* CHServiceUperView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7967AC1F6ADA1B0049DCDB /* CHServiceUperView.m */; };
-		FD7967B01F6ADB6E0049DCDB /* CHServiceMiddleView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7967AF1F6ADB6E0049DCDB /* CHServiceMiddleView.m */; };
 		FD7967B31F6ADB890049DCDB /* CHServiceBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7967B21F6ADB890049DCDB /* CHServiceBottomView.m */; };
 		FD8F2D471F6E464500C2BA13 /* CHArticleDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8F2D461F6E464500C2BA13 /* CHArticleDetailsViewController.m */; };
 		FD8FFFB91FAD810A002A81ED /* CHFindServiceBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8FFFB81FAD810A002A81ED /* CHFindServiceBrowseView.m */; };
 		FD9448AD1F52EE3D001FC5CD /* CHNetWorkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */; };
+		FDA1BF521FB68E0600AE64B7 /* CHFocusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */; };
+		FDA1BF551FB68F2500AE64B7 /* CHFocusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA1BF541FB68F2500AE64B7 /* CHFocusTableViewCell.m */; };
 		FDAE51C91FAC4ECD00A8FF10 /* CHFindServiceHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAE51C81FAC4ECD00A8FF10 /* CHFindServiceHeadView.m */; };
 		FDAE51CC1FAC7CE100A8FF10 /* CHFindServicePopPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAE51CB1FAC7CE100A8FF10 /* CHFindServicePopPanel.m */; };
 		FDC360701F483D9E00AC4A81 /* CHPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3606F1F483D9E00AC4A81 /* CHPublishViewController.m */; };
@@ -96,6 +102,7 @@
 		FDE397541FA5C80600143D1B /* CHDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE3974F1FA5C80600143D1B /* CHDiscoverViewController.m */; };
 		FDE397551FA5C80600143D1B /* CHDiscoverTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397521FA5C80600143D1B /* CHDiscoverTableViewCell.m */; };
 		FDE46CAC1FAB21790013F684 /* CHStoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE46CAB1FAB21790013F684 /* CHStoreInfoViewController.m */; };
+		FDEECDFC1FB977310035195F /* CHOverBalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDEECDFB1FB977310035195F /* CHOverBalanceViewController.m */; };
 		FDF4BAAA1FB00FAA002A90A3 /* CHShoppingCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */; };
 		FDF4BAAE1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAAD1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m */; };
 		FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAB01FB054E2002A90A3 /* CHSubmitOrderViewController.m */; };
@@ -125,6 +132,16 @@
 		A9DDC31D1F163B3A00CFB5F3 /* shenbianHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shenbianHeader.pch; sourceTree = "<group>"; };
 		A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D0437902C935BCE328CB8E82 /* Pods-shenbianapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shenbianapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-shenbianapp/Pods-shenbianapp.release.xcconfig"; sourceTree = "<group>"; };
+		FD06FBBD1FB31DEF008F70CB /* CHInputAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHInputAddressViewController.h; sourceTree = "<group>"; };
+		FD06FBBE1FB31DEF008F70CB /* CHInputAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHInputAddressViewController.m; sourceTree = "<group>"; };
+		FD06FBC11FB590AE008F70CB /* CHLoacationSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLoacationSearchViewController.h; sourceTree = "<group>"; };
+		FD06FBC21FB590AE008F70CB /* CHLoacationSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLoacationSearchViewController.m; sourceTree = "<group>"; };
+		FD06FBC61FB5CAAD008F70CB /* CHSelectCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHSelectCategoryViewController.h; sourceTree = "<group>"; };
+		FD06FBC71FB5CAAD008F70CB /* CHSelectCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHSelectCategoryViewController.m; sourceTree = "<group>"; };
+		FD06FBC91FB5E18E008F70CB /* CHMyOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHMyOrdersViewController.h; sourceTree = "<group>"; };
+		FD06FBCA1FB5E18E008F70CB /* CHMyOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHMyOrdersViewController.m; sourceTree = "<group>"; };
+		FD06FBCC1FB5E2CF008F70CB /* CHMyOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHMyOrderTableViewCell.h; sourceTree = "<group>"; };
+		FD06FBCD1FB5E2CF008F70CB /* CHMyOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHMyOrderTableViewCell.m; sourceTree = "<group>"; };
 		FD0CFF5D1F63F7FB004FA3CF /* CHLoginVCModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLoginVCModel.h; sourceTree = "<group>"; };
 		FD0CFF5E1F63F7FB004FA3CF /* CHLoginVCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLoginVCModel.m; sourceTree = "<group>"; };
 		FD0CFF671F640A21004FA3CF /* CHLoginAgreement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLoginAgreement.xib; sourceTree = "<group>"; };
@@ -180,8 +197,6 @@
 		FD59192F1F63167900FD7913 /* CHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLoginViewController.m; sourceTree = "<group>"; };
 		FD7967AB1F6ADA1B0049DCDB /* CHServiceUperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHServiceUperView.h; sourceTree = "<group>"; };
 		FD7967AC1F6ADA1B0049DCDB /* CHServiceUperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHServiceUperView.m; sourceTree = "<group>"; };
-		FD7967AE1F6ADB6E0049DCDB /* CHServiceMiddleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHServiceMiddleView.h; sourceTree = "<group>"; };
-		FD7967AF1F6ADB6E0049DCDB /* CHServiceMiddleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHServiceMiddleView.m; sourceTree = "<group>"; };
 		FD7967B11F6ADB890049DCDB /* CHServiceBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHServiceBottomView.h; sourceTree = "<group>"; };
 		FD7967B21F6ADB890049DCDB /* CHServiceBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHServiceBottomView.m; sourceTree = "<group>"; };
 		FD8F2D451F6E464500C2BA13 /* CHArticleDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHArticleDetailsViewController.h; sourceTree = "<group>"; };
@@ -190,6 +205,10 @@
 		FD8FFFB81FAD810A002A81ED /* CHFindServiceBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFindServiceBrowseView.m; sourceTree = "<group>"; };
 		FD9448AB1F52EE3D001FC5CD /* CHNetWorkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHNetWorkHelper.h; sourceTree = "<group>"; };
 		FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHNetWorkHelper.m; sourceTree = "<group>"; };
+		FDA1BF501FB68E0600AE64B7 /* CHFocusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFocusViewController.h; sourceTree = "<group>"; };
+		FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFocusViewController.m; sourceTree = "<group>"; };
+		FDA1BF531FB68F2500AE64B7 /* CHFocusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFocusTableViewCell.h; sourceTree = "<group>"; };
+		FDA1BF541FB68F2500AE64B7 /* CHFocusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFocusTableViewCell.m; sourceTree = "<group>"; };
 		FDAE51C71FAC4ECD00A8FF10 /* CHFindServiceHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFindServiceHeadView.h; sourceTree = "<group>"; };
 		FDAE51C81FAC4ECD00A8FF10 /* CHFindServiceHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFindServiceHeadView.m; sourceTree = "<group>"; };
 		FDAE51CA1FAC7CE100A8FF10 /* CHFindServicePopPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFindServicePopPanel.h; sourceTree = "<group>"; };
@@ -277,6 +296,8 @@
 		FDE397521FA5C80600143D1B /* CHDiscoverTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHDiscoverTableViewCell.m; sourceTree = "<group>"; };
 		FDE46CAA1FAB21790013F684 /* CHStoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStoreInfoViewController.h; sourceTree = "<group>"; };
 		FDE46CAB1FAB21790013F684 /* CHStoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStoreInfoViewController.m; sourceTree = "<group>"; };
+		FDEECDFA1FB977310035195F /* CHOverBalanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverBalanceViewController.h; sourceTree = "<group>"; };
+		FDEECDFB1FB977310035195F /* CHOverBalanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverBalanceViewController.m; sourceTree = "<group>"; };
 		FDF4BAA81FB00FAA002A90A3 /* CHShoppingCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHShoppingCartViewController.h; sourceTree = "<group>"; };
 		FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHShoppingCartViewController.m; sourceTree = "<group>"; };
 		FDF4BAAC1FB024B3002A90A3 /* CHShoppingCartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHShoppingCartTableViewCell.h; sourceTree = "<group>"; };
@@ -350,6 +371,7 @@
 		A9DA46011F1630CA00E3DB17 /* shenbianapp */ = {
 			isa = PBXGroup;
 			children = (
+				FD06FBC01FB59094008F70CB /* LoacationSearch */,
 				FD2F7DF41FA4BB5D00CF5B40 /* GlobalData */,
 				FD1774131F4950FB00476D98 /* CHExtension */,
 				FD24801C1F6836A600CA30BB /* RootViewController */,
@@ -399,6 +421,25 @@
 				75880CF1E4E8A7C0152AF9D9 /* libPods-shenbianapp.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FD06FBC01FB59094008F70CB /* LoacationSearch */ = {
+			isa = PBXGroup;
+			children = (
+				FD06FBC11FB590AE008F70CB /* CHLoacationSearchViewController.h */,
+				FD06FBC21FB590AE008F70CB /* CHLoacationSearchViewController.m */,
+			);
+			path = LoacationSearch;
+			sourceTree = "<group>";
+		};
+		FD06FBC51FB5CA5A008F70CB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FD0CFF691F6431D7004FA3CF /* CHPulishAnswer.xib */,
+				FD0CFF6B1F64545C004FA3CF /* CHPublishServiceTableViewCell.h */,
+				FD0CFF6C1F64545C004FA3CF /* CHPublishServiceTableViewCell.m */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		FD1774131F4950FB00476D98 /* CHExtension */ = {
@@ -554,8 +595,6 @@
 				FDDD73341F6C36B400652666 /* Cells */,
 				FD7967AB1F6ADA1B0049DCDB /* CHServiceUperView.h */,
 				FD7967AC1F6ADA1B0049DCDB /* CHServiceUperView.m */,
-				FD7967AE1F6ADB6E0049DCDB /* CHServiceMiddleView.h */,
-				FD7967AF1F6ADB6E0049DCDB /* CHServiceMiddleView.m */,
 				FD7967B11F6ADB890049DCDB /* CHServiceBottomView.h */,
 				FD7967B21F6ADB890049DCDB /* CHServiceBottomView.m */,
 			);
@@ -584,6 +623,7 @@
 		FDC3606D1F483D9E00AC4A81 /* Publish */ = {
 			isa = PBXGroup;
 			children = (
+				FD06FBC51FB5CA5A008F70CB /* Cells */,
 				FDDDC1131F77BFEA00242F3E /* Models */,
 				FDC3606E1F483D9E00AC4A81 /* CHPublishViewController.h */,
 				FDC3606F1F483D9E00AC4A81 /* CHPublishViewController.m */,
@@ -591,9 +631,8 @@
 				FDC360721F484DA700AC4A81 /* CHPublishArticleViewController.m */,
 				FDC360741F484DC700AC4A81 /* CHPublishServeViewController.h */,
 				FDC360751F484DC700AC4A81 /* CHPublishServeViewController.m */,
-				FD0CFF691F6431D7004FA3CF /* CHPulishAnswer.xib */,
-				FD0CFF6B1F64545C004FA3CF /* CHPublishServiceTableViewCell.h */,
-				FD0CFF6C1F64545C004FA3CF /* CHPublishServiceTableViewCell.m */,
+				FD06FBC61FB5CAAD008F70CB /* CHSelectCategoryViewController.h */,
+				FD06FBC71FB5CAAD008F70CB /* CHSelectCategoryViewController.m */,
 			);
 			path = Publish;
 			sourceTree = "<group>";
@@ -689,6 +728,8 @@
 				FD3E39571FAEF005009E78CB /* CHServiceAllSerViewController.m */,
 				FDE0A3B21FAF15C600058149 /* CHSeeMapViewController.h */,
 				FDE0A3B31FAF15C600058149 /* CHSeeMapViewController.m */,
+				FDEECDFA1FB977310035195F /* CHOverBalanceViewController.h */,
+				FDEECDFB1FB977310035195F /* CHOverBalanceViewController.m */,
 			);
 			path = viewContrs;
 			sourceTree = "<group>";
@@ -733,6 +774,8 @@
 				FDE396F21FA5BABC00143D1B /* CHChatRoomViewController.m */,
 				FDE396F51FA5BABC00143D1B /* CHMessageViewController.h */,
 				FDE396F61FA5BABC00143D1B /* CHMessageViewController.m */,
+				FDA1BF501FB68E0600AE64B7 /* CHFocusViewController.h */,
+				FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -742,6 +785,8 @@
 			children = (
 				FDE396F81FA5BABC00143D1B /* CHMessageTableViewCell.h */,
 				FDE396F91FA5BABC00143D1B /* CHMessageTableViewCell.m */,
+				FDA1BF531FB68F2500AE64B7 /* CHFocusTableViewCell.h */,
+				FDA1BF541FB68F2500AE64B7 /* CHFocusTableViewCell.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -762,6 +807,8 @@
 			children = (
 				FDE396FC1FA5BABC00143D1B /* CHArticleListTableViewCell.h */,
 				FDE396FD1FA5BABC00143D1B /* CHArticleListTableViewCell.m */,
+				FD06FBCC1FB5E2CF008F70CB /* CHMyOrderTableViewCell.h */,
+				FD06FBCD1FB5E2CF008F70CB /* CHMyOrderTableViewCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -777,6 +824,8 @@
 				FDE397021FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m */,
 				FDE46CAA1FAB21790013F684 /* CHStoreInfoViewController.h */,
 				FDE46CAB1FAB21790013F684 /* CHStoreInfoViewController.m */,
+				FD06FBC91FB5E18E008F70CB /* CHMyOrdersViewController.h */,
+				FD06FBCA1FB5E18E008F70CB /* CHMyOrdersViewController.m */,
 			);
 			path = viewContrs;
 			sourceTree = "<group>";
@@ -842,6 +891,8 @@
 				FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */,
 				FDF4BAAF1FB054E2002A90A3 /* CHSubmitOrderViewController.h */,
 				FDF4BAB01FB054E2002A90A3 /* CHSubmitOrderViewController.m */,
+				FD06FBBD1FB31DEF008F70CB /* CHInputAddressViewController.h */,
+				FD06FBBE1FB31DEF008F70CB /* CHInputAddressViewController.m */,
 			);
 			path = ShoppingCart;
 			sourceTree = "<group>";
@@ -1014,9 +1065,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD7967B01F6ADB6E0049DCDB /* CHServiceMiddleView.m in Sources */,
 				FD2480211F6836F500CA30BB /* AppDelegate.m in Sources */,
 				A99FB6A91F1AEEEA00D6C447 /* MHCollectionViewFlowLayout.m in Sources */,
+				FD06FBC81FB5CAAD008F70CB /* CHSelectCategoryViewController.m in Sources */,
 				FDE3972E1FA5BABC00143D1B /* MineCollectionViewCell.m in Sources */,
 				FDC79DCE1FADD07500C3D464 /* CHFindServiceOptimizedView.m in Sources */,
 				FD22A6081FAC2B6B00C1F926 /* CHFindServiceViewController.m in Sources */,
@@ -1026,13 +1077,17 @@
 				FD2C93281F9363D8007984D0 /* CHPublishServiceModel.m in Sources */,
 				FD8FFFB91FAD810A002A81ED /* CHFindServiceBrowseView.m in Sources */,
 				FDE397261FA5BABC00143D1B /* CHArticleListTableViewCell.m in Sources */,
+				FD06FBCB1FB5E18E008F70CB /* CHMyOrdersViewController.m in Sources */,
 				FDDD73411F6C37E100652666 /* CHServiceCellModel.m in Sources */,
 				FDAE51C91FAC4ECD00A8FF10 /* CHFindServiceHeadView.m in Sources */,
 				FD2480131F682CDF00CA30BB /* CHBasePresentViewController.m in Sources */,
+				FDA1BF551FB68F2500AE64B7 /* CHFocusTableViewCell.m in Sources */,
+				FDA1BF521FB68E0600AE64B7 /* CHFocusViewController.m in Sources */,
 				FDE397181FA5BABC00143D1B /* CHCategoryCollectionViewCell.m in Sources */,
 				FD3E39551FAEAD93009E78CB /* CHSearchJobTableViewCell.m in Sources */,
 				FDC360701F483D9E00AC4A81 /* CHPublishViewController.m in Sources */,
 				FD2480161F682CDF00CA30BB /* MHBaseNavigationBar.m in Sources */,
+				FD06FBBF1FB31DEF008F70CB /* CHInputAddressViewController.m in Sources */,
 				FD282B441FAACF0600B2D52D /* CHMineModel.m in Sources */,
 				FDDDC1161F77C01500242F3E /* CHPublishArticleModel.m in Sources */,
 				FDE397141FA5BABC00143D1B /* CHOverbalanceModel.m in Sources */,
@@ -1080,14 +1135,17 @@
 				FD282B411FAACEA900B2D52D /* CHStoreInfoModel.m in Sources */,
 				FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */,
 				FDE397281FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m in Sources */,
+				FD06FBCE1FB5E2CF008F70CB /* CHMyOrderTableViewCell.m in Sources */,
 				FDE397151FA5BABC00143D1B /* RootObjectModel.m in Sources */,
 				FDFC98181FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m in Sources */,
 				FDC360761F484DC700AC4A81 /* CHPublishServeViewController.m in Sources */,
 				FD2480141F682CDF00CA30BB /* CHBaseViewCModel.m in Sources */,
 				FD2F7DF81FA4BBD600CF5B40 /* CHGlobalDataHelper.m in Sources */,
+				FDEECDFC1FB977310035195F /* CHOverBalanceViewController.m in Sources */,
 				FD3E39581FAEF005009E78CB /* CHServiceAllSerViewController.m in Sources */,
 				FDE397121FA5BABC00143D1B /* CHCategoryItemModel.m in Sources */,
 				FDE397111FA5BABC00143D1B /* CHCardsPanelModel.m in Sources */,
+				FD06FBC31FB590AE008F70CB /* CHLoacationSearchViewController.m in Sources */,
 				FDE3971B1FA5BABC00143D1B /* CHMerchentTableViewCell.m in Sources */,
 				FDE0A3B01FAF075800058149 /* CHAllServiceTableViewCell.m in Sources */,
 				FDE3972C1FA5BABC00143D1B /* MHMineHeaderCollectionReusableView.m in Sources */,

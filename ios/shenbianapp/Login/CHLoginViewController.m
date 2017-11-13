@@ -81,7 +81,7 @@
     [self.loginView addSubview:self.validCodeTF];
     [self.validCodeTF mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.loginView).offset(15);
-        make.right.equalTo(self.loginView).offset(-100);
+        make.right.equalTo(self.loginView).offset(-15);
         make.height.mas_equalTo(50);
         make.bottom.equalTo(self.loginView).offset(-10);
     }];
@@ -109,7 +109,6 @@
         make.left.right.equalTo(self.loginButton);
         make.height.mas_equalTo(50);
     }];
-    
     
     [self.view addSubview:self.thirdLoginView];
     [self.thirdLoginView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -212,6 +211,8 @@
         _validCodeTF.font = [UIFont systemFontOfSize:15];
         _validCodeTF.placeholder = @"验证码";
         _validCodeTF.keyboardType = UIKeyboardTypeNumberPad;
+        
+        
     }
     return  _validCodeTF;
 }
@@ -319,12 +320,11 @@
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         } error:^(NSError *error) {
-            
+            NSLog(@"error:%@",error);
         }];
     
     } else {
         
-       
 
     }
 }

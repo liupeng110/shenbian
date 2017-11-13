@@ -112,4 +112,13 @@
    
     return cell;
 }
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+
+    if (self.tapInOverBalence) {
+        self.tapInOverBalence();
+    }
+    
+}
+
 @end

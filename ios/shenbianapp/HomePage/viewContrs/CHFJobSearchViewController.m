@@ -10,7 +10,7 @@
 #import "CHFindServiceHeadView.h"
 #import "CHFindServicePopPanel.h"
 #import "CHSearchJobTableViewCell.h"
-
+#import "CHServiceDetailsViewController.h"
 @interface CHFJobSearchViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)CHFindServiceHeadView *headView;
@@ -52,6 +52,7 @@
     self.panelView.panelNameList = @[@"创业",@"商务",@"科技",@"讲座",@"学术会议",@"竞赛",@"工程师",@"产品"];
     
     self.articleList = @[@{},@{},@{}];
+    
     
 }
 -(void)setupViews{
@@ -153,5 +154,21 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 120;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
+    [self.navigationController pushViewController:serviceDetail animated:YES];
+    
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+   
+    self.panelButton.tag = 1;
+    [self clickPanelButton:self.panelButton];
+
+}
+
 
 @end

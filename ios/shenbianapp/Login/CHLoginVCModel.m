@@ -20,7 +20,7 @@
             RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:SendValidCode];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-                
+                NSLog(@"haha我来了");
                 [signal subscribeNext:^(id x) {
                     NSInteger status = [[x objectForKey:@"status"] integerValue];
                     if (status == 0) {
@@ -58,6 +58,7 @@
         _loginCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
             
             RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:LoginVerify];
+            
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                 [signal subscribeNext:^(id x) {
                     if ([[x objectForKey:@"status"] intValue] == 0) {
@@ -66,9 +67,11 @@
                         NSString *token = [x objectForKey:@"token"];
                         [ud setObject:token forKey:@"server_token"];
                         [ud synchronize];
+                        [subscriber sendNext:x];
+                        [subscriber sendCompleted];
                     } else {
                         NSLog(@"error:%@",[x objectForKey:@"error"]);
-                        [subscriber sendNext:x];
+                        [subscriber sendError:[NSError errorWithDomain:[x objectForKey:@"error"] code:100 userInfo:nil]];
                         [subscriber sendCompleted];
                     }
                 } error:^(NSError *error) {

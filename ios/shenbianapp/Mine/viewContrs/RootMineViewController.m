@@ -17,6 +17,7 @@
 
 #import "CHArticleAndServiceListViewController.h"
 #import "CHStoreInfoViewController.h"
+#import "CHMyOrdersViewController.h"
 @interface RootMineViewController ()<UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong)UICollectionView * collectionView;
 @property (nonatomic,strong)MHMineHeaderCollectionReusableView *headView;
@@ -109,22 +110,19 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     MineCollectionViewCell * setCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"mine" forIndexPath:indexPath];
     if (indexPath.section == 0){
-        if (indexPath.row == 0) {
-            setCell.titleName.text = @"消息通知";
-            setCell.iconImageView.image = [UIImage imageNamed:@"wd_xx"];
-        }else if (indexPath.row == 1){
+        if (indexPath.row == 0){
             setCell.titleName.text = @"我的收入";
             setCell.iconImageView.image = [UIImage imageNamed:@"wd_sr"];
 
-        }else if (indexPath.row == 2){
+        }else if (indexPath.row == 1){
             setCell.titleName.text = @"我的订单";
             setCell.iconImageView.image = [UIImage imageNamed:@"wd_dd"];
 
-        } else if(indexPath.row == 3){
+        } else if(indexPath.row == 2){
             setCell.titleName.text = @"资料设置";
             setCell.iconImageView.image = [UIImage imageNamed:@"wd_zl"];
 
-        } else if (indexPath.row == 4){
+        } else if (indexPath.row == 3){
             setCell.titleName.text = @"安全与隐私";
             setCell.iconImageView.image = [UIImage imageNamed:@"wd_aq"];
 
@@ -163,9 +161,12 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 
-    if (indexPath.section == 0 && indexPath.row == 3) {
+    if (indexPath.section == 0 && indexPath.row == 2) {
         CHStoreInfoViewController *storeInfoVC = [[CHStoreInfoViewController alloc]init];
         [self.navigationController pushViewController:storeInfoVC animated:YES];
+    } else if (indexPath.section == 0 && indexPath.row == 1){
+        CHMyOrdersViewController *myOrder = [CHMyOrdersViewController new];
+        [self.navigationController pushViewController:myOrder animated:YES];
     }
     
 }

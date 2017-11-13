@@ -9,7 +9,7 @@
 #import "CHDiscoverViewController.h"
 
 #import "CHDiscoverTableViewCell.h"
-
+#import "CHServiceDetailsViewController.h"
 @interface CHDiscoverViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong) UITableView *tableView;
@@ -62,8 +62,14 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-
     return 300;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
+    [self.navigationController pushViewController:serviceDetail animated:YES];
+    
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{

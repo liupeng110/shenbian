@@ -46,6 +46,7 @@
         [_merchentTableView registerClass:[CHMerchentTableViewCell class] forCellReuseIdentifier:@"merchentCell"];
         _merchentTableView.tableFooterView = [UIView new];
         _merchentTableView.scrollEnabled = NO;
+        _merchentTableView.separatorColor = [UIColor colorWithHexString:@"#ebebeb"];
     }
     return _merchentTableView;
 }

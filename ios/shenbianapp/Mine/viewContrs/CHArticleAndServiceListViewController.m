@@ -75,10 +75,15 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = NO;
+}
 
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#009698"];
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = YES;
 
 }
+
 -(UIView *)topview{
     if (_topview == nil) {
         _topview = [UIView new];
@@ -134,6 +139,7 @@
             make.width.mas_equalTo(30);
         }];
         self.viewCModel.provideTye = ProvideTypeService;
+        self.title = @"我的服务";
     } else {
         [_myArticleButton setTitleColor:[UIColor colorWithHexString:@"#009698"] forState:(UIControlStateNormal)];
         [_myServiceButton setTitleColor:[UIColor colorWithHexString:@"#4f5965"] forState:(UIControlStateNormal)];
@@ -145,7 +151,7 @@
 
         }];
         self.viewCModel.provideTye = ProvideTypeArticle;
-
+        self.title = @"我的文章";
     }
     [UIView animateWithDuration:0.25 animations:^{
         
@@ -178,7 +184,6 @@
     CHArticleListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"articleListCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.indexPath = indexPath;
-    cell.detailTextLabel.text = @"CHArticleListTableViewCellCHArticleListTableViewCell";
     return cell;
 }
 
@@ -197,9 +202,7 @@
     } else {
     
         CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
-        [self.navigationController pushViewController:serviceDetail animated:YES];
-        
- 
+        [self.navigationController pushViewController:serviceDetail animated:YES]; 
     
     }
     

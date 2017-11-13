@@ -10,8 +10,8 @@
 #import "CHFindServiceHeadView.h"
 #import "CHFindServicePopPanel.h"
 #import "CHFindPeopleBrowseView.h"
-
-@interface CHFindPeopleViewController ()
+#import "CHServiceDetailsViewController.h"
+@interface CHFindPeopleViewController ()<UIGestureRecognizerDelegate>
 @property(nonatomic,strong)CHFindServiceHeadView *headView;
 @property(nonatomic,strong)UIButton *panelButton;
 @property(nonatomic,strong)CHFindServicePopPanel *panelView;
@@ -50,9 +50,21 @@
 }
 
 -(void)bindViewControllerModel{
+    
     self.headView.categoryList = @[@"设计师",@"媒体",@"教练",@"投资人",@"医生",@"护士",@"工程师",@"产品"];
     self.panelView.panelNameList = @[@"平面设计师",@"装潢设计师",@"动漫设计师",@"建筑设计师",@"网页设计师",@"",@"",@""];
     self.optimizedView.optimizedItemList = @[@"设计师",@"媒体",@"教练",@"投资人",@"医生",@"护士",@"工程师",@"产品"];
+    @weakify(self);
+    self.optimizedView.scrollViewWillBeginDragging = ^{
+        @strongify(self);
+        self.panelButton.tag = 1;
+        [self clickPanelButton:self.panelButton];
+    };
+    self.optimizedView.didSelectItem = ^(NSString *serviceId) {
+        @strongify(self);
+        CHServiceDetailsViewController *detailService = [CHServiceDetailsViewController new];
+        [self.navigationController pushViewController:detailService animated:YES];
+    };
     
 }
 -(void)setupViews{
@@ -136,6 +148,7 @@
     }
     return _optimizedView;
 }
+
 
 
 @end

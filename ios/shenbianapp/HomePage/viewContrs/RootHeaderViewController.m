@@ -22,6 +22,9 @@
 #import "CHFJobSearchViewController.h"
 #import "CHSeeMapViewController.h"
 #import "CHShoppingCartViewController.h"
+#import "CHLoacationSearchViewController.h"
+#import "CHOverBalanceViewController.h"
+
 @interface RootHeaderViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong)HomeNavView *NavView;
@@ -137,16 +140,30 @@
         CHSeeMapViewController *seeMap = [[CHSeeMapViewController alloc]init];
         [self.navigationController pushViewController:seeMap animated:YES];
     };
-    self.overBalanceView.seeAllCategory = ^{
-//        @strongify(self);
-        
-    };
+  
     
     self.NavView.goShoppingCart = ^{
         @strongify(self);
         CHShoppingCartViewController *shoppingCart = [[CHShoppingCartViewController alloc]init];
         [self.navigationController pushViewController:shoppingCart animated:YES];
         
+    };
+    
+    self.NavView.locationSearch = ^{
+        @strongify(self);
+        CHLoacationSearchViewController *locationSerch = [CHLoacationSearchViewController new];
+        [self.navigationController pushViewController:locationSerch animated:YES];
+    };
+    
+    self.overBalanceView.tapInOverBalence = ^{
+        @strongify(self);
+        CHOverBalanceViewController *overBalance = [CHOverBalanceViewController new];
+        [self.navigationController pushViewController:overBalance animated:YES];
+    };
+    self.overBalanceView.seeAllCategory = ^{
+        @strongify(self);
+        CHServiceAllSerViewController *allCategory = [CHServiceAllSerViewController new];
+        [self.navigationController pushViewController:allCategory animated:YES];
     };
 }
 

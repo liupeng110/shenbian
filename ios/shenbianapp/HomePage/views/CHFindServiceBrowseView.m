@@ -131,19 +131,10 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-//    
-//    for (UICollectionViewCell *cell in collectionView.visibleCells) {
-//        UILabel *label = cell.contentView.subviews.firstObject;
-//        label.textColor = [UIColor colorWithHexString:@"#4f5965"];
-//        UILabel *line  = label.subviews.firstObject;
-//        line.hidden = YES;
-//    }
-//    UILabel *label = cell.contentView.subviews.firstObject;
-//    label.textColor = [UIColor colorWithHexString:@"#009698"];
-//    UILabel *line  = label.subviews.firstObject;
-//    line.hidden = NO;
-    
+
+    if (self.selectService) {
+        self.selectService(@"");
+    }
 }
 
 @end

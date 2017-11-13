@@ -11,6 +11,7 @@
 #import <IQTextView.h>
 #import "CHPublishServiceTableViewCell.h"
 #import "CHPublishServiceModel.h"
+#import "CHSelectCategoryViewController.h"
 @interface CHPublishServeViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong) UIView *upperView;
 @property(nonatomic,strong) UIView *lowerView;
@@ -311,7 +312,13 @@
     return 50;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    if (indexPath.row == 3) {
+        CHSelectCategoryViewController *selectCategory = [CHSelectCategoryViewController new];
+        [self.navigationController pushViewController:selectCategory animated:YES];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -346,6 +353,8 @@
     }];
     
 }
+
+
 
 /*
  #pragma mark - Navigation

@@ -54,8 +54,15 @@
         _locationButton.titleLabel.font = [UIFont systemFontOfSize:15];
         _locationButton.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
         _locationButton.imageEdgeInsets = UIEdgeInsetsMake(0, -18, 0, 0);
+        [_locationButton addTarget:self action:@selector(clickLocationSearch) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _locationButton;
+}
+
+- (void)clickLocationSearch{
+    if (self.locationSearch) {
+        self.locationSearch();
+    }
 }
 
 -(UIButton *)searchButton{

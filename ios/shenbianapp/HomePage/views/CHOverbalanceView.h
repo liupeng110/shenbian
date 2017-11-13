@@ -7,11 +7,13 @@
 //
 
 typedef void (^SeeAllCategory)();
-
+typedef void(^TapInOverBalence)();
 
 #import <UIKit/UIKit.h>
+
 
 @interface CHOverbalanceView : UIView
 @property(nonatomic,strong)NSArray *overBablanceList;
 @property(nonatomic,copy)SeeAllCategory seeAllCategory;
+@property(nonatomic,copy)TapInOverBalence tapInOverBalence;
 @end

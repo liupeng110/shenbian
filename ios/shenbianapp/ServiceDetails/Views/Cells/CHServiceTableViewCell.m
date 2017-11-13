@@ -48,7 +48,7 @@
 
     _indexPath = indexPath;
     
-    switch (_indexPath.row) {
+    switch (_indexPath.section) {
         case 0:{
             [self addSubview:self.headImageView];
             [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -98,78 +98,66 @@
                 make.height.mas_equalTo(44);
             }];
             
-            
         }break;
             
         case 1:{
-            
-            self.backgroundColor = [UIColor colorWithHexString:@"#f6f6f6"];
-            [self addSubview:self.priceLabel];
-            [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(15);
-                make.centerY.equalTo(self);
+        
+            switch (indexPath.row) {
+                case 0:
+                {
+                    [self addSubview:self.serviceTypeLabel];
+                    [self.serviceTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.equalTo(self).offset(15);
+                        make.top.equalTo(self).offset(5);
+                        make.height.mas_equalTo(20);
+                        make.width.mas_equalTo(80);
+                    }];
+                    
+                    [self addSubview:self.serviceTypeDetailsLabel];
+                    [self.serviceTypeDetailsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.equalTo(self).offset(15);
+                        make.top.equalTo(self.serviceTypeLabel.mas_bottom).offset(5);
+                        make.height.mas_equalTo(20);
+                        make.width.mas_equalTo(80);
+                    }];
+                }
+                    break;
+                case 1:{
+                    [self addSubview:self.commentCountLabel];
+                    [self.commentCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.equalTo(self).offset(15);
+                        make.centerY.equalTo(self);
+                        make.width.mas_equalTo(60);
+                        make.height.mas_equalTo(20);
+                    }];
+                    
+                    [self addSubview:self.commentRateImageV];
+                    [self.commentRateImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+                        
+                        make.centerY.equalTo(self);
+                        make.left.equalTo(self.commentCountLabel.mas_right).offset(16);
+                        make.width.mas_equalTo(100);
+                        make.height.mas_equalTo(20);
+                    }];
+                    
+                    [self addSubview:self.commentValueLabel];
+                    [self.commentValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.equalTo(self.commentRateImageV.mas_right).offset(8);
+                        make.centerY.equalTo(self);
+                        make.width.mas_equalTo(60);
+                        make.height.mas_equalTo(20);
+                    }];
                 
-            }];
-            
-            [self addSubview:self.shopCartButton];
-            [self.shopCartButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(self).offset(-10);
-                make.right.equalTo(self).offset(-15);
-                make.width.mas_equalTo(60);
-                make.height.mas_equalTo(40);
-            }];
-            
+                }
+                default:
+                    break;
+            }
+           
+
         }
             break;
             
         case 2:{
-        
-            [self addSubview:self.serviceTypeLabel];
-            [self.serviceTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(15);
-                make.top.equalTo(self).offset(5);
-                make.height.mas_equalTo(20);
-                make.width.mas_equalTo(80);
-            }];
-            [self addSubview:self.serviceTypeDetailsLabel];
-            [self.serviceTypeDetailsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(15);
-                make.top.equalTo(self.serviceTypeLabel.mas_bottom).offset(5);
-                make.height.mas_equalTo(20);
-                make.width.mas_equalTo(80);
-            }];
-
-        }
-            break;
-            
-        case 3:{
-            [self addSubview:self.commentCountLabel];
-            [self.commentCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(15);
-                make.centerY.equalTo(self);
-                make.width.mas_equalTo(60);
-                make.height.mas_equalTo(20);
-            }];
-            
-            [self addSubview:self.commentRateImageV];
-            [self.commentRateImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-
-                make.centerY.equalTo(self);
-                make.left.equalTo(self.commentCountLabel.mas_right).offset(16);
-                make.width.mas_equalTo(100);
-                make.height.mas_equalTo(20);
-            }];
-            
-            [self addSubview:self.commentValueLabel];
-            [self.commentValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.commentRateImageV.mas_right).offset(8);
-                make.centerY.equalTo(self);
-                make.width.mas_equalTo(60);
-                make.height.mas_equalTo(20);
-            }];
-        }break;
-            
-        case 4:{
             [self addSubview:self.recommendLabel];
             [self.recommendLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self).offset(5);
@@ -180,11 +168,13 @@
             
             [self addSubview:self.recommendScrollView];
             [self.recommendScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.bottom.equalTo(self);
+                make.left.equalTo(self).offset(15);
+                make.right.equalTo(self).offset(-15);
+                make.bottom.equalTo(self);
                 make.top.equalTo(self).offset(30);
             }];
-        
-        }
+        }break;
+            
             
         default:
             break;
@@ -248,7 +238,7 @@
         _serviceContentLabel = [UITextView new];
         _serviceContentLabel.font = [UIFont systemFontOfSize:13];
         _serviceContentLabel.textColor = [UIColor colorWithHexString:@"#4f5965"];
-        _serviceContentLabel.text = @"服务内容";
+        _serviceContentLabel.text = @"服务内容我是内容呀呀我是内容呀呀我是内容呀呀我是";
     }
    return  _serviceContentLabel ;
 }
@@ -272,7 +262,6 @@
         _serviceTypeDetailsLabel.textColor = [UIColor colorWithHexString:@"#4f5965"];
         _serviceTypeDetailsLabel.text = @"在线服务";
     }
-
     return _serviceTypeDetailsLabel;
 }
 
@@ -299,7 +288,9 @@
         @weakify(self);
         _shopCartButton.rac_command = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
             @strongify(self);
-            self.clickAddShopCart();
+            if (self.clickAddShopCart) {
+                self.clickAddShopCart();
+            }
             return nil;
         }];
     }
@@ -343,7 +334,14 @@
     
     if (_recommendScrollView == nil) {
         _recommendScrollView = [[UIScrollView alloc]init];
+        for (int i = 0; i < 5; i++) {
+            UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_image"]];
+            imageView.frame = CGRectMake( 123 * i + 15,15, 108, 80);
+            [_recommendScrollView addSubview:imageView];
+        }
+        _recommendScrollView.contentSize = CGSizeMake(108 * 5 , 80);
     }
+    
     return _recommendScrollView;
 }
 

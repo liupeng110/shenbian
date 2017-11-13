@@ -15,9 +15,6 @@
 
 @implementation CHFindPeopleBrowseView
 
-
-
-
 -(instancetype)initWithFrame:(CGRect)frame{
     
     if (self = [super initWithFrame:frame]) {
@@ -49,7 +46,6 @@
         _categoryCollection.backgroundColor = [UIColor clearColor];
         _categoryCollection.showsVerticalScrollIndicator = NO;
 
-        
     }
     return _categoryCollection;
 }
@@ -152,6 +148,21 @@
     }
 
     return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.didSelectItem) {
+        self.didSelectItem(@"");
+    }
+
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
+    if (self.scrollViewWillBeginDragging) {
+        self.scrollViewWillBeginDragging();
+    }
+
 }
 
 

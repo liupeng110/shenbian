@@ -13,7 +13,7 @@
 #import "CHFindServiceBrowseView.h"
 #import "CHMapView.h"
 #import "CHFindServiceOptimizedView.h"
-
+#import "CHServiceDetailsViewController.h"
 @interface CHFindServiceViewController ()<UIScrollViewDelegate>
 @property(nonatomic,strong)UIScrollView *wrapScrollView;
 @property(nonatomic,strong)CHFindServiceHeadView *headView;
@@ -36,6 +36,7 @@
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#404040"];
     [self.rightButton setImage:[UIImage imageNamed:@"sy_gwc"] forState:(UIControlStateNormal)];
     self.rightButton.hidden = NO;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -57,7 +58,17 @@
     self.panelView.panelNameList = @[@"专业美发",@"专业美甲",@"头发护理",@"修建指甲",@"指甲贴膜",@"",@"",@""];
     self.browseView.browseItemList = @[@"专业美发",@"专业美甲",@"头发护理",@"修建指甲",@"指甲贴膜",@"",@"",@""];
     self.optimizedView.optimizedItemList = @[@"专业美发",@"专业美甲",@"头发护理",@"修建指甲",@"指甲贴膜",@"",@"",@""];
-
+    @weakify(self);
+    self.browseView.selectService = ^(NSString *serviceId) {
+        @strongify(self);
+        CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
+        [self.navigationController pushViewController:serviceDetail animated:YES];
+    };
+    self.optimizedView.optimizedSelected = ^(NSString *serviceId) {
+        @strongify(self);
+        CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
+        [self.navigationController pushViewController:serviceDetail animated:YES];
+    };
 }
 
 -(void)setupViews{
@@ -222,9 +233,11 @@
     return UIStatusBarStyleLightContent;
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     self.panelButton.tag = 1;
     [self clickPanelButton:self.panelButton];
+
 }
 
 @end

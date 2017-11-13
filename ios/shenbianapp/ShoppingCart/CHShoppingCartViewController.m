@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/11/6.
-//  Copyright © 2017年 helinkeji. All rights reserved.
+//  Copyright © 2017 helinkeji. All rights reserved.
 //
 
 #import "CHShoppingCartViewController.h"
@@ -70,6 +70,8 @@
         _tableView.dataSource = self;
         [_tableView registerClass:[CHShoppingCartTableViewCell class] forCellReuseIdentifier:@"cartCell"];
         _tableView.tableFooterView = [UIView new];
+        _tableView.backgroundColor = [UIColor colorWithHexColor:@"#f6f6f6"];
+        _tableView.separatorColor = [UIColor colorWithHexColor:@"#ebebeb"];
     }
     return  _tableView;
 }
@@ -95,8 +97,8 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 85))];
-    contentView.layer.borderWidth = 0.5;
-    contentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    contentView.layer.borderWidth = 0.3;
+    contentView.layer.borderColor = [UIColor colorWithHexColor:@"#ebebeb"].CGColor;
     contentView.backgroundColor = [UIColor whiteColor];
     UIImageView *headImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(15, 15, 50, 50))];
     headImageView.image = [UIImage imageNamed:@"default_headImage"];

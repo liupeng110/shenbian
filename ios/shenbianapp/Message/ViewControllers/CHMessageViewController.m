@@ -3,13 +3,15 @@
 //  shenbianapp
 //
 //  Created by book on 2017/10/17.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017年 . All rights reserved.
 //
 
 #import "CHMessageViewController.h"
 #import "CHMessageTableViewCell.h"
 #import "CHChatRoomViewController.h"
 
+#import "CHFocusViewController.h"
+#import "CHMyOrdersViewController.h"
 @interface CHMessageViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UIView *upperView;
@@ -138,13 +140,15 @@
             
             break;
         case MessageTypeOrder:{//跳转订单详情
-            
+            CHMyOrdersViewController *myOrder = [CHMyOrdersViewController new];
+            [self.navigationController pushViewController:myOrder animated:YES];
         }
-
             break;
             
         case MessageTypeFocus:{//跳转关注页
         
+            CHFocusViewController *focus = [CHFocusViewController new];
+            [self.navigationController pushViewController:focus animated:YES];
         }
             
             break;

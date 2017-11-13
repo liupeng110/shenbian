@@ -45,10 +45,17 @@
         _sendMessageButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [_sendMessageButton setTitle:@"发消息" forState:(UIControlStateNormal)];
         [_sendMessageButton setBackgroundColor:[UIColor colorWithHexString:@"#ff7f7a"]];
+        [_sendMessageButton addTarget:self action:@selector(clickSendMessage) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
     return _sendMessageButton;
 
+}
+
+-(void)clickSendMessage{
+    if (self.sendMessage) {
+        self.sendMessage();
+    }
 }
 
 -(UIButton *)makeOrderButton{
@@ -58,9 +65,16 @@
         [_makeOrderButton setTitle:@"下单" forState:(UIControlStateNormal)];
         [_makeOrderButton setTitleColor:[UIColor colorWithHexString:@""] forState:(UIControlStateNormal)];
         [_makeOrderButton setBackgroundColor:[UIColor colorWithHexString:@"#01b0f0"]];
+        [_makeOrderButton addTarget:self action:@selector(clickMakeOrder) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
     return _makeOrderButton;
+}
+
+- (void)clickMakeOrder{
+    if (self.makeOrder) {
+        self.makeOrder();
+    }
 }
 
 @end

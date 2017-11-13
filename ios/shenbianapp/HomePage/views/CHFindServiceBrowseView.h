@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^CHSelectService)(NSString *serviceId);
+
 @interface CHFindServiceBrowseView : UIView
 @property(nonatomic,copy)NSArray *browseItemList;
-
+@property(nonatomic,copy)CHSelectService selectService;
 @end
