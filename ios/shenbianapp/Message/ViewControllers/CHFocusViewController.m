@@ -28,12 +28,13 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
-    
+    self.navigationController.navigationBarHidden = NO;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.navigationBarHidden = YES;
 
 }
 
@@ -53,7 +54,6 @@
         make.left.right.bottom.equalTo(self.view);
         make.top.equalTo(self.view).offset(64);
     }];
-    
     
 }
 

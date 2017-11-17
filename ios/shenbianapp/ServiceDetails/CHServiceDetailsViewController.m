@@ -57,8 +57,7 @@
     
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view);
+        make.left.right.top.equalTo(self.view);
         make.bottom.mas_equalTo(-55);
     }];
     
@@ -94,8 +93,6 @@
     }];
 }
 
-
-
 -(UIView *)topView{
     if (_topView == nil) {
         _topView = [CHServiceUperView new];
@@ -104,16 +101,12 @@
     return _topView;
 }
 
-
-
 -(CHServiceBottomView *)bottomView{
     if (_bottomView == nil) {
         _bottomView = [CHServiceBottomView new];
     }
     return _bottomView;
 }
-
-
 
 
 - (void)didReceiveMemoryWarning {

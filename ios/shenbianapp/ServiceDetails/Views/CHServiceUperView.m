@@ -29,7 +29,7 @@
         self.pageControl.center = CGPointMake(0, 200);
         self.pageControl.backgroundColor = [UIColor orangeColor];
         [self addSubview:self.pageControl];
-        
+        self.backgroundColor = [UIColor orangeColor];
         
     }
     return self;
@@ -44,7 +44,15 @@
         _tableView.dataSource = self;
         _tableView.separatorColor = [UIColor colorWithHexString:@"#ebebeb"];
         _tableView.backgroundColor = [UIColor colorWithHexString:@"f6f6f6"];
-        
+        _tableView.estimatedRowHeight = 0;
+        _tableView.estimatedSectionFooterHeight = 0;
+        _tableView.estimatedSectionHeaderHeight = 0;
+
+        if (@available(iOS 11.0, *)) {
+            _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
     }
     return _tableView;
 }
@@ -145,6 +153,7 @@
         scrollView.delegate = self;
         scrollView.pagingEnabled = YES;
         scrollView.contentSize = CGSizeMake(kScreenWidth * 5, 220);
+        
         return scrollView;
         
     } else if (section == 1){

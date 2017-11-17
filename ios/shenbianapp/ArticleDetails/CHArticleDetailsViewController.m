@@ -36,11 +36,16 @@
     
     self.navigationItem.rightBarButtonItems = @[shareItem,spaceItem,favoriteItem];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 
+    
+}
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#009698"];
-
+   
 }
 
 - (void)setupViews{
