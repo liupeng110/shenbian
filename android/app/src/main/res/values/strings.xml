@@ -1,8 +1,11 @@
 <resources>
-    <string name="app_name">身边</string>
+    <string name="app_name">U服</string>
     <string name="settings">设置</string>
     <string name="help">帮助</string>
     <string name="quit">退出</string>
     <string name="sure">确定</string>
     <string name="cancel">取消</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

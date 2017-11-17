@@ -9,21 +9,21 @@ import java.util.List;
 public class HeadBottom {
 
     /**
-     * status  : 0000
+     * data : {"greatValue":[{"id":14,"homeUrl":null},{"id":15,"homeUrl":null}],"vos":[{"id":14,"serviceTitle":"hello world","serviceDescription":null,"location":"116.542951,39.639531","evaluateCount":0,"homeUrl":null,"starRating":"5","soldCount":"0","userTags":null},{"id":15,"serviceTitle":"hello world","serviceDescription":null,"location":"116.542951,39.639531","evaluateCount":0,"homeUrl":null,"starRating":"5","soldCount":"0","userTags":null},{"id":16,"serviceTitle":"hello world","serviceDescription":null,"location":"116.542951,39.639531","evaluateCount":0,"homeUrl":null,"starRating":"5","soldCount":"0","userTags":null}]}
      * success : 查询成功
-     * datas : [{"homeUrl":"","description":"","location":"116.542951,39.639531","id":1,"title":"aaa"}]
+     * status : 0000
      */
 
-    private String status;
+    private DataBean data;
     private String success;
-    private List<DatasBean> datas;
+    private String status;
 
-    public String getStatus() {
-        return status;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
     public String getSuccess() {
@@ -34,67 +34,154 @@ public class HeadBottom {
         this.success = success;
     }
 
-    public List<DatasBean> getDatas() {
-        return datas;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDatas(List<DatasBean> datas) {
-        this.datas = datas;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public static class DatasBean {
-        /**
-         * homeUrl :
-         * description :
-         * location : 116.542951,39.639531
-         * id : 1
-         * title : aaa
-         */
+    public static class DataBean {
+        private List<GreatValueBean> greatValue;
+        private List<VosBean> vos;
 
-        private String homeUrl;
-        private String description;
-        private String location;
-        private int id;
-        private String title;
-
-        public String getHomeUrl() {
-            return homeUrl;
+        public List<GreatValueBean> getGreatValue() {
+            return greatValue;
         }
 
-        public void setHomeUrl(String homeUrl) {
-            this.homeUrl = homeUrl;
+        public void setGreatValue(List<GreatValueBean> greatValue) {
+            this.greatValue = greatValue;
         }
 
-        public String getDescription() {
-            return description;
+        public List<VosBean> getVos() {
+            return vos;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setVos(List<VosBean> vos) {
+            this.vos = vos;
         }
 
-        public String getLocation() {
-            return location;
+        public static class GreatValueBean {
+            /**
+             * id : 14
+             * homeUrl : null
+             */
+
+            private int id;
+            private String homeUrl;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getHomeUrl() {
+                return homeUrl;
+            }
+
+            public void setHomeUrl(String homeUrl) {
+                this.homeUrl = homeUrl;
+            }
         }
 
-        public void setLocation(String location) {
-            this.location = location;
-        }
+        public static class VosBean {
+            /**
+             * id : 14
+             * serviceTitle : hello world
+             * serviceDescription : null
+             * location : 116.542951,39.639531
+             * evaluateCount : 0
+             * homeUrl : null
+             * starRating : 5
+             * soldCount : 0
+             * userTags : null
+             */
 
-        public int getId() {
-            return id;
-        }
+            private int id;
+            private String serviceTitle;
+            private String serviceDescription;
+            private String location;
+            private int evaluateCount;
+            private String homeUrl;
+            private String starRating;
+            private String soldCount;
+            private String userTags;
 
-        public void setId(int id) {
-            this.id = id;
-        }
+            public int getId() {
+                return id;
+            }
 
-        public String getTitle() {
-            return title;
-        }
+            public void setId(int id) {
+                this.id = id;
+            }
 
-        public void setTitle(String title) {
-            this.title = title;
+            public String getServiceTitle() {
+                return serviceTitle;
+            }
+
+            public void setServiceTitle(String serviceTitle) {
+                this.serviceTitle = serviceTitle;
+            }
+
+            public String getServiceDescription() {
+                return serviceDescription;
+            }
+
+            public void setServiceDescription(String serviceDescription) {
+                this.serviceDescription = serviceDescription;
+            }
+
+            public String getLocation() {
+                return location;
+            }
+
+            public void setLocation(String location) {
+                this.location = location;
+            }
+
+            public int getEvaluateCount() {
+                return evaluateCount;
+            }
+
+            public void setEvaluateCount(int evaluateCount) {
+                this.evaluateCount = evaluateCount;
+            }
+
+            public String getHomeUrl() {
+                return homeUrl;
+            }
+
+            public void setHomeUrl(String homeUrl) {
+                this.homeUrl = homeUrl;
+            }
+
+            public String getStarRating() {
+                return starRating;
+            }
+
+            public void setStarRating(String starRating) {
+                this.starRating = starRating;
+            }
+
+            public String getSoldCount() {
+                return soldCount;
+            }
+
+            public void setSoldCount(String soldCount) {
+                this.soldCount = soldCount;
+            }
+
+            public String getUserTags() {
+                return userTags;
+            }
+
+            public void setUserTags(String userTags) {
+                this.userTags = userTags;
+            }
         }
     }
 }

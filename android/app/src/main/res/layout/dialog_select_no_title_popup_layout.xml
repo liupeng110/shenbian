@@ -3,8 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:layout_marginLeft="100px"
-              android:layout_marginRight="100px"
+              android:layout_marginLeft="50dp"
+              android:layout_marginRight="50dp"
               android:background="@drawable/dialog_select_back"
               android:orientation="vertical">
 
@@ -13,14 +13,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30px"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textColor="#000000"
-        android:textSize="38px"/>
+        android:maxLines="3"
+        android:textSize="12dp"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="30px"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
         android:background="#eaeaec"/>
 
     <LinearLayout
@@ -35,14 +38,14 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_weight="1"
-            android:paddingBottom="25px"
-            android:paddingTop="25px"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:gravity="center"
             android:textColor="#117bfb"
-            android:textSize="32px"/>
+            android:textSize="15dp"/>
 
         <View
-            android:layout_width="1px"
+            android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="#eaeaec"/>
@@ -54,10 +57,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingBottom="25px"
-            android:paddingTop="25px"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:textColor="#117bfb"
-            android:textSize="32px"/>
+            android:textSize="15dp"/>
 
     </LinearLayout>
 

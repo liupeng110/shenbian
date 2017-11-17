@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="spots-dialog-0.7">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/48f6d014f0e4d9890651db29bc67a6116c7d16e7/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/48f6d014f0e4d9890651db29bc67a6116c7d16e7/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/24b2881e05dd9776b18551a7df89d1b658e2f65d/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/24b2881e05dd9776b18551a7df89d1b658e2f65d/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

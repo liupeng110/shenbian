@@ -1,7 +1,10 @@
 package com.henlinkeji.shenbian.base.application;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
@@ -17,13 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.rong.imkit.RongIM;
 import okhttp3.OkHttpClient;
 
-import static okhttp3.internal.Internal.instance;
-
-/**
- * Created by hjm on 2016/9/4.
- */
 public class MyApplication extends Application {
     private List<Activity> activitys = new LinkedList<>();
     private static MyApplication instance;
@@ -35,11 +34,15 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
+        MultiDex.install(this);
         super.onCreate();
         //网络连接配置
         OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(50000L, TimeUnit.MILLISECONDS).readTimeout(50000L, TimeUnit.MILLISECONDS).build();
         OkHttpUtils.initClient(okHttpClient);
+
         Fresco.initialize(this);
+
+        RongIM.init(this);
 
         Gson gson = new Gson();
 
@@ -140,4 +143,27 @@ public class MyApplication extends Application {
     public void setOptions3Items(ArrayList<ArrayList<ArrayList<Sub>>> options3Items) {
         this.options3Items = options3Items;
     }
+
+    /**
+     * 获得当前进程的名字
+     *
+     * @param context
+     * @return
+     */
+    public static String getCurProcessName(Context context) {
+
+        int pid = android.os.Process.myPid();
+
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+
+            if (appProcess.pid == pid) {
+
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
 }

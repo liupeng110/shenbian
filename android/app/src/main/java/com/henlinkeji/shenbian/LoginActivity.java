@@ -1,8 +1,6 @@
 package com.henlinkeji.shenbian;
 
-import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -19,8 +17,10 @@ import com.google.gson.Gson;
 import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.config.MyConfig;
+import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.HttpUtils;
+import com.henlinkeji.shenbian.base.utils.KeyboardUtils;
 import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;
@@ -33,6 +33,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.close)
@@ -55,10 +57,14 @@ public class LoginActivity extends BaseActivity {
     RelativeLayout qqRl;
     @BindView(R.id.taobao_rl)
     RelativeLayout taobaoRl;
+    @BindView(R.id.zhifubao_rl)
+    RelativeLayout zhifubaoRl;
 
     private CountDownTimer countDownTimer;
 
     private String smsSessionId;
+
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +95,8 @@ public class LoginActivity extends BaseActivity {
                 retrieveCodeBtn.setEnabled(true);
             }
         };
+
+        loadingDialog = new LoadingDialog(this, true);
     }
 
     @Override
@@ -241,25 +249,41 @@ public class LoginActivity extends BaseActivity {
                 ToastUtils.disPlayShort(LoginActivity.this, "淘宝登录");
             }
         });
+        zhifubaoRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.disPlayShort(LoginActivity.this, "支付宝登录");
+            }
+        });
     }
 
     private void requestVerifyCode(String phone) {
+        loadingDialog.show("身边");
         Map<String, String> params = new HashMap<>();
         params.put("mobile", phone);
         HttpUtils.post(this, MyConfig.SEND_CODE, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                SendCode sendCode=new  Gson().fromJson(response,SendCode.class);
+                loadingDialog.exit();
+                SendCode sendCode = new Gson().fromJson(response, SendCode.class);
                 if (sendCode.getStatus().equals("0000")) {
                     if (sendCode.getData() != null) {
                         countDownTimer.start();
-                        smsSessionId= sendCode.getData().getSmsSessionId();
+                        smsSessionId = sendCode.getData().getSmsSessionId();
                     }
+                } else {
+                    ShowDialog.showTipPopup(LoginActivity.this, sendCode.getSuccess(), R.string.sure, new OperationCallback() {
+                        @Override
+                        public void execute() {
+
+                        }
+                    });
                 }
             }
 
             @Override
             public void onFailure(String response) {
+                loadingDialog.exit();
                 ShowDialog.showTipPopup(LoginActivity.this, "验证码发送失败请重新发送", R.string.sure, new OperationCallback() {
                     @Override
                     public void execute() {
@@ -269,15 +293,17 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
     private void login() {
-        String phone=phoneEdt.getText().toString().replace(" ", "");
-        String code=passwordEdt.getText().toString().replace(" ", "");
+        loadingDialog.show("身边");
+        String phone = phoneEdt.getText().toString().replace(" ", "");
+        String code = passwordEdt.getText().toString().replace(" ", "");
         Map<String, String> params = new HashMap<>();
         params.put("mobile", phone);
         params.put("code", code);
         if (!TextUtils.isEmpty(smsSessionId)) {
             params.put("smsSessionId", smsSessionId);
-        }else {
+        } else {
             ShowDialog.showTipPopup(LoginActivity.this, "验证码已失效请重新获取", R.string.sure, new OperationCallback() {
                 @Override
                 public void execute() {
@@ -289,11 +315,13 @@ public class LoginActivity extends BaseActivity {
         HttpUtils.post(this, MyConfig.LOGIN, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                LoginResult loginResult=new Gson().fromJson(response,LoginResult.class);
-                if (loginResult.getStatus().equals("0000")){
-                    SPUtils.setToken(loginResult.getToken(),LoginActivity.this);
-                    LoginActivity.this.finish();
-                }else {
+                loadingDialog.exit();
+                LoginResult loginResult = new Gson().fromJson(response, LoginResult.class);
+                if (loginResult.getStatus().equals("0000")) {
+                    SPUtils.setToken(loginResult.getToken(), LoginActivity.this);
+                    SPUtils.setIMToken(loginResult.getImToken(), LoginActivity.this);
+                    connect(loginResult.getImToken());
+                } else {
                     ShowDialog.showTipPopup(LoginActivity.this, loginResult.getError(), R.string.sure, new OperationCallback() {
                         @Override
                         public void execute() {
@@ -305,6 +333,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
+                loadingDialog.exit();
                 ShowDialog.showTipPopup(LoginActivity.this, "服务器内部错误，请稍后重试", R.string.sure, new OperationCallback() {
                     @Override
                     public void execute() {
@@ -315,4 +344,57 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
+    }
+
+    /**
+     * <p>连接服务器，在整个应用程序全局，只需要调用一次，需在 {@link #init(Context)} 之后调用。</p>
+     * <p>如果调用此接口遇到连接失败，SDK 会自动启动重连机制进行最多10次重连，分别是1, 2, 4, 8, 16, 32, 64, 128, 256, 512秒后。
+     * 在这之后如果仍没有连接成功，还会在当检测到设备网络状态变化时再次进行重连。</p>
+     *
+     * @param token    从服务端获取的用户身份令牌（Token）。
+     * @param callback 连接回调。
+     * @return RongIM  客户端核心类的实例。
+     */
+    private void connect(String token) {
+
+        if (getApplicationInfo().packageName.equals(MyApplication.getCurProcessName(getApplicationContext()))) {
+
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                /**
+                 * Token 错误。可以从下面两点检查 1.  Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
+                 *                  2.  token 对应的 appKey 和工程里设置的 appKey 是否一致
+                 */
+                @Override
+                public void onTokenIncorrect() {
+                    LoginActivity.this.finish();
+                    KeyboardUtils.hideSoftInput(LoginActivity.this);
+                }
+
+                /**
+                 * 连接融云成功
+                 * @param userid 当前 token 对应的用户 id
+                 */
+                @Override
+                public void onSuccess(String userid) {
+                    LoginActivity.this.finish();
+                    KeyboardUtils.hideSoftInput(LoginActivity.this);
+                }
+
+                /**
+                 * 连接融云失败
+                 * @param errorCode 错误码，可到官网 查看错误码对应的注释
+                 */
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LoginActivity.this.finish();
+                    KeyboardUtils.hideSoftInput(LoginActivity.this);
+                }
+            });
+        }
+    }
 }

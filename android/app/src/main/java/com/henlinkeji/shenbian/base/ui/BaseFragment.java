@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by hjm on 2016/9/4.
- */
 public abstract class BaseFragment extends Fragment {
 
     //*************页面布局view***************

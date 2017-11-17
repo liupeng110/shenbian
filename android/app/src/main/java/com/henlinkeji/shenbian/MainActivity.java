@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,19 +20,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.henlinkeji.shenbian.base.application.MyApplication;
-import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
+import com.henlinkeji.shenbian.base.utils.LocationUtil;
+import com.henlinkeji.shenbian.base.utils.LogUtil;
 import com.henlinkeji.shenbian.base.utils.PermissionsChecker;
+import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;
-import com.henlinkeji.shenbian.base.view.ShowDialog;
-import com.henlinkeji.shenbian.fragments.AttentionFragment;
-import com.henlinkeji.shenbian.fragments.HeadFragment;
-import com.henlinkeji.shenbian.fragments.MineFragment;
-import com.henlinkeji.shenbian.fragments.DiscoverFragment;
+import com.henlinkeji.shenbian.fragments.home.AttentionFragment;
+import com.henlinkeji.shenbian.fragments.home.HeadFragment;
+import com.henlinkeji.shenbian.fragments.home.MineFragment;
+import com.henlinkeji.shenbian.fragments.home.DiscoverFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -75,11 +79,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final int REQUEST_CODE = 0; // 请求码
 
     // 所需的全部权限
-    static final String[] PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
+    static final String[] PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
 
     private PermissionsChecker mPermissionsChecker; // 权限检测器
 
@@ -111,9 +111,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
             //首先判断版本号是否大于等于6.0
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    startPermissionsActivity();
+                startPermissionsActivity();
             }
         }
+        if (SPUtils.getIMToken(this) != null) {
+            connect(SPUtils.getIMToken(MainActivity.this));
+        }
+        LogUtil.e("==imtoken===" + SPUtils.getIMToken(this));
     }
 
     @Override
@@ -229,18 +233,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            exit();
-            ShowDialog.showSelectNoTitlePopup(this, "确定要退出应用吗？", R.string.sure, R.string.cancel, new OperationCallback() {
-                @Override
-                public void execute() {
-                    MyApplication.getInstance().exit();
-                }
-            }, new OperationCallback() {
-                @Override
-                public void execute() {
-
-                }
-            });
+            exit();
+//            ShowDialog.showSelectNoTitlePopup(this, "确定要退出应用吗？", R.string.sure, R.string.cancel, new OperationCallback() {
+//                @Override
+//                public void execute() {
+//                    MyApplication.getInstance().exit();
+//                }
+//            }, new OperationCallback() {
+//                @Override
+//                public void execute() {
+//
+//                }
+//            });
             return false;
         }
         return super.onKeyDown(keyCode, event);
@@ -266,14 +270,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         addArticleLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,AddArticleActivity.class));
+                if (TextUtils.isEmpty(SPUtils.getToken(MainActivity.this))) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(MainActivity.this, AddArticleActivity.class));
+                }
                 popWindow.dismiss();
             }
         });
         addServiceLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,AddServiceActivity.class));
+                if (TextUtils.isEmpty(SPUtils.getToken(MainActivity.this))) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(MainActivity.this, AddServiceActivity.class));
+                }
                 popWindow.dismiss();
             }
         });
@@ -301,8 +313,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
+
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
     }
@@ -312,7 +324,45 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
         if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
-            ToastUtils.disPlayLongCenter(this,"重要权限未授予会导致应用基础功能无法使用，建议授予必要权限");
+            ToastUtils.disPlayLongCenter(this, "重要权限未授予会导致应用基础功能无法使用，建议授予必要权限");
+        }
+        if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_GRANTED) {
+            LocationUtil.init(this);
+        }
+    }
+
+    private void connect(String token) {
+        if (getApplicationInfo().packageName.equals(MyApplication.getCurProcessName(getApplicationContext()))) {
+
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                /**
+                 * Token 错误。可以从下面两点检查 1.  Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
+                 *                  2.  token 对应的 appKey 和工程里设置的 appKey 是否一致
+                 */
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtil.e("==Token 错误==");
+                }
+
+                /**
+                 * 连接融云成功
+                 * @param userid 当前 token 对应的用户 id
+                 */
+                @Override
+                public void onSuccess(String userid) {
+                    LogUtil.e("==连接融云成功==");
+                }
+
+                /**
+                 * 连接融云失败
+                 * @param errorCode 错误码，可到官网 查看错误码对应的注释
+                 */
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtil.e("==连接融云失败==");
+                }
+            });
         }
     }
 }

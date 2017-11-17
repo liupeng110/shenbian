@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
               android:background="@color/white"
               android:focusable="true"
               android:focusableInTouchMode="true"
@@ -109,24 +110,24 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="附近的服务"
-                    android:textColor="#999"
-                    android:textSize="14sp"/>
+                    android:text="NEARBY EVENTS"
+                    android:textColor="#000"
+                    android:textSize="15dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:text="查看地图"
-                    android:textColor="#dd544d"
-                    android:textSize="14sp"/>
+                    android:text="See Map"
+                    android:textColor="#009698"
+                    android:textSize="13dp"/>
             </RelativeLayout>
 
             <com.amap.api.maps.MapView
@@ -138,15 +139,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="超值"
-                    android:textColor="#999"
-                    android:textSize="14sp"/>
+                    android:textColor="#000"
+                    android:textSize="15dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -154,8 +155,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:text="查看全部"
-                    android:textColor="#dd544d"
-                    android:textSize="14sp"/>
+                    android:textColor="#009698"
+                    android:textSize="13dp"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -164,64 +165,26 @@
                 android:layout_marginTop="5dp"
                 android:background="#fff">
 
-                <LinearLayout
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/chaozhi_img1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:background="#f9f9f9"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    fresco:actualImageScaleType="fitXY"
+                    fresco:placeholderImageScaleType="fitXY"
+                    fresco:placeholderImage="@mipmap/temp"
+                    android:layout_weight="1"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="9.9限量抢"
-                        android:textColor="#f00"
-                        android:textSize="15sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="上门服务"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="200人在抢"/>
-                </LinearLayout>
-
-                <LinearLayout
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/chaozhi_img2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
+                    fresco:actualImageScaleType="fitXY"
+                    fresco:placeholderImageScaleType="fitXY"
+                    fresco:placeholderImage="@mipmap/temp"
                     android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="#f9f9f9"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="9.9限量抢"
-                        android:textColor="#f00"
-                        android:textSize="15sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="上门服务"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="200人在抢"/>
-                </LinearLayout>
+                    android:layout_weight="1"/>
             </LinearLayout>
 
             <TextView
@@ -230,17 +193,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:text="热销服务"
-                android:textColor="#999"
-                android:textSize="14sp"/>
+                android:textColor="#000"
+                android:textSize="15dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/hot_recy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:background="#fff"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"/>
+                android:background="#fff"/>
         </LinearLayout>
     </ScrollView>
 

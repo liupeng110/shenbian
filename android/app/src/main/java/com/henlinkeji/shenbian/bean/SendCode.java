@@ -15,6 +15,7 @@ public class SendCode {
     private DataBean data;
     private String success;
     private String status;
+    private String error;
 
     public DataBean getData() {
         return data;
@@ -38,6 +39,14 @@ public class SendCode {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     public static class DataBean {

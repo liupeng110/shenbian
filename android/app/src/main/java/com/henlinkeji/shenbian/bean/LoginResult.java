@@ -16,6 +16,8 @@ public class LoginResult {
     private boolean data;
     private String error;
     private String token;
+    private String imToken;
+    private String userId;
 
     public String getStatus() {
         return status;
@@ -47,5 +49,21 @@ public class LoginResult {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getImToken() {
+        return imToken;
+    }
+
+    public void setImToken(String imToken) {
+        this.imToken = imToken;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

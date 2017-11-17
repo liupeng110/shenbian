@@ -52,6 +52,20 @@ public class SPUtils {
         return sp.getString(MyConfig.SP_TOKEN, "");
     }
 
+    //保存IMToken
+    public static boolean setIMToken(String object, Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(MyConfig.SP_IMTOKEN, object);
+        return editor.commit();
+    }
+
+    //获取IMToken
+    public static String getIMToken(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        return sp.getString(MyConfig.SP_IMTOKEN, "");
+    }
+
     public static boolean setDataInt(String key, int object, Context context) {
         SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();

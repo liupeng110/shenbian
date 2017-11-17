@@ -2,73 +2,103 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:fresco="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:id="@+id/hot_sell_rl"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:scaleType="fitXY"
-        fresco:placeholderImage="@mipmap/ic_launcher"
-        fresco:roundAsCircle="true"
-        fresco:roundedCornerRadius="1dp"
+        fresco:placeholderImage="@mipmap/temp"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
         android:layout_toRightOf="@+id/img"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="15dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/star"/>
+            <TextView
+                android:id="@+id/star_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#ffd332"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@mipmap/location2"
+                    android:textColor="#a1a1a1"
+                    android:textSize="12sp"/>
+            </LinearLayout>
 
+        </LinearLayout>
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333"
-            android:textSize="14sp"/>
+            android:textColor="#2d333a"
+            android:layout_marginTop="4dp"
+            android:textSize="15dp"/>
 
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#a1a1a1"
+            android:textColor="#4f5965"
             android:singleLine="true"
             android:layout_marginTop="2dp"
-            android:textSize="12sp"/>
+            android:textSize="13dp"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="2dp"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="标签"
-                android:textColor="#a1a1a1"
-                android:textSize="12sp"/>
-
+                android:background="@drawable/head_user_tag_back"
+                android:textColor="#2d333a"
+                android:textSize="12dp"/>
             <TextView
-                android:id="@+id/distance"
-                android:layout_width="match_parent"
+                android:id="@+id/sell_count"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:text="距你1.5km"
-                android:gravity="right"
-                android:layout_gravity="right"
-                android:textColor="#a1a1a1"
-                android:textSize="12sp"/>
-        </LinearLayout>
+                android:textColor="#8f959c"
+                android:textSize="13dp"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="#f4f4f4"/>
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/img"
+        android:background="#ebebeb"/>
 </RelativeLayout>

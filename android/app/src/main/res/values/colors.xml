@@ -28,4 +28,6 @@
 
     <!--HomeActivity-->
     <color name="tab_bg">#e62129</color>
+
+    <color name="divider">#ffd2d2d2</color>
 </resources>

@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 用于写入缓存数据到扩展存储卡 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 用于申请调用A-GPS模块 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
 
@@ -24,17 +25,16 @@
     <application
         android:name=".base.application.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_144"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="design_width"
-            android:value="720"/>
+            android:value="375"/>
         <meta-data
             android:name="design_height"
-            android:value="1280"/>
+            android:value="667"/>
 
         <activity
             android:name=".MainActivity"
@@ -77,6 +77,67 @@
         <activity android:name=".SelectCityActivity">
         </activity>
         <activity android:name=".SearchActivity">
+        </activity>
+        <activity android:name=".ArticleDetailActivity">
+        </activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.henlinkeji.shenbian.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path"/>
+        </provider>
+
+        <activity android:name=".im.ConversationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="com.henlinkeji.shenbian"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".im.ConversationListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="com.henlinkeji.shenbian"
+                    android:path="/conversationlist"
+                    android:scheme="rong"/>
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".im.SealNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED"/>
+                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED"/>
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED"/>
+                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".LookServiceActivity">
+        </activity>
+        <activity android:name=".EditInfoActivity">
+        </activity>
+        <activity android:name=".MerchantPageActivity">
+        </activity>
+        <activity android:name=".ShoppingCartActivity">
         </activity>
     </application>
 

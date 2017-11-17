@@ -38,7 +38,7 @@
                 android:layout_marginTop="7px"
                 android:text="首页"
                 android:textColor="#009698"
-                android:textSize="20px" />
+                android:textSize="11dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -62,9 +62,9 @@
                 android:layout_below="@+id/iv_attention"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7px"
-                android:text="关注"
+                android:text="消息"
                 android:textColor="#8f959c"
-                android:textSize="20px" />
+                android:textSize="11dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -106,7 +106,7 @@
                 android:layout_marginTop="7px"
                 android:text="发现"
                 android:textColor="#8f959c"
-                android:textSize="20px" />
+                android:textSize="11dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -132,7 +132,7 @@
                 android:layout_marginTop="7px"
                 android:text="我的"
                 android:textColor="#8f959c"
-                android:textSize="20px" />
+                android:textSize="11dp" />
         </RelativeLayout>
     </LinearLayout>
     <View

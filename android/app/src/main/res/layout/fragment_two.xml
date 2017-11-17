@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
 
     <include
@@ -10,5 +11,142 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="180dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#f6f6f6"
+        android:layout_height="20dp"/>
+
+    <include
+        android:id="@+id/chat_rl"
+        layout="@layout/attention_order_item_layout"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f6f6f6"
+        android:layout_marginLeft="15dp"/>
+
+    <RelativeLayout
+        android:id="@+id/order_rl"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#fff">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/order_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/guanzhudingdan"
+            fresco:roundAsCircle="true"
+            fresco:roundedCornerRadius="1dp"
+            />
+
+        <TextView
+            android:id="@+id/order_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/order_img"
+            android:singleLine="true"
+            android:text="订单"
+            android:textColor="#2d333a"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/order_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/order_user_name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/order_img"
+            android:singleLine="true"
+            android:text="内容"
+            android:textColor="#4f5965"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:singleLine="true"
+            android:text="12:00"
+            android:textColor="#8f959c"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f6f6f6"
+        android:layout_marginLeft="15dp"/>
+
+    <RelativeLayout
+        android:id="@+id/attention_rl"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#fff">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/attention_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/guanzhuyiguanzhu"
+            fresco:roundAsCircle="true"
+            fresco:roundedCornerRadius="1dp"
+            />
+
+        <TextView
+            android:id="@+id/attention_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/attention_img"
+            android:singleLine="true"
+            android:text="已关注"
+            android:textColor="#2d333a"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/attention_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/attention_user_name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/attention_img"
+            android:singleLine="true"
+            android:text="内容"
+            android:textColor="#4f5965"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/attention_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:singleLine="true"
+            android:text="12:00"
+            android:textColor="#8f959c"
+            android:textSize="15sp"/>
+    </RelativeLayout>
 
 </LinearLayout>
