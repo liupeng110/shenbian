@@ -26,3 +26,5 @@ iOS  appid ：1288095892
 远程登陆密码：960554
 控制台登陆账户：root 密码：Helinkeji2017
 数据库用户名： root  密码： helinkeji2017_test
+
+上线数据库用户名：root，密码:Yixiangkeji_2017
