@@ -500,12 +500,12 @@
         "source": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\src\\main\\res\\drawable-xhdpi\\u1f631.png"
     },
     {
-        "merged": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\rc_default_group_portrait.png",
-        "source": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\src\\main\\res\\drawable-xhdpi\\rc_default_group_portrait.png"
-    },
-    {
         "merged": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\rc_ic_star_hover.png",
         "source": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\src\\main\\res\\drawable-xhdpi\\rc_ic_star_hover.png"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\rc_default_group_portrait.png",
+        "source": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\src\\main\\res\\drawable-xhdpi\\rc_default_group_portrait.png"
     },
     {
         "merged": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\rc_read_receipt_request_hover.png",

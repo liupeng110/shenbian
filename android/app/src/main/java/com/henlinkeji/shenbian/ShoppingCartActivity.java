@@ -32,6 +32,7 @@ import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.bean.QueryCart;
 import com.zhy.autolayout.utils.AutoUtils;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,23 +98,29 @@ public class ShoppingCartActivity extends BaseActivity {
 
     private void getCart() {
         final LoadingDialog loadingDialog = new LoadingDialog(this, true);
-        loadingDialog.show("身边");
+        loadingDialog.show("获取购物车列表中");
         Map<String, String> params = new HashMap<>();
         params.put("token", SPUtils.getToken(this));
         HttpUtils.post(this, MyConfig.QUERY_CART, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 QueryCart queryCart = new Gson().fromJson(response, QueryCart.class);
                 if (queryCart.getStatus().equals("0000")) {
                     groups = queryCart.getData();
                     initEvents();
+                }else {
+                    orderTv.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
             }
         });
     }
@@ -178,10 +185,17 @@ public class ShoppingCartActivity extends BaseActivity {
                 return true;
             }
         });
+        calculate();
     }
 
     private void calculate() {
         double totalPrice = 0.00;
+
+        if (groups!=null){
+            orderTv.setVisibility(View.VISIBLE);
+        }else {
+            orderTv.setVisibility(View.GONE);
+        }
 
         for (int i = 0; i < groups.size(); i++) {
             List<QueryCart.DataBean.CartsBean> childs = groups.get(i).getCarts();
@@ -190,7 +204,7 @@ public class ShoppingCartActivity extends BaseActivity {
                 if (product.isChoosed()) {
                     if (product.getPrice() != null) {
                         if (!TextUtils.isEmpty(product.getPrice()))
-                            totalPrice += Integer.valueOf(product.getPrice()) * product.getServiceAmount();
+                            totalPrice += Double.valueOf(product.getPrice()) * product.getServiceAmount();
                     }
                 }
             }
@@ -216,7 +230,6 @@ public class ShoppingCartActivity extends BaseActivity {
                     cartListEntity.setUserIcon(data.getUserIcon());
                     cartListEntity.setShopName(data.getShopName());
                     cartListEntity.setShopUserId(data.getShopUserId());
-                    cartListEntity.setUserIcon(data.getUserIcon());
                     cartListEntity.setCarts(goods);
 
                     if (goods.size() != 0) {
@@ -225,9 +238,9 @@ public class ShoppingCartActivity extends BaseActivity {
                 }
 
                 if (orderList.size() > 0) {
-//                    Intent intent = new Intent(ShoppingCartActivity.this, CommitOrderActivity.class);
-//                    intent.putExtra("orderlist", (Serializable) orderList);
-//                    startActivity(intent);
+                    Intent intent = new Intent(ShoppingCartActivity.this, CommitOrderActivity.class);
+                    intent.putExtra("orderlist", (Serializable) orderList);
+                    startActivity(intent);
                 } else {
                     ToastUtils.disPlayShort(ShoppingCartActivity.this, "请选择要支付的商品");
                 }
@@ -367,7 +380,7 @@ public class ShoppingCartActivity extends BaseActivity {
                 cholder.add = (Button) convertView.findViewById(R.id.btnIncrease);
                 cholder.minus = (Button) convertView.findViewById(R.id.btnDecrease);
                 cholder.numEdt = (EditText) convertView.findViewById(R.id.num);
-                cholder.detail = (LinearLayout) convertView.findViewById(R.id.ll_service_detail);
+                cholder.detail = (RelativeLayout) convertView.findViewById(R.id.ll_service_detail);
 
                 convertView.setTag(cholder);
             } else {
@@ -516,7 +529,7 @@ public class ShoppingCartActivity extends BaseActivity {
             Button add;
             Button minus;
             EditText numEdt;
-            LinearLayout detail;
+            RelativeLayout detail;
         }
 
     }
@@ -546,7 +559,6 @@ public class ShoppingCartActivity extends BaseActivity {
     @Override
     public void onPause() {
         super.onPause();
-        handler.post(runnable);
     }
 
     @Override
@@ -554,7 +566,6 @@ public class ShoppingCartActivity extends BaseActivity {
         super.onResume();
         handler.post(runnable);
     }
-
 
     private Runnable runnable = new Runnable() {
         public void run() {

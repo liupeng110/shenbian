@@ -38,6 +38,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -45,40 +46,54 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".PermissionsActivity">
+        <activity
+            android:name=".PermissionsActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <service android:name="com.amap.api.location.APSService"/>
 
-        <!-- //开发者申请的key -->
-        <!-- <meta-data android:name="com.amap.api.v2.apikey" -->
-        <!-- android:value="ffbf111a20d3a758668c24500a13132d"/> -->
-        //刘个人申请的key
+        <!-- //高德开发者申请的key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="34423cb4bad3604056560110d70cad68"/>
+            android:value="7ccc8942f353161ba968bcd8a95b3399"/>
 
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".AddArticleActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SelectPositionActivity">
+        <activity
+            android:name=".SelectPositionActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".AddServiceActivity">
+        <activity
+            android:name=".AddServiceActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ServiceDetailActivity">
+        <activity
+            android:name=".ServiceDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".SelectCityActivity">
+        <activity
+            android:name=".SelectCityActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".SearchActivity">
+        <activity
+            android:name=".SearchActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ArticleDetailActivity">
+        <activity
+            android:name=".ArticleDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <provider
@@ -91,7 +106,9 @@
                 android:resource="@xml/rc_file_path"/>
         </provider>
 
-        <activity android:name=".im.ConversationActivity">
+        <activity
+            android:name=".im.ConversationActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -131,13 +148,45 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".LookServiceActivity">
+        <activity
+            android:name=".LookServiceActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".EditInfoActivity">
+        <activity
+            android:name=".LookPeopleActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".MerchantPageActivity">
+        <activity
+            android:name=".LookOtherActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ShoppingCartActivity">
+        <activity
+            android:name=".EditInfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".MerchantPageActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ShoppingCartActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".LookMapActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".CommitOrderActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".SelectAddressActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".AllClassfyActivity">
+        </activity>
+        <activity android:name=".OrderListActivity">
         </activity>
     </application>
 

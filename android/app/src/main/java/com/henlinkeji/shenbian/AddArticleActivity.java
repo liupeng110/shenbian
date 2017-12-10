@@ -196,11 +196,16 @@ public class AddArticleActivity extends BaseActivity {
     }
 
     private void getQiNiuToken() {
+        final LoadingDialog loadingDialog = new LoadingDialog(AddArticleActivity.this, true);
+        loadingDialog.show("");
         Map<String, String> params = new HashMap<>();
         params.put("token", SPUtils.getToken(this));
         HttpUtils.post(this, MyConfig.GET_UPLOAD_TOKEN, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 GetUpToken generalBean = new Gson().fromJson(response, GetUpToken.class);
                 if (generalBean.getStatus().equals("0000")) {
                     uploadToken = generalBean.getData();
@@ -224,6 +229,9 @@ public class AddArticleActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 ShowDialog.showTipPopup(AddArticleActivity.this, "服务器发生错误，请重新点击上传", R.string.sure, new OperationCallback() {
                     @Override
                     public void execute() {
@@ -337,14 +345,18 @@ public class AddArticleActivity extends BaseActivity {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {
-                        loadingDialog.exit();
+                        if (loadingDialog!=null) {
+                            loadingDialog.exit();
+                        }
                         pictureEdt.addEditTextAtIndex(pictureEdt.getLastIndex(), " ");
                         ToastUtils.disPlayShort(AddArticleActivity.this, "图片插入成功");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        loadingDialog.exit();
+                        if (loadingDialog!=null) {
+                            loadingDialog.exit();
+                        }
                         ToastUtils.disPlayShort(AddArticleActivity.this, "图片插入失败:" + e.getMessage());
                     }
 
@@ -390,7 +402,9 @@ public class AddArticleActivity extends BaseActivity {
         this.uploadManager.put(uploadFile, UUID.randomUUID().toString().replaceAll("-", ""), uploadToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 if (respInfo.isOK()) {
                     //异步方式插入图片
                     insertImagesSync(data,jsonData.toString());
@@ -403,6 +417,8 @@ public class AddArticleActivity extends BaseActivity {
     }
 
     private void addArticle() {
+        final LoadingDialog loadingDialog = new LoadingDialog(this, false);
+        loadingDialog.show("正在发布");
         Map<String, String> params = new HashMap<>();
         params.put("token", SPUtils.getToken(AddArticleActivity.this));
         params.put("title", titleEdt.getText().toString());
@@ -412,9 +428,13 @@ public class AddArticleActivity extends BaseActivity {
         params.put("categoryId", 1 + "");
         params.put("price", 1 + "");
         params.put("center", locationBean.getLon() + "," + locationBean.getLat());
+        params.put("address", locationBean.getContent());
         HttpUtils.post(this, MyConfig.ADD_ARTICLE_SERVICE, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 AddArticle addArticle=new Gson().fromJson(response,AddArticle.class);
                 if (addArticle.getStatus().equals("0000")){
                     ToastUtils.disPlayShort(AddArticleActivity.this,"发布成功");
@@ -431,6 +451,9 @@ public class AddArticleActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 ShowDialog.showTipPopup(AddArticleActivity.this, "服务器发生错误，请重新点击上传", R.string.sure, new OperationCallback() {
                     @Override
                     public void execute() {

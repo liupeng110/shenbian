@@ -246,9 +246,9 @@
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
-                        "startOffset": 877,
+                        "startOffset": 878,
                         "endColumn": 57,
-                        "endOffset": 930
+                        "endOffset": 931
                     }
                 }
             },
@@ -265,9 +265,9 @@
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
-                        "startOffset": 729,
+                        "startOffset": 730,
                         "endColumn": 54,
-                        "endOffset": 779
+                        "endOffset": 780
                     }
                 }
             },
@@ -284,9 +284,9 @@
                     "position": {
                         "startLine": 35,
                         "startColumn": 4,
-                        "startOffset": 1178,
+                        "startOffset": 1179,
                         "endColumn": 56,
-                        "endOffset": 1230
+                        "endOffset": 1231
                     }
                 }
             },
@@ -299,7 +299,7 @@
                     "endOffset": 12383
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -322,9 +322,9 @@
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 192,
+                        "startOffset": 193,
                         "endColumn": 60,
-                        "endOffset": 248
+                        "endOffset": 249
                     }
                 }
             },
@@ -341,9 +341,9 @@
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 284,
+                        "startOffset": 285,
                         "endColumn": 53,
-                        "endOffset": 333
+                        "endOffset": 334
                     }
                 }
             },
@@ -360,9 +360,9 @@
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
-                        "startOffset": 971,
+                        "startOffset": 972,
                         "endColumn": 45,
-                        "endOffset": 1012
+                        "endOffset": 1013
                     }
                 }
             },
@@ -379,9 +379,9 @@
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 521,
+                        "startOffset": 522,
                         "endColumn": 61,
-                        "endOffset": 578
+                        "endOffset": 579
                     }
                 }
             },
@@ -394,7 +394,7 @@
                     "endOffset": 12653
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -2636,7 +2636,7 @@
                     "endOffset": 19288
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -2659,9 +2659,9 @@
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 82,
+                        "startOffset": 83,
                         "endColumn": 69,
-                        "endOffset": 147
+                        "endOffset": 148
                     }
                 }
             },
@@ -2678,9 +2678,9 @@
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 423,
+                        "startOffset": 424,
                         "endColumn": 70,
-                        "endOffset": 489
+                        "endOffset": 490
                     }
                 }
             },
@@ -2731,7 +2731,7 @@
                     "endOffset": 19613
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -2750,7 +2750,7 @@
                     "endOffset": 19661
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -2773,9 +2773,9 @@
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
-                        "startOffset": 811,
+                        "startOffset": 812,
                         "endColumn": 60,
-                        "endOffset": 867
+                        "endOffset": 868
                     }
                 }
             },
@@ -2792,9 +2792,9 @@
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1047,
+                        "startOffset": 1048,
                         "endColumn": 66,
-                        "endOffset": 1109
+                        "endOffset": 1110
                     }
                 }
             },
@@ -5163,7 +5163,7 @@
                     "endOffset": 27702
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -5186,9 +5186,9 @@
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 631,
+                        "startOffset": 632,
                         "endColumn": 73,
-                        "endOffset": 700
+                        "endOffset": 701
                     }
                 }
             },
@@ -5277,7 +5277,7 @@
                     "endOffset": 28068
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -5714,7 +5714,7 @@
                     "endOffset": 29385
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -5752,7 +5752,7 @@
                     "endOffset": 29536
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -6360,7 +6360,7 @@
                     "endOffset": 31389
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -6379,7 +6379,7 @@
                     "endOffset": 31467
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -6398,7 +6398,7 @@
                     "endOffset": 31532
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -7025,7 +7025,7 @@
                     "endOffset": 33432
                 },
                 "from": {
-                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMLib\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "file": "E:\\AndroidStudioProjects\\helinkeji\\shenbian\\android\\shenbian\\IMKit\\build\\intermediates\\exploded-aar\\shenbian\\IMLib\\unspecified\\res\\values\\values.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,

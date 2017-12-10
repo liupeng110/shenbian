@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.henlinkeji.shenbian.adapter.ServiceTabVpAdapter;
+import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;

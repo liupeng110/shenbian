@@ -102,8 +102,6 @@ public class EditInfoActivity extends BaseActivity {
 
     private boolean isSelectPic = false;
 
-    private LoadingDialog loadingDialog;
-
     private String uploadToken;
 
     private UploadManager uploadManager;
@@ -137,8 +135,6 @@ public class EditInfoActivity extends BaseActivity {
         titleTv.setTextColor(Color.parseColor("#ffffff"));
         backIv.setImageResource(R.mipmap.back2);
 
-        loadingDialog = new LoadingDialog(this, true);
-        loadingDialog.show("身边");
     }
 
     @Override
@@ -220,11 +216,14 @@ public class EditInfoActivity extends BaseActivity {
             params.put("userIcon", hash);
         }
         params.put("token", SPUtils.getToken(this));
-        loadingDialog.show("身边");
+        final LoadingDialog loadingDialog = new LoadingDialog(this, true);
+        loadingDialog.show("上传资料中");
         HttpUtils.post(this, MyConfig.EDIT_INFO, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 GetUpToken getUpToken = new Gson().fromJson(response, GetUpToken.class);
                 if (getUpToken.getStatus().equals("0000")) {
                     ToastUtils.disPlayShort(EditInfoActivity.this, "保存成功");
@@ -241,18 +240,24 @@ public class EditInfoActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
             }
         });
     }
 
     private void getDetail(String token) {
+        final LoadingDialog loadingDialog = new LoadingDialog(this, true);
+        loadingDialog.show("获取资料中");
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         HttpUtils.post(this, MyConfig.QUERY_INFO, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 UserInfo userInfo = new Gson().fromJson(response, UserInfo.class);
                 if (userInfo.getStatus().equals("0000")) {
                     initUserInfo(userInfo.getData());
@@ -261,7 +266,9 @@ public class EditInfoActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
             }
         });
     }
@@ -425,11 +432,16 @@ public class EditInfoActivity extends BaseActivity {
     }
 
     private void getQiNiuToken() {
+        final LoadingDialog loadingDialog = new LoadingDialog(this, true);
+        loadingDialog.show("");
         Map<String, String> params = new HashMap<>();
         params.put("token", SPUtils.getToken(this));
         HttpUtils.post(this, MyConfig.GET_UPLOAD_TOKEN, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 GetUpToken generalBean = new Gson().fromJson(response, GetUpToken.class);
                 if (generalBean.getStatus().equals("0000")) {
                     uploadToken = generalBean.getData();
@@ -443,6 +455,9 @@ public class EditInfoActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
             }
         });
     }
@@ -451,11 +466,15 @@ public class EditInfoActivity extends BaseActivity {
         if (this.uploadManager == null) {
             this.uploadManager = new UploadManager();
         }
+        final LoadingDialog loadingDialog = new LoadingDialog(this, true);
+        loadingDialog.show("");
         File uploadFile = new File(uploadFilePath);
         this.uploadManager.put(uploadFile, UUID.randomUUID().toString().replaceAll("-", ""), uploadToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 if (respInfo.isOK()) {
                     PicTextBean b1 = new Gson().fromJson(jsonData.toString(), PicTextBean.class);
                     hash = b1.getHash();

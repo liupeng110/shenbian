@@ -1,5 +1,6 @@
 package com.henlinkeji.shenbian;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ import com.henlinkeji.shenbian.base.utils.Utils;
 import com.henlinkeji.shenbian.base.view.ShowDialog;
 import com.henlinkeji.shenbian.bean.GetUpToken;
 import com.henlinkeji.shenbian.bean.HeadTop;
+import com.henlinkeji.shenbian.bean.QueryCart;
 import com.henlinkeji.shenbian.bean.ServiceDetail;
 import com.sendtion.xrichtext.RichTextView;
 import com.squareup.picasso.Picasso;
@@ -50,6 +52,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +94,8 @@ public class ServiceDetailActivity extends BaseActivity {
 
     private LoadingDialog loadingDialog;
 
+    private ServiceDetail.DataBean serviceDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +115,7 @@ public class ServiceDetailActivity extends BaseActivity {
     protected void initInstence() {
         serviceId = getIntent().getIntExtra("id", 0);
         loadingDialog = new LoadingDialog(this, true);
-        loadingDialog.show("身边");
+        loadingDialog.show("获取服务详情");
     }
 
     @Override
@@ -140,14 +145,15 @@ public class ServiceDetailActivity extends BaseActivity {
 
     private void getDetail() {
         Map<String, String> params = new HashMap<>();
-        params.put("serviceId", serviceId+"");
+        params.put("serviceId", serviceId + "");
         HttpUtils.post(this, MyConfig.SERVICE_DETAIL, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
                 loadingDialog.exit();
-                ServiceDetail serviceDetail = new Gson().fromJson(response, ServiceDetail.class);
-                if (serviceDetail.getStatus().equals("0000")) {
-                    initService(serviceDetail.getData());
+                ServiceDetail service = new Gson().fromJson(response, ServiceDetail.class);
+                if (service.getStatus().equals("0000")) {
+                    serviceDetail=service.getData();
+                    initService();
                 }
             }
 
@@ -158,7 +164,7 @@ public class ServiceDetailActivity extends BaseActivity {
         });
     }
 
-    private void initService(final ServiceDetail.DataBean serviceDetail) {
+    private void initService() {
         if (serviceDetail.getUserName() != null) {
             if (!TextUtils.isEmpty(serviceDetail.getUserName())) nameTv.setText(serviceDetail.getUserName());
         }
@@ -179,33 +185,40 @@ public class ServiceDetailActivity extends BaseActivity {
         LocationUtil.getCurrentLocation(new LocationUtil.MyLocationListener() {
             @Override
             public void result(AMapLocation location) {
-                LogUtil.e("=====" + location.getLatitude());
                 LatLng latLng1 = new LatLng(location.getLatitude(), location.getLongitude());
-                String[] locs = serviceDetail.getLocation().split(",");
-                LatLng latLng2 = null;
-                if (locs.length >= 1) {
-                    latLng2 = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
-                }
-                float dis = AMapUtils.calculateLineDistance(latLng1, latLng2);
-                if (dis < 1000) {
-                    distanceTv.setText(dis + "m");
-                } else {
-                    distanceTv.setText(Utils.mToKm(dis));
+                if (!TextUtils.isEmpty(serviceDetail.getLocation())) {
+                    if (serviceDetail.getLocation().length()>0) {
+                        String[] locs = serviceDetail.getLocation().split(",");
+                        LatLng latLng2 = null;
+                        if (locs.length >= 1) {
+                            latLng2 = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
+                        }
+                        float dis = AMapUtils.calculateLineDistance(latLng1, latLng2);
+                        if (dis < 1000) {
+                            distanceTv.setText(dis + "m");
+                        } else {
+                            distanceTv.setText(Utils.mToKm(dis));
+                        }
+                    }
                 }
             }
         });
         sendTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (RongIM.getInstance() != null) {
-                    if (serviceDetail.getUserName() != null) {
-                        if (!TextUtils.isEmpty(serviceDetail.getUserName())) {
-                            RongIM.getInstance().startPrivateChat(ServiceDetailActivity.this, serviceDetail.getUserId() + "", serviceDetail.getUserName());
-                        }else {
-                            RongIM.getInstance().startPrivateChat(ServiceDetailActivity.this, serviceDetail.getUserId() + "","身边"+ serviceDetail.getUserId());
+                if (TextUtils.isEmpty(SPUtils.getToken(ServiceDetailActivity.this))) {
+                    startActivity(new Intent(ServiceDetailActivity.this, LoginActivity.class));
+                } else {
+                    if (RongIM.getInstance() != null) {
+                        if (serviceDetail.getUserName() != null) {
+                            if (!TextUtils.isEmpty(serviceDetail.getUserName())) {
+                                RongIM.getInstance().startPrivateChat(ServiceDetailActivity.this, serviceDetail.getUserId() + "", serviceDetail.getUserName());
+                            } else {
+                                RongIM.getInstance().startPrivateChat(ServiceDetailActivity.this, serviceDetail.getUserId() + "", "身边" + serviceDetail.getUserId());
+                            }
+                        } else {
+                            RongIM.getInstance().startPrivateChat(ServiceDetailActivity.this, serviceDetail.getUserId() + "", "身边" + serviceDetail.getUserId());
                         }
-                    }else {
-                        RongIM.getInstance().startPrivateChat(ServiceDetailActivity.this, serviceDetail.getUserId() + "", "身边"+ serviceDetail.getUserId());
                     }
                 }
             }
@@ -213,26 +226,67 @@ public class ServiceDetailActivity extends BaseActivity {
         carLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addCart();
+                if (TextUtils.isEmpty(SPUtils.getToken(ServiceDetailActivity.this))) {
+                    startActivity(new Intent(ServiceDetailActivity.this, LoginActivity.class));
+                } else {
+                    addCart();
+                }
+            }
+        });
+        orderTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(SPUtils.getToken(ServiceDetailActivity.this))) {
+                    startActivity(new Intent(ServiceDetailActivity.this, LoginActivity.class));
+                } else {
+                    if (serviceDetail != null) {
+                        List<QueryCart.DataBean> orderList = new ArrayList<>();
+                        QueryCart.DataBean cartListEntity = new QueryCart.DataBean();
+                        List<QueryCart.DataBean.CartsBean> goods = new ArrayList<>();
+                        QueryCart.DataBean.CartsBean cartsBean = new QueryCart.DataBean.CartsBean();
+                        cartsBean.setServiceAmount(1);
+//                        cartsBean.setPrice(serviceDetail.getServicePrice());
+                        cartsBean.setServiceTitle(serviceDetail.getServiceTitle());
+                        goods.add(cartsBean);
+                        cartListEntity.setUserIcon(serviceDetail.getUserIcon());
+                        cartListEntity.setShopName(serviceDetail.getUserName());
+                        cartListEntity.setShopUserId(serviceDetail.getUserId());
+                        cartListEntity.setCarts(goods);
+
+                        if (goods.size() != 0) {
+                            orderList.add(cartListEntity);
+                        }
+                        if (orderList.size() > 0) {
+                            Intent intent = new Intent(ServiceDetailActivity.this, CommitOrderActivity.class);
+                            intent.putExtra("orderlist", (Serializable) orderList);
+                            startActivity(intent);
+                        }
+                    }else {
+                        getDetail();
+                    }
+                }
             }
         });
     }
+
     private void addCart() {
-        final LoadingDialog  loadingDialog = new LoadingDialog(this, true);
-        loadingDialog.show("身边");
+        final LoadingDialog loadingDialog = new LoadingDialog(this, true);
+        loadingDialog.show("添加购物车中");
         Map<String, String> params = new HashMap<>();
-        params.put("serviceId", serviceId+"");
+        params.put("serviceId", serviceId + "");
         params.put("token", SPUtils.getToken(this));
-        params.put("amount", 1+"");
+        params.put("amount", 1 + "");
         HttpUtils.post(this, MyConfig.ADD_CART, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 GetUpToken getUpToken = new Gson().fromJson(response, GetUpToken.class);
                 if (getUpToken.getStatus().equals("0000")) {
-                    ToastUtils.disPlayShort(ServiceDetailActivity.this,"添加成功");
-                }else {
-                    ShowDialog.showTipPopup(ServiceDetailActivity.this,getUpToken.getError(), R.string.sure, new OperationCallback() {
+                    ToastUtils.disPlayShort(ServiceDetailActivity.this, "添加成功");
+                } else {
+                    ShowDialog.showTipPopup(ServiceDetailActivity.this, getUpToken.getError(), R.string.sure, new OperationCallback() {
                         @Override
                         public void execute() {
 
@@ -243,7 +297,9 @@ public class ServiceDetailActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
             }
         });
     }

@@ -46,6 +46,7 @@ public class LoadingDialog extends AlertDialog {
     }
 
     public void exit() {
+
         super.dismiss();
     }
 

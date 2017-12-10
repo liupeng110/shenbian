@@ -125,7 +125,7 @@ public class SelectPositionActivity extends BaseActivity implements AMapLocation
             setUpMap();
         }
         loadingDialog = new LoadingDialog(this, true);
-        loadingDialog.show("身边");
+        loadingDialog.show("");
         InputTools.HideKeyboard(titleTv);
     }
 

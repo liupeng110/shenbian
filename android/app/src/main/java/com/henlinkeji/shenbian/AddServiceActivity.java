@@ -104,18 +104,10 @@ public class AddServiceActivity extends BaseActivity {
 
     private boolean isPermisson = false;
 
-    private ArrayList<Sub> options1Items = new ArrayList<>();
-    private ArrayList<ArrayList<Sub>> options2Items = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<Sub>>> options3Items = new ArrayList<>();
-    private OptionsPickerView pvOptions;
-
-    private MyApplication application;
 
     private static final int SELECT_POSITION = 1; // 请求码
     private static final int SELECT_PHOTO = 2; // 请求码
     private static final int REQUEST_CODE = 1; // 请求码
-
-    private int cityId;
 
     private Subscription subsInsert;
 
@@ -151,8 +143,6 @@ public class AddServiceActivity extends BaseActivity {
     protected void initInstence() {
         MyApplication.getInstance().addActivity(this);
         mPermissionsChecker = new PermissionsChecker(this);
-        application = (MyApplication) getApplication();
-        initOptionPicker();
     }
 
     @Override
@@ -169,7 +159,6 @@ public class AddServiceActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 InputTools.HideKeyboard(v);
-                pvOptions.show();
             }
         });
         backImg.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +243,7 @@ public class AddServiceActivity extends BaseActivity {
                 }else if (locationBean == null) {
                     ToastUtils.disPlayShort(AddServiceActivity.this, "位置未填写");
                     return;
-                } else if (TextUtils.isEmpty(cityId+"")) {
+                } else if (TextUtils.isEmpty("")) {
                     ToastUtils.disPlayShort(AddServiceActivity.this, "频道信息未选择");
                     return;
                 }else {
@@ -265,11 +254,16 @@ public class AddServiceActivity extends BaseActivity {
     }
 
     private void getQiNiuToken() {
+        final LoadingDialog loadingDialog = new LoadingDialog(AddServiceActivity.this, true);
+        loadingDialog.show("");
         Map<String, String> params = new HashMap<>();
         params.put("token", SPUtils.getToken(this));
         HttpUtils.post(this, MyConfig.GET_UPLOAD_TOKEN, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 GetUpToken generalBean = new Gson().fromJson(response, GetUpToken.class);
                 if (generalBean.getStatus().equals("0000")) {
                     uploadToken = generalBean.getData();
@@ -293,43 +287,15 @@ public class AddServiceActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                ShowDialog.showTipPopup(AddServiceActivity.this, "服务器发生错误，请重新点击上传", R.string.sure, new OperationCallback() {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
+                ShowDialog.showTipPopup(AddServiceActivity.this, "请重新点击上传", R.string.sure, new OperationCallback() {
                     @Override
                     public void execute() {
 
                     }
                 });
-            }
-        });
-    }
-
-    public void initOptionPicker() {
-        options1Items = application.getOptions1Items();
-        options2Items = application.getOptions2Items();
-        options3Items = application.getOptions3Items();
-
-        //选项选择器
-        pvOptions = new OptionsPickerView(this);
-        //三级联动效果
-        pvOptions.setPicker(options1Items, options2Items, options3Items, true);
-        //设置选择的三级单位
-        pvOptions.setTitle("选择城市");
-        pvOptions.setCyclic(false, false, false);
-        //设置默认选中的三级项目
-        //监听确定选择按钮
-        pvOptions.setSelectOptions(0, 0, 0);
-        pvOptions.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
-
-            @Override
-            public void onOptionsSelect(int options1, int option2, int options3) {
-                //返回的分别是三个级别的选中位置
-                String tx = options1Items.get(options1).getPickerViewText() + options2Items.get(options1).get(option2).getPickerViewText() + options3Items.get(options1).get(option2).get(options3).getPickerViewText();
-                classfyTv.setText(tx);
-                if (options3Items.get(options1).get(option2).get(options3).getId() == 0) {
-                    cityId = options2Items.get(options1).get(option2).getId();
-                } else {
-                    cityId = options3Items.get(options1).get(option2).get(options3).getId();
-                }
             }
         });
     }
@@ -407,14 +373,18 @@ public class AddServiceActivity extends BaseActivity {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {
-                        loadingDialog.exit();
+                        if (loadingDialog!=null) {
+                            loadingDialog.exit();
+                        }
                         pictureEdt.addEditTextAtIndex(pictureEdt.getLastIndex(), " ");
                         ToastUtils.disPlayShort(AddServiceActivity.this, "图片插入成功");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        loadingDialog.exit();
+                        if (loadingDialog!=null) {
+                            loadingDialog.exit();
+                        }
                         ToastUtils.disPlayShort(AddServiceActivity.this, "图片插入失败:" + e.getMessage());
                     }
 
@@ -460,7 +430,9 @@ public class AddServiceActivity extends BaseActivity {
         this.uploadManager.put(uploadFile, UUID.randomUUID().toString().replaceAll("-", ""), uploadToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 if (respInfo.isOK()) {
                         //异步方式插入图片
                         insertImagesSync(data,jsonData.toString());
@@ -473,6 +445,8 @@ public class AddServiceActivity extends BaseActivity {
     }
 
     private void addArticle() {
+        final LoadingDialog loadingDialog = new LoadingDialog(this, false);
+        loadingDialog.show("正在发布");
         Map<String, String> params = new HashMap<>();
         params.put("token", SPUtils.getToken(AddServiceActivity.this));
         params.put("title", titleEdt.getText().toString());
@@ -482,10 +456,14 @@ public class AddServiceActivity extends BaseActivity {
         params.put("categoryId", 1 + "");
         params.put("price", priceEdt.getText().toString());
         params.put("center", locationBean.getLon() + "," + locationBean.getLat());
+        params.put("address", locationBean.getContent());
         LogUtil.e("==sfsdgd=="+new Gson().toJson(getEditData()));
         HttpUtils.post(this, MyConfig.ADD_ARTICLE_SERVICE, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 AddArticle addArticle=new Gson().fromJson(response,AddArticle.class);
                 if (addArticle.getStatus().equals("0000")){
                     ToastUtils.disPlayShort(AddServiceActivity.this,"发布成功");
@@ -502,6 +480,9 @@ public class AddServiceActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 ShowDialog.showTipPopup(AddServiceActivity.this, "服务器发生错误，请重新点击上传", R.string.sure, new OperationCallback() {
                     @Override
                     public void execute() {

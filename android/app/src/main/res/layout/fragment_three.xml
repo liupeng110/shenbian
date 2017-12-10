@@ -1,17 +1,23 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
 
     <include
         layout="@layout/toolbar_img_layout"/>
 
-    <ListView
-        android:id="@+id/lv_discover"
+    <com.henlinkeji.shenbian.refresh.VRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#fff"
-        android:dividerHeight="0dp"
-        />
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/lv_discover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#fff"
+            android:dividerHeight="0dp"
+            />
+    </com.henlinkeji.shenbian.refresh.VRefreshLayout>
+</FrameLayout>

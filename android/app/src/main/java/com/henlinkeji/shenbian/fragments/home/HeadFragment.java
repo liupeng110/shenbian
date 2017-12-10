@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -34,8 +35,12 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
+import com.henlinkeji.shenbian.AllClassfyActivity;
 import com.henlinkeji.shenbian.ArticleDetailActivity;
 import com.henlinkeji.shenbian.LoginActivity;
+import com.henlinkeji.shenbian.LookMapActivity;
+import com.henlinkeji.shenbian.LookOtherActivity;
+import com.henlinkeji.shenbian.LookPeopleActivity;
 import com.henlinkeji.shenbian.LookServiceActivity;
 import com.henlinkeji.shenbian.R;
 import com.henlinkeji.shenbian.SearchActivity;
@@ -97,6 +102,8 @@ public class HeadFragment extends Fragment {
     SimpleDraweeView chaoZhiImg1;
     @BindView(R.id.chaozhi_img2)
     SimpleDraweeView chaoZhiImg2;
+    @BindView(R.id.see_map_rl)
+    RelativeLayout seeMapRl;
 
     private CommonAdapter<String> quickSearchAdapter;
     private CommonAdapter<HeadBottom.DataBean.VosBean> hotSellAdapter;
@@ -169,7 +176,7 @@ public class HeadFragment extends Fragment {
         //启动定位
         mlocationClient.startLocation();
         loadingDialog = new LoadingDialog(getActivity(), true);
-        loadingDialog.show("身边");
+        loadingDialog.show("");
     }
 
     protected void initData() {
@@ -225,7 +232,7 @@ public class HeadFragment extends Fragment {
                     holder.setVisible(R.id.mark, false);
                 }
                 LatLng latLng1 = new LatLng(currentLatitude, currentLongitude);
-                if (hotSell.getLocation()!=null) {
+                if (!TextUtils.isEmpty(hotSell.getLocation())) {
                     String[] locs = hotSell.getLocation().split(",");
                     LatLng latLng2 = null;
                     if (locs.length >= 1) {
@@ -245,8 +252,8 @@ public class HeadFragment extends Fragment {
                 holder.setOnClickListener(R.id.hot_sell_rl, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(getActivity(),ServiceDetailActivity.class);
-                        intent.putExtra("id",hotSell.getId());
+                        Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+                        intent.putExtra("id", hotSell.getId());
                         startActivity(intent);
                     }
                 });
@@ -275,6 +282,8 @@ public class HeadFragment extends Fragment {
                         aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
                         currentLatitude = aMapLocation.getLatitude();//获取纬度
                         currentLongitude = aMapLocation.getLongitude();//获取经度
+                        SPUtils.setLatitude(currentLatitude + "", getActivity());
+                        SPUtils.setLongitude(currentLongitude + "", getActivity());
                         aMapLocation.getAccuracy();//获取精度信息
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(aMapLocation.getTime());
@@ -290,6 +299,7 @@ public class HeadFragment extends Fragment {
                             locTv.setText(aMapLocation.getCity());
                         }
                         city = aMapLocation.getCity();
+                        SPUtils.setCity(city, getActivity());
                         //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
 //                        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15, 0, 0));
 //                        aMap.moveCamera(mCameraUpdate);
@@ -329,13 +339,14 @@ public class HeadFragment extends Fragment {
         recyclerGridViewAdapter.setOnRecyclerViewItemListener(new RecyclerGridViewAdapter.OnRecyclerViewItemListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                if (position != classfyTextList.size() - 1) {
-                    ToastUtils.disPlayShortCenter(getActivity(), classfyTextList.get(position));
-                } else {
-                    ToastUtils.disPlayShort(getActivity(), classfyTextList.get(position));
-                }
                 if (position == 0) {
                     startActivity(new Intent(getActivity(), LookServiceActivity.class));
+                } else if (position == 1) {
+                    startActivity(new Intent(getActivity(), LookPeopleActivity.class));
+                }else if (position==7){
+                    startActivity(new Intent(getActivity(), AllClassfyActivity.class));
+                }else {
+                    startActivity(new Intent(getActivity(), LookOtherActivity.class));
                 }
             }
 
@@ -357,7 +368,7 @@ public class HeadFragment extends Fragment {
                 if (TextUtils.isEmpty(SPUtils.getToken(getActivity()))) {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                 } else {
-                    ToastUtils.disPlayShort(getActivity(), "购物车");
+                    startActivity(new Intent(getActivity(), ShoppingCartActivity.class));
                 }
             }
         });
@@ -374,10 +385,10 @@ public class HeadFragment extends Fragment {
             }
         });
 
-        headCarIv.setOnClickListener(new View.OnClickListener() {
+        seeMapRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ShoppingCartActivity.class));
+                startActivity(new Intent(getActivity(), LookMapActivity.class));
             }
         });
     }
@@ -489,6 +500,19 @@ public class HeadFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
+        mMapView.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
+        mMapView.onSaveInstanceState(outState);
+    }
 }
 
 

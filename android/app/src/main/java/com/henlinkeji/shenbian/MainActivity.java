@@ -252,7 +252,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void exit() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
-            ToastUtils.disPlayShortCenter(MainActivity.this, "再按一次返回键退出身边");
+            ToastUtils.disPlayShortCenter(MainActivity.this, "再按一次返回键退出U服");
             exitTime = System.currentTimeMillis();
         } else {
             MyApplication.getInstance().exit();

@@ -66,6 +66,46 @@ public class SPUtils {
         return sp.getString(MyConfig.SP_IMTOKEN, "");
     }
 
+    //保存经度
+    public static boolean setLongitude(String object, Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(MyConfig.SP_LON, object);
+        return editor.commit();
+    }
+
+    //获取经度
+    public static String getLongitude(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        return sp.getString(MyConfig.SP_LON, "");
+    }
+
+    //保存纬度
+    public static boolean setLatitude(String object, Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(MyConfig.SP_LAT, object);
+        return editor.commit();
+    }
+
+    //获取纬度
+    public static String getLatitude(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        return sp.getString(MyConfig.SP_LAT, "");
+    }
+
+    public static boolean setCity(String object, Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(MyConfig.SP_CITY, object);
+        return editor.commit();
+    }
+
+    public static String getCity(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        return sp.getString(MyConfig.SP_CITY, "");
+    }
+
     public static boolean setDataInt(String key, int object, Context context) {
         SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -88,7 +128,6 @@ public class SPUtils {
             editor.remove(key);
         } else {
             ToastUtils.disPlayShort(context, "\"" + key + "\"不存在");
-            MyLog.e("\"" + key + "\"不存在");
         }
         return editor.commit();
     }

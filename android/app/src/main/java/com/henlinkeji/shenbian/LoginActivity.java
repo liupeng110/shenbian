@@ -64,8 +64,6 @@ public class LoginActivity extends BaseActivity {
 
     private String smsSessionId;
 
-    private LoadingDialog loadingDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +94,6 @@ public class LoginActivity extends BaseActivity {
             }
         };
 
-        loadingDialog = new LoadingDialog(this, true);
     }
 
     @Override
@@ -258,13 +255,16 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void requestVerifyCode(String phone) {
+        final LoadingDialog loadingDialog = new LoadingDialog(this, true);
         loadingDialog.show("身边");
         Map<String, String> params = new HashMap<>();
         params.put("mobile", phone);
         HttpUtils.post(this, MyConfig.SEND_CODE, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 SendCode sendCode = new Gson().fromJson(response, SendCode.class);
                 if (sendCode.getStatus().equals("0000")) {
                     if (sendCode.getData() != null) {
@@ -283,7 +283,9 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                loadingDialog.exit();
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
                 ShowDialog.showTipPopup(LoginActivity.this, "验证码发送失败请重新发送", R.string.sure, new OperationCallback() {
                     @Override
                     public void execute() {
@@ -295,7 +297,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
-        loadingDialog.show("身边");
+        final LoadingDialog loadingDialog = new LoadingDialog(this, true);
         String phone = phoneEdt.getText().toString().replace(" ", "");
         String code = passwordEdt.getText().toString().replace(" ", "");
         Map<String, String> params = new HashMap<>();
@@ -304,7 +306,7 @@ public class LoginActivity extends BaseActivity {
         if (!TextUtils.isEmpty(smsSessionId)) {
             params.put("smsSessionId", smsSessionId);
         } else {
-            ShowDialog.showTipPopup(LoginActivity.this, "验证码已失效请重新获取", R.string.sure, new OperationCallback() {
+            ShowDialog.showTipPopup(LoginActivity.this, "未获取验证码", R.string.sure, new OperationCallback() {
                 @Override
                 public void execute() {
 
@@ -312,6 +314,7 @@ public class LoginActivity extends BaseActivity {
             });
             return;
         }
+        loadingDialog.show("登录中");
         HttpUtils.post(this, MyConfig.LOGIN, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {

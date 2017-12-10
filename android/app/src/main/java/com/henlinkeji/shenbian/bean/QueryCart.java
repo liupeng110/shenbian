@@ -1,12 +1,13 @@
 package com.henlinkeji.shenbian.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Liu on 2017/11/6.
  */
 
-public class QueryCart {
+public class QueryCart implements Serializable {
 
     /**
      * data : [{"shopUserId":1,"shopName":"啊啊啊","userIcon":"http://ouyv8tyz1.bkt.clouddn.com/40x40@2x.png","carts":[{"serviceId":14,"serviceTitle":"hello world","homeUrl":null,"serviceDescription":"","price":null,"createTime":1509946851000,"updateTime":null,"serviceAmount":1,"userShopId":1},{"serviceId":16,"serviceTitle":"hello world","homeUrl":null,"serviceDescription":"","price":null,"createTime":1509947288000,"updateTime":null,"serviceAmount":1,"userShopId":1}]}]
@@ -42,7 +43,7 @@ public class QueryCart {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * shopUserId : 1
          * shopName : 啊啊啊
@@ -96,7 +97,7 @@ public class QueryCart {
             this.carts = carts;
         }
 
-        public static class CartsBean {
+        public static class CartsBean implements Serializable{
             /**
              * serviceId : 14
              * serviceTitle : hello world

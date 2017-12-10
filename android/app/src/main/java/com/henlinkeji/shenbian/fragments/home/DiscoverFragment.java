@@ -1,23 +1,32 @@
 package com.henlinkeji.shenbian.fragments.home;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.henlinkeji.shenbian.R;
 import com.henlinkeji.shenbian.adapter.DiscoverAdapter;
+import com.henlinkeji.shenbian.base.config.MyConfig;
+import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseFragment;
-import com.henlinkeji.shenbian.bean.Image;
-import com.youth.banner.Banner;
+import com.henlinkeji.shenbian.base.utils.HttpUtils;
+import com.henlinkeji.shenbian.base.utils.LogUtil;
+import com.henlinkeji.shenbian.base.utils.SPUtils;
+import com.henlinkeji.shenbian.base.utils.ToastUtils;
+import com.henlinkeji.shenbian.base.utils.Utils;
+import com.henlinkeji.shenbian.bean.Discover;
+import com.henlinkeji.shenbian.refresh.VRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,21 +42,20 @@ public class DiscoverFragment extends BaseFragment {
     RelativeLayout titleRl;
     @BindView(R.id.lv_discover)
     ListView discoverLv;
+    @BindView(R.id.refresh_layout)
+    VRefreshLayout vRefreshLayout;
 
+    private List<Discover.DataBean> dataBeanList = new ArrayList<>();
 
-    private List<List<Image>> imagesList;
+    private DiscoverAdapter discoverAdapter;
 
-    private String[] images=new String[]{
-            "http://img2.niutuku.com/desk/1208/1426/ntk-1426-17776.jpg"
-            ,"http://imgstore.cdn.sogou.com/app/a/100540002/760050.jpg"
-            ,"http://imgsrc.baidu.com/imgad/pic/item/71cf3bc79f3df8dc613cb28fc711728b471028ae.jpg"
-            ,"http://img2.niutuku.com/desk/1208/1510/ntk-1510-24060.jpg"
-            ,"http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=178dcd40db09b3deffb2ec2ba4d606f4/9d82d158ccbf6c81c1c946c0b63eb13533fa401f.jpg"
-            ,"http://img1.imgtn.bdimg.com/it/u=2846755474,3235131370&fm=214&gp=0.jpg"
-            ,"http://imgsrc.baidu.com/imgad/pic/item/810a19d8bc3eb1359d5a74a4ac1ea8d3fd1f4414.jpg"
-            ,"http://imgstore.cdn.sogou.com/app/a/100540002/398213.jpg"
-            ,"http://img0.imgtn.bdimg.com/it/u=2603370572,337907411&fm=214&gp=0.jpg"
-    };
+    private LoadingDialog loadingDialog;
+
+    private int last_index;
+    private int total_index;
+    private int page=1;
+    private int totalPage;
+    private boolean isLoading = false;
 
     @Override
     protected int getLayoutId() {
@@ -63,29 +71,97 @@ public class DiscoverFragment extends BaseFragment {
     protected void initInstence() {
         titleTv.setText("身边头条");
         titleRl.setBackgroundColor(Color.parseColor("#009698"));
+
+        loadingDialog = new LoadingDialog(getActivity(), true);
+        loadingDialog.show("");
     }
 
     @Override
     protected void initData() {
-        getData();
-        discoverLv.setAdapter(new DiscoverAdapter(getActivity(),imagesList));
+        getDiscover();
+        discoverAdapter = new DiscoverAdapter(getActivity());
+        discoverLv.setAdapter(discoverAdapter);
+
+        if (vRefreshLayout != null) {
+            vRefreshLayout.setHeaderView(vRefreshLayout.getDefaultHeaderView());
+            vRefreshLayout.setBackgroundColor(Color.WHITE);
+            vRefreshLayout.setAutoRefreshDuration(400);
+            vRefreshLayout.setRatioOfHeaderHeightToReach(1.5f);
+            vRefreshLayout.addOnRefreshListener(new VRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if (Utils.isNetworkAvailable(getActivity())) {
+                        page=1;
+                        dataBeanList.clear();
+                        getDiscover();
+                    } else {
+                        vRefreshLayout.refreshComplete();
+                        Toast.makeText(getActivity(), "当前网络不可用，请检查网络", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
     }
 
     @Override
     protected void initListener() {
-
-    }
-
-    private void getData() {
-        imagesList=new ArrayList<>();
-        //从一到9生成9条朋友圈内容，分别是1~9张图片
-        for(int i=0;i<9;i++){
-            ArrayList<Image> itemList=new ArrayList<>();
-            for(int j=0;j<=i;j++){
-                itemList.add(new Image(images[j]));
+        discoverLv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (last_index == total_index && (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE)) {
+                    if (!isLoading) {
+                        isLoading = true;
+                        page++;
+                        if (page>totalPage){
+                            ToastUtils.disPlayShort(getActivity(),"已加载全部");
+                        }else {
+                            getDiscover();
+                        }
+                        loadComplete();
+                    }
+                }
             }
-            imagesList.add(itemList);
-        }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                last_index = firstVisibleItem + visibleItemCount;
+                total_index = totalItemCount;
+            }
+        });
     }
 
+    private void getDiscover() {
+        Map<String, String> params = new HashMap<>();
+        params.put("city", SPUtils.getCity(getActivity()));
+        params.put("pageNo", page + "");
+        params.put("center", SPUtils.getLongitude(getActivity()) + "," + SPUtils.getLatitude(getActivity()));
+        HttpUtils.post(getActivity(), MyConfig.DISCOVER, params, new HttpUtils.HttpPostCallBackListener() {
+            @Override
+            public void onSuccess(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
+                vRefreshLayout.refreshComplete();
+                Discover discover = new Gson().fromJson(response, Discover.class);
+                if (discover.getStatus().equals("0000")) {
+                    dataBeanList.addAll(discover.getData());
+                    discoverAdapter.setData(dataBeanList);
+                    totalPage=discover.getTotalPage();
+                }
+            }
+
+            @Override
+            public void onFailure(String response) {
+                if (loadingDialog!=null) {
+                    loadingDialog.exit();
+                }
+                vRefreshLayout.refreshComplete();
+            }
+        });
+    }
+
+    public void loadComplete() {
+        isLoading = false;
+        getActivity().invalidateOptionsMenu();
+    }
 }

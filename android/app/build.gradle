@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'yixiangtech'
+            keyPassword 'yixiang2017'
+            storeFile file('E:/AndroidStudioProjects/helinkeji/yixiangtech.jks')
+            storePassword 'yixiang2017'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
@@ -18,14 +26,14 @@ android {
         debug {
             //启用代码混淆
             minifyEnabled false
+            shrinkResources false
             //混淆规则配置文件
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "IS_LOG", "true"
         }
-
         release {
             buildConfigField "boolean", "IS_LOG", "false"
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,7 +42,15 @@ android {
             jni.srcDirs = []
         }
     }
-
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    productFlavors {
+        c360 {}
+        baidu {}
+        tencent {}
+    }
 }
 
 dependencies {
@@ -68,4 +84,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.henlinkeji.shenbian.base.utils.ScreenTools;
-import com.henlinkeji.shenbian.bean.Image;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class NineGridlayout extends ViewGroup {
     /**
      * 图片之间的间隔
      */
-    private int gap = 5;
+    private int gap = 20;
     private int columns;//
     private int rows;//
     private List listData;
@@ -59,7 +58,7 @@ public class NineGridlayout extends ViewGroup {
 
         for (int i = 0; i < childrenCount; i++) {
             CustomImageView childrenView = (CustomImageView) getChildAt(i);
-            childrenView.setImageUrl(((Image) listData.get(i)).getUrl());
+            childrenView.setImageUrl((String) listData.get(i));
             int[] position = findPosition(i);
             int left = (singleWidth + gap) * position[1];
             int top = (singleHeight + gap) * position[0];
@@ -95,7 +94,7 @@ public class NineGridlayout extends ViewGroup {
     }
 
 
-    public void setImagesData(List<Image> lists) {
+    public void setImagesData(List<String> lists) {
         if (lists == null || lists.isEmpty()) {
             return;
         }

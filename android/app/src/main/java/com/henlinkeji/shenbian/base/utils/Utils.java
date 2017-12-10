@@ -3,6 +3,8 @@ package com.henlinkeji.shenbian.base.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.WindowManager;
 
 import java.io.BufferedReader;
@@ -86,6 +88,25 @@ public class Utils {
     private static String fromatDate(long timeMillis, String fromat) {
         SimpleDateFormat sdf = new SimpleDateFormat(fromat);
         return sdf.format(new Date(timeMillis));
+    }
+
+    /**
+     * 网络是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager mgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] info = mgr.getAllNetworkInfo();
+        if (info != null) {
+            for (int i = 0; i < info.length; i++) {
+                if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

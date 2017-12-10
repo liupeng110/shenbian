@@ -20,7 +20,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.henlinkeji.shenbian.EditInfoActivity;
 import com.henlinkeji.shenbian.LoginActivity;
 import com.henlinkeji.shenbian.MerchantPageActivity;
+import com.henlinkeji.shenbian.OrderListActivity;
 import com.henlinkeji.shenbian.R;
+import com.henlinkeji.shenbian.ShoppingCartActivity;
 import com.henlinkeji.shenbian.adapter.MineDownAdapter;
 import com.henlinkeji.shenbian.base.ui.BaseFragment;
 import com.henlinkeji.shenbian.base.utils.SPUtils;
@@ -123,8 +125,19 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         listViewForScrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position==2){
+                    if (TextUtils.isEmpty(SPUtils.getToken(getActivity()))) {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                    } else {
+                        startActivity(new Intent(getActivity(), OrderListActivity.class));
+                    }
+                }
                 if (position==3){
-                    startActivity(new Intent(getActivity(), EditInfoActivity.class));
+                    if (TextUtils.isEmpty(SPUtils.getToken(getActivity()))) {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                    } else {
+                        startActivity(new Intent(getActivity(), EditInfoActivity.class));
+                    }
                 }
             }
         });

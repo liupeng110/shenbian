@@ -98,7 +98,7 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
     protected void initInstence() {
         mapList.setLayoutManager(new LinearLayoutManager(this));
         loadingDialog = new LoadingDialog(this, true);
-        loadingDialog.show("身边");
+        loadingDialog.show("加载城市中");
         if (getIntent() != null) {
             city = getIntent().getStringExtra("city");
         }

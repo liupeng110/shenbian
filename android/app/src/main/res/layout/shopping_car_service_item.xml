@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/ll_service_detail"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="107dp"
               android:background="#ffffff"
               android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content">
 
         <CheckBox
             android:id="@+id/shopping_service_item_select"
@@ -16,11 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:button="@drawable/check_box_bg"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="visible"/>
+         />
 
         <ImageView
             android:id="@+id/shopping_service_item_img"
@@ -33,7 +33,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:orientation="vertical">
@@ -71,7 +71,7 @@
 
                 <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:layout_height="22dp"
                     android:background="@drawable/bg_amount_layout"
                     android:divider="@drawable/divider"
                     android:focusable="true"
@@ -115,5 +115,10 @@
 
         </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ebebeb"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
