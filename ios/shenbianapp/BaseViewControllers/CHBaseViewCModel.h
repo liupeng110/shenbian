@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ReactiveCocoa.h>
 
-@interface CHBaseViewCModel : NSObject
+@interface CHBaseViewCModel : NSObject<NSCoding>
 
 @property(nonatomic,strong)RACCommand *loadPagedata;
 

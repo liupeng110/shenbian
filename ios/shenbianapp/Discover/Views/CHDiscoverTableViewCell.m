@@ -136,14 +136,14 @@
 }
 
 -(UIButton *)locationButton{
-    if (_editButton == nil) {
-        _editButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_editButton setImage:[UIImage imageNamed:@"fx_dw"] forState:(UIControlStateNormal)];
-        [_editButton setTitle:@"  中关村创业大街" forState:(UIControlStateNormal)];
-        [_editButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
-        [_editButton setTitleColor:[UIColor colorWithHexColor:@"#8f959c"] forState:(UIControlStateNormal)];
+    if (_locationButton == nil) {
+        _locationButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [_locationButton setImage:[UIImage imageNamed:@"fx_dw"] forState:(UIControlStateNormal)];
+        [_locationButton setTitle:@"  中关村创业大街" forState:(UIControlStateNormal)];
+        [_locationButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
+        [_locationButton setTitleColor:[UIColor colorWithHexColor:@"#8f959c"] forState:(UIControlStateNormal)];
     }
-    return _editButton;
+    return _locationButton;
 }
 
 -(UICollectionView *)collectionView{
@@ -187,6 +187,14 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     return CGSizeMake(100, 100);
+}
+
+-(void)setModelDic:(NSDictionary *)modelDic{
+    _modelDic = modelDic;
+    self.nameLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"serviceTitle"]];
+    self.lastTimeLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"releaseTime"]];
+    [self.locationButton setTitle:[NSString stringWithFormat:@"%@",[modelDic objectForKey:@"address"]] forState:(UIControlStateNormal)];
+    self.descriptionLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"serviceDescription"]];
 }
 
 @end

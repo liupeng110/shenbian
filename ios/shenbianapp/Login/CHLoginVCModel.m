@@ -51,7 +51,6 @@
     return _sendValidCode;
 }
 
-
 -(RACCommand *)loginCommand{
     
     if (_loginCommand == nil) {
@@ -60,6 +59,7 @@
             RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:LoginVerify];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                NSLog(@"我要登录....");
                 [signal subscribeNext:^(id x) {
                     if ([[x objectForKey:@"status"] intValue] == 0) {
                         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];

@@ -11,8 +11,10 @@
 #import <IQTextView.h>
 #import "CHPublishServiceTableViewCell.h"
 #import "CHPublishServiceModel.h"
-#import "CHSelectCategoryViewController.h"
-@interface CHPublishServeViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource>
+#import "CHInputAddressViewController.h"
+#import "CHLoacationSearchViewController.h"
+#import "HeaderView.h"
+@interface CHPublishServeViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
 @property(nonatomic,strong) UIView *upperView;
 @property(nonatomic,strong) UIView *lowerView;
 
@@ -27,13 +29,16 @@
 
 @property(nonatomic,strong) UITableView *serviceTableView;
 
-@property(nonatomic,strong) NSArray *serviceTitleList;
+@property(nonatomic,strong) NSMutableArray *dataArray;
 @property(nonatomic,strong) NSArray *serviceKind;
 @property(nonatomic,strong) UIButton *publishButton;
 @property(nonatomic,strong) UILabel *titleLabel;
 
 @property(nonatomic,strong) CHPublishServiceModel *serviceModel;
-
+@property(nonatomic,strong)UITextView *agreementTextView;
+@property(nonatomic,copy)NSArray *categoryList;
+@property(nonatomic,copy)NSArray *secondCategoryList;
+@property(nonatomic,strong)NSIndexPath *secondIndexPath;
 @end
 
 @implementation CHPublishServeViewController
@@ -46,7 +51,7 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexColor:@"#009698"]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont systemFontOfSize:17],NSFontAttributeName,nil]];
     self.topView.backgroundColor = [UIColor colorWithHexString:@"#009698"];
-
+    
     [self.lefgtButton setImage:[UIImage imageNamed:@"tx_fh"] forState:(UIControlStateNormal)];
     [self.rightTopButton setTitle:@"" forState:(UIControlStateNormal)];
     [self.rightTopButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
@@ -107,14 +112,21 @@
     
     [self.view addSubview:self.lowerView];
     [self.lowerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.upperView.mas_bottom).offset(15);
+        make.top.equalTo(self.upperView.mas_bottom).offset(5);
         make.left.right.bottom.equalTo(self.view);
     }];
     
     [self.lowerView addSubview:self.serviceTableView];
     [self.serviceTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(self.lowerView);
-        make.bottom.equalTo(self.lowerView).offset(-70);
+        make.bottom.equalTo(self.lowerView).offset(-100);
+    }];
+    
+    [self.lowerView addSubview:self.agreementTextView];
+    [self.agreementTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.lowerView);
+        make.height.mas_equalTo(25);
+        make.top.equalTo(self.serviceTableView.mas_bottom).offset(10);
     }];
     
     [self.lowerView addSubview:self.publishButton];
@@ -134,14 +146,13 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-
-
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
-
+    
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -149,12 +160,41 @@
 }
 
 - (void)bindVieWCModel{
-    self.serviceTitleList = @[@"价格",@"位置",@"服务类型",@"编辑频道信息"];
+    NSArray *tempArray = @[@"选择分类",@"价格",@"位置",@"服务类型",@"编辑频道信息"];
+    
+    self.categoryList = @[@{@"教育学习":@[@"留学咨询",@"考研帮",@"比赛达人",@"社团达人",@"编程大神",@"文学大咖",@"语言大师",@"其他"]},@{@"生活服务":@[@"摄影",@"户外",@"健身",@"穿衣搭配",@"志愿者",@"其他"]},@{@"艺术培养":@[@"舞蹈",@"吉他弹唱",@"唱歌",@"其他"]},@{@"工作辅导":@[@"面试辅导",@"简历修改",@"工作技能培训",@"其他"]},@{@"其他":@[]}];
+    
+    self.dataArray = [NSMutableArray array];
+    for (NSString* name in tempArray) {
+        CHPublishServiceModel *model = [CHPublishServiceModel new];
+        model.name = name;
+        [self.dataArray addObject:model];
+        NSMutableArray *tempList = [NSMutableArray array];
+        for (NSDictionary *dic in self.categoryList) {
+            CHPublishServiceModel *item = [CHPublishServiceModel new];
+            item.name = [[dic allKeys] firstObject];
+            item.stageType = CHStageTypeSecond;
+            [tempList addObject:item];
+            
+            NSMutableArray *thirdTemp = [NSMutableArray array];
+            
+            NSArray *thirdItemList = [[dic allValues] firstObject];
+            for (NSString *thirdItem in thirdItemList) {
+                CHPublishServiceModel *thirdModel = [CHPublishServiceModel new];
+                thirdModel.name = thirdItem;
+                thirdModel.stageType = CHStageTypeThird;
+                [thirdTemp addObject:thirdModel];
+            }
+            item.dataArray = thirdTemp;
+        }
+        model.dataArray = tempList;
+        
+    }
     self.serviceKind  = @[@"在线服务",@"上门服务",@"到店服务"];
     
     [self.articleContentTV.rac_textSignal subscribeNext:^(id x) {
         if (x) {
-            self.wordNoLabel.text = [NSString stringWithFormat:@"%ld/500",self.articleContentTV.text.length];
+            self.wordNoLabel.text = [NSString stringWithFormat:@"%lu/500",self.articleContentTV.text.length];
         }
     }];
 }
@@ -162,9 +202,9 @@
 -(UILabel *)titleLabel{
     if (_titleLabel == nil) {
         _titleLabel = [UILabel new];
-        _titleLabel.text = @"发布文章";
+        _titleLabel.text = @"发布服务";
         _titleLabel.textColor = [UIColor whiteColor];
-
+        
     }
     return _titleLabel;
 }
@@ -255,6 +295,32 @@
     return _wordNoLabel;
 }
 
+-(UITextView *)agreementTextView{
+    
+    if (_agreementTextView == nil) {
+        _agreementTextView = [UITextView new];
+        _agreementTextView.font = [UIFont systemFontOfSize:13];
+        _agreementTextView.textColor = [UIColor colorWithHexColor:@"#8f959c"];
+        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc]initWithString:@"发布服务代表您同意北京亿享科技《用服务协议》"];
+        [attributedText addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexColor:@"#009698"] range:(NSMakeRange(15, 7))];
+        [attributedText addAttribute:NSLinkAttributeName value:@"" range:NSMakeRange(15, 7)];
+        
+        _agreementTextView.attributedText = attributedText;
+        _agreementTextView.textAlignment = NSTextAlignmentCenter;
+        _agreementTextView.delegate = self;
+        _agreementTextView.editable = NO;
+        _agreementTextView.scrollEnabled = NO;
+        
+    }
+    return _agreementTextView;
+}
+
+-(BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange{
+    
+    //跳转服务协议
+    return NO;
+}
+
 -(UIButton *)publishButton{
     
     if (_publishButton == nil) {
@@ -277,47 +343,153 @@
         
     }
     return _serviceTableView;
-    
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return self.dataArray.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return self.serviceTitleList.count;
+    if (section == 0) {
+        CHPublishServiceModel *model = self.dataArray[0];
+        if (model.isOpen) {
+
+            NSInteger count = model.dataArray.count;
+            return  count;
+        }
+    }
+    return 0;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 3) {
+        return 100;
+    }
+    return 44;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    HeaderView *headerView = [[HeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) IsOpen:NO];
+    CHPublishServiceModel *model = self.dataArray[section];
+    headerView.nameLabel.text = model.name;
+    headerView.section = section;
+    if (section == 0) {
+        
+        __weak typeof(self) weakself = self;
+        headerView.openblock =^(NSInteger secion){
+            [weakself openSection:section];
+        };
+        headerView.closeblock = ^(NSInteger section){
+            [weakself closeSection:section];
+        };
+    } else if (section == 2){
+       
+        __weak typeof(self) weakself = self;
+        headerView.openblock =^(NSInteger secion){
+            CHLoacationSearchViewController *location = [CHLoacationSearchViewController new];
+            [weakself.navigationController pushViewController:location animated:YES];
+            
+        };
+    } else if (section == 4){
+        __weak typeof(self) weakself = self;
+        headerView.openblock =^(NSInteger secion){
+          CHInputAddressViewController   *address = [CHInputAddressViewController new];
+            [weakself.navigationController pushViewController:address animated:YES];
+        };
+    }
+    return headerView;
+}
+
+- (void)openSection:(NSInteger)section{
+    CHPublishServiceModel *model = self.dataArray[section];
+    model.isOpen = !model.isOpen;
+    
+    NSMutableArray *indexArray = [NSMutableArray arrayWithCapacity:10];
+    for (int i = 0; i < model.dataArray.count; i++) {
+        NSIndexPath *indexpath = [NSIndexPath indexPathForRow:i inSection:section];
+        [indexArray addObject:indexpath];
+    }
+    [self.serviceTableView insertRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)closeSection:(NSInteger)section{
+    CHPublishServiceModel *model = self.dataArray[section];
+    model.isOpen = !model.isOpen;
+    NSMutableArray *indexArray = [NSMutableArray arrayWithCapacity:10];
+    for (int i = 0; i < model.dataArray.count; i++) {
+        NSIndexPath *indexpath = [NSIndexPath indexPathForRow:i inSection:section];
+        [indexArray addObject:indexpath];
+    }
+
+    [self.serviceTableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHPublishServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serviceCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = self.serviceTitleList[indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
+    CHPublishServiceModel *model = self.dataArray[indexPath.section];
+    CHPublishServiceModel *secondModel = model.dataArray[indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:13];
     cell.textLabel.textColor = [UIColor colorWithHexString:@"#2d333a"];
-    if (indexPath.row == 1 || indexPath.row == 3) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else if (indexPath.row == 2) {
-        cell.textLabel.text = @"";
-        cell.index = indexPath.row;
-        cell.serviceKind = self.serviceKind;
-        cell.titleLabel.text = self.serviceTitleList[indexPath.row];;
+    cell.indexPath = indexPath;
+    
+    if (secondModel.stageType == CHStageTypeSecond) {
+        cell.textLabel.text = [NSString stringWithFormat:@"      %@", secondModel.name];
+    } else if (secondModel.stageType == CHStageTypeThird)
+    {
+        cell.textLabel.text = [NSString stringWithFormat:@"           %@", secondModel.name];
     }
     return cell;
-    
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row == 2) {
-        return 100;
-    }
-    
-    return 50;
-}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    CHPublishServiceModel *model = self.dataArray[indexPath.section];
+    CHPublishServiceModel *secondModel = model.dataArray[indexPath.row];
+    if (secondModel.stageType == CHStageTypeSecond) {
+        
+        self.secondIndexPath = indexPath;
+        //二级分类
+        if (!secondModel.isOpen) {
+            
+            NSMutableArray *tempArray = [NSMutableArray arrayWithArray:model.dataArray];
 
-    if (indexPath.row == 3) {
-        CHSelectCategoryViewController *selectCategory = [CHSelectCategoryViewController new];
-        [self.navigationController pushViewController:selectCategory animated:YES];
+            NSMutableArray *indexArray = [NSMutableArray arrayWithCapacity:10];
+            for (NSInteger i = 0; i < secondModel.dataArray.count; i++) {
+                NSIndexPath *indexpath = [NSIndexPath indexPathForRow:indexPath.row  + i+ 1 inSection:0];
+                [indexArray addObject:indexpath];
+                CHPublishServiceModel *thirdModel = secondModel.dataArray[i];
+                [tempArray insertObject:thirdModel atIndex:indexPath.row + i + 1];
+            }
+            
+            model.dataArray = tempArray;
+            [self.serviceTableView beginUpdates];
+            [self.serviceTableView insertRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+            [self.serviceTableView endUpdates];
+            
+        } else {
+            NSMutableArray *tempArray = [NSMutableArray arrayWithArray:model.dataArray];
+            NSMutableArray *indexArray = [NSMutableArray arrayWithCapacity:10];
+            for (NSInteger i = 0; i < secondModel.dataArray.count; i++) {
+                NSIndexPath *indexpath = [NSIndexPath indexPathForRow:indexPath.row + i + 1 inSection:0];
+                [indexArray addObject:indexpath];
+                CHPublishServiceModel *oldModel = secondModel.dataArray[i];
+                [tempArray removeObject:oldModel];
+            }
+            model.dataArray = tempArray;
+            [self.serviceTableView beginUpdates];
+            [self.serviceTableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+            [self.serviceTableView endUpdates];
+
+        }
+        
+        secondModel.isOpen = !secondModel.isOpen;
     }
+    else if(secondModel.stageType == CHStageTypeThird)
+    {//三级分类
+        
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -335,9 +507,9 @@
     backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
     backButton.frame = CGRectMake(0, 0, 40, 40);
     answerVC.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
-
+    
     [self.navigationController pushViewController:answerVC animated:YES];
-
+    
 }
 
 - (void)clickPublishButton{
@@ -347,23 +519,12 @@
     NSDictionary *param = @{@"title":@"hello world",@"price":@"100.00",@"serviceFlag":@"1",@"serviceType":@"0",@"center":position,@"descriptions":@"",@"token":token};
     RACSignal *signal = [self.serviceModel.uploadComand execute:param];
     [signal subscribeNext:^(id x) {
-        if ([x objectForKey:@"status"] == 0) {
+        if ([[x objectForKey:@"status"] integerValue] == 0) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
     
 }
 
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

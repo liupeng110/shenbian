@@ -3,16 +3,19 @@
 //  shenbianapp
 //
 //  Created by book on 2017/10/29.
-//  Copyright © 2017年 helinkeji. All rights reserved.
+//  Copyright © 2017 helinkeji. All rights reserved.
 //
 
 #import "CHDiscoverViewController.h"
 
 #import "CHDiscoverTableViewCell.h"
 #import "CHServiceDetailsViewController.h"
+#import "CHDiscoverModel.h"
 @interface CHDiscoverViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong) UITableView *tableView;
+@property(nonatomic,strong) CHDiscoverModel *viewModel;
+@property(nonatomic,copy)NSArray *dataArray;
 
 @end
 
@@ -30,6 +33,26 @@
         make.top.equalTo(self.view).offset(64);
         make.bottom.equalTo(self.view).offset(-49);
     }];
+    
+}
+
+-(void)bindViewControllerModel{
+    self.viewModel = [CHDiscoverModel new];
+    //String center,String city,int pageNo
+
+    RACSignal *signal = [self.viewModel.loadPagedata execute:@{@"center":@"116.542951,39.639531",@"city":@"北京",@"pageNo":@"1"}];
+    @weakify(self);
+    [signal subscribeNext:^(id x) {
+        @strongify(self);
+        if (x) {
+            self.dataArray = [x objectForKey:@"data"];
+            [self.tableView reloadData];
+        }
+        NSLog(@"xxx:%@",x);
+    } error:^(NSError *error) {
+        
+    }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,20 +67,20 @@
         [_tableView registerClass:[CHDiscoverTableViewCell class] forCellReuseIdentifier:@"discoverCell"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.tableFooterView = [UIView new];
     }
     return  _tableView;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHDiscoverTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"discoverCell"];
-    
+    cell.modelDic = self.dataArray[indexPath.row];
     return cell;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return 2;
-
+    return self.dataArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -69,7 +92,6 @@
     
     CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
     [self.navigationController pushViewController:serviceDetail animated:YES];
-    
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{

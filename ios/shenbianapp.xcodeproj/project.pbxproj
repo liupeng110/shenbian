@@ -46,6 +46,7 @@
 		FD2F7DF81FA4BBD600CF5B40 /* CHGlobalDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2F7DF71FA4BBD600CF5B40 /* CHGlobalDataHelper.m */; };
 		FD2F7E011FA4DE8900CF5B40 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FD2F7DFF1FA4DE8900CF5B40 /* AlipaySDK.bundle */; };
 		FD2F7E021FA4DE8900CF5B40 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD2F7E001FA4DE8900CF5B40 /* AlipaySDK.framework */; };
+		FD3D88891FDBF77F0034083C /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3D88871FDBF77F0034083C /* HeaderView.m */; };
 		FD3E39551FAEAD93009E78CB /* CHSearchJobTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3E39541FAEAD93009E78CB /* CHSearchJobTableViewCell.m */; };
 		FD3E39581FAEF005009E78CB /* CHServiceAllSerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3E39571FAEF005009E78CB /* CHServiceAllSerViewController.m */; };
 		FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4611971F483601005D4FF6 /* HQTabBar.m */; };
@@ -187,6 +188,8 @@
 		FD2F7DF71FA4BBD600CF5B40 /* CHGlobalDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGlobalDataHelper.m; sourceTree = "<group>"; };
 		FD2F7DFF1FA4DE8900CF5B40 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		FD2F7E001FA4DE8900CF5B40 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		FD3D88871FDBF77F0034083C /* HeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderView.m; sourceTree = "<group>"; };
+		FD3D88881FDBF77F0034083C /* HeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderView.h; sourceTree = "<group>"; };
 		FD3E39531FAEAD93009E78CB /* CHSearchJobTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHSearchJobTableViewCell.h; sourceTree = "<group>"; };
 		FD3E39541FAEAD93009E78CB /* CHSearchJobTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHSearchJobTableViewCell.m; sourceTree = "<group>"; };
 		FD3E39561FAEF005009E78CB /* CHServiceAllSerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHServiceAllSerViewController.h; sourceTree = "<group>"; };
@@ -435,6 +438,8 @@
 		FD06FBC51FB5CA5A008F70CB /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FD3D88881FDBF77F0034083C /* HeaderView.h */,
+				FD3D88871FDBF77F0034083C /* HeaderView.m */,
 				FD0CFF691F6431D7004FA3CF /* CHPulishAnswer.xib */,
 				FD0CFF6B1F64545C004FA3CF /* CHPublishServiceTableViewCell.h */,
 				FD0CFF6C1F64545C004FA3CF /* CHPublishServiceTableViewCell.m */,
@@ -1088,6 +1093,7 @@
 				FDC360701F483D9E00AC4A81 /* CHPublishViewController.m in Sources */,
 				FD2480161F682CDF00CA30BB /* MHBaseNavigationBar.m in Sources */,
 				FD06FBBF1FB31DEF008F70CB /* CHInputAddressViewController.m in Sources */,
+				FD3D88891FDBF77F0034083C /* HeaderView.m in Sources */,
 				FD282B441FAACF0600B2D52D /* CHMineModel.m in Sources */,
 				FDDDC1161F77C01500242F3E /* CHPublishArticleModel.m in Sources */,
 				FDE397141FA5BABC00143D1B /* CHOverbalanceModel.m in Sources */,

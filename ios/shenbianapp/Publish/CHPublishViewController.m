@@ -102,12 +102,15 @@
 
 - (void)publishArticle{
     
-    UIViewController *presentVC = self.presentingViewController;
-    [self dismissViewControllerAnimated:NO completion:^{
-
-        CHPublishArticleViewController *articleVC = [[CHPublishArticleViewController alloc]init];
-        [presentVC presentViewController:articleVC animated:YES completion:nil];
-    }];
+//    UIViewController *presentVC = self.presentingViewController;
+//    [self dismissViewControllerAnimated:NO completion:^{
+//
+//        CHPublishArticleViewController *articleVC = [[CHPublishArticleViewController alloc]init];
+//        [presentVC presentViewController:articleVC animated:YES completion:nil];
+//    }];
+    
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"该功能暂不提供，程序员小哥正在努力开发中，将在后续版本中为您亲情呈现！" delegate:nil cancelButtonTitle:@"知晓" otherButtonTitles:nil];
+    [alertView show];
 }
 
 - (void)publishService{

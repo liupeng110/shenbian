@@ -33,7 +33,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     MHCollectionViewFlowLayout * stretchyLayout = [[MHCollectionViewFlowLayout alloc] init];
     stretchyLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    stretchyLayout.headerReferenceSize = CGSizeMake(kScreenWidth, 260);
+    stretchyLayout.headerReferenceSize = CGSizeMake(kScreenWidth, 270);
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-49) collectionViewLayout:stretchyLayout];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.alwaysBounceVertical = YES;
@@ -128,7 +128,7 @@
 
         }
         
-    }else if (indexPath.section == 1){
+    } else if (indexPath.section == 1){
         if (indexPath.row == 0) {
             setCell.titleName.text = @"反馈";
             setCell.iconImageView.image = [UIImage imageNamed:@"wd_fk"];

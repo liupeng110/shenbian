@@ -17,6 +17,8 @@
 @property(nonatomic,strong)UIButton *favoriteButton;
 @property(nonatomic,strong)UIButton *shareButton;
 
+@property(nonatomic,strong)NSArray *dataArray;
+
 @end
 
 @implementation CHServiceDetailsViewController
@@ -24,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -87,7 +90,7 @@
     [backButton addTarget:self action:@selector(clickBackButton) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:backButton];
     [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(10);
+        make.left.equalTo(self.view).offset(7);
         make.top.equalTo(self.shareButton);
         make.width.height.mas_equalTo(40);
     }];
@@ -107,7 +110,6 @@
     }
     return _bottomView;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -146,4 +148,9 @@
     
 }
 
+-(void)dealloc{
+    
+    NSLog(@"xxx dealloc");
+    
+}
 @end

@@ -12,7 +12,7 @@
 
 #import "CHFocusViewController.h"
 #import "CHMyOrdersViewController.h"
-@interface CHMessageViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface CHMessageViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
 
 @property(nonatomic,strong)UIView *upperView;
 @property(nonatomic,strong)UIView* lowerView;
@@ -37,17 +37,24 @@
         make.height.mas_equalTo(200);
     }];
     
+    [self.upperView addSubview:self.scrollView];
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.upperView);
+    }];
+    
     [self.upperView addSubview:self.pageControl];
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.upperView);
-        make.bottom.equalTo(self.upperView.mas_bottom).offset(-10);
+        make.bottom.equalTo(self.upperView.mas_bottom);
     }];
     
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
-    imageView.frame = CGRectMake(0, 0, kScreenWidth, 200) ;
-    
-    [self.scrollView addSubview:imageView];
-    
+    for (int i = 0;  i < 5; i++) {
+        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
+        imageView.frame = CGRectMake(kScreenWidth * i, 0, kScreenWidth, 200) ;
+        [self.scrollView addSubview:imageView];
+    }
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth * 5, 200);
+
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -79,21 +86,25 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
 -(UIView *)upperView{
-
+    
     if (_upperView == nil) {
         _upperView = [[UIView alloc]init];
-        UIScrollView *scrollView = [[UIScrollView alloc]init];
-        scrollView.showsVerticalScrollIndicator = NO;
-        scrollView.showsHorizontalScrollIndicator = NO;
-        scrollView.frame = CGRectMake(0, 0, kScreenWidth, 200);
-        [_upperView addSubview:scrollView];
-        self.scrollView = scrollView;
-        
+        _upperView.userInteractionEnabled = YES;
     }
     return _upperView;
+}
+
+-(UIScrollView *)scrollView{
+    
+    if (_scrollView == nil) {
+        _scrollView = [UIScrollView new];
+        _scrollView.pagingEnabled = YES;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.delegate = self;
+    }
+    return _scrollView;
 }
 
 -(UIPageControl *)pageControl{
@@ -106,11 +117,18 @@
     return _pageControl;
 }
 
+#pragma -mark scrollView delegate.
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGPoint point = scrollView.contentOffset;
+    int count =  point.x / kScreenWidth;
+    self.pageControl.currentPage = count;
+}
 
 #pragma -mark tableview 
 
 -(UITableView *)tableView{
-
+    
     if (_tableView == nil) {
         _tableView = [[UITableView alloc]init];
         _tableView.delegate = self;
@@ -118,7 +136,6 @@
         [_tableView registerClass:[CHMessageTableViewCell class] forCellReuseIdentifier:@"messageCell"];
         _tableView.tableFooterView = [[UIView alloc]init];
     }
-    
     return _tableView;
 }
 
@@ -129,11 +146,12 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
+    
     return self.messageModelList.count;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     return 80;
 }
 
@@ -146,7 +164,6 @@
         case MessageTypeChat:{
             CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:@"1"];
             [self.navigationController pushViewController:chatRoom animated:YES];
-            
         }
             
             break;
@@ -157,7 +174,7 @@
             break;
             
         case MessageTypeFocus:{//跳转关注页
-        
+            
             CHFocusViewController *focus = [CHFocusViewController new];
             [self.navigationController pushViewController:focus animated:YES];
         }
@@ -166,11 +183,7 @@
         default:
             break;
     }
-    }
-
-
-
-
+}
 
 
 @end

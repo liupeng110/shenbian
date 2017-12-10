@@ -6,6 +6,10 @@
 //  Copyright © 2017年 陈坚. All rights reserved.
 //
 
+#define HOST_URL @"https://www.helinkeji.cn"
+
+
+
 #import "CHNetWorkHelper.h"
 @interface CHNetWorkHelper ()
 
@@ -22,6 +26,11 @@
         instance = [[CHNetWorkHelper alloc]init];
     });
     return instance;
+}
+
+-(NSString *)getHostUrlString{
+    
+    return @"https://www.helinkeji.cn";
 }
 
 -(instancetype)init{
@@ -47,6 +56,7 @@
     }
     return self;
 }
+
 
 -(RACSignal*)postRequestWithParam:(NSDictionary*)param withUrlString:(NSString*)urlString{
     
@@ -89,14 +99,15 @@
 
 -(RACSignal*)loadDataWithParam:(NSDictionary *)param withUrlString:(NSString *)urlString{
     
-    RACSignal *signal = [self postRequestWithParam:param withUrlString:urlString];
+    NSString *resultURLString = [NSString stringWithFormat:@"%@%@",HOST_URL,urlString];
+    RACSignal *signal = [self postRequestWithParam:param withUrlString:resultURLString];
     
     return signal;
 }
 
 -(RACSignal *)uploadServiceAndArticleWithParam:(NSDictionary *)param{
     
-    NSString *urlString = [NSString stringWithFormat:@"%@",addService];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",HOST_URL,addService];
     RACSignal *singal = [self postRequestWithParam:param withUrlString:urlString];
     
     return singal;

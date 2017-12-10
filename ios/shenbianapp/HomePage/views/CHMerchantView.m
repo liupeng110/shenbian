@@ -69,7 +69,7 @@
     model.merchentName = [dic objectForKey:@"serviceTitle"];
     model.content = [NSString stringWithFormat:@"%@",[dic objectForKey:@"serviceDescription"]];
     model.slodOut = [[dic objectForKey:@"soldCount"] integerValue];
-    model.tagName = [dic objectForKey:@"tag_name"];
+    model.tagName = [dic objectForKey:@"userTags"];
     cell.model = model;
     cell.layer.cornerRadius = 5;
     return cell;
@@ -83,9 +83,15 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
    
     CHMerchentModel *model = [[CHMerchentModel alloc] init];
-
     self.selectedMerchant(model);
 
+}
+
+-(void)dealloc{
+    
+    __weak typeof(self) weakSelf = self;
+    NSLog(@"xxxx:%@",weakSelf);
+    
 }
 
 @end

@@ -10,6 +10,6 @@
 
 @interface CHDiscoverTableViewCell : UITableViewCell
 
-@property(nonatomic,strong)NSArray *modelList;
+@property(nonatomic,strong)NSDictionary *modelDic;
 
 @end

@@ -14,6 +14,7 @@
 
 @property(nonatomic,strong) NSArray *serviceKind;
 
-@property(nonatomic,assign) NSUInteger index;
+@property(nonatomic,strong) NSIndexPath *indexPath;
+@property(nonatomic,strong)UILabel *tailLabel;
 
 @end

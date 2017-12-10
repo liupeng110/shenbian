@@ -59,8 +59,9 @@
     NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary: @{@"center":@"116.542951,39.639531",@"city":@"北京"}];
     
     [self.viewCModel.loadTopData execute:param];
-    
+    @weakify(self);
     [RACObserve(self.viewCModel, topDataList) subscribeNext:^(NSDictionary *x) {
+        @strongify(self);
         if (x) {
             NSDictionary *tempDic = [x objectForKey:@"data"];
             self.NavView.quikSearchList = [tempDic objectForKey:@"categories"];
@@ -72,6 +73,7 @@
     NSDictionary *bottmParam = @{@"center":@"116.542951,39.639531",@"city":@"北京",@"page":@"1",@"limit":@"10",};
     [self.viewCModel.loadBottomData execute:bottmParam];
     [RACObserve(self.viewCModel, bottomDataList) subscribeNext:^(NSDictionary *x) {
+        @strongify(self);
         if (x) {
             NSDictionary *tempDic = [x objectForKey:@"data"];
             self.overBalanceView.overBablanceList = [tempDic objectForKey:@"greatValue"];;
@@ -79,7 +81,6 @@
         }
     }];
     
-    @weakify(self);
     self.merchentView.selectedMerchant = ^(CHMerchentModel *model) {
         @strongify(self);
         CHServiceDetailsViewController *serviceDetailsVC = [[CHServiceDetailsViewController alloc]init];

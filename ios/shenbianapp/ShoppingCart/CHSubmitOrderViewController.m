@@ -22,6 +22,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"提交订单";
+    [IQKeyboardManager sharedManager].enable = YES;
+    [IQKeyboardManager sharedManager].toolbarDoneBarButtonItemText = @"完成";
+    [IQKeyboardManager sharedManager].enableAutoToolbar = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -32,7 +35,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden = NO;
-    
+    [IQKeyboardManager sharedManager].enable = NO;
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -41,7 +45,7 @@
 
 -(void)bindViewControllerModel{
     
-    self.dataAray = @[@[@{@"serviceTitle":@"服务名称",@"price":@"122",@"num":@"1"},@{@"serviceTitle":@"服务名称",@"price":@"122",@"num":@"1"},@{@"serviceTitle":@"服务名称",@"price":@"122",@"num":@"1"},@{@"serviceTitle":@"服务名称",@"price":@"122",@"num":@"1"}],@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"支付宝支付"]];
+    self.dataAray = @[@[@{@"serviceTitle":@"服务名称",@"price":@"122",@"num":@"1"},],@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"支付宝支付"]];
     
 }
 

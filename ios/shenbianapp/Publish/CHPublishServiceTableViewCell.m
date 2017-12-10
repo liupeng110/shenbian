@@ -14,7 +14,7 @@
 @implementation CHPublishServiceTableViewCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-
+    
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
         [self addSubview:self.titleLabel];
@@ -25,13 +25,20 @@
             make.height.mas_equalTo(20);
         }];
         
+        [self addSubview:self.tailLabel];
+        [self.tailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.right.equalTo(self).offset(-30);
+            make.width.mas_equalTo(150);
+            make.height.mas_equalTo(20);
+        }];
         
     }
     return self;
 }
 
 -(UILabel *)titleLabel{
-
+    
     if (_titleLabel == nil) {
         _titleLabel = [UILabel new];
         _titleLabel.font = [UIFont systemFontOfSize:15];
@@ -41,49 +48,27 @@
     return _titleLabel;
 }
 
-- (void)setServiceKind:(NSArray *)serviceKind{
-
-    NSUInteger index = 0;
-    CGFloat btnwidth = 90;
-    CGFloat space = 18;
-    for (NSString *name in serviceKind) {
-        UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        button.tag = index;
-        [button setTitle:name forState:(UIControlStateNormal)];
-        [button setTitleColor:[UIColor colorWithHexString:@"#8f959c"] forState:(UIControlStateNormal)];
-
-        button.titleLabel.font = [UIFont systemFontOfSize:15];
-        [button addTarget:self action:@selector(clickServiceKindButton:) forControlEvents:(UIControlEventTouchUpInside)];
-        button.backgroundColor = [UIColor colorWithHexString:@"#ebebeb"];
-        if (index == 0) {
-            button.backgroundColor = [UIColor colorWithHexString:@"#009698"];
-            [button setTitleColor:[UIColor colorWithHexString:@"#fefefe"] forState:(UIControlStateNormal)];
-        }
-    
-        button.frame = CGRectMake(15 + index *  (btnwidth + space) , 50, btnwidth, 30);
-        button.layer.cornerRadius = 15;
-        [self addSubview:button];
-        
-        index++;
+-(UILabel *)tailLabel{
+    if (_tailLabel == nil) {
+        _tailLabel = [UILabel new];
+        _tailLabel.font = [UIFont systemFontOfSize:13];
+        _tailLabel.textColor = [UIColor colorWithHexColor:@"#8f959c"];
+        _tailLabel.textAlignment = NSTextAlignmentRight;
     }
-
+    return _tailLabel;
 }
 
 
-- (void)clickServiceKindButton:(UIButton*)button{
-    
-    for (UIView *view in self.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            UIButton *btn = (UIButton*)view;
-            btn.backgroundColor = [UIColor colorWithHexString:@"#ebebeb"];
-            [btn setTitleColor:[UIColor colorWithHexString:@"#8f959c"] forState:(UIControlStateNormal)];
 
-        }
+
+
+
+-(void)setIndexPath:(NSIndexPath *)indexPath{
+    _indexPath = indexPath;
+    if (indexPath.section == 1) {
+        
+       
     }
-    
-    button.backgroundColor = [UIColor colorWithHexString:@"#009698"];
-    [button setTitleColor:[UIColor colorWithHexString:@"#fefefe"] forState:(UIControlStateNormal)];
-
 }
 
 @end

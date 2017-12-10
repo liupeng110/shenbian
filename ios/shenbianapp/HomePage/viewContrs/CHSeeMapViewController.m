@@ -5,7 +5,6 @@
 //  Created by book on 2017/11/5.
 //  Copyright © 2017年 helinkeji. All rights reserved.
 //
-
 #import "CHSeeMapViewController.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
@@ -49,4 +48,5 @@
     }
     return _mapView;
 }
+
 @end

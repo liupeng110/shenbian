@@ -339,7 +339,7 @@
             imageView.frame = CGRectMake( 123 * i + 15,15, 108, 80);
             [_recommendScrollView addSubview:imageView];
         }
-        _recommendScrollView.contentSize = CGSizeMake(108 * 5 , 80);
+        _recommendScrollView.contentSize = CGSizeMake(123 * 5 + 15 , 80);
     }
     
     return _recommendScrollView;

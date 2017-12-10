@@ -89,6 +89,8 @@
     CHServiceCellModel *model = [CHServiceCellModel new];
     
     cell.cellModel = model;
+    
+   
     return cell;
 }
 
