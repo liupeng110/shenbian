@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/14.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHServiceBottomView.h"
@@ -76,5 +76,6 @@
         self.makeOrder();
     }
 }
+
 
 @end

@@ -3,7 +3,7 @@
 //  Miaohi
 //
 //  Created by 沈开洋 on 16/11/29.
-//  Copyright © 2016年 haiqiu. All rights reserved.
+//  Copyright © 2016 haiqiu. All rights reserved.
 //
 
 #import "MHMineHeaderCollectionReusableView.h"
@@ -30,7 +30,20 @@
     [self.myArticleButton addTarget:self action:@selector(clickMyArticleNButton:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.myService addTarget:self action:@selector(clickMyServiceButton:) forControlEvents:(UIControlEventTouchUpInside)];
 
+    [RACObserve(self, userDataList) subscribeNext:^(id x) {
+        if (x) {
+            [self.mhUserHeaderImgView setImageURL:[NSURL URLWithString:[x objectForKey:@"urserIcon"]]];
+            self.mhUserNameLabel.text = [x objectForKey:@"userName"];
+            self.publishedNOLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"publishedCount"]];
+            self.collectedNOLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"collectCount"]];
+            self.attentionNoLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"attentionCount"]];
+            self.fansNOLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"fansCount"]];
+        }
+    }];
 }
+
+
+
 
 -(instancetype)initWithFrame:(CGRect)frame{
 

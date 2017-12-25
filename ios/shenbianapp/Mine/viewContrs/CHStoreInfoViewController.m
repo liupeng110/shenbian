@@ -3,11 +3,11 @@
 //  shenbianapp
 //
 //  Created by book on 2017/11/2.
-//  Copyright © 2017年 helinkeji. All rights reserved.
+//  Copyright © 2017 helinkeji. All rights reserved.
 //
 
 #import "CHStoreInfoViewController.h"
-#import <IQTextView.h>
+//#import <IQTextView.h>
 @interface CHStoreInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *storeInfoTableView;
 @property(nonatomic,strong)UILabel *tipsLabelHeader;
@@ -78,8 +78,8 @@
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (indexPath.section == 1) {
-        IQTextView *textView = [[IQTextView alloc]init];
-        textView.placeholder = @"简介最多300字";
+        UITextView *textView = [[UITextView alloc]init];
+//        textView.placeholder = @"简介最多300字";
         textView.frame = CGRectMake(15, 0, kScreenWidth - 30, 90);
         textView.font = [UIFont systemFontOfSize:15];
         [cell addSubview:textView];

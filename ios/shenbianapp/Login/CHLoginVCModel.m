@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/9.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHLoginVCModel.h"
@@ -17,10 +17,10 @@
     if (_sendValidCode == nil) {
         _sendValidCode = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *input) {
             
-            RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:SendValidCode];
-            
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                 NSLog(@"haha我来了");
+                RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:SendValidCode];
+
                 [signal subscribeNext:^(id x) {
                     NSInteger status = [[x objectForKey:@"status"] integerValue];
                     if (status == 0) {
@@ -56,10 +56,11 @@
     if (_loginCommand == nil) {
         _loginCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
             
-            RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:LoginVerify];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                 NSLog(@"我要登录....");
+                RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:LoginVerify];
+
                 [signal subscribeNext:^(id x) {
                     if ([[x objectForKey:@"status"] intValue] == 0) {
                         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];

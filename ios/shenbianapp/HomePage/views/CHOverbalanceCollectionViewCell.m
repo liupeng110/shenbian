@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/2.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHOverbalanceCollectionViewCell.h"
@@ -34,9 +34,8 @@
 -(UIImageView *)coverImageView{
 
     if (_coverImageView == nil) {
-        
         _coverImageView = [UIImageView new];
-        _coverImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
         _coverImageView.layer.borderColor = [UIColor whiteColor].CGColor;
         _coverImageView.clipsToBounds = YES;
         _coverImageView.layer.cornerRadius = 5;

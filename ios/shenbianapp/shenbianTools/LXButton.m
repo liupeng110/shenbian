@@ -3,7 +3,7 @@
 //  Artisan
 //
 //  Created by laixuan.liu on 15/12/7.
-//  Copyright © 2015年 dianjiang. All rights reserved.
+//  Copyright © 2015 dianjiang. All rights reserved.
 //
 
 #import "LXButton.h"

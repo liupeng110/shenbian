@@ -51,11 +51,15 @@
 		FD3E39581FAEF005009E78CB /* CHServiceAllSerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3E39571FAEF005009E78CB /* CHServiceAllSerViewController.m */; };
 		FD4611981F483601005D4FF6 /* HQTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4611971F483601005D4FF6 /* HQTabBar.m */; };
 		FD5919301F63167900FD7913 /* CHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD59192F1F63167900FD7913 /* CHLoginViewController.m */; };
+		FD6AF64E1FE8E7D400C3F66A /* CHShopingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6AF64D1FE8E7D400C3F66A /* CHShopingModel.m */; };
 		FD7967AD1F6ADA1B0049DCDB /* CHServiceUperView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7967AC1F6ADA1B0049DCDB /* CHServiceUperView.m */; };
 		FD7967B31F6ADB890049DCDB /* CHServiceBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7967B21F6ADB890049DCDB /* CHServiceBottomView.m */; };
 		FD8F2D471F6E464500C2BA13 /* CHArticleDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8F2D461F6E464500C2BA13 /* CHArticleDetailsViewController.m */; };
 		FD8FFFB91FAD810A002A81ED /* CHFindServiceBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8FFFB81FAD810A002A81ED /* CHFindServiceBrowseView.m */; };
 		FD9448AD1F52EE3D001FC5CD /* CHNetWorkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */; };
+		FD9DCE961FDE8179005787F7 /* CHOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9DCE951FDE8179005787F7 /* CHOrderModel.m */; };
+		FD9DCE9A1FDE8E31005787F7 /* CHServiceDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9DCE991FDE8E31005787F7 /* CHServiceDetailModel.m */; };
+		FD9DCE9D1FDE9190005787F7 /* CHServiceListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9DCE9C1FDE9190005787F7 /* CHServiceListModel.m */; };
 		FDA1BF521FB68E0600AE64B7 /* CHFocusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */; };
 		FDA1BF551FB68F2500AE64B7 /* CHFocusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA1BF541FB68F2500AE64B7 /* CHFocusTableViewCell.m */; };
 		FDAE51C91FAC4ECD00A8FF10 /* CHFindServiceHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAE51C81FAC4ECD00A8FF10 /* CHFindServiceHeadView.m */; };
@@ -107,6 +111,7 @@
 		FDF4BAAA1FB00FAA002A90A3 /* CHShoppingCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */; };
 		FDF4BAAE1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAAD1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m */; };
 		FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF4BAB01FB054E2002A90A3 /* CHSubmitOrderViewController.m */; };
+		FDFB68DF1FE81693000647DD /* CHSubmitOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFB68DE1FE81693000647DD /* CHSubmitOrderModel.m */; };
 		FDFC98181FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFC98171FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m */; };
 /* End PBXBuildFile section */
 
@@ -198,6 +203,8 @@
 		FD4611971F483601005D4FF6 /* HQTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HQTabBar.m; sourceTree = "<group>"; };
 		FD59192E1F63167900FD7913 /* CHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLoginViewController.h; sourceTree = "<group>"; };
 		FD59192F1F63167900FD7913 /* CHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLoginViewController.m; sourceTree = "<group>"; };
+		FD6AF64C1FE8E7D400C3F66A /* CHShopingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHShopingModel.h; sourceTree = "<group>"; };
+		FD6AF64D1FE8E7D400C3F66A /* CHShopingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHShopingModel.m; sourceTree = "<group>"; };
 		FD7967AB1F6ADA1B0049DCDB /* CHServiceUperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHServiceUperView.h; sourceTree = "<group>"; };
 		FD7967AC1F6ADA1B0049DCDB /* CHServiceUperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHServiceUperView.m; sourceTree = "<group>"; };
 		FD7967B11F6ADB890049DCDB /* CHServiceBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHServiceBottomView.h; sourceTree = "<group>"; };
@@ -208,6 +215,12 @@
 		FD8FFFB81FAD810A002A81ED /* CHFindServiceBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFindServiceBrowseView.m; sourceTree = "<group>"; };
 		FD9448AB1F52EE3D001FC5CD /* CHNetWorkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHNetWorkHelper.h; sourceTree = "<group>"; };
 		FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHNetWorkHelper.m; sourceTree = "<group>"; };
+		FD9DCE941FDE8179005787F7 /* CHOrderModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHOrderModel.h; sourceTree = "<group>"; };
+		FD9DCE951FDE8179005787F7 /* CHOrderModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHOrderModel.m; sourceTree = "<group>"; };
+		FD9DCE981FDE8E31005787F7 /* CHServiceDetailModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHServiceDetailModel.h; sourceTree = "<group>"; };
+		FD9DCE991FDE8E31005787F7 /* CHServiceDetailModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHServiceDetailModel.m; sourceTree = "<group>"; };
+		FD9DCE9B1FDE9190005787F7 /* CHServiceListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHServiceListModel.h; sourceTree = "<group>"; };
+		FD9DCE9C1FDE9190005787F7 /* CHServiceListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHServiceListModel.m; sourceTree = "<group>"; };
 		FDA1BF501FB68E0600AE64B7 /* CHFocusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFocusViewController.h; sourceTree = "<group>"; };
 		FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFocusViewController.m; sourceTree = "<group>"; };
 		FDA1BF531FB68F2500AE64B7 /* CHFocusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFocusTableViewCell.h; sourceTree = "<group>"; };
@@ -307,6 +320,8 @@
 		FDF4BAAD1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHShoppingCartTableViewCell.m; sourceTree = "<group>"; };
 		FDF4BAAF1FB054E2002A90A3 /* CHSubmitOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHSubmitOrderViewController.h; sourceTree = "<group>"; };
 		FDF4BAB01FB054E2002A90A3 /* CHSubmitOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHSubmitOrderViewController.m; sourceTree = "<group>"; };
+		FDFB68DD1FE81693000647DD /* CHSubmitOrderModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSubmitOrderModel.h; sourceTree = "<group>"; };
+		FDFB68DE1FE81693000647DD /* CHSubmitOrderModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSubmitOrderModel.m; sourceTree = "<group>"; };
 		FDFC98161FAE0BAE0039CF32 /* CHFindPeopleBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFindPeopleBrowseView.h; sourceTree = "<group>"; };
 		FDFC98171FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFindPeopleBrowseView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -516,6 +531,7 @@
 		FD2480181F682D8600CA30BB /* ServiceDetails */ = {
 			isa = PBXGroup;
 			children = (
+				FD9DCE971FDE8E13005787F7 /* Models */,
 				FD7967AA1F6AD9DF0049DCDB /* Views */,
 				FD2480191F682DF700CA30BB /* CHServiceDetailsViewController.h */,
 				FD24801A1F682DF700CA30BB /* CHServiceDetailsViewController.m */,
@@ -541,6 +557,8 @@
 				FD282B431FAACF0600B2D52D /* CHMineModel.m */,
 				FD282B3F1FAACEA900B2D52D /* CHStoreInfoModel.h */,
 				FD282B401FAACEA900B2D52D /* CHStoreInfoModel.m */,
+				FD9DCE9B1FDE9190005787F7 /* CHServiceListModel.h */,
+				FD9DCE9C1FDE9190005787F7 /* CHServiceListModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -623,6 +641,28 @@
 				FD9448AC1F52EE3D001FC5CD /* CHNetWorkHelper.m */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		FD9DCE931FDE815C005787F7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FD9DCE941FDE8179005787F7 /* CHOrderModel.h */,
+				FD9DCE951FDE8179005787F7 /* CHOrderModel.m */,
+				FDFB68DD1FE81693000647DD /* CHSubmitOrderModel.h */,
+				FDFB68DE1FE81693000647DD /* CHSubmitOrderModel.m */,
+				FD6AF64C1FE8E7D400C3F66A /* CHShopingModel.h */,
+				FD6AF64D1FE8E7D400C3F66A /* CHShopingModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FD9DCE971FDE8E13005787F7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FD9DCE981FDE8E31005787F7 /* CHServiceDetailModel.h */,
+				FD9DCE991FDE8E31005787F7 /* CHServiceDetailModel.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		FDC3606D1F483D9E00AC4A81 /* Publish */ = {
@@ -891,6 +931,7 @@
 		FDF4BAA71FB00F92002A90A3 /* ShoppingCart */ = {
 			isa = PBXGroup;
 			children = (
+				FD9DCE931FDE815C005787F7 /* Models */,
 				FDF4BAAB1FB02497002A90A3 /* Cells */,
 				FDF4BAA81FB00FAA002A90A3 /* CHShoppingCartViewController.h */,
 				FDF4BAA91FB00FAA002A90A3 /* CHShoppingCartViewController.m */,
@@ -950,7 +991,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CH;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = helinkeji;
 				TargetAttributes = {
 					A9DA45FE1F1630C900E3DB17 = {
@@ -1019,6 +1060,7 @@
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/zh-Hans.lproj",
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/jrmf.cer",
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/AlipaySDK/AlipaySDK.bundle",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/WalletResource.bundle",
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1076,6 +1118,7 @@
 				FDE3972E1FA5BABC00143D1B /* MineCollectionViewCell.m in Sources */,
 				FDC79DCE1FADD07500C3D464 /* CHFindServiceOptimizedView.m in Sources */,
 				FD22A6081FAC2B6B00C1F926 /* CHFindServiceViewController.m in Sources */,
+				FDFB68DF1FE81693000647DD /* CHSubmitOrderModel.m in Sources */,
 				FDE3971A1FA5BABC00143D1B /* CHMerchantView.m in Sources */,
 				FDE3971C1FA5BABC00143D1B /* CHOverbalanceCollectionViewCell.m in Sources */,
 				FD9448AD1F52EE3D001FC5CD /* CHNetWorkHelper.m in Sources */,
@@ -1142,17 +1185,21 @@
 				FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */,
 				FDE397281FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m in Sources */,
 				FD06FBCE1FB5E2CF008F70CB /* CHMyOrderTableViewCell.m in Sources */,
+				FD9DCE9D1FDE9190005787F7 /* CHServiceListModel.m in Sources */,
 				FDE397151FA5BABC00143D1B /* RootObjectModel.m in Sources */,
 				FDFC98181FAE0BAE0039CF32 /* CHFindPeopleBrowseView.m in Sources */,
 				FDC360761F484DC700AC4A81 /* CHPublishServeViewController.m in Sources */,
 				FD2480141F682CDF00CA30BB /* CHBaseViewCModel.m in Sources */,
 				FD2F7DF81FA4BBD600CF5B40 /* CHGlobalDataHelper.m in Sources */,
+				FD6AF64E1FE8E7D400C3F66A /* CHShopingModel.m in Sources */,
 				FDEECDFC1FB977310035195F /* CHOverBalanceViewController.m in Sources */,
 				FD3E39581FAEF005009E78CB /* CHServiceAllSerViewController.m in Sources */,
+				FD9DCE9A1FDE8E31005787F7 /* CHServiceDetailModel.m in Sources */,
 				FDE397121FA5BABC00143D1B /* CHCategoryItemModel.m in Sources */,
 				FDE397111FA5BABC00143D1B /* CHCardsPanelModel.m in Sources */,
 				FD06FBC31FB590AE008F70CB /* CHLoacationSearchViewController.m in Sources */,
 				FDE3971B1FA5BABC00143D1B /* CHMerchentTableViewCell.m in Sources */,
+				FD9DCE961FDE8179005787F7 /* CHOrderModel.m in Sources */,
 				FDE0A3B01FAF075800058149 /* CHAllServiceTableViewCell.m in Sources */,
 				FDE3972C1FA5BABC00143D1B /* MHMineHeaderCollectionReusableView.m in Sources */,
 				FDE397241FA5BABC00143D1B /* CHMessageViewController.m in Sources */,
@@ -1185,7 +1232,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1193,7 +1242,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1233,7 +1286,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1241,7 +1296,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

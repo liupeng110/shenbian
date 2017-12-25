@@ -3,17 +3,18 @@
 //  shenbianapp
 //
 //  Created by book on 2017/8/19.
-//  Copyright © 2017年 杨绍智. All rights reserved.
+//  Copyright © 2017 杨绍智. All rights reserved.
 //
 
 #import "CHPublishServeViewController.h"
 
-#import <IQTextView.h>
+//#import <IQTextView.h>
 #import "CHPublishServiceTableViewCell.h"
 #import "CHPublishServiceModel.h"
 #import "CHInputAddressViewController.h"
 #import "CHLoacationSearchViewController.h"
 #import "HeaderView.h"
+#import <QiniuSDK.h>
 @interface CHPublishServeViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
 @property(nonatomic,strong) UIView *upperView;
 @property(nonatomic,strong) UIView *lowerView;
@@ -39,6 +40,13 @@
 @property(nonatomic,copy)NSArray *categoryList;
 @property(nonatomic,copy)NSArray *secondCategoryList;
 @property(nonatomic,strong)NSIndexPath *secondIndexPath;
+@property(nonatomic,copy)NSString *position;
+@property(nonatomic,copy)NSString *serviceType;
+@property(nonatomic,copy)NSString *servicePrice;
+@property(nonatomic,strong) NSMutableArray *serviceCotentList;
+@property(nonatomic,copy)NSString *firstServiceKind;
+@property(nonatomic,copy)NSString *secondServiceKind;
+@property(nonatomic,copy)NSString *detailAddress;
 @end
 
 @implementation CHPublishServeViewController
@@ -50,11 +58,27 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexColor:@"#009698"]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont systemFontOfSize:17],NSFontAttributeName,nil]];
+    
     self.topView.backgroundColor = [UIColor colorWithHexString:@"#009698"];
+    
+    [GlobalData getCurrentLocation:^(CLLocation *location) {
+        self.position = [NSString stringWithFormat:@"%f,%f",location.coordinate.longitude,location.coordinate.latitude];
+    }];
+    
+    [self bindVieWCModel];
+}
+
+-(void)bindViewControllerModel{
+    self.serviceModel = [[CHPublishServiceModel alloc]init];
+    self.serviceCotentList = [NSMutableArray array];
+}
+
+-(void)setupViews{
     
     [self.lefgtButton setImage:[UIImage imageNamed:@"tx_fh"] forState:(UIControlStateNormal)];
     [self.rightTopButton setTitle:@"" forState:(UIControlStateNormal)];
     [self.rightTopButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
+    
     [self.topView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.topView);
@@ -88,10 +112,10 @@
     
     [self.upperView addSubview:self.articleContentTV];
     [self.articleContentTV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineLabel).offset(10);
+        make.top.equalTo(self.lineLabel).offset(5);
         make.left.equalTo(self.view).offset(15);
         make.right.equalTo(self.view).offset(-15);
-        make.height.mas_equalTo(70);
+        make.height.mas_equalTo(120);
     }];
     
     [self.upperView addSubview:self.wordNoLabel];
@@ -105,9 +129,9 @@
     [self.upperView addSubview:self.takePictureButton];
     [self.takePictureButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.upperView).offset(15);
-        make.bottom.equalTo(self.upperView).offset(-20);
-        make.width.mas_equalTo(90);
-        make.height.mas_equalTo(60);
+        make.bottom.equalTo(self.upperView).offset(-5);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(50);
     }];
     
     [self.view addSubview:self.lowerView];
@@ -135,17 +159,12 @@
         make.height.mas_equalTo(55);
     }];
     
-    [self bindVieWCModel];
-}
-
--(void)bindViewControllerModel{
-    self.serviceModel = [[CHPublishServiceModel alloc]init];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
     
 }
 
@@ -160,7 +179,7 @@
 }
 
 - (void)bindVieWCModel{
-    NSArray *tempArray = @[@"选择分类",@"价格",@"位置",@"服务类型",@"编辑频道信息"];
+    NSArray *tempArray = @[@"选择分类",@"价格",@"位置",@"服务类型",@"审核认证"];
     
     self.categoryList = @[@{@"教育学习":@[@"留学咨询",@"考研帮",@"比赛达人",@"社团达人",@"编程大神",@"文学大咖",@"语言大师",@"其他"]},@{@"生活服务":@[@"摄影",@"户外",@"健身",@"穿衣搭配",@"志愿者",@"其他"]},@{@"艺术培养":@[@"舞蹈",@"吉他弹唱",@"唱歌",@"其他"]},@{@"工作辅导":@[@"面试辅导",@"简历修改",@"工作技能培训",@"其他"]},@{@"其他":@[]}];
     
@@ -190,13 +209,20 @@
         model.dataArray = tempList;
         
     }
+    self.serviceType = @"0";
     self.serviceKind  = @[@"在线服务",@"上门服务",@"到店服务"];
     
     [self.articleContentTV.rac_textSignal subscribeNext:^(id x) {
         if (x) {
-            self.wordNoLabel.text = [NSString stringWithFormat:@"%lu/500",self.articleContentTV.text.length];
+            self.wordNoLabel.text = [NSString stringWithFormat:@"%lu/500",(unsigned long)self.articleContentTV.text.length];
         }
     }];
+
+    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:kCHNotificationDetailAddress object:nil] takeUntil:[self rac_willDeallocSignal]] subscribeNext:^(NSNotification *notice) {
+        self.detailAddress =  notice.object;
+        [self.serviceTableView reloadSection:2 withRowAnimation:(UITableViewRowAnimationNone)];
+    }];
+    
 }
 
 -(UILabel *)titleLabel{
@@ -204,7 +230,6 @@
         _titleLabel = [UILabel new];
         _titleLabel.text = @"发布服务";
         _titleLabel.textColor = [UIColor whiteColor];
-        
     }
     return _titleLabel;
 }
@@ -236,7 +261,7 @@
     return _lineLabel;
 }
 
--(UITextView *)articleContentTV{
+-(IQTextView *)articleContentTV{
     
     if (_articleContentTV == nil) {
         _articleContentTV = [IQTextView new];
@@ -267,6 +292,48 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     [picker dismissViewControllerAnimated:YES completion:nil];
+    NSLog(@"xxx:%@",info);
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    [self handlePictureAndText:image];
+    NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+    RACSignal *signal = [self.serviceModel.getTokenComand execute:@{@"token":token}];
+    [signal subscribeNext:^(id x) {
+        
+        QNUploadManager *manager =  [[QNUploadManager alloc]init];
+        
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        [manager putData:imageData key:nil token:[x objectForKey:@"data"] complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+            if (info.statusCode == 200) {
+                
+                NSString *attriString = self.articleContentTV.attributedText.string;
+                NSArray *tempArr = [attriString componentsSeparatedByString:@"\U0000fffc"];
+                NSString *text =  [tempArr objectAtIndex:tempArr.count - 2];
+                NSString *key = [NSString stringWithFormat:@"%@",[resp objectForKey:@"key"]];
+                NSString *hash = [NSString stringWithFormat:@"%@",[resp objectForKey:@"hash"]];
+                NSString *fsize = [NSString stringWithFormat:@"%@",[resp objectForKey:@"fsize"]];
+                NSDictionary *tempDic =@{@"key":key,@"hash":hash,@"fsize":fsize,@"text":text};
+                [self.serviceCotentList addObject:tempDic];
+            }
+        } option:nil];
+    } error:^(NSError *error) {
+        NSLog(@"ccc:%@",error);
+    }];
+}
+
+-(void)handlePictureAndText:(UIImage*)image{
+    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.articleContentTV.attributedText];
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc]init];
+    textAttachment.bounds = CGRectMake(0, self.articleContentTV.bounds.size.height - self.articleContentTV.height, kScreenWidth - 30, (kScreenWidth- 30) * image.size.height/image.size.width);
+    textAttachment.image = image;
+    NSAttributedString * textAttachmentString = [NSAttributedString attributedStringWithAttachment:textAttachment] ;
+    
+    NSAttributedString *nString = [[NSAttributedString alloc] initWithString:@"\n" attributes:nil];
+    [attributedString insertAttributedString:nString atIndex:self.articleContentTV.selectedRange.location];
+    [attributedString insertAttributedString:textAttachmentString atIndex:self.articleContentTV.selectedRange.location + 1];
+    [attributedString insertAttributedString:nString atIndex:self.articleContentTV.selectedRange.location + 2];
+    
+    self.articleContentTV.attributedText = attributedString;
+    [self.articleContentTV scrollToBottom];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -353,7 +420,7 @@
     if (section == 0) {
         CHPublishServiceModel *model = self.dataArray[0];
         if (model.isOpen) {
-
+            
             NSInteger count = model.dataArray.count;
             return  count;
         }
@@ -370,12 +437,17 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-    HeaderView *headerView = [[HeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) IsOpen:NO];
+    static NSString *hIdentifier = @"hIdentifier";
     CHPublishServiceModel *model = self.dataArray[section];
+    HeaderView *headerView = (HeaderView*)[tableView dequeueReusableCellWithIdentifier:hIdentifier];
+    if (headerView == nil) {
+        headerView = [[HeaderView alloc] initWithReuseIdentifier:hIdentifier];
+        headerView.nameLabel.text = model.name;
+        headerView.section = section;
+        headerView.backgroundColor = [UIColor whiteColor];
+    }
     headerView.nameLabel.text = model.name;
-    headerView.section = section;
     if (section == 0) {
-        
         __weak typeof(self) weakself = self;
         headerView.openblock =^(NSInteger secion){
             [weakself openSection:section];
@@ -383,18 +455,32 @@
         headerView.closeblock = ^(NSInteger section){
             [weakself closeSection:section];
         };
-    } else if (section == 2){
-       
+        
+    } else if(section == 1){
+        
+        headerView.servicePriceblock = ^(NSString *price) {
+            self.servicePrice = price;
+        };
+        
+    }
+    else if (section == 2){
         __weak typeof(self) weakself = self;
         headerView.openblock =^(NSInteger secion){
             CHLoacationSearchViewController *location = [CHLoacationSearchViewController new];
             [weakself.navigationController pushViewController:location animated:YES];
-            
         };
-    } else if (section == 4){
+        headerView.tailLabel.text = self.detailAddress;
+        
+    } else if (section == 3){
+        
+        headerView.serviceTypeblock = ^(NSUInteger type){
+            self.serviceType = [NSString stringWithFormat:@"%ld",(unsigned long)type];
+        };
+    }
+    else if (section == 4){
         __weak typeof(self) weakself = self;
         headerView.openblock =^(NSInteger secion){
-          CHInputAddressViewController   *address = [CHInputAddressViewController new];
+            CHInputAddressViewController *address = [CHInputAddressViewController new];
             [weakself.navigationController pushViewController:address animated:YES];
         };
     }
@@ -414,15 +500,16 @@
 }
 
 - (void)closeSection:(NSInteger)section{
+    
     CHPublishServiceModel *model = self.dataArray[section];
     model.isOpen = !model.isOpen;
-    NSMutableArray *indexArray = [NSMutableArray arrayWithCapacity:10];
+    NSMutableArray *indexArray = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < model.dataArray.count; i++) {
         NSIndexPath *indexpath = [NSIndexPath indexPathForRow:i inSection:section];
         [indexArray addObject:indexpath];
     }
-
     [self.serviceTableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+    
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHPublishServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serviceCell" forIndexPath:indexPath];
@@ -446,6 +533,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     CHPublishServiceModel *model = self.dataArray[indexPath.section];
     CHPublishServiceModel *secondModel = model.dataArray[indexPath.row];
+    
     if (secondModel.stageType == CHStageTypeSecond) {
         
         self.secondIndexPath = indexPath;
@@ -453,7 +541,6 @@
         if (!secondModel.isOpen) {
             
             NSMutableArray *tempArray = [NSMutableArray arrayWithArray:model.dataArray];
-
             NSMutableArray *indexArray = [NSMutableArray arrayWithCapacity:10];
             for (NSInteger i = 0; i < secondModel.dataArray.count; i++) {
                 NSIndexPath *indexpath = [NSIndexPath indexPathForRow:indexPath.row  + i+ 1 inSection:0];
@@ -480,13 +567,25 @@
             [self.serviceTableView beginUpdates];
             [self.serviceTableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
             [self.serviceTableView endUpdates];
-
+            
         }
         
         secondModel.isOpen = !secondModel.isOpen;
     }
     else if(secondModel.stageType == CHStageTypeThird)
     {//三级分类
+        self.firstServiceKind = secondModel.name;
+        self.secondServiceKind = model.name;
+        UIAlertView *alert = [UIAlertView new];
+        alert.title = @"温馨提示";
+        alert.message = [NSString stringWithFormat:@"您选择了 %@ ",secondModel.name];
+        [alert show];
+        [self.view addSubview:alert];
+        [alert performSelector:@selector(dismissWithClickedButtonIndex:animated:) afterDelay:1];
+        
+        HeaderView *headerView =  (HeaderView*)[tableView headerViewForSection:0];
+        headerView.closeblock(0);
+        headerView.tailLabel.text = secondModel.name;
         
     }
     
@@ -498,6 +597,7 @@
 }
 
 -(void)clickRightTopButton:(UIButton *)button{
+    
     UIViewController *answerVC = [[UIViewController alloc]initWithNibName:@"CHPulishAnswer" bundle:nil];
     answerVC.title = @"问答";
     self.title = @"    ";
@@ -515,8 +615,74 @@
 - (void)clickPublishButton{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *token = [ud objectForKey:@"server_token"];
-    NSString *position = [NSString stringWithFormat:@"116.542951,39.639531"];
-    NSDictionary *param = @{@"title":@"hello world",@"price":@"100.00",@"serviceFlag":@"1",@"serviceType":@"0",@"center":position,@"descriptions":@"",@"token":token};
+    
+    NSString *errMsg;
+    
+    
+    if (self.detailAddress == nil) {
+        errMsg = @"请选择联系人地址";
+    }
+    
+    NSString *contactName = [ud objectForKey:@"contactName"];
+    if (contactName == nil) {
+        errMsg = @"请到“审核信息”填写联系人姓名";
+    }
+    
+    NSString *contactPhone = [ud objectForKey:@"contactPhone"];
+    if (contactPhone == nil) {
+        errMsg = @"请到“审核信息”填写联系人电话";
+    }
+    NSString *contactCity = [ud objectForKey:@"contactCity"];
+    if (contactCity == nil) {
+        errMsg = @"请到“审核信息”填写城市";
+    }
+    
+    NSString *contactAddress = [ud objectForKey:@"contactAddress"];
+    if (contactAddress == nil) {
+        errMsg = @"请到“审核信息”填写地址";
+    }
+    
+    NSString *contactHouseNO = [ud objectForKey:@"contactHouseNO"];
+    if (contactHouseNO == nil) {
+        errMsg = @"请到“审核信息”填写门牌号";
+    }
+    
+    NSString *contactAccount = [ud objectForKey:@"contactAccount"];
+    if (contactAccount == nil) {
+        errMsg = @"请到“审核信息”填写门收款账户";
+    }
+    
+    if (self.position == nil) {
+        errMsg = @"未能获取到位置信息，请在设置中打开允许U服访问您的位置信息";
+    }
+    
+    
+    if (self.servicePrice.length == 0) {
+        errMsg = @"请填写服务价格";
+    }
+    
+    if (self.firstServiceKind  == nil) {
+        errMsg = @"请选择分类";
+    }
+    
+    if (self.articleContentTV.text.length < 10) {
+        errMsg = @"服务内容不能少于10个字";
+    }
+    
+    if (self.articleTitleTF.text.length == 0) {
+        errMsg = @"服务标题不能为空";
+    }
+    
+    if (errMsg) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:errMsg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
+        [alert show];
+        return;
+    }
+    
+    NSString *descriptions = [self.serviceCotentList jsonStringEncoded];
+   
+
+    NSDictionary *param = @{@"title":self.articleTitleTF.text,@"price":self.servicePrice,@"serviceFlag":@"2",@"serviceType":self.serviceType,@"center":self.position,@"descriptions":descriptions,@"token":token,@"parentClassificationId":self.firstServiceKind,@"classificationId":self.secondServiceKind,@"cityName":contactCity,@"contact":contactName,@"mobilePhone":contactPhone,@"detailStreet":contactAddress,@"houseName":contactHouseNO,@"receivableAccount":contactAccount};
     RACSignal *signal = [self.serviceModel.uploadComand execute:param];
     [signal subscribeNext:^(id x) {
         if ([[x objectForKey:@"status"] integerValue] == 0) {

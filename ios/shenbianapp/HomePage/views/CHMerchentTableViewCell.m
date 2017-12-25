@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/3.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHMerchentTableViewCell.h"
@@ -37,12 +37,7 @@
             make.width.mas_equalTo(120);
         }];
         
-        [self addSubview:self.ratingImageView];
-        [self.ratingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.coverImageView.mas_right).offset(12);
-            make.top.equalTo(self).offset(15);
-            make.width.height.mas_equalTo(13);
-        }];
+        
         
         [self addSubview:self.ratingLabel];
         [self.ratingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -87,17 +82,17 @@
         [self addSubview:self.nameLabel];
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.coverImageView.mas_right).offset(12);
-            make.top.equalTo(self.ratingImageView.mas_bottom).offset(8);
+            make.top.equalTo(self).offset(8);
             make.width.mas_equalTo(80);
             make.height.mas_equalTo(20);
         }];
         
         [self addSubview:self.contentLabel];
         [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.nameLabel.mas_bottom).offset(0);
+            make.top.equalTo(self.nameLabel.mas_bottom).offset(15);
             make.left.equalTo(self.coverImageView.mas_right).offset(12);
             make.width.mas_equalTo(195);
-            make.height.mas_equalTo(20);
+            make.height.mas_equalTo(40);
         }];
     
        
@@ -184,7 +179,6 @@
         _nameLabel = [UILabel new];
         _nameLabel.textColor = [UIColor colorWithHexString:@"#2d333a"];
         _nameLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:15];
-        
     }
     return _nameLabel;
 }
@@ -195,6 +189,7 @@
         _contentLabel = [[UILabel alloc]init];
         _contentLabel.textColor = [UIColor colorWithHexString:@"#4f5965"];
         _contentLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:13];
+        _contentLabel.numberOfLines = 0;
     }
     return _contentLabel;
 }
@@ -204,10 +199,20 @@
     
     self.ratingLabel.text = model.rating;
     self.distanceLabel.text = [NSString stringWithFormat:@"%.fm",model.distance];
-    self.ratingLabel.text = [NSString stringWithFormat:@"%@",model.rating];
     self.nameLabel.text = model.merchentName;
     self.contentLabel.text = model.content;
     self.soldOutLabel.text = [NSString stringWithFormat:@"已售：%ld件",model.slodOut];
     self.tagName.text = [NSString stringWithFormat:@"%@",model.tagName];
+    NSInteger ratingCount = model.rating.intValue;
+    for (int i = 0; i < ratingCount; i++) {
+        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"syxh_xx"]];
+        [self addSubview:imageView];
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.coverImageView.mas_right).offset(12 + 13 * i);
+            make.top.equalTo(self.nameLabel.mas_bottom).offset(2);
+            make.width.height.mas_equalTo(13);
+        }];
+    }
+    
 }
 @end

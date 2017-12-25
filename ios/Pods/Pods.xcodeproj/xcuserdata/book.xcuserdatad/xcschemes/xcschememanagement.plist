@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AFNetworking-RACExtensions.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>AFNetworking.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -61,62 +56,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>04CF549EBEEE7BC87AEAE35397184D94</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>05994BC734B327AC0D2EA8BB9E23806E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>32BF30E54E97F8E3DEEDE0065C89B30B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3AF95BD7EE4848EB14611FA7264D1898</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>53B2B897D64E4516E75AC86348B86622</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5FD8274EC406C2C65519046733AE732D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>904F4F27FD314010A3812EB2A9306183</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9DC8D9E02903E93BD0B2FEC9D846EA20</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A9D6CBD5AF1BD931BF26B88B3490D171</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>ADC7535811CFD3BBCD2690D5986A2BB2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C95C45974D77E3E41FE9D2A80E093179</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

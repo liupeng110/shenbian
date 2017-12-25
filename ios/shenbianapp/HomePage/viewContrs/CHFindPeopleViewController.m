@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/11/3.
-//  Copyright © 2017年 helinkeji. All rights reserved.
+//  Copyright © 2017 helinkeji. All rights reserved.
 //
 
 #import "CHFindPeopleViewController.h"
@@ -11,6 +11,7 @@
 #import "CHFindServicePopPanel.h"
 #import "CHFindPeopleBrowseView.h"
 #import "CHServiceDetailsViewController.h"
+#import "CHShoppingCartViewController.h"
 @interface CHFindPeopleViewController ()<UIGestureRecognizerDelegate>
 @property(nonatomic,strong)CHFindServiceHeadView *headView;
 @property(nonatomic,strong)UIButton *panelButton;
@@ -24,15 +25,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navBarView.mhBaseTitleLabel.text = @"找人";
-    self.title = @"找人";
+    self.navBarView.mhBaseTitleLabel.text = @"服务";
+    self.title = @"服务";
 //    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexColor:@"#404040"]];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#404040"];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 
-
     [self.rightButton setImage:[UIImage imageNamed:@"sy_gwc"] forState:(UIControlStateNormal)];
     self.rightButton.hidden = NO;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -44,6 +45,13 @@
     self.tabBarController.tabBar.hidden = NO;
 
 }
+
+-(void)clickRightButton{
+    
+    CHShoppingCartViewController *shoppingCart = [[CHShoppingCartViewController alloc]init];
+    [self.navigationController pushViewController:shoppingCart animated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

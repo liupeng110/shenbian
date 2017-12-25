@@ -3,7 +3,7 @@
 //  Miaohi
 //
 //  Created by 沈开洋 on 16/11/29.
-//  Copyright © 2016年 haiqiu. All rights reserved.
+//  Copyright © 2016 haiqiu. All rights reserved.
 //
 
 #import "MHCollectionViewFlowLayout.h"

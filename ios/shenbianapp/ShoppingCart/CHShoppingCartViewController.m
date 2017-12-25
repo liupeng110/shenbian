@@ -10,9 +10,12 @@
 #import "CHShoppingCartTableViewCell.h"
 #import "CHSubmitOrderViewController.h"
 #import "CHServiceDetailsViewController.h"
+#import "CHShopingModel.h"
 @interface CHShoppingCartViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)UIButton *makeOrderButton;
+@property(nonatomic,strong)NSMutableArray *orderModelList;
+@property(nonatomic,strong)NSMutableArray<CHShopingModel*> *shopingModelList;
 @end
 
 @implementation CHShoppingCartViewController
@@ -42,7 +45,22 @@
 }
 
 -(void)bindViewControllerModel{
+    self.shopingModelList = [NSMutableArray array];
+    self.orderModelList = [NSMutableArray  array];
+    for (int i = 0; i < 3; i++) {
+        CHOrderModel *orderModel = [CHOrderModel new];
+        orderModel.serviceTitle = @"找人写商业计划书";
+        orderModel.servicePrice = @"1";
+        orderModel.serviceAmount = @"2";
+        [self.orderModelList addObject:orderModel];
+    }
     
+    for (int i = 0; i < 2; i++) {
+        CHShopingModel *shopingModel = [CHShopingModel new];
+        shopingModel.storeName = @"秋刀鱼";
+        shopingModel.orderList = self.orderModelList;
+        
+    }
     
 }
 
@@ -76,8 +94,13 @@
     return  _tableView;
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+   return  self.shopingModelList.count;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return self.orderModelList.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -96,18 +119,19 @@
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
+    CHShopingModel *model = self.shopingModelList[section];
     UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 85))];
     contentView.layer.borderWidth = 0.3;
     contentView.layer.borderColor = [UIColor colorWithHexColor:@"#ebebeb"].CGColor;
     contentView.backgroundColor = [UIColor whiteColor];
     UIImageView *headImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(15, 15, 50, 50))];
-    headImageView.image = [UIImage imageNamed:@"default_headImage"];
+    [headImageView setHighlightedImageWithURL:[NSURL URLWithString:model.iconUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
     headImageView.layer.cornerRadius = 25;
     headImageView.clipsToBounds = YES;
     [contentView addSubview:headImageView];
 
     UILabel *namelabel = [UILabel new];
-    namelabel.text = @"店铺名称";
+    namelabel.text = model.storeName;
     namelabel.textColor = [UIColor colorWithHexColor:@"#2d333a"];
     namelabel.font = [UIFont systemFontOfSize:15];
     [contentView addSubview:namelabel];
@@ -153,7 +177,11 @@
 }
 
 - (void)clickMakeOrderButton{
+    
+    NSMutableArray *serviceList = [NSMutableArray array];
+    
     CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
+    submitOrder.orderModelList = serviceList;
     [self.navigationController pushViewController:submitOrder animated:YES];
 }
 

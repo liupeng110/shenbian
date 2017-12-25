@@ -7,11 +7,10 @@
 //
 
 
-typedef void(^CHSendMessage)();
-typedef void(^CHMakeOrder)();
+typedef void(^CHSendMessage)(void);
+typedef void(^CHMakeOrder)(void);
 
 #import <UIKit/UIKit.h>
-
 @interface CHServiceBottomView : UIView
 @property(nonatomic,copy)CHSendMessage sendMessage;
 @property(nonatomic,copy)CHMakeOrder makeOrder;

@@ -32,9 +32,17 @@
 				<string>userviceRedPacket</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wx647da34106a75ac2</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20171210</string>
+	<string>20171218</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -46,6 +54,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>‘U服’需要访问您的相机</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>总是允许访问位置信息</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>始终允许访问</string>
 	<key>NSLocationUsageDescription</key>

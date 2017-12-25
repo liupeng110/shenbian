@@ -3,13 +3,14 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/12.
-//  Copyright © 2017年 . All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHServiceDetailsViewController.h"
 
 #import "CHSubmitOrderViewController.h"
 #import "CHChatRoomViewController.h"
+#import "CHServiceDetailModel.h"
 @interface CHServiceDetailsViewController ()
 @property(nonatomic,strong) CHServiceUperView * topView;
 @property(nonatomic,strong)CHServiceBottomView *bottomView;
@@ -18,7 +19,7 @@
 @property(nonatomic,strong)UIButton *shareButton;
 
 @property(nonatomic,strong)NSArray *dataArray;
-
+@property(nonatomic,strong) CHServiceDetailModel *serviceModel;
 @end
 
 @implementation CHServiceDetailsViewController
@@ -44,15 +45,56 @@
 }
 -(void)bindViewControllerModel{
     @weakify(self);
+    self.serviceModel = [CHServiceDetailModel new];
+    RACSignal *signal = [self.serviceModel.loadPagedata execute:@{@"serviceId":@"17"}];
+    [signal subscribeNext:^(id x) {
+        NSLog(@"service details:%@",x);
+        NSDictionary *resultDic = [x objectForKey:@"data"];
+        CHServiceDetailModel *model = [CHServiceDetailModel new];
+        model.serviceTitle = [resultDic objectForKey:@"serviceTitle"];
+        model.serviceContent = [resultDic objectForKey:@"serviceDescription"];
+        model.serviceType =  [[resultDic objectForKey:@"serviceType"] integerValue];
+        model.servicePrice = [resultDic objectForKey:@"servicePrice"];
+        model.commentCount = [resultDic objectForKey:@"evaluateCount"];
+        model.commentList = [resultDic objectForKey:@"evaluates"];
+        model.locationStr = [resultDic objectForKey:@"location"];
+        model.userName  = [resultDic objectForKey:@"userName"];
+        model.userIconUrl = [resultDic objectForKey:@"userIcon"];
+        self.topView.model = model;
+        self.serviceModel = model;
+    } error:^(NSError *error) {
+        NSLog(@"error:%@",error);
+    }];
+    
+
     self.bottomView.sendMessage = ^{
         @strongify(self);
-        CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:@"1"];
-        [self.navigationController pushViewController:chatRoom animated:YES];
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+
+        if (token) {
+            CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:@"1"];
+            [self.navigationController pushViewController:chatRoom animated:YES];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"needLogin" object:nil];
+        }
     };
     self.bottomView.makeOrder = ^{
         @strongify(self);
-        CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
-        [self.navigationController pushViewController:submitOrder animated:YES];
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+
+        if (token) {
+            
+            CHOrderModel *orderModel = [CHOrderModel new];
+            orderModel.serviceTitle = self.serviceModel.serviceTitle;
+            orderModel.servicePrice = self.serviceModel.servicePrice;
+            orderModel.serviceAmount = @"1";
+            CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
+            submitOrder.orderModelList = @[orderModel];
+            [self.navigationController pushViewController:submitOrder animated:YES];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"needLogin" object:nil];
+
+        }
     };
 }
 

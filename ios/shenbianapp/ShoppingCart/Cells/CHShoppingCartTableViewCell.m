@@ -223,5 +223,12 @@
     
 }
 
+-(void)setOrderModel:(CHOrderModel *)orderModel{
+    
+    self.serviceTitle.text = orderModel.serviceTitle;
+    self.priceLabel.text = orderModel.servicePrice;
+    self.NumTextField.text = [NSString stringWithFormat:@"%@",orderModel.serviceAmount];
+    
+}
 
 @end

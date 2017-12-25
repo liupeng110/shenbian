@@ -3,11 +3,11 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/2.
-//  Copyright © 2017年 . All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
-typedef void (^SeeAllCategory)();
-typedef void(^TapInOverBalence)();
+typedef void (^SeeAllCategory)(void);
+typedef void(^TapInOverBalence)(void);
 
 #import <UIKit/UIKit.h>
 

@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/10/17.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHChatRoomViewController.h"
@@ -26,7 +26,7 @@
     self.navigationController.navigationBarHidden = NO;
     self.tabBarController.tabBar.hidden = YES;
 
-    [IQKeyboardManager sharedManager].enable = NO;
+
     [RCIM sharedRCIM].receiveMessageDelegate = self;
 
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"tx_fh"] landscapeImagePhone:[UIImage imageNamed:@"tx_fh"] style:(UIBarButtonItemStyleDone) target:self action:@selector(clickBackButton)];

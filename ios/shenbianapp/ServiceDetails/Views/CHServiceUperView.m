@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/14.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHServiceTableViewCell.h"
@@ -33,6 +33,11 @@
         
     }
     return self;
+}
+
+-(void)setModel:(CHServiceDetailModel *)model{
+    _model = model;
+    [self.tableView reloadData];
 }
 
 -(UITableView *)tableView{
@@ -86,11 +91,22 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serviceCell" forIndexPath:indexPath];
     cell.indexPath = indexPath;
-    CHServiceCellModel *model = [CHServiceCellModel new];
+    if (self.model) {
+        
+        CHServiceCellModel *model = [CHServiceCellModel new];
+        model.serviceTitle = self.model.serviceTitle;
+        model.serviceContent = self.model.serviceContent;
+        model.serviceType =  self.model.serviceType;
+        model.servicePrice = self.model.servicePrice;
+        model.commentCount = self.model.commentCount;
+        model.commentList = self.model.commentList;
+        model.locationStr = self.model.locationStr;
+        model.userName  = self.model.userName;
+        model.userIconUrl = self.model.userIconUrl;
+        cell.cellModel = model;
+
+    }
     
-    cell.cellModel = model;
-    
-   
     return cell;
 }
 
@@ -162,7 +178,7 @@
         UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 55))];
         contentView.backgroundColor = [UIColor colorWithHexString:@"#f6f6f6"];
         UILabel* _priceLabel = [UILabel new];
-        _priceLabel.text = @"￥100";
+        _priceLabel.text = [NSString stringWithFormat:@"%@",self.model.servicePrice];
         _priceLabel.font = [UIFont systemFontOfSize:22];
         _priceLabel.textColor = [UIColor colorWithHexString:@"#009698"];
         [contentView addSubview:_priceLabel];

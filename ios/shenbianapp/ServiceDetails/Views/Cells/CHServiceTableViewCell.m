@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/16.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHServiceTableViewCell.h"
@@ -43,6 +43,7 @@
     }
     return self;
 }
+
 
 -(void)setIndexPath:(NSIndexPath *)indexPath{
 
@@ -131,14 +132,14 @@
                         make.height.mas_equalTo(20);
                     }];
                     
-                    [self addSubview:self.commentRateImageV];
-                    [self.commentRateImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-                        
-                        make.centerY.equalTo(self);
-                        make.left.equalTo(self.commentCountLabel.mas_right).offset(16);
-                        make.width.mas_equalTo(100);
-                        make.height.mas_equalTo(20);
-                    }];
+//                    [self addSubview:self.commentRateImageV];
+//                    [self.commentRateImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+//
+//                        make.centerY.equalTo(self);
+//                        make.left.equalTo(self.commentCountLabel.mas_right).offset(16);
+//                        make.width.mas_equalTo(100);
+//                        make.height.mas_equalTo(20);
+//                    }];
                     
                     [self addSubview:self.commentValueLabel];
                     [self.commentValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,7 +154,6 @@
                     break;
             }
            
-
         }
             break;
             
@@ -218,7 +218,7 @@
         _distanceLabel = [UILabel new];
         _distanceLabel.font = [UIFont systemFontOfSize:13];
         _distanceLabel.textColor = [UIColor colorWithHexString:@"#8f959c"];
-        _distanceLabel.text = @"距离";
+        _distanceLabel.text = @"距离多少";
     }
     return _distanceLabel;
 }
@@ -334,11 +334,6 @@
     
     if (_recommendScrollView == nil) {
         _recommendScrollView = [[UIScrollView alloc]init];
-        for (int i = 0; i < 5; i++) {
-            UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_image"]];
-            imageView.frame = CGRectMake( 123 * i + 15,15, 108, 80);
-            [_recommendScrollView addSubview:imageView];
-        }
         _recommendScrollView.contentSize = CGSizeMake(123 * 5 + 15 , 80);
     }
     
@@ -360,42 +355,94 @@
 
 -(void)setCellModel:(CHServiceCellModel *)cellModel{
     
-    switch (_indexPath.row) {
+    _cellModel = cellModel;
+   
+    
+    
+   
+    switch (_indexPath.section) {
         case 0:
-            
-            break;
-        case 1:
-            
-            break;
-        case 2:
-            
-            break;
-        case 3:
         {
-        
+            if (_indexPath.row == 0) {
+                 self.nameLabel.text = cellModel.userName;
+                [self.headImageView setImageWithURL:[NSURL URLWithString:cellModel.userIconUrl] placeholder:[UIImage imageNamed:@"sy_sj_cover"]];
+
+                [GlobalData distacewithLocation:cellModel.locationStr result:^(NSString *distance) {
+                    self.distanceLabel.text = distance;
+                }];
+                
+                self.serviceTitleLabel.text = cellModel.serviceTitle;
+                self.serviceContentLabel.text = cellModel.serviceContent;
+            }
+            
         }
             break;
-        case 4:{
-            NSInteger index = 0;
-            for (NSString *url in self.recommentArray) {
-                
-                CGFloat space = 10;
-                CGFloat sideSpace = 30;//左右两边边距
-                CGFloat imgWidth = (kScreenWidth - sideSpace - space * 2) / 3 ;
-                
-                CGFloat left = (imgWidth + space) * index + 15;
-                UIImageView *recommentImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(left, 15, imgWidth, imgWidth * 0.8))];
-                [recommentImageView setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"sy_sj_cover"]];
-                [self.recommendScrollView addSubview:recommentImageView];
-
-                index++;
+          
+        case 1:{
+            switch (_indexPath.row) {
+                case 0:
+                {
+                    
+                }
+                    break;
+                case 1:{
+                    self.commentCountLabel.text = [NSString stringWithFormat:@"%@ 评论",cellModel.commentCount];
+                    CGSize size = [self.commentCountLabel sizeThatFits:(CGSizeMake(kScreenWidth, 20))];
+                    [self.commentCountLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                        make.width.mas_equalTo(size.width);
+                    }];
+                    
+                    NSInteger starRating = cellModel.starRating;
+                    starRating = starRating == 0 ? 5 : starRating;
+                    for (int i = 0; i < starRating; i++) {
+                        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"syxh_xx"]];
+                        [self addSubview:imageView];
+                        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.left.equalTo(self.commentCountLabel.mas_right).offset(5 + 13 * i);
+                            make.width.height.mas_equalTo(13);
+                            make.centerY.equalTo(self);
+                        }];
+                        
+                    }
+                    
+                    self.commentValueLabel.text = [NSString stringWithFormat:@""];
+                    switch (cellModel.serviceType) {
+                        case 0:
+                            self.serviceTypeDetailsLabel.text = @"在线服务";
+                            break;
+                        case 1:
+                            self.serviceTypeDetailsLabel.text = @"上门服务";
+                            break;
+                        case 2:
+                            self.serviceTypeDetailsLabel.text = @"到店服务";
+                            break;
+                            
+                        default:
+                            self.serviceTypeDetailsLabel.text = @"在线服务";
+                            break;
+                    }
+                    
+                }
+                case 2:{
+                    NSInteger recommendCount = cellModel.recommondList.count;
+                    for (int i = 0; i < recommendCount; i++) {
+                        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_image"]];
+                        imageView.frame = CGRectMake( 123 * i + 15,15, 108, 80);
+                        [_recommendScrollView addSubview:imageView];
+                    }
+                    _recommendScrollView.contentSize = CGSizeMake(123 * recommendCount + 15 , 80);
+                    
+                }
+                default:
+                    break;
             }
-        }
             
+        }
         default:
             break;
     }
     
+   
 }
 
 

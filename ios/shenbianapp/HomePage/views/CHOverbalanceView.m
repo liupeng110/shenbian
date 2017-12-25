@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/2.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHOverbalanceView.h"
@@ -106,7 +106,7 @@
     CHOverbalanceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"kindCell" forIndexPath:indexPath];
     NSDictionary *dic = self.overBablanceList[indexPath.row];
     CHOverbalanceModel *model = [[CHOverbalanceModel alloc]init];
-    model.coverUrl = [dic objectForKey:@"cover_url"];
+    model.coverUrl = [dic objectForKey:@"homeUrl"];
     model.placeHolder = self.placeHolderList[indexPath.row];
     cell.model = model;
    

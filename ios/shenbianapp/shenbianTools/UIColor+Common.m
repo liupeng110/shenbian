@@ -3,7 +3,7 @@
 //  wowotuan
 //
 //  Created by li lin on 12-5-17.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "UIColor+Common.h"

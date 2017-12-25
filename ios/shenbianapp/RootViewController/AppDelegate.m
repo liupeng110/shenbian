@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017年 杨绍智. All rights reserved.
+//  Copyright © 2017 杨绍智. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -12,7 +12,9 @@
 
 #import <RongIMLib/RongIMLib.h>
 #import <RongIMKit/RongIMKit.h>
-@interface AppDelegate ()
+
+#import <WXApi.h>
+@interface AppDelegate ()<WXApiDelegate>
 
 @end
 
@@ -37,6 +39,11 @@
     } tokenIncorrect:^{
         
     }];
+    [WXApi registerApp:@"wx647da34106a75ac2" ];
+    [[IQKeyboardManager sharedManager] setEnable:NO];
+    [IQKeyboardManager sharedManager].enableAutoToolbar = YES;
+    [IQKeyboardManager sharedManager].toolbarDoneBarButtonItemText = @"完成";
+    [IQKeyboardManager sharedManager].toolbarTintColor = [UIColor redColor];
     return YES;
 }
 
@@ -71,13 +78,45 @@
     if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
         return YES;
     }
-    return YES;
+    
+    return [WXApi handleOpenURL:url delegate:self];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
         return YES;
     }
-    return YES;
+    return [WXApi handleOpenURL:url delegate:self];
 }
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+-(void)onReq:(BaseReq *)req{
+    
+}
+
+-(void)onResp:(BaseResp *)resp{
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp*response=(PayResp*)resp;
+        switch(response.errCode){
+            case WXSuccess:{
+                //服务器端查询支付通知或查询API返回的结果再提示成功
+                NSLog(@"支付成功");
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"支付提示" message:@"订单支付成功" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationWXPaySuccess object:nil];
+            }
+                break;
+            default:
+                NSLog(@"支付失败，retcode=%d",resp.errCode);
+                break;
+        }
+    }
+    
+}
+
+
 @end

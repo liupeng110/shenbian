@@ -3,13 +3,13 @@
 //  Miaohi
 //
 //  Created by 沈开洋 on 16/11/29.
-//  Copyright © 2016年 haiqiu. All rights reserved.
+//  Copyright © 2016 haiqiu. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-typedef void (^ClickMyArticle)();
-typedef void (^ClickMyService)();
+typedef void (^ClickMyArticle)(void);
+typedef void (^ClickMyService)(void);
 
 //@protocol MHMineHeaderCollectionReusableViewDelegate <NSObject>
 
@@ -33,6 +33,7 @@ typedef void (^ClickMyService)();
 
 @property (nonatomic,copy) ClickMyArticle clickMyArticle;
 @property (nonatomic,copy) ClickMyService clickMyService;
+@property (nonatomic,strong) NSDictionary *userDataList;
 
 //@property (weak, nonatomic) id<MHMineHeaderCollectionReusableViewDelegate>delegate;
 //- (void)creatMhHeaderViewithUserInfoModel:(PersonsetInfoModel *)personModel VieWith:(BOOL)isMyHomePage;

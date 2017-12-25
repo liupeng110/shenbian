@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017年 杨绍智. All rights reserved.
+//  Copyright © 2017 杨绍智. All rights reserved.
 //
 
 #import "MainViewController.h"
@@ -32,6 +32,7 @@
     [self addChildVc:[[RootMineViewController alloc] init] title:@"我的" image:@"sy_wdb" selectedImage:@"sy_wda"];
     
     [self creatHQTabBar];//中间➕号
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startLogin) name:@"needLogin" object:nil];
 }
 
 - (void)addChildVc:(UIViewController *)childVc title:(NSString *)title image:(NSString *)image selectedImage:(NSString *)selectedImage
@@ -85,7 +86,7 @@
 -(void)TabBarDidClickPlusButton:(HQTabBar *)tabBar{
 
     //判断登录
-    BOOL login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
+    BOOL login = [[NSUserDefaults standardUserDefaults] boolForKey:@"login"];
 //    login = YES;
     if (login) {
 
@@ -93,14 +94,18 @@
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:publish];
         nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         [self presentViewController:nav animated:YES completion:nil];
-        
     } else {
-        CHLoginViewController *logoinVC = [[CHLoginViewController alloc]init];
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:logoinVC];
-
-        [self presentViewController:nav animated:YES completion:nil];
+        [self startLogin];
     }
 
+}
+
+-(void)startLogin{
+    CHLoginViewController *logoinVC = [[CHLoginViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:logoinVC];
+    
+    [self presentViewController:nav animated:YES completion:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {

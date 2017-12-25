@@ -7,13 +7,19 @@
 //
 
 #import "CHSubmitOrderViewController.h"
-
+#import "CHOrderModel.h"
 #import "CHInputAddressViewController.h"
-#import <IQTextView.h>
+//#import <IQTextView.h>
+#import <WXApi.h>
+#import "CHMyOrdersViewController.h"
+#import "CHSubmitOrderModel.h"
 @interface CHSubmitOrderViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,copy)NSArray *dataAray;
 @property(nonatomic,strong)UIButton *payButton;
+@property(nonatomic,strong)CHOrderModel *orderModel;
+@property(nonatomic,strong)CHSubmitOrderModel *submitModel;
+@property(nonatomic,assign) float totalFee;
 @end
 
 @implementation CHSubmitOrderViewController
@@ -21,22 +27,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"提交订单";
-    [IQKeyboardManager sharedManager].enable = YES;
-    [IQKeyboardManager sharedManager].toolbarDoneBarButtonItemText = @"完成";
-    [IQKeyboardManager sharedManager].enableAutoToolbar = YES;
+    self.title = @"提交订单";    
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
+    [IQKeyboardManager sharedManager].enable = YES;
+
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden = NO;
     [IQKeyboardManager sharedManager].enable = NO;
-
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -44,9 +51,21 @@
 }
 
 -(void)bindViewControllerModel{
-    
-    self.dataAray = @[@[@{@"serviceTitle":@"服务名称",@"price":@"122",@"num":@"1"},],@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"支付宝支付"]];
-    
+    self.submitModel = [CHSubmitOrderModel new];
+    self.orderModel = [CHOrderModel new];
+    NSMutableArray *serviceList = [NSMutableArray array];
+    for (CHOrderModel *model in self.orderModelList) {
+        NSDictionary *dic = @{@"serviceTitle":model.serviceTitle,@"price":model.servicePrice,@"num":model.serviceAmount};
+        [serviceList addObject:dic];
+        self.totalFee += (model.servicePrice.floatValue);
+    }
+    self.dataAray = @[serviceList,@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"微信支付"]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(WXPaySuccess) name:kCHNotificationWXPaySuccess object:nil];
+}
+
+- (void)WXPaySuccess{
+    CHMyOrdersViewController *orderlist = [CHMyOrdersViewController new];
+    [self.navigationController pushViewController:orderlist animated:YES];
 }
 
 -(void)setupViews{
@@ -70,10 +89,46 @@
     if (_payButton == nil) {
         _payButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         _payButton.backgroundColor = [UIColor colorWithHexString:@"#ff7f7a"];
-        [_payButton setTitle:@"￥ 1000 支付" forState:(UIControlStateNormal)];
+        [_payButton setTitle:[NSString stringWithFormat:@"￥ %.2f 支付",self.totalFee] forState:(UIControlStateNormal)];
+        [_payButton addTarget:self action:@selector(clickPayButton) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _payButton;
 }
+
+-(void)clickPayButton{
+   __block NSString *orderId = @"";
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+    NSString *orderDetails = [@{@"serviceId":@"17",@"orderQuantity":@"1"} jsonStringEncoded];
+    NSDictionary *orderDic = @{@"orderDetails":orderDetails,@"note":@"暂无",@"createTime":@"2017-12-11 18:00:00",@"paymentType":@"1",@"address":@"",@"token":token};
+    RACSignal *addOrderSignal = [self.submitModel.addOrderCommand execute:orderDic];
+    [addOrderSignal subscribeNext:^(id x) {
+       
+        orderId = [x objectForKey:@"data"];
+        
+        RACSignal *signal = [self.submitModel.payCommand execute:@{@"orderId":orderId,@"token":token}];
+        [signal subscribeNext:^(id x) {
+        
+            NSDictionary *tempDic = [x objectForKey:@"data"];
+            PayReq *request = [[PayReq alloc] init];
+            request.partnerId = [tempDic objectForKey:@"partnerid"];
+            request.prepayId= [tempDic objectForKey:@"prepayid"];
+            request.package = @"Sign=WXPay";
+            request.nonceStr= [tempDic objectForKey:@"noncestr"];
+            request.timeStamp =  [[tempDic objectForKey:@"timestamp"] intValue];
+            
+            request.sign= [tempDic objectForKey:@"sign"];
+            [WXApi sendReq:request];
+           
+        } error:^(NSError *error) {
+            NSLog(@"pay %@",error);
+        }];
+        
+    } error:^(NSError *error) {
+        NSLog(@"addOrder error: %@",error);
+    }];
+    
+}
+
 
 -(UITableView *)tableView{
     if (_tableView == nil) {

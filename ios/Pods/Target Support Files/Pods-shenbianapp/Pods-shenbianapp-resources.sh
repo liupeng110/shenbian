@@ -97,6 +97,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/zh-Hans.lproj"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/jrmf.cer"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/AlipaySDK/AlipaySDK.bundle"
+  install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/WalletResource.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -113,6 +114,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/zh-Hans.lproj"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/jrmf.cer"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/AlipaySDK/AlipaySDK.bundle"
+  install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/WalletResource.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle"
 fi
 

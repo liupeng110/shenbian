@@ -19,44 +19,76 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "shenbianapp/Login/CHLoginVCModel.m"
-            timestampString = "534606316.242051"
+            filePath = "shenbianapp/Login/CHLoginViewController.m"
+            timestampString = "535744132.738475"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "-loginCommand"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
+            landmarkName = "-clickLoginButton"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shenbianapp/Publish/Models/CHPublishServiceModel.m"
+            timestampString = "535825126.413663"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "-uploadComand"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "shenbianapp/Publish/Models/CHPublishServiceModel.m"
+            timestampString = "535825126.413722"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "-uploadComand"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__30-[CHLoginVCModel loginCommand]_block_invoke_2"
+                  symbolName = "__37-[CHPublishServiceModel uploadComand]_block_invoke_2"
                   moduleName = "shenbianapp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/book/Desktop/shenbian/ios/shenbianapp/Login/CHLoginVCModel.m"
-                  timestampString = "534606316.563102"
+                  urlString = "file:///Users/book/Desktop/shenbian/ios/shenbianapp/Publish/Models/CHPublishServiceModel.m"
+                  timestampString = "535860579.638664"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "63"
-                  endingLineNumber = "63"
-                  offsetFromSymbolStart = "104">
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "144">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__30-[CHLoginVCModel loginCommand]_block_invoke_3"
+                  symbolName = "__37-[CHPublishServiceModel uploadComand]_block_invoke_3"
                   moduleName = "shenbianapp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/book/Desktop/shenbian/ios/shenbianapp/Login/CHLoginVCModel.m"
-                  timestampString = "534606316.56589"
+                  urlString = "file:///Users/book/Desktop/shenbian/ios/shenbianapp/Publish/Models/CHPublishServiceModel.m"
+                  timestampString = "535860579.640619"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "64">
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "24">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -67,61 +99,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "shenbianapp/Login/CHLoginVCModel.m"
-            timestampString = "534606316.242118"
+            filePath = "shenbianapp/Publish/CHPublishServeViewController.m"
+            timestampString = "535860579.348277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-loginCommand"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shenbianapp/Login/CHLoginVCModel.m"
-            timestampString = "534606316.242167"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "-loginCommand"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shenbianapp/Login/CHLoginVCModel.m"
-            timestampString = "534606316.242212"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "-loginCommand"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "shenbianapp/Login/CHLoginViewController.m"
-            timestampString = "534592002.019329"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
-            landmarkName = "-clickLoginButton"
+            startingLineNumber = "477"
+            endingLineNumber = "477"
+            landmarkName = "-tableView:viewForHeaderInSection:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/9/17.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import "CHArticleAndServiceListViewController.h"
@@ -21,7 +21,7 @@
 @property(nonatomic,strong) UITableView *tableView;
 @property(nonatomic,strong) CHMyArticleAndServiceViewModel *viewCModel;
 @property(nonatomic,strong) UILabel *switcherLabel;
-
+@property(nonatomic,strong) NSMutableArray *modelList;
 @end
 
 @implementation CHArticleAndServiceListViewController
@@ -41,22 +41,24 @@
         make.height.mas_equalTo(49);
     }];
     
-    [self.topview addSubview:self.myArticleButton];
-    [self.myArticleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+   
+    
+    [self.topview addSubview:self.myServiceButton];
+    [self.myServiceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    
         make.top.left.bottom.equalTo(self.topview);
         make.width.mas_equalTo(kScreenWidth/2);
     }];
     
-    [self.topview addSubview:self.myServiceButton];
-    [self.myServiceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.topview addSubview:self.myArticleButton];
+    [self.myArticleButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.right.bottom.equalTo(self.topview);
         make.width.mas_equalTo(kScreenWidth/2);
     }];
-    
     [self.topview addSubview:self.switcherLabel];
     [self.switcherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.topview);
-        make.centerX.equalTo(self.myArticleButton);
+        make.centerX.equalTo(self.myServiceButton);
         make.height.mas_equalTo(2);
         make.width.mas_equalTo(30);
     }];
@@ -72,6 +74,11 @@
 -(void)bindViewControllerModel{
     [super bindViewControllerModel];
     self.viewCModel = [CHMyArticleAndServiceViewModel new];
+    self.modelList = [NSMutableArray arrayWithCapacity:0];
+    for (int i=0; i < 3; i++) {
+        CHServiceDetailModel *model = [CHServiceDetailModel new];
+        [self.modelList addObject:model];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -98,7 +105,7 @@
     if (_myArticleButton == nil) {
         _myArticleButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [_myArticleButton setTitle:@"文章" forState:(UIControlStateNormal)];
-        [_myArticleButton setTitleColor:[UIColor colorWithHexString:@"#009698"] forState:(UIControlStateNormal)];
+        [_myArticleButton setTitleColor:[UIColor colorWithHexString:@"#4f5965"] forState:(UIControlStateNormal)];
         _myArticleButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_myArticleButton addTarget:self action:@selector(switchArticleAndService:) forControlEvents:(UIControlEventTouchUpInside)];
 
@@ -112,7 +119,7 @@
         _myServiceButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         _myServiceButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_myServiceButton setTitle:@"服务" forState:(UIControlStateNormal)];
-        [_myServiceButton setTitleColor:[UIColor colorWithHexString:@"#4f5965"] forState:(UIControlStateNormal)];
+        [_myServiceButton setTitleColor:[UIColor colorWithHexString:@"#009698"] forState:(UIControlStateNormal)];
         [_myServiceButton addTarget:self action:@selector(switchArticleAndService:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
@@ -177,7 +184,13 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return 3;
+    if (self.viewCModel.provideTye == ProvideTypeService) {
+        return self.modelList.count;
+
+    } else {
+        return 0;
+    }
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -196,8 +209,8 @@
 
     if (self.viewCModel.provideTye == ProvideTypeArticle) {
         
-        CHArticleDetailsViewController *articleDetailVC = [CHArticleDetailsViewController new];
-        [self.navigationController pushViewController:articleDetailVC animated:YES];
+//        CHArticleDetailsViewController *articleDetailVC = [CHArticleDetailsViewController new];
+//        [self.navigationController pushViewController:articleDetailVC animated:YES];
         
     } else {
     

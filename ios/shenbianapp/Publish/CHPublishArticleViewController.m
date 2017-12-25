@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/8/19.
-//  Copyright © 2017年 杨绍智. All rights reserved.
+//  Copyright © 2017 杨绍智. All rights reserved.
 //
 
 
@@ -11,13 +11,13 @@
 #import "CHPublishArticleModel.h"
 
 #import "UIView+Dashline.h"
-#import <IQTextView.h>
+//#import <IQTextView.h>
 
 
 @interface CHPublishArticleViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>
 @property(nonatomic,strong) UITextField *tf_articleTitle;//文章标题
 @property(nonatomic,strong) UILabel *dashLine;//
-@property(nonatomic,strong) IQTextView *tv_content;
+@property(nonatomic,strong) UITextView *tv_content;
 @property(nonatomic,strong) UIButton *btn_pickImage;
 @property(nonatomic,strong) UIView *inputAccessoryView;
 @property(nonatomic,strong) UIButton *btn_done;
@@ -39,7 +39,7 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [IQKeyboardManager sharedManager].enable = NO;
+
     
     [self.view addSubview:self.wordNoLabel];
     [self.wordNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -175,8 +175,8 @@
 /*  内容输入框  */
 -(UITextView *)tv_content{
     if (_tv_content == nil) {
-        _tv_content = [[IQTextView alloc]init];
-        _tv_content.placeholder = @"请输入正文";
+        _tv_content = [[UITextView alloc]init];
+//        _tv_content.placeholder = @"请输入正文";
         _tv_content.font = [UIFont systemFontOfSize:15];
     }
     return _tv_content;
@@ -269,7 +269,7 @@
 }
 
 - (void)clickDoneButton:(UIButton*)button{
-    [[IQKeyboardManager sharedManager] resignFirstResponder];
+
 }
 
 /*

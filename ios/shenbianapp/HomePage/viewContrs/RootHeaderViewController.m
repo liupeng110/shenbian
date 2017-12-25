@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017年 杨绍智. All rights reserved.
+//  Copyright © 2017 杨绍智. All rights reserved.
 //
 
 #import "RootHeaderViewController.h"
@@ -93,7 +93,7 @@
         UIViewController *vc = [UIViewController new];
         switch (type) {
             case 0:
-                vc = [CHFindServiceViewController new];
+                vc = [CHFindPeopleViewController new];
                 break;
                 
             case 1:
@@ -101,35 +101,35 @@
 
                 break;
             case 2:
-                vc = [CHFJobSearchViewController new];
+                vc = [CHFindPeopleViewController new];
                 vc.title = @"找活动";
                 break;
             case 3:
-                vc = [CHFJobSearchViewController new];
+                vc = [CHFindPeopleViewController new];
                 vc.title = @"找工作";
 
                 break;
             case 4:
-                vc = [CHFJobSearchViewController new];
+                vc = [CHFindPeopleViewController new];
                 vc.title = @"找租房";
 
                 break;
             case 5:
-                vc = [CHFJobSearchViewController new];
+                vc = [CHFindPeopleViewController new];
                 vc.title = @"学技能";
 
                 break;
             case 6:
-                vc = [CHFJobSearchViewController new];
+                vc = [CHFindPeopleViewController new];
                 vc.title = @"修电脑";
 
                 break;
             case 7:
-                vc = [CHServiceAllSerViewController new];
+                vc = [CHFindPeopleViewController new];
                 break;
 
             default:
-                vc = [CHFJobSearchViewController new];
+                vc = [CHFindPeopleViewController new];
                 vc.title = @"全部分类";
                 break;
         }

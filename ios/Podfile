@@ -7,17 +7,22 @@ platform :ios, '8.0'
 
 target 'shenbianapp' do
  
-pod 'AFNetworking-RACExtensions', '~> 0.1.8'
+pod 'AFNetworking', '~> 3.1.0'
 pod 'MJRefresh'
 pod 'SDWebImage'
-pod 'AMap2DMap' 
+pod 'AMap2DMap'
+pod 'AMapLocation'
 pod 'AMapSearch'
-pod 'YYKit', '~> 1.0.7'
-pod 'ReactiveCocoa', '~> 2.0'
-pod 'Masonry', '~> 1.0.1'
-pod 'IQKeyboardManager', '~> 4.0.7'
-pod 'Qiniu', '~> 7.0.1'
+pod 'YYKit'
+
+#pod 'ReactiveCocoa', '~> 2.0'
+pod 'ReactiveCocoa', :git => 'https://github.com/zhao0/ReactiveCocoa.git', :tag => '2.5.2'
+
+pod 'Masonry'
+pod 'IQKeyboardManager'
+pod 'Qiniu', '~> 7.2.2'
 pod 'RongCloudIM', '~> 2.8.15'
+pod 'WechatOpenSDK'
 
 end
 

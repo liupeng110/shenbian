@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017年 杨绍智. All rights reserved.
+//  Copyright © 2017 杨绍智. All rights reserved.
 //
 
 #import "RootMineViewController.h"
@@ -18,11 +18,14 @@
 #import "CHArticleAndServiceListViewController.h"
 #import "CHStoreInfoViewController.h"
 #import "CHMyOrdersViewController.h"
+#import "CHMineModel.h"
 @interface RootMineViewController ()<UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong)UICollectionView * collectionView;
 @property (nonatomic,strong)MHMineHeaderCollectionReusableView *headView;
 @property (nonatomic,copy) ClickMyService clickMyService;
 @property (nonatomic,copy) ClickMyArticle clickMyArticle;
+@property (nonatomic,strong) CHMineModel *viewModel;
+@property (nonatomic,strong) NSDictionary *userDataList;
 @end
 
 @implementation RootMineViewController
@@ -48,10 +51,12 @@
 
     @weakify(self);
     self.clickMyArticle = ^(){
-        @strongify(self);
-        CHArticleAndServiceListViewController *articleVC = [[CHArticleAndServiceListViewController alloc]init];
-        articleVC.title = @"我的文章";
-        [self.navigationController pushViewController:articleVC animated:YES];
+//        @strongify(self);
+//        CHArticleAndServiceListViewController *articleVC = [[CHArticleAndServiceListViewController alloc]init];
+//        articleVC.title = @"我的文章";
+//        [self.navigationController pushViewController:articleVC animated:YES];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"该功能暂不提供，程序员小哥正在努力开发中，将在后续版本中为您亲情呈现！" delegate:nil cancelButtonTitle:@"知晓" otherButtonTitles:nil];
+        [alertView show];
     };
     
     self.clickMyService = ^{
@@ -61,6 +66,24 @@
         [self.navigationController pushViewController:serviceDetail animated:YES];
     };
     
+}
+
+-(void)bindViewControllerModel{
+    self.viewModel = [CHMineModel new];
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+    if (token) {
+       RACSignal *signal = [self.viewModel.loadPagedata execute:@{@"token":token}];
+        [signal subscribeNext:^(id x) {
+            NSLog(@"mine:%@",x);
+            self.userDataList = [x objectForKey:@"data"];
+            self.headView.userDataList = self.userDataList;
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        } error:^(NSError *error) {
+            NSLog(@"mine -error:%@",error);
+
+        }];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -113,6 +136,18 @@
         if (indexPath.row == 0){
             setCell.titleName.text = @"我的收入";
             setCell.iconImageView.image = [UIImage imageNamed:@"wd_sr"];
+            UILabel *label = [UILabel new];
+            [setCell.contentView addSubview:label];
+            label.font = [UIFont systemFontOfSize:13];
+            label.textColor = [UIColor colorWithHexColor:@"#2d333a"];
+            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(setCell.contentView).offset(-25);
+                make.centerY.equalTo(setCell.contentView);
+                make.width.mas_equalTo(120);
+                make.height.mas_equalTo(20);
+            }];
+            label.text = [NSString stringWithFormat:@"￥%@",[self.userDataList objectForKey:@"income"] ];
+            label.textAlignment = NSTextAlignmentRight;
 
         }else if (indexPath.row == 1){
             setCell.titleName.text = @"我的订单";

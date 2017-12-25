@@ -3,7 +3,7 @@
 //  HaiqiuZhibo
 //
 //  Created by 申飞飞 on 16/4/1.
-//  Copyright © 2016年 申飞飞. All rights reserved.
+//  Copyright © 2016 申飞飞. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -3,16 +3,16 @@
 //  shenbianapp
 //
 //  Created by book on 2017/10/28.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 #import "CHMessageModel.h"
 
-
+typedef void(^CaculateReuslt)(NSString *distance);
+typedef void(^GetCurrentLocation)(CLLocation *location);
 #define GlobalData [CHGlobalDataHelper shareInstance]
-
 
 @interface CHGlobalDataHelper : NSObject
 
@@ -20,4 +20,7 @@
 
 @property(nonatomic,strong) NSArray<CHMessageModel*> *messagelist;
 
+- (void)distacewithLocation:(NSString*)locationStr result:(CaculateReuslt)caculateResult;
+
+- (void)getCurrentLocation:(GetCurrentLocation)complted;
 @end

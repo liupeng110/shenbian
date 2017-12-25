@@ -3,10 +3,10 @@
 //  shenbianapp
 //
 //  Created by book on 2017/11/4.
-//  Copyright © 2017年 helinkeji. All rights reserved.
+//  Copyright © 2017 helinkeji. All rights reserved.
 //
 
-typedef void(^CHScrollViewWillBeginDragging)();
+typedef void(^CHScrollViewWillBeginDragging)(void);
 typedef void(^CHDidSelectItem)(NSString *serviceId);
 
 #import <UIKit/UIKit.h>

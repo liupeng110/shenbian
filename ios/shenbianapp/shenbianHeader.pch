@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017年 杨绍智. All rights reserved.
+//  Copyright © 2017 杨绍智. All rights reserved.
 //
 
 #ifndef shenbianHeader_pch
@@ -16,7 +16,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #import <AFNetworking.h>
-#import <AFNetworking-RACExtensions/RACAFNetworking.h>
+//#import <AFNetworking-RACExtensions/RACAFNetworking.h>
 
 #import "BaseViewController.h"
 #import "CHNetWorkHelper.h"

@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/8/27.
-//  Copyright © 2017年 陈坚. All rights reserved.
+//  Copyright © 2017 . All rights reserved.
 //
 
 #define HOST_URL @"https://www.helinkeji.cn"
@@ -60,40 +60,33 @@
 
 -(RACSignal*)postRequestWithParam:(NSDictionary*)param withUrlString:(NSString*)urlString{
     
-    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-        RACSignal *signal =  [self.sessionManager rac_POST:urlString parameters:param];
-
-        signal = [signal flattenMap:^RACStream *(RACTuple *tuple) {
+        
+        
+       
+        NSURLSessionDataTask *task =  [self.sessionManager POST:urlString parameters:param progress:^(NSProgress* uploadProgress){
             
-            RACTupleUnpack(NSDictionary *json) = tuple;
-            
-            if (json != nil) {
-                [subscriber sendNext:json];
+        } success:^(NSURLSessionDataTask *task, id responseObject) {
+            if (responseObject != nil) {
+                [subscriber sendNext:responseObject];
                 [subscriber sendCompleted];
             } else {
-                NSError *error = [NSError errorWithDomain:@"json 出错" code:10000 userInfo:nil];
+                NSError *error = [NSError errorWithDomain:@"服务器错误 出错" code:10000 userInfo:nil];
                 [subscriber sendError:error];
                 [subscriber sendCompleted];
                 
             }
-            
-            
-            return nil;
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            [subscriber sendError:error];
+            [subscriber sendCompleted];
         }];
-        
-
-        [signal subscribeError:^(NSError *error) {
-            
-            NSLog(@"服务器错误：%@",error);
-        }];
+        [task resume];
         
         return [RACDisposable disposableWithBlock:^{
-            [signal rac_deallocDisposable];
+            [task cancel];
         }];
-    }] doNext:^(id x) {
-        
-    }];
+    }] ;
     
 }
 
@@ -101,7 +94,7 @@
     
     NSString *resultURLString = [NSString stringWithFormat:@"%@%@",HOST_URL,urlString];
     RACSignal *signal = [self postRequestWithParam:param withUrlString:resultURLString];
-    
+
     return signal;
 }
 

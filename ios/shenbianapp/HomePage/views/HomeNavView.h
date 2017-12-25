@@ -3,14 +3,14 @@
 //  Miaohi
 //
 //  Created by 杨绍智 on 17/5/8.
-//  Copyright © 2017年 haiqiu. All rights reserved.
+//  Copyright © 2017 haiqiu. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-typedef void(^GoShoppingCart)();
+typedef void(^GoShoppingCart)(void);
 
-typedef void(^LocationSearch)();
+typedef void(^LocationSearch)(void);
 
 @interface HomeNavView : UIView
 

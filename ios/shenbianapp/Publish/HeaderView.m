@@ -3,20 +3,26 @@
 //  Extand TableView
 //
 //  Created by shenliping on 16/4/14.
-//  Copyright © 2016年 shenliping. All rights reserved.
+//  Copyright © 2016 shenliping. All rights reserved.
 //
 
 #import "HeaderView.h"
 
+@interface HeaderView ()
+
+
+@end;
+
 @implementation HeaderView
 
-- (instancetype)initWithFrame:(CGRect)frame IsOpen:(BOOL)isOpen {
-    if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor whiteColor];
+-(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier{
+    
+    if ([super initWithReuseIdentifier:reuseIdentifier]) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.nameLabel];
         [self addSubview:self.imageView];
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOpen)]];
-        self.isOpen = isOpen;
+        self.isOpen = NO;
         if (self.isOpen) {
             _imageView.transform = CGAffineTransformRotate(_imageView.transform, M_PI / 2);
         }
@@ -30,6 +36,19 @@
             make.width.equalTo(self);
             make.bottom.equalTo(self);
         }];
+        [self addSubview:self.tailLabel];
+        [self.tailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self).offset(-35);
+            make.centerY.equalTo(self).offset(-5);
+            make.width.mas_equalTo(150);
+            make.height.mas_equalTo(40);
+        }];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame IsOpen:(BOOL)isOpen {
+    if (self = [super initWithFrame:frame]) {
         
        
     }
@@ -38,6 +57,8 @@
 
 -(void)setSection:(NSInteger)section{
     _section = section;
+    self.imageView.image = nil;
+
     if (_section == 0) {
         self.imageView.image = [UIImage imageNamed:@"xiajiantou"];
 
@@ -48,6 +69,7 @@
         textFiled.font = [UIFont systemFontOfSize:13];
         textFiled.textColor = [UIColor colorWithHexColor:@"#8f959c"];
         textFiled.textAlignment = NSTextAlignmentRight;
+        textFiled.keyboardType = UIKeyboardTypeDecimalPad;
         [self addSubview:textFiled];
         [textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-30);
@@ -55,9 +77,13 @@
             make.height.mas_equalTo(30);
             make.centerY.equalTo(self);
         }];
+        [textFiled.rac_textSignal subscribeNext:^(NSString *x) {
+            if (x && self.servicePriceblock) {
+                self.servicePriceblock(x);
+            }
+        }];
     } else if (section == 2 || section == 4){
         self.imageView.image = [UIImage imageNamed:@"publish_detail"];
-
     }
     if (_section == 3) {
         [self addButtons];
@@ -104,7 +130,9 @@
     
     button.backgroundColor = [UIColor colorWithHexString:@"#009698"];
     [button setTitleColor:[UIColor colorWithHexString:@"#fefefe"] forState:(UIControlStateNormal)];
-    
+    if (self.serviceTypeblock) {
+        self.serviceTypeblock(button.tag);
+    }
 }
 
 - (UIImageView *)imageView{
@@ -117,10 +145,23 @@
 
 - (UILabel *)nameLabel{
     if (_nameLabel == nil) {
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, 100, self.frame.size.height - 20)];
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 100, self.frame.size.height - 20)];
         _nameLabel.font = [UIFont systemFontOfSize:15];
     }
     return _nameLabel;
+}
+
+-(UILabel *)tailLabel{
+    if (_tailLabel == nil) {
+        _tailLabel = [UILabel new];
+        _tailLabel.textAlignment = NSTextAlignmentRight;
+        _tailLabel.font = [UIFont systemFontOfSize:13];
+        _tailLabel.textColor = [UIColor colorWithHexString:@"#a2a5aa"];
+        _tailLabel.numberOfLines = 0;
+    }
+    
+    return _tailLabel;
+    
 }
 
 
