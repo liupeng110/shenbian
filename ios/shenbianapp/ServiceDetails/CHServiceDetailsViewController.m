@@ -46,7 +46,7 @@
 -(void)bindViewControllerModel{
     @weakify(self);
     self.serviceModel = [CHServiceDetailModel new];
-    RACSignal *signal = [self.serviceModel.loadPagedata execute:@{@"serviceId":@"17"}];
+    RACSignal *signal = [self.serviceModel.loadPagedata execute:@{@"serviceId":self.serviceId}];
     [signal subscribeNext:^(id x) {
         NSLog(@"service details:%@",x);
         NSDictionary *resultDic = [x objectForKey:@"data"];
@@ -60,16 +60,18 @@
         model.locationStr = [resultDic objectForKey:@"location"];
         model.userName  = [resultDic objectForKey:@"userName"];
         model.userIconUrl = [resultDic objectForKey:@"userIcon"];
+        model.recommendList = [resultDic objectForKey:@"recommends"];
+        model.advertisementList = [resultDic objectForKey:@"advs"];
+        model.starRating = [resultDic objectForKey:@"starRating"];
         self.topView.model = model;
         self.serviceModel = model;
     } error:^(NSError *error) {
         NSLog(@"error:%@",error);
     }];
-    
 
     self.bottomView.sendMessage = ^{
         @strongify(self);
-        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
 
         if (token) {
             CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:@"1"];
@@ -80,21 +82,37 @@
     };
     self.bottomView.makeOrder = ^{
         @strongify(self);
-        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
 
         if (token) {
             
-            CHOrderModel *orderModel = [CHOrderModel new];
-            orderModel.serviceTitle = self.serviceModel.serviceTitle;
-            orderModel.servicePrice = self.serviceModel.servicePrice;
-            orderModel.serviceAmount = @"1";
             CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
-            submitOrder.orderModelList = @[orderModel];
+            submitOrder.orderList = @[@{@"carts":@[@{@"serviceTitle":self.serviceModel.serviceTitle,@"price":self.serviceModel.servicePrice,@"serviceAmount":@"1",@"createTime":@"",@"homeUrl":@"",@"serviceDescription":@""},],@"shopName":@"",@"userIcon":@""}];
             [self.navigationController pushViewController:submitOrder animated:YES];
+       
         } else {
+           
             [[NSNotificationCenter defaultCenter] postNotificationName:@"needLogin" object:nil];
 
         }
+    };
+    
+    self.topView.clickAddShopCart = ^{
+        @strongify(self);
+
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+        RACSignal *signal = [self.serviceModel.addToCartCommand execute:@{@"serviceId":self.serviceId,@"token":token,@"amount":@"1"}];
+        __block NSString *message = @"";
+        [signal subscribeNext:^(id x) {
+            message = @"添加购物车成功";
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
+            [alertView show];
+        } error:^(NSError *error) {
+            message = @"添加购物车失败";
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
+            [alertView show];
+        }];
+        
     };
 }
 
@@ -173,7 +191,6 @@
 -(void)clickShareButton{
     
 }
-
 
 -(UIButton *)favoriteButton{
     if (_favoriteButton == nil) {

@@ -65,8 +65,11 @@
             make.bottom.equalTo(cell.contentView).offset(-80);
         }];
         
+        NSDictionary *tempDic = [self.browseItemList objectAtIndex:indexPath.row];
+        NSString *coverUrl = [tempDic objectForKey:@"coverImage"];
+        [imageView setImageWithURL:[NSURL URLWithString:coverUrl] placeholder:[UIImage imageNamed:@"default_cover"]];
         UILabel *priceLabel = [UILabel new];
-        priceLabel.text = @"￥168";
+        priceLabel.text = [NSString stringWithFormat:@"%@",[tempDic objectForKey:@"servicePrice"]];
         priceLabel.textColor = [UIColor colorWithHexColor:@"#2d333a"];
         priceLabel.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:priceLabel];
@@ -78,7 +81,7 @@
         }];
         
         UILabel *locationLabel = [UILabel new];
-        locationLabel.text = @"中关村";
+        locationLabel.text = [tempDic objectForKey:@"address"];
         locationLabel.textColor = [UIColor colorWithHexColor:@"#8f959c"];
         locationLabel.font = [UIFont systemFontOfSize:12];
         [cell.contentView addSubview:locationLabel];
@@ -90,7 +93,7 @@
         }];
         
         UILabel *serviceTitle = [UILabel new];
-        serviceTitle.text = @"服务标题服务标题服务标题服务标题";
+        serviceTitle.text = [tempDic objectForKey:@"serviceTitle"];
         serviceTitle.textColor = [UIColor colorWithHexColor:@"#2d333a"];
         serviceTitle.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:serviceTitle];
@@ -108,7 +111,7 @@
         }];
         
         UILabel *ratingLabel = [UILabel new];
-        ratingLabel.text = [NSString stringWithFormat:@"%@(%@)",@"4.8",@"168"];
+        ratingLabel.text = [NSString stringWithFormat:@"%@(%@)",[tempDic objectForKey:@"starRating"],[tempDic objectForKey:@"evaluateCount"]];
         ratingLabel.textColor = [UIColor colorWithHexColor:@"#ffd332"];
         ratingLabel.font = [UIFont systemFontOfSize:13];
         [cell.contentView addSubview:ratingLabel];

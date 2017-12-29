@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger,CHFindType) {
 };
 
 
-typedef void(^SelectFindType)(CHFindType type);
+typedef void(^SelectFindType)(NSString *firstCategoryId);
 
 #import <UIKit/UIKit.h>
 

@@ -16,8 +16,9 @@
 @property(nonatomic,copy)NSString *userIconUrl;
 @property(nonatomic,copy)NSString *commentCount;
 @property(nonatomic,copy)NSArray *commentList;
+
 @property(nonatomic,copy)NSString *locationStr;
 @property(nonatomic,copy)NSString *userName;
-@property(nonatomic,assign)NSInteger starRating;
+@property(nonatomic,copy)NSString *starRating;
 @property(nonatomic,strong)NSArray *recommondList;
 @end

@@ -14,7 +14,7 @@
 @property(nonatomic,strong)UILabel *titleLabel;
 @property(nonatomic,strong)UILabel *contentLabel;
 @property(nonatomic,strong)UILabel *timeLabel;
-
+@property(nonatomic,strong)UIButton *payStatus;
 @end
 
 
@@ -51,7 +51,15 @@
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.titleLabel);
             make.right.equalTo(self).offset(-15);
-            make.width.mas_equalTo(80);
+            make.width.mas_equalTo(150);
+            make.height.mas_equalTo(20);
+        }];
+        
+        [self addSubview:self.payStatus];
+        [self.payStatus mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentLabel.mas_bottom).offset(3);
+            make.right.equalTo(self).offset(-15);
+            make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
     }
@@ -62,6 +70,9 @@
 
     if (_headImageView == nil) {
         _headImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
+        _headImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _headImageView.clipsToBounds = YES;
+        _headImageView.layer.cornerRadius = 2;
     }
     
     return _headImageView;
@@ -95,11 +106,47 @@
     if (_timeLabel == nil) {
         _timeLabel = [UILabel new];
         _timeLabel.text = @"8月6日";
-        _timeLabel.font = [UIFont systemFontOfSize:13];
+        _timeLabel.font = [UIFont systemFontOfSize:10];
         _timeLabel.textAlignment = NSTextAlignmentRight;
         _timeLabel.textColor = [UIColor colorWithHexColor:@"#a2a5aa"];
     }
     return _timeLabel;
+}
+
+-(UIButton *)payStatus{
+    
+    if (_payStatus == nil) {
+        _payStatus = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [_payStatus setTitle:@"已支付" forState:(UIControlStateNormal)];
+        _payStatus.titleLabel.font = [UIFont systemFontOfSize:13];
+        _payStatus.backgroundColor = [UIColor colorWithHexColor:@"#009698"];
+        _payStatus.layer.cornerRadius = 3;
+    }
+    return _payStatus;
+}
+
+-(void)setDataDic:(NSDictionary *)dataDic{
+    NSString *coverImageUrl = [dataDic objectForKey:@"homeUrl"];
+    [self.headImageView setImageWithURL:[NSURL URLWithString:coverImageUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
+    self.titleLabel.text = [dataDic objectForKey:@"userName"];
+    self.contentLabel.text = [dataDic objectForKey:@"serviceDescription"];
+    NSInteger travel = [[dataDic objectForKey:@"createTime"] integerValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:travel/1000];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    self.timeLabel.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:date]];
+    NSInteger payStatus = [[dataDic objectForKey:@"paymentStatus"] integerValue];
+    switch (payStatus) {
+        case 0:
+            [self.payStatus  setTitle:@"未支付" forState:(UIControlStateNormal)];
+            break;
+        case 1:
+            [self.payStatus  setTitle:@"已支付" forState:(UIControlStateNormal)];
+            break;
+        default:
+            [self.payStatus  setTitle:@"支付失败" forState:(UIControlStateNormal)];
+            break;
+    }
 }
 
 @end

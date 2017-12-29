@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CHMyOrderTableViewCell : UITableViewCell
-
+@property(nonatomic,strong)NSDictionary *dataDic;
 @end

@@ -66,7 +66,8 @@
                         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
                         [ud setBool:YES forKey:@"login"];
                         NSString *token = [x objectForKey:@"token"];
-                        [ud setObject:token forKey:@"server_token"];
+                        [ud setObject:token forKey:@"toekn"];
+                        [ud setObject:[x objectForKey:@"userId"] forKey:@"userId"];
                         [ud synchronize];
                         [subscriber sendNext:x];
                         [subscriber sendCompleted];

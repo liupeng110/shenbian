@@ -7,7 +7,7 @@
 //
 
 typedef void (^SeeAllCategory)(void);
-typedef void(^TapInOverBalence)(void);
+typedef void(^TapInOverBalence)(NSString *serviceId);
 
 #import <UIKit/UIKit.h>
 

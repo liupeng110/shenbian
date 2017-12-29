@@ -77,6 +77,10 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    self.selectFindType(indexPath.row);
+    if (self.selectFindType) {
+        NSDictionary *dic = self.categoryItemList[indexPath.row];
+        NSString *firstCategoryId = [dic objectForKey:@"classificationId"];
+        self.selectFindType(firstCategoryId);
+    }
 }
 @end

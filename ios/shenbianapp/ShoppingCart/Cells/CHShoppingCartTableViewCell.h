@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "CHOrderModel.h"
 @interface CHShoppingCartTableViewCell : UITableViewCell
-@property(nonatomic,strong)CHOrderModel *orderModel;
+@property(nonatomic,strong)NSDictionary *orderDic;
 @end

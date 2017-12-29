@@ -17,6 +17,9 @@ typedef NS_ENUM(NSInteger,CHStageType){//多级分类
 
 @interface CHPublishServiceModel : CHBaseViewCModel
 
+@property(nonatomic,strong,readonly)RACCommand *getClassifyCommand;
+
+
 @property(nonatomic,strong,readonly)RACCommand *getTokenComand;
 
 @property(nonatomic,strong,readonly)RACCommand *uploadComand;
@@ -25,6 +28,8 @@ typedef NS_ENUM(NSInteger,CHStageType){//多级分类
 @property (copy, nonatomic) NSArray<CHPublishServiceModel*> *dataArray;
 
 @property (copy, nonatomic) NSString *name;
+
+@property (copy, nonatomic) NSString *categoryId;
 
 @property (assign, nonatomic) BOOL isOpen;
 

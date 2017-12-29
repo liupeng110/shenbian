@@ -20,6 +20,7 @@ typedef void(^selectedServiceKindBlock)(NSString* kind);
 @property (assign, nonatomic) NSInteger section;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *tailLabel;
+@property (strong, nonatomic) UITextField *priceTextF;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (copy, nonatomic) openBlock openblock;
 @property (copy, nonatomic) closeBlock closeblock;

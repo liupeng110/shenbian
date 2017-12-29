@@ -8,19 +8,18 @@
 
 #import "CHGlobalDataHelper.h"
 #import <CoreLocation/CoreLocation.h>
-
 typedef  NS_ENUM(NSInteger,CHLoctionType){
     CHLoctionTypeDistance,
     CHLoctionTypeCurrentLocation,
 };
 
-@interface CHGlobalDataHelper()<CLLocationManagerDelegate>
+@interface CHGlobalDataHelper()<AMapLocationManagerDelegate>
 
-@property(nonatomic,strong)CLLocationManager *locationManager;
 @property(nonatomic,copy)CaculateReuslt caculateResult;
 @property(nonatomic,strong)CLLocation *outLocation;
-@property(nonatomic,copy)GetCurrentLocation currentLocation;
+@property(nonatomic,copy)GetCurrentLocation getLocation;
 @property(nonatomic,assign)CHLoctionType loctionType;
+
 @end
 
 @implementation CHGlobalDataHelper
@@ -37,9 +36,11 @@ typedef  NS_ENUM(NSInteger,CHLoctionType){
 
 -(instancetype)init{
     if (self = [super init]) {
-        _locationManager = [[CLLocationManager alloc]init];
+        _locationManager = [[AMapLocationManager alloc]init];
         _locationManager.delegate = self;
-        
+        [self.locationManager setLocatingWithReGeocode:YES];
+        [self.locationManager startUpdatingLocation];
+
     }
     return self;
 }
@@ -57,59 +58,49 @@ typedef  NS_ENUM(NSInteger,CHLoctionType){
     
 }
 
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    [_locationManager stopUpdatingLocation];
+-(void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
+    
     /*旧值*/
-    CLLocation * currentLocation = [locations lastObject];
-    if (self.loctionType == CHLoctionTypeDistance) {
+   
+    if (self.loctionType == CHLoctionTypeDistance && self.caculateResult) {
         
-        double distance = [currentLocation distanceFromLocation:self.outLocation];
+        double distance = [location distanceFromLocation:self.outLocation];
         if (distance < 1000) {
             NSString *distanceResult = [NSString stringWithFormat:@"%.f 米",distance];
             self.caculateResult(distanceResult);
+            
         } else {
             NSString *distanceResult = [NSString stringWithFormat:@"%.1f 千米",distance/ 1000];
             self.caculateResult(distanceResult);
         }
-    } else if (self.loctionType == CHLoctionTypeCurrentLocation){
-        self.currentLocation(currentLocation);
-        
+    } else if (self.loctionType == CHLoctionTypeCurrentLocation && self.getLocation){
+        self.getLocation(location);
     }
+    
+    //逆地理信息
+    if (reGeocode)
+    {
+        NSLog(@"reGeocode:%@", reGeocode);
+        self.currentCity = reGeocode.city;
+        self.currentLocation = [NSString stringWithFormat:@"%f,%f",location.coordinate.longitude,location.coordinate.latitude];
+        
+        [self.locationManager stopUpdatingLocation];
+
+    }
+    
 }
+
+
+
 
 -(void)getCurrentLocation:(void (^)(CLLocation *location))complted
 {
-    self.currentLocation = complted;
+    self.getLocation = complted;
     self.loctionType = CHLoctionTypeCurrentLocation;
     [self.locationManager startUpdatingLocation];
 
 }
 
-- (void)locateAction
-{
-    //带逆地理的单次定位
-//    [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
-//
-//        if (error)
-//        {
-//            NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
-//
-//            if (error.code == AMapLocationErrorLocateFailed)
-//            {
-//                return;
-//            }
-//        }
-//
-//        //定位信息
-//        NSLog(@"location:%@", location);
-//
-//        //逆地理信息
-//        if (regeocode)
-//        {
-//            NSLog(@"reGeocode:%@", regeocode);
-//        }
-//    }];
-    
-}
+
 
 @end

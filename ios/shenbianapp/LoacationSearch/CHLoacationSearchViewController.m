@@ -38,11 +38,11 @@
     
     self.search = [[AMapSearchAPI alloc] init];
     self.search.delegate = self;
-        
-    
     
     
 }
+
+
 
 /* POI 搜索回调. */
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
@@ -58,8 +58,6 @@
     [self.tableView reloadData];
     //解析response获取POI信息，具体解析见 Demo
 }
-
-
 
 - (void)configLocationManager
 {
@@ -77,6 +75,7 @@
 
 - (void)locateAction
 {
+
     //带逆地理的单次定位
     [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
 

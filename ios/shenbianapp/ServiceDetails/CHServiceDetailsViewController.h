@@ -10,5 +10,5 @@
 #import "CHServiceUperView.h"
 #import "CHServiceBottomView.h"
 @interface CHServiceDetailsViewController : CHBaseNavgationViewController
-
+@property(nonatomic,strong)NSString *serviceId;
 @end

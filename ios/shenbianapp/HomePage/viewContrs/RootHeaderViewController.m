@@ -2,8 +2,8 @@
 //  RootHeaderViewController.m
 //  shenbianapp
 //
-//  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017 杨绍智. All rights reserved.
+//  Created by   on 17/7/12.
+//  Copyright © 2017  . All rights reserved.
 //
 
 #import "RootHeaderViewController.h"
@@ -53,25 +53,31 @@
 
 -(void)bindViewControllerModel{
     [super bindViewControllerModel];
-    
+    @weakify(self);
+
     self.viewCModel = [[RootObjectModel alloc]init];
     
-    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary: @{@"center":@"116.542951,39.639531",@"city":@"北京"}];
+    [RACObserve(GlobalData, currentLocation) subscribeNext:^(id x) {
+        @strongify(self);
+        if (x) {
+            NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary: @{@"center":GlobalData.currentLocation,@"city":GlobalData.currentCity}];
+            [self.viewCModel.loadTopData execute:param];
+           
+            NSDictionary *bottmParam = @{@"center":GlobalData.currentLocation,@"city":GlobalData.currentCity,@"page":@"1",@"limit":@"10",};
+            [self.viewCModel.loadBottomData execute:bottmParam];
+        }
+    }];
     
-    [self.viewCModel.loadTopData execute:param];
-    @weakify(self);
+    
     [RACObserve(self.viewCModel, topDataList) subscribeNext:^(NSDictionary *x) {
         @strongify(self);
         if (x) {
             NSDictionary *tempDic = [x objectForKey:@"data"];
             self.NavView.quikSearchList = [tempDic objectForKey:@"categories"];
             self.headItemView.categoryItemList = [tempDic objectForKey:@"imgInfo"];
-            
         }
     }];
     
-    NSDictionary *bottmParam = @{@"center":@"116.542951,39.639531",@"city":@"北京",@"page":@"1",@"limit":@"10",};
-    [self.viewCModel.loadBottomData execute:bottmParam];
     [RACObserve(self.viewCModel, bottomDataList) subscribeNext:^(NSDictionary *x) {
         @strongify(self);
         if (x) {
@@ -81,58 +87,17 @@
         }
     }];
     
-    self.merchentView.selectedMerchant = ^(CHMerchentModel *model) {
+    self.merchentView.selectedMerchant = ^(NSString *serviceID) {
         @strongify(self);
         CHServiceDetailsViewController *serviceDetailsVC = [[CHServiceDetailsViewController alloc]init];
+        serviceDetailsVC.serviceId = serviceID;
         [self.navigationController pushViewController:serviceDetailsVC animated:YES];
-        
     };
     
-    self.headItemView.selectFindType = ^(CHFindType type) {
+    self.headItemView.selectFindType = ^(NSString *firstCategoryId) {
         @strongify(self);
-        UIViewController *vc = [UIViewController new];
-        switch (type) {
-            case 0:
-                vc = [CHFindPeopleViewController new];
-                break;
-                
-            case 1:
-                vc = [CHFindPeopleViewController new];
-
-                break;
-            case 2:
-                vc = [CHFindPeopleViewController new];
-                vc.title = @"找活动";
-                break;
-            case 3:
-                vc = [CHFindPeopleViewController new];
-                vc.title = @"找工作";
-
-                break;
-            case 4:
-                vc = [CHFindPeopleViewController new];
-                vc.title = @"找租房";
-
-                break;
-            case 5:
-                vc = [CHFindPeopleViewController new];
-                vc.title = @"学技能";
-
-                break;
-            case 6:
-                vc = [CHFindPeopleViewController new];
-                vc.title = @"修电脑";
-
-                break;
-            case 7:
-                vc = [CHFindPeopleViewController new];
-                break;
-
-            default:
-                vc = [CHFindPeopleViewController new];
-                vc.title = @"全部分类";
-                break;
-        }
+        CHFindPeopleViewController *vc = [CHFindPeopleViewController new];
+        vc.firstCategoryId = firstCategoryId;
         [self.navigationController pushViewController:vc animated:YES];
     };
     
@@ -156,10 +121,11 @@
         [self.navigationController pushViewController:locationSerch animated:YES];
     };
     
-    self.overBalanceView.tapInOverBalence = ^{
+    self.overBalanceView.tapInOverBalence = ^(NSString *serviceId){
         @strongify(self);
-        CHOverBalanceViewController *overBalance = [CHOverBalanceViewController new];
-        [self.navigationController pushViewController:overBalance animated:YES];
+        CHServiceDetailsViewController *serviceDetailsVC = [[CHServiceDetailsViewController alloc]init];
+        serviceDetailsVC.serviceId = serviceId;
+        [self.navigationController pushViewController:serviceDetailsVC animated:YES];
     };
     self.overBalanceView.seeAllCategory = ^{
         @strongify(self);

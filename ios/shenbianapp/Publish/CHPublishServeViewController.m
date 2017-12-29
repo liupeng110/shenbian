@@ -3,7 +3,7 @@
 //  shenbianapp
 //
 //  Created by book on 2017/8/19.
-//  Copyright © 2017 杨绍智. All rights reserved.
+//  Copyright © 2017  . All rights reserved.
 //
 
 #import "CHPublishServeViewController.h"
@@ -44,8 +44,10 @@
 @property(nonatomic,copy)NSString *serviceType;
 @property(nonatomic,copy)NSString *servicePrice;
 @property(nonatomic,strong) NSMutableArray *serviceCotentList;
+@property(nonatomic,copy)NSString *firstServiceId;
+@property(nonatomic,copy)NSString *secondServiceId;
 @property(nonatomic,copy)NSString *firstServiceKind;
-@property(nonatomic,copy)NSString *secondServiceKind;
+@property(nonatomic,copy)NSString *secondServiceKInd;
 @property(nonatomic,copy)NSString *detailAddress;
 @end
 
@@ -65,12 +67,71 @@
         self.position = [NSString stringWithFormat:@"%f,%f",location.coordinate.longitude,location.coordinate.latitude];
     }];
     
-    [self bindVieWCModel];
 }
 
 -(void)bindViewControllerModel{
     self.serviceModel = [[CHPublishServiceModel alloc]init];
     self.serviceCotentList = [NSMutableArray array];
+    self.categoryList = [NSArray array];
+    RACSignal *signal = [self.serviceModel.getClassifyCommand execute:@{}];
+    
+    [signal subscribeNext:^(id x) {
+
+        self.categoryList = [x objectForKey:@"date"];
+        
+        NSArray *tempArray = @[@"选择分类",@"价格",@"位置",@"服务类型",@"审核认证"];
+
+        for (NSString* name in tempArray) {
+            CHPublishServiceModel *model = [CHPublishServiceModel new];
+            model.name = name;
+            [self.dataArray addObject:model];
+            NSMutableArray *tempList = [NSMutableArray array];
+            for (NSDictionary *dic in self.categoryList) {
+                CHPublishServiceModel *item = [CHPublishServiceModel new];
+                item.name = [dic  objectForKey:@"serviceClassification"];
+                item.categoryId = [dic objectForKey:@"id"];
+                item.stageType = CHStageTypeSecond;
+                [tempList addObject:item];
+                
+                NSMutableArray *thirdTemp = [NSMutableArray array];
+                
+                NSArray *thirdItemList = [dic objectForKey:@"sub"];
+                for (NSDictionary *thirdItem in thirdItemList) {
+                    CHPublishServiceModel *thirdModel = [CHPublishServiceModel new];
+                    thirdModel.name = [thirdItem objectForKey:@"serviceClassification"];
+                    thirdModel.stageType = CHStageTypeThird;
+                    thirdModel.categoryId = [thirdItem objectForKey:@"id"];
+                    [thirdTemp addObject:thirdModel];
+                }
+                item.dataArray = thirdTemp;
+            }
+            model.dataArray = tempList;
+            
+        }
+        [self.serviceTableView reloadData];
+    } error:^(NSError *error) {
+        NSLog(@"getClassifyCommand:%@",error);
+        self.categoryList = @[@{@"教育学习":@[@"留学咨询",@"考研帮",@"比赛达人",@"社团达人",@"编程大神",@"文学大咖",@"语言大师",@"其他"]},@{@"生活服务":@[@"摄影",@"户外",@"健身",@"穿衣搭配",@"志愿者",@"其他"]},@{@"艺术培养":@[@"舞蹈",@"吉他弹唱",@"唱歌",@"其他"]},@{@"工作辅导":@[@"面试辅导",@"简历修改",@"工作技能培训",@"其他"]},@{@"其他":@[]}];
+    }];
+    
+    
+    
+    
+    self.dataArray = [NSMutableArray array];
+    
+    self.serviceType = @"0";
+    self.serviceKind  = @[@"在线服务",@"上门服务",@"到店服务"];
+    
+    [self.articleContentTV.rac_textSignal subscribeNext:^(id x) {
+        if (x) {
+            self.wordNoLabel.text = [NSString stringWithFormat:@"%lu/500",(unsigned long)self.articleContentTV.text.length];
+        }
+    }];
+    
+    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:kCHNotificationDetailAddress object:nil] takeUntil:[self rac_willDeallocSignal]] subscribeNext:^(NSNotification *notice) {
+        self.detailAddress =  notice.object;
+        [self.serviceTableView reloadSection:2 withRowAnimation:(UITableViewRowAnimationNone)];
+    }];
 }
 
 -(void)setupViews{
@@ -178,52 +239,7 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (void)bindVieWCModel{
-    NSArray *tempArray = @[@"选择分类",@"价格",@"位置",@"服务类型",@"审核认证"];
-    
-    self.categoryList = @[@{@"教育学习":@[@"留学咨询",@"考研帮",@"比赛达人",@"社团达人",@"编程大神",@"文学大咖",@"语言大师",@"其他"]},@{@"生活服务":@[@"摄影",@"户外",@"健身",@"穿衣搭配",@"志愿者",@"其他"]},@{@"艺术培养":@[@"舞蹈",@"吉他弹唱",@"唱歌",@"其他"]},@{@"工作辅导":@[@"面试辅导",@"简历修改",@"工作技能培训",@"其他"]},@{@"其他":@[]}];
-    
-    self.dataArray = [NSMutableArray array];
-    for (NSString* name in tempArray) {
-        CHPublishServiceModel *model = [CHPublishServiceModel new];
-        model.name = name;
-        [self.dataArray addObject:model];
-        NSMutableArray *tempList = [NSMutableArray array];
-        for (NSDictionary *dic in self.categoryList) {
-            CHPublishServiceModel *item = [CHPublishServiceModel new];
-            item.name = [[dic allKeys] firstObject];
-            item.stageType = CHStageTypeSecond;
-            [tempList addObject:item];
-            
-            NSMutableArray *thirdTemp = [NSMutableArray array];
-            
-            NSArray *thirdItemList = [[dic allValues] firstObject];
-            for (NSString *thirdItem in thirdItemList) {
-                CHPublishServiceModel *thirdModel = [CHPublishServiceModel new];
-                thirdModel.name = thirdItem;
-                thirdModel.stageType = CHStageTypeThird;
-                [thirdTemp addObject:thirdModel];
-            }
-            item.dataArray = thirdTemp;
-        }
-        model.dataArray = tempList;
-        
-    }
-    self.serviceType = @"0";
-    self.serviceKind  = @[@"在线服务",@"上门服务",@"到店服务"];
-    
-    [self.articleContentTV.rac_textSignal subscribeNext:^(id x) {
-        if (x) {
-            self.wordNoLabel.text = [NSString stringWithFormat:@"%lu/500",(unsigned long)self.articleContentTV.text.length];
-        }
-    }];
 
-    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:kCHNotificationDetailAddress object:nil] takeUntil:[self rac_willDeallocSignal]] subscribeNext:^(NSNotification *notice) {
-        self.detailAddress =  notice.object;
-        [self.serviceTableView reloadSection:2 withRowAnimation:(UITableViewRowAnimationNone)];
-    }];
-    
-}
 
 -(UILabel *)titleLabel{
     if (_titleLabel == nil) {
@@ -292,10 +308,10 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     [picker dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"xxx:%@",info);
+
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [self handlePictureAndText:image];
-    NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+    NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
     RACSignal *signal = [self.serviceModel.getTokenComand execute:@{@"token":token}];
     [signal subscribeNext:^(id x) {
         
@@ -305,14 +321,19 @@
         [manager putData:imageData key:nil token:[x objectForKey:@"data"] complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
             if (info.statusCode == 200) {
                 
-                NSString *attriString = self.articleContentTV.attributedText.string;
+                NSString *attriString = self.articleContentTV.text;
                 NSArray *tempArr = [attriString componentsSeparatedByString:@"\U0000fffc"];
                 NSString *text =  [tempArr objectAtIndex:tempArr.count - 2];
+                
                 NSString *key = [NSString stringWithFormat:@"%@",[resp objectForKey:@"key"]];
                 NSString *hash = [NSString stringWithFormat:@"%@",[resp objectForKey:@"hash"]];
                 NSString *fsize = [NSString stringWithFormat:@"%@",[resp objectForKey:@"fsize"]];
                 NSDictionary *tempDic =@{@"key":key,@"hash":hash,@"fsize":fsize,@"text":text};
                 [self.serviceCotentList addObject:tempDic];
+                
+            } else {
+                NSString *text = self.articleContentTV.text;
+                [self.serviceCotentList addObject:@{@"text":text}];
             }
         } option:nil];
     } error:^(NSError *error) {
@@ -321,16 +342,16 @@
 }
 
 -(void)handlePictureAndText:(UIImage*)image{
+    
     NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.articleContentTV.attributedText];
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc]init];
     textAttachment.bounds = CGRectMake(0, self.articleContentTV.bounds.size.height - self.articleContentTV.height, kScreenWidth - 30, (kScreenWidth- 30) * image.size.height/image.size.width);
     textAttachment.image = image;
     NSAttributedString * textAttachmentString = [NSAttributedString attributedStringWithAttachment:textAttachment] ;
     
-    NSAttributedString *nString = [[NSAttributedString alloc] initWithString:@"\n" attributes:nil];
+    NSAttributedString *nString = [[NSAttributedString alloc] initWithString:@"\n\n" attributes:nil];
     [attributedString insertAttributedString:nString atIndex:self.articleContentTV.selectedRange.location];
     [attributedString insertAttributedString:textAttachmentString atIndex:self.articleContentTV.selectedRange.location + 1];
-    [attributedString insertAttributedString:nString atIndex:self.articleContentTV.selectedRange.location + 2];
     
     self.articleContentTV.attributedText = attributedString;
     [self.articleContentTV scrollToBottom];
@@ -455,13 +476,14 @@
         headerView.closeblock = ^(NSInteger section){
             [weakself closeSection:section];
         };
-        
+        headerView.tailLabel.text = self.secondServiceKInd;
     } else if(section == 1){
         
         headerView.servicePriceblock = ^(NSString *price) {
             self.servicePrice = price;
         };
-        
+        headerView.priceTextF.text = self.servicePrice;
+
     }
     else if (section == 2){
         __weak typeof(self) weakself = self;
@@ -571,11 +593,14 @@
         }
         
         secondModel.isOpen = !secondModel.isOpen;
+        self.firstServiceId = secondModel.categoryId;
+
     }
     else if(secondModel.stageType == CHStageTypeThird)
     {//三级分类
-        self.firstServiceKind = secondModel.name;
-        self.secondServiceKind = model.name;
+        self.secondServiceId = secondModel.categoryId;
+        self.firstServiceKind = model.name;
+        self.secondServiceKInd = secondModel.name;
         UIAlertView *alert = [UIAlertView new];
         alert.title = @"温馨提示";
         alert.message = [NSString stringWithFormat:@"您选择了 %@ ",secondModel.name];
@@ -585,6 +610,7 @@
         
         HeaderView *headerView =  (HeaderView*)[tableView headerViewForSection:0];
         headerView.closeblock(0);
+        headerView.isOpen = NO;
         headerView.tailLabel.text = secondModel.name;
         
     }
@@ -614,7 +640,7 @@
 
 - (void)clickPublishButton{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *token = [ud objectForKey:@"server_token"];
+    NSString *token = [ud objectForKey:@"toekn"];
     
     NSString *errMsg;
     
@@ -680,13 +706,14 @@
     }
     
     NSString *descriptions = [self.serviceCotentList jsonStringEncoded];
-   
 
-    NSDictionary *param = @{@"title":self.articleTitleTF.text,@"price":self.servicePrice,@"serviceFlag":@"2",@"serviceType":self.serviceType,@"center":self.position,@"descriptions":descriptions,@"token":token,@"parentClassificationId":self.firstServiceKind,@"classificationId":self.secondServiceKind,@"cityName":contactCity,@"contact":contactName,@"mobilePhone":contactPhone,@"detailStreet":contactAddress,@"houseName":contactHouseNO,@"receivableAccount":contactAccount};
+    NSDictionary *param = @{@"title":self.articleTitleTF.text,@"price":self.servicePrice,@"serviceFlag":@"2",@"serviceType":self.serviceType,@"center":self.position,@"descriptions":descriptions,@"token":token,@"parentClassificationId":self.firstServiceId,@"classificationId":self.secondServiceId,@"cityName":contactCity,@"contact":contactName,@"mobilePhone":contactPhone,@"detailStreet":contactAddress,@"houseName":contactHouseNO,@"receivableAccount":contactAccount};
     RACSignal *signal = [self.serviceModel.uploadComand execute:param];
     [signal subscribeNext:^(id x) {
         if ([[x objectForKey:@"status"] integerValue] == 0) {
             [self dismissViewControllerAnimated:YES completion:nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"发布成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
+            [alert show];
         }
     }];
     

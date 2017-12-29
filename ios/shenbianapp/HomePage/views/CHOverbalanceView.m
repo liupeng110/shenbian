@@ -116,7 +116,11 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 
     if (self.tapInOverBalence) {
-        self.tapInOverBalence();
+        NSDictionary *dic = self.overBablanceList[indexPath.row];
+        NSString *serviceId = [dic objectForKey:@"id"];
+        if (serviceId) {
+            self.tapInOverBalence([dic objectForKey:@"id"]);
+        }
     }
     
 }

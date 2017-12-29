@@ -26,9 +26,8 @@
         }];
         self.pageControl = [UIPageControl new];
         self.pageControl.numberOfPages = 5;
-        self.pageControl.center = CGPointMake(0, 200);
+        self.pageControl.center = CGPointMake(kScreenWidth/2, 200);
         self.pageControl.backgroundColor = [UIColor orangeColor];
-        [self addSubview:self.pageControl];
         self.backgroundColor = [UIColor orangeColor];
         
     }
@@ -38,6 +37,8 @@
 -(void)setModel:(CHServiceDetailModel *)model{
     _model = model;
     [self.tableView reloadData];
+    self.pageControl.numberOfPages = model.advertisementList.count;
+
 }
 
 -(UITableView *)tableView{
@@ -103,6 +104,8 @@
         model.locationStr = self.model.locationStr;
         model.userName  = self.model.userName;
         model.userIconUrl = self.model.userIconUrl;
+        model.recommondList = self.model.recommendList;
+        model.starRating = self.model.starRating;
         cell.cellModel = model;
 
     }
@@ -114,7 +117,7 @@
     switch (indexPath.section) {
         case 0:{
             
-            return 150;
+            return 250;
         }
             break;
         case 1:{
@@ -163,22 +166,29 @@
     
     if (section == 0) {
         UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 220))];
-        for (int i = 0; i < 5; i++) {
+
+        NSUInteger count = self.model.advertisementList.count;
+        for (int i = 0; i < count; i++) {
             UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_image"]];
             imageView.frame = CGRectMake( kScreenWidth * i,0, kScreenWidth, 220);
             [scrollView addSubview:imageView];
+            NSDictionary *dic = self.model.advertisementList[i];
+            NSString *urlString = [dic objectForKey:@"advImgUrl"];
+            [imageView setImageURL:[NSURL URLWithString:urlString]];
         }
         scrollView.delegate = self;
         scrollView.pagingEnabled = YES;
-        scrollView.contentSize = CGSizeMake(kScreenWidth * 5, 220);
-        
+        scrollView.contentSize = CGSizeMake(kScreenWidth * count, 220);
+        [scrollView addSubview:self.pageControl];
+
         return scrollView;
         
     } else if (section == 1){
         UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 55))];
         contentView.backgroundColor = [UIColor colorWithHexString:@"#f6f6f6"];
         UILabel* _priceLabel = [UILabel new];
-        _priceLabel.text = [NSString stringWithFormat:@"%@",self.model.servicePrice];
+        NSString *price = self.model.servicePrice == nil ? @"": self.model.servicePrice;
+        _priceLabel.text = [NSString stringWithFormat:@"%@",price];
         _priceLabel.font = [UIFont systemFontOfSize:22];
         _priceLabel.textColor = [UIColor colorWithHexString:@"#009698"];
         [contentView addSubview:_priceLabel];

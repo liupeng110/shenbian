@@ -12,12 +12,14 @@
 #import "CHFindPeopleBrowseView.h"
 #import "CHServiceDetailsViewController.h"
 #import "CHShoppingCartViewController.h"
+#import "CHSecondCategoryModel.h"
 @interface CHFindPeopleViewController ()<UIGestureRecognizerDelegate>
 @property(nonatomic,strong)CHFindServiceHeadView *headView;
 @property(nonatomic,strong)UIButton *panelButton;
 @property(nonatomic,strong)CHFindServicePopPanel *panelView;
-@property(nonatomic,strong) CHFindPeopleBrowseView *optimizedView;
-
+@property(nonatomic,strong)CHFindPeopleBrowseView *optimizedView;
+@property(nonatomic,strong)CHSecondCategoryModel *viewModel;
+@property(nonatomic,strong)NSArray *providerList;
 @end
 
 @implementation CHFindPeopleViewController
@@ -27,10 +29,10 @@
     // Do any additional setup after loading the view.
     self.navBarView.mhBaseTitleLabel.text = @"服务";
     self.title = @"服务";
-//    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexColor:@"#404040"]];
+    //    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexColor:@"#404040"]];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#404040"];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-
+    
     [self.rightButton setImage:[UIImage imageNamed:@"sy_gwc"] forState:(UIControlStateNormal)];
     self.rightButton.hidden = NO;
     
@@ -43,7 +45,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden = NO;
-
+    
 }
 
 -(void)clickRightButton{
@@ -58,11 +60,28 @@
 }
 
 -(void)bindViewControllerModel{
+    self.viewModel = [CHSecondCategoryModel new];
     
-    self.headView.categoryList = @[@"设计师",@"媒体",@"教练",@"投资人",@"医生",@"护士",@"工程师",@"产品"];
-    self.panelView.panelNameList = @[@"平面设计师",@"装潢设计师",@"动漫设计师",@"建筑设计师",@"网页设计师",@"",@"",@""];
-    self.optimizedView.optimizedItemList = @[@"设计师",@"媒体",@"教练",@"投资人",@"医生",@"护士",@"工程师",@"产品"];
+    [GlobalData.locationManager startUpdatingLocation];
     @weakify(self);
+    
+    [RACObserve(GlobalData, currentLocation) subscribeNext:^(NSString *x) {
+        @strongify(self);
+        RACSignal *signal = [self.viewModel.loadPagedata execute:@{@"classificationId":self.firstCategoryId,@"center":x,@"city":GlobalData.currentCity}];
+        [signal subscribeNext:^(id x) {
+            NSLog(@"xxx:%@",x);
+            NSDictionary *temDic = [x objectForKey:@"data"];
+            NSArray * firstCategoryList = [temDic objectForKey:@"serviceInfos"];
+            self.headView.categoryList = firstCategoryList;
+            self.optimizedView.itemList  = [firstCategoryList[0] objectForKey:@"serviceInfos"];
+
+        } error:^(NSError *error) {
+            NSLog(@"error:%@",error);
+        }];
+    }];
+    
+//    self.panelView.panelNameList = @[@"平面设计师",@"装潢设计师",@"动漫设计师",@"建筑设计师",@"网页设计师",@"",@"",@""];
+    
     self.optimizedView.scrollViewWillBeginDragging = ^{
         @strongify(self);
         self.panelButton.tag = 1;
@@ -71,7 +90,14 @@
     self.optimizedView.didSelectItem = ^(NSString *serviceId) {
         @strongify(self);
         CHServiceDetailsViewController *detailService = [CHServiceDetailsViewController new];
+        detailService.serviceId = serviceId;
         [self.navigationController pushViewController:detailService animated:YES];
+    };
+    
+    self.headView.didSwitchCategory = ^(NSUInteger index) {
+        @strongify(self);
+
+        self.optimizedView.itemList  = [self.headView.categoryList[index] objectForKey:@"serviceInfos"];
     };
     
 }
@@ -99,7 +125,7 @@
         make.width.mas_equalTo(kScreenWidth);
         make.bottom.equalTo(self.view);
     }];
-
+    
 }
 -(CHFindServiceHeadView *)headView{
     

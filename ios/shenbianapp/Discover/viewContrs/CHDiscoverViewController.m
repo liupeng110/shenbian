@@ -36,10 +36,9 @@
     
 }
 
--(void)bindViewControllerModel{
-    self.viewModel = [CHDiscoverModel new];
-    //String center,String city,int pageNo
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     RACSignal *signal = [self.viewModel.loadPagedata execute:@{@"center":@"116.542951,39.639531",@"city":@"北京",@"pageNo":@"1"}];
     @weakify(self);
     [signal subscribeNext:^(id x) {
@@ -50,8 +49,15 @@
         }
         NSLog(@"xxx:%@",x);
     } error:^(NSError *error) {
-        
+        NSLog(@"ddd:%@",error);
     }];
+}
+
+-(void)bindViewControllerModel{
+    self.viewModel = [CHDiscoverModel new];
+    //String center,String city,int pageNo
+
+   
 
 }
 
@@ -91,6 +97,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
+    NSString *serviceId = [self.dataArray[indexPath.row] objectForKey:@"id"];
+    serviceDetail.serviceId =  serviceId;
     [self.navigationController pushViewController:serviceDetail animated:YES];
 }
 

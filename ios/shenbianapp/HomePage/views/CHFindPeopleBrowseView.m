@@ -26,6 +26,10 @@
             make.left.equalTo(self).offset(15);
             make.right.equalTo(self).offset(-15);
         }];
+        
+        [RACObserve(self, itemList) subscribeNext:^(id x) {
+            [self.categoryCollection reloadData];
+        }];
     }
     
     return self;
@@ -51,31 +55,35 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.optimizedItemList.count;
+    return self.itemList.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"categoryCell" forIndexPath:indexPath];
     UIImageView *imageView = cell.contentView.subviews.firstObject;
     if (imageView == nil) {
+       
         imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_image"]];
         imageView.layer.cornerRadius = 5;
         imageView.clipsToBounds = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         [cell.contentView addSubview:imageView];
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(cell.contentView);
             make.height.mas_equalTo(110);
         }];
+        NSDictionary *temDic = self.itemList[indexPath.row];
+        NSString *coverImageUrl = [temDic objectForKey:@"coverImage"];
+        [imageView setImageWithURL:[NSURL URLWithString:coverImageUrl] placeholder:[UIImage imageNamed:@"default_image"]];
         
         UILabel *nameLabel = [UILabel new];
-        nameLabel.text = @"我是人名";
+        nameLabel.text = [temDic objectForKey:@"userName"];
         nameLabel.textColor = [UIColor colorWithHexColor:@"#2d333a"];
         nameLabel.font = [UIFont boldSystemFontOfSize:15];
         [cell.contentView addSubview:nameLabel];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(imageView.mas_bottom).offset(5);
-            make.left.equalTo(cell.contentView);
-            make.width.mas_equalTo(80);
+            make.left.right.equalTo(cell.contentView);
             make.height.mas_equalTo(20);
         }];
         
@@ -90,21 +98,22 @@
             make.right.equalTo(cell.contentView);
             make.top.equalTo(imageView.mas_bottom).offset(-20);
         }];
+        NSString *headImageUrl = [temDic objectForKey:@"userIcon"];
+        [headImageV setImageWithURL:[NSURL URLWithString:headImageUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
         
         UILabel *locationLabel = [UILabel new];
-        locationLabel.text = @"中关村";
+        locationLabel.text = [temDic objectForKey:@"address"];
         locationLabel.textColor = [UIColor colorWithHexColor:@"#8f959c"];
         locationLabel.font = [UIFont systemFontOfSize:12];
         [cell.contentView addSubview:locationLabel];
         [locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(nameLabel.mas_bottom);
-            make.left.equalTo(cell.contentView);
-            make.width.mas_equalTo(80);
+            make.left.right.equalTo(cell.contentView);
             make.height.mas_equalTo(20);
         }];
         
         UILabel *serviceTitle = [UILabel new];
-        serviceTitle.text = @"服务标题服务标题服务标题服务标题";
+        serviceTitle.text = [temDic objectForKey:@"serviceTitle"];
         serviceTitle.textColor = [UIColor colorWithHexColor:@"#2d333a"];
         serviceTitle.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:serviceTitle];
@@ -122,7 +131,7 @@
         }];
         
         UILabel *ratingLabel = [UILabel new];
-        ratingLabel.text = [NSString stringWithFormat:@"%@(%@)",@"4.8",@"168"];
+        ratingLabel.text = [NSString stringWithFormat:@"%@ (%@)",[temDic objectForKey:@"starRating"],[temDic objectForKey:@"evaluateCount"]];
         ratingLabel.textColor = [UIColor colorWithHexColor:@"#ffd332"];
         ratingLabel.font = [UIFont systemFontOfSize:13];
         [cell.contentView addSubview:ratingLabel];
@@ -132,9 +141,9 @@
             make.top.equalTo(serviceTitle.mas_bottom).offset(2);
             make.height.mas_equalTo(20);
         }];
-        
+       
         UILabel *dealLabel = [UILabel new];
-        dealLabel.text = [NSString stringWithFormat:@"成交%d单",168];
+        dealLabel.text = [NSString stringWithFormat:@"成交%@单", [temDic objectForKey:@"orderQuantity"]];
         dealLabel.textAlignment = NSTextAlignmentRight;
         dealLabel.textColor = [UIColor colorWithHexColor:@"#8f959c"];
         dealLabel.font = [UIFont systemFontOfSize:12];
@@ -152,7 +161,9 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (self.didSelectItem) {
-        self.didSelectItem(@"");
+        NSDictionary *tempDic = self.itemList[indexPath.row];
+        NSString *serviceId = [tempDic objectForKey:@"id"];
+        self.didSelectItem(serviceId);
     }
 
 }

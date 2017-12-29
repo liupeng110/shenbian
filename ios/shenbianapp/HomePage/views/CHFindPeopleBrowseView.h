@@ -13,7 +13,7 @@ typedef void(^CHDidSelectItem)(NSString *serviceId);
 
 @interface CHFindPeopleBrowseView : UIView
 
-@property(nonatomic,copy)NSArray *optimizedItemList;
+@property(nonatomic,copy)NSArray *itemList;
 @property(nonatomic,copy)CHScrollViewWillBeginDragging scrollViewWillBeginDragging;
 @property(nonatomic,copy)CHDidSelectItem didSelectItem;
 @end

@@ -28,6 +28,9 @@
             make.right.equalTo(self).offset(-45);
         }];
         
+        [RACObserve(self, categoryList) subscribeNext:^(id x) {
+            [self.categoryCollection reloadData];
+        }];
     }
 
     return self;
@@ -74,7 +77,7 @@
             make.height.mas_equalTo(2);
         }];
     }
-    label.text = self.categoryList[indexPath.row];
+    label.text = [self.categoryList[indexPath.row] objectForKey:@"serviceClassification"];
     if (!self.isfirstTime && indexPath.row == 0) {
         label.textColor = [UIColor colorWithHexString:@"#009698"];
         UILabel *line  = label.subviews.firstObject;
@@ -98,12 +101,15 @@
     UILabel *line  = label.subviews.firstObject;
     line.hidden = NO;
 
+    if (self.didSwitchCategory) {
+        self.didSwitchCategory(indexPath.row);
+    }
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSString * text = self.categoryList[indexPath.row];
+    NSString * text = [self.categoryList[indexPath.row] objectForKey:@"serviceClassification"];
     CGSize size = [text sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
-    return CGSizeMake(size.width + 1, self.height);
+    return CGSizeMake(size.width + 2, self.height);
 }
 
 @end

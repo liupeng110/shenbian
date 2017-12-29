@@ -2,7 +2,7 @@
 //  HomeNavView.h
 //  Miaohi
 //
-//  Created by 杨绍智 on 17/5/8.
+//  Created by   on 17/5/8.
 //  Copyright © 2017 haiqiu. All rights reserved.
 //
 

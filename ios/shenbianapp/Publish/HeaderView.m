@@ -50,7 +50,7 @@
 - (instancetype)initWithFrame:(CGRect)frame IsOpen:(BOOL)isOpen {
     if (self = [super initWithFrame:frame]) {
         
-       
+        
     }
     return self;
 }
@@ -58,30 +58,39 @@
 -(void)setSection:(NSInteger)section{
     _section = section;
     self.imageView.image = nil;
-
+    
     if (_section == 0) {
         self.imageView.image = [UIImage imageNamed:@"xiajiantou"];
-
+        
     } else if (section == 1){
         
-        UITextField *textFiled = [UITextField new];
-        textFiled.placeholder = @"请输入价格";
-        textFiled.font = [UIFont systemFontOfSize:13];
-        textFiled.textColor = [UIColor colorWithHexColor:@"#8f959c"];
-        textFiled.textAlignment = NSTextAlignmentRight;
-        textFiled.keyboardType = UIKeyboardTypeDecimalPad;
-        [self addSubview:textFiled];
-        [textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-30);
-            make.width.mas_equalTo(120);
-            make.height.mas_equalTo(30);
-            make.centerY.equalTo(self);
-        }];
-        [textFiled.rac_textSignal subscribeNext:^(NSString *x) {
-            if (x && self.servicePriceblock) {
-                self.servicePriceblock(x);
+        
+        for (UIView *view in self.subviews) {
+            if ([view isKindOfClass:[UITextField class]]) {
+                self.priceTextF = (UITextField*)view;
             }
-        }];
+        }
+        if (self.priceTextF == nil) {
+            
+            self.priceTextF = [UITextField new];
+            self.priceTextF.placeholder = @"请输入价格";
+            self.priceTextF.font = [UIFont systemFontOfSize:13];
+            self.priceTextF.textColor = [UIColor colorWithHexColor:@"#8f959c"];
+            self.priceTextF.textAlignment = NSTextAlignmentRight;
+            self.priceTextF.keyboardType = UIKeyboardTypeDecimalPad;
+            [self addSubview:self.priceTextF];
+            [self.priceTextF mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self).offset(-30);
+                make.width.mas_equalTo(120);
+                make.height.mas_equalTo(30);
+                make.centerY.equalTo(self);
+            }];
+            [self.priceTextF.rac_textSignal subscribeNext:^(NSString *x) {
+                if (x && self.servicePriceblock) {
+                    self.servicePriceblock(x);
+                }
+            }];
+        }
     } else if (section == 2 || section == 4){
         self.imageView.image = [UIImage imageNamed:@"publish_detail"];
     }
@@ -167,16 +176,12 @@
 
 - (void)tapOpen{
     if (_isOpen) {
-//        [UIView animateWithDuration:0.3 animations:^{
-//            _imageView.transform = CGAffineTransformRotate(_imageView.transform, -M_PI / 2);
-//        }];
+        
         if (self.closeblock) {
             self.closeblock(self.section);
         }
     }else{
-//        [UIView animateWithDuration:0.3 animations:^{
-//            _imageView.transform = CGAffineTransformRotate(_imageView.transform, M_PI / 2);
-//        }];
+        
         if (self.openblock) {
             self.openblock(self.section);
         }
@@ -184,12 +189,6 @@
     self.isOpen = !self.isOpen;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+
 
 @end

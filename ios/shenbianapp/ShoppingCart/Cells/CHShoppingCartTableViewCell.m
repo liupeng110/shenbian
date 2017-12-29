@@ -26,16 +26,16 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self addSubview:self.checkButton];
-        [self.checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(15);
-            make.centerY.equalTo(self);
-            make.width.height.mas_equalTo(15);
-        }];
+//        [self addSubview:self.checkButton];
+//        [self.checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self).offset(15);
+//            make.centerY.equalTo(self);
+//            make.width.height.mas_equalTo(15);
+//        }];
         
         [self addSubview:self.coverImageView];
         [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.checkButton.mas_right).offset(20);
+            make.left.equalTo(self).offset(20);
             make.top.equalTo(self).offset(20);
             make.width.mas_equalTo(90);
             make.height.mas_equalTo(60);
@@ -88,7 +88,6 @@
             make.width.height.mas_equalTo(20);
         }];
         
-        
     }
     return self;
 }
@@ -97,7 +96,7 @@
 
     if (_checkButton == nil) {
         _checkButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_checkButton setImage:[UIImage imageNamed:@"gwc_kk"] forState:(UIControlStateNormal)];
+        [_checkButton setImage:[UIImage imageNamed:@"gwc_bxz"] forState:(UIControlStateNormal)];
         [_checkButton addTarget:self action:@selector(clickCheckButton:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _checkButton;
@@ -112,6 +111,7 @@
 
     if (_coverImageView == nil) {
         _coverImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _coverImageView;
 }
@@ -225,9 +225,17 @@
 
 -(void)setOrderModel:(CHOrderModel *)orderModel{
     
-    self.serviceTitle.text = orderModel.serviceTitle;
-    self.priceLabel.text = orderModel.servicePrice;
-    self.NumTextField.text = [NSString stringWithFormat:@"%@",orderModel.serviceAmount];
+    
+    
+}
+
+-(void)setOrderDic:(NSDictionary *)orderDic{
+    
+    self.serviceTitle.text = [NSString stringWithFormat:@"%@",[orderDic objectForKey:@"serviceTitle"]];
+    self.priceLabel.text =  [NSString stringWithFormat:@"￥ %@",[orderDic objectForKey:@"price"]];
+    self.NumTextField.text = [NSString stringWithFormat:@"%@",[orderDic objectForKey:@"serviceAmount"]];
+    NSURL *coverUrl = [NSURL URLWithString:[orderDic objectForKey:@"homeUrl"]];
+    [self.coverImageView setImageWithURL:coverUrl placeholder:[UIImage imageNamed:@"sy_sj_cover"]];
     
 }
 

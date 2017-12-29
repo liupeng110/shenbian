@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CHMerchentModel.h"
 
-typedef void(^SelectedMerchant)(CHMerchentModel *model);
+typedef void(^SelectedMerchant)(NSString *serviceId);
 
 @interface CHMerchantView : UIView
 @property(nonatomic,strong)NSArray *merchentList;

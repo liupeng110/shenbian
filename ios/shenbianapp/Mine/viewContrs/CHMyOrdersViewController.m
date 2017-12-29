@@ -10,13 +10,15 @@
 
 #import "CHMyOrderTableViewCell.h"
 #import "CHServiceDetailsViewController.h"
+#import "CHMyOrderViewModel.h"
 @interface CHMyOrdersViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,copy)NSArray *orderList;
+
 @end
 
 @implementation CHMyOrdersViewController
-
+@dynamic viewCModel;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -29,9 +31,17 @@
 }
 
 -(void)bindViewControllerModel{
-
-    self.orderList = @[@"",@"",@""];
-    
+    self.viewCModel = [CHMyOrderViewModel new];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *token = [ud  objectForKey:@"toekn"];
+    NSString *userId = [ud objectForKey:@"userId"];
+    RACSignal *signal = [self.viewCModel.loadPagedata execute:@{@"token":token,@"userId":userId}];
+    [signal subscribeNext:^(id x) {
+        self.orderList = [x objectForKey:@"data"];
+        [self.tableView reloadData];
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 -(void)setupViews{
@@ -62,6 +72,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHMyOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderCell" forIndexPath:indexPath];
+    cell.dataDic = self.orderList[indexPath.row];
     return cell;
 }
 
@@ -73,9 +84,13 @@
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    CHServiceDetailsViewController *service = [CHServiceDetailsViewController new];
-    [self.navigationController pushViewController:service animated:YES];
+//    CHServiceDetailsViewController *service = [CHServiceDetailsViewController new];
+//    [self.navigationController pushViewController:service animated:YES];
     
+}
+
+-(void)clickBackButton{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

@@ -13,6 +13,8 @@
 #import <WXApi.h>
 #import "CHMyOrdersViewController.h"
 #import "CHSubmitOrderModel.h"
+#import "CHSubmitOrderTableViewCell.h"
+
 @interface CHSubmitOrderViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,copy)NSArray *dataAray;
@@ -27,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"提交订单";    
+    self.title = @"提交订单";
     
 }
 
@@ -35,7 +37,7 @@
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
     [IQKeyboardManager sharedManager].enable = YES;
-
+    
     
 }
 
@@ -53,14 +55,11 @@
 -(void)bindViewControllerModel{
     self.submitModel = [CHSubmitOrderModel new];
     self.orderModel = [CHOrderModel new];
-    NSMutableArray *serviceList = [NSMutableArray array];
-    for (CHOrderModel *model in self.orderModelList) {
-        NSDictionary *dic = @{@"serviceTitle":model.serviceTitle,@"price":model.servicePrice,@"num":model.serviceAmount};
-        [serviceList addObject:dic];
-        self.totalFee += (model.servicePrice.floatValue);
-    }
-    self.dataAray = @[serviceList,@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"微信支付"]];
+    
+    self.dataAray = [self.orderList arrayByAddingObjectsFromArray:@[@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"微信支付"]]];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(WXPaySuccess) name:kCHNotificationWXPaySuccess object:nil];
+    
 }
 
 - (void)WXPaySuccess{
@@ -85,7 +84,7 @@
 }
 
 -(UIButton *)payButton{
-
+    
     if (_payButton == nil) {
         _payButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         _payButton.backgroundColor = [UIColor colorWithHexString:@"#ff7f7a"];
@@ -96,18 +95,22 @@
 }
 
 -(void)clickPayButton{
-   __block NSString *orderId = @"";
-    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+    __block NSString *orderId = @"";
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
     NSString *orderDetails = [@{@"serviceId":@"17",@"orderQuantity":@"1"} jsonStringEncoded];
     NSDictionary *orderDic = @{@"orderDetails":orderDetails,@"note":@"暂无",@"createTime":@"2017-12-11 18:00:00",@"paymentType":@"1",@"address":@"",@"token":token};
     RACSignal *addOrderSignal = [self.submitModel.addOrderCommand execute:orderDic];
     [addOrderSignal subscribeNext:^(id x) {
-       
-        orderId = [x objectForKey:@"data"];
         
+        orderId = [x objectForKey:@"data"];
+        if (orderId==nil) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:[x objectForKey:@"error"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
+            [alertView show];
+            return ;
+        }
         RACSignal *signal = [self.submitModel.payCommand execute:@{@"orderId":orderId,@"token":token}];
         [signal subscribeNext:^(id x) {
-        
+            
             NSDictionary *tempDic = [x objectForKey:@"data"];
             PayReq *request = [[PayReq alloc] init];
             request.partnerId = [tempDic objectForKey:@"partnerid"];
@@ -118,7 +121,7 @@
             
             request.sign= [tempDic objectForKey:@"sign"];
             [WXApi sendReq:request];
-           
+            
         } error:^(NSError *error) {
             NSLog(@"pay %@",error);
         }];
@@ -136,7 +139,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [UIView new];
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"orderCell"];
+        [_tableView registerClass:[CHSubmitOrderTableViewCell class] forCellReuseIdentifier:@"orderCell"];
         _tableView.backgroundColor = [UIColor colorWithHexString:@"#f6f6f6"];
         _tableView.separatorColor = [UIColor colorWithHexString:@"#ebebeb"];
     }
@@ -150,135 +153,61 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.dataAray[section] count];
+    if (section >= self.dataAray.count - 2) {
+        return [self.dataAray[section] count];
+    }
+    NSDictionary *storeList = self.dataAray[section];
+    NSDictionary *orderList = [storeList objectForKey:@"carts"];
+    return orderList.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderCell" forIndexPath:indexPath];
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.textLabel.textColor = [UIColor colorWithHexString:@"#2d333a"];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    switch (indexPath.section) {
-        case 0:
-        {
-            cell.textLabel.text = [self.dataAray[0][indexPath.row] objectForKey:@"serviceTitle"];
-            
-            UILabel *priceLabel = [UILabel new];
-            priceLabel.font = [UIFont systemFontOfSize:15];
-            priceLabel.textColor = [UIColor colorWithHexString:@"#2d333a"];
-            priceLabel.text = [NSString stringWithFormat:@"￥%@",[self.dataAray[0][indexPath.row] objectForKey:@"price"]];
-            [cell.contentView addSubview:priceLabel];
-            
-            [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cell.contentView);
-                make.right.mas_equalTo(cell.contentView).offset(-15);
-                make.width.mas_equalTo(60);
-                make.height.mas_equalTo(20);
-            }];
-            
-            UILabel *numLabel = [UILabel new];
-            numLabel.font = [UIFont systemFontOfSize:15];
-            numLabel.textColor = [UIColor colorWithHexString:@"#2d333a"];
-            numLabel.text = [NSString stringWithFormat:@"x  %@",[self.dataAray[0][indexPath.row] objectForKey:@"num"]];
-            
-            [cell.contentView addSubview:numLabel];
-            [numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.mas_equalTo(cell.contentView);
-                make.right.equalTo(priceLabel.mas_left).offset(-15);
-                make.width.mas_equalTo(60);
-                make.height.mas_equalTo(20);
-            }];
-            
-            
-        } break;
-        case 1:
-        {
-            if (indexPath.row == 0 || indexPath.row == 1) {
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.text = self.dataAray[indexPath.section][indexPath.row];
+    CHSubmitOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderCell" forIndexPath:indexPath];
+    cell.dataArray = self.dataAray;
+    cell.indexPath = indexPath;
 
-            } else{
-                UILabel *label = [UILabel new];
-                label.text = @"备注";
-                label.textColor = [UIColor colorWithHexString:@"#2d333a"];
-                label.font = [UIFont systemFontOfSize:15];
-                [cell.contentView addSubview:label];
-                [label mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.equalTo(cell.contentView).offset(15);
-                    make.top.equalTo(cell.contentView).offset(10);
-                    make.width.mas_equalTo(40);
-                    make.height.mas_equalTo(20);
-                }];
-                cell.accessoryType = UITableViewCellAccessoryNone;
-
-                IQTextView *textView = [[IQTextView alloc]init];
-                textView.placeholder = @"请输入其他要求";
-                textView.font = [UIFont systemFontOfSize:13];
-                [cell.contentView addSubview:textView];
-                [textView mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.equalTo(label);
-                    make.top.equalTo(label.mas_bottom);
-                    make.bottom.equalTo(cell.contentView);
-                    make.right.equalTo(cell.contentView).offset(-15);
-                }];
-            }
-        }
-            break;
-        case 2:
-        {
-            cell.textLabel.text = self.dataAray[indexPath.section][indexPath.row];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-        }
-            break;
-            
-        default:
-            cell.accessoryType = UITableViewCellAccessoryNone;
-
-            break;
-    }
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1 && indexPath.row == 2) {
+    if (indexPath.section == self.dataAray.count - 2 && indexPath.row == 2) {
         return 75;
     }
     return 56;
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        
-        UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 85))];
-        contentView.layer.borderWidth = 0.3;
-        contentView.layer.borderColor = [UIColor colorWithHexString:@"#ebebeb"].CGColor;
-        contentView.backgroundColor = [UIColor whiteColor];
-        UIImageView *headImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(15, 15, 50, 50))];
-        headImageView.image = [UIImage imageNamed:@"default_headImage"];
-        headImageView.layer.cornerRadius = 25;
-        headImageView.clipsToBounds = YES;
-        [contentView addSubview:headImageView];
-        
-        UILabel *namelabel = [UILabel new];
-        namelabel.text = @"店铺名称";
-        namelabel.textColor = [UIColor colorWithHexColor:@"#2d333a"];
-        namelabel.font = [UIFont systemFontOfSize:15];
-        [contentView addSubview:namelabel];
-        [namelabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(headImageView.mas_right).offset(15);
-            make.centerY.equalTo(headImageView);
-            make.width.mas_equalTo(120);
-            make.height.mas_equalTo(20);
-        }];
-        
-        return contentView;
-    }
-    return nil;
+    
+    UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 85))];
+    contentView.layer.borderWidth = 0.3;
+    contentView.layer.borderColor = [UIColor colorWithHexString:@"#ebebeb"].CGColor;
+    contentView.backgroundColor = [UIColor whiteColor];
+    UIImageView *headImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(15, 15, 50, 50))];
+    headImageView.image = [UIImage imageNamed:@"default_headImage"];
+    headImageView.layer.cornerRadius = 25;
+    headImageView.clipsToBounds = YES;
+    [contentView addSubview:headImageView];
+    
+    UILabel *namelabel = [UILabel new];
+    NSDictionary *storeList = self.dataAray[section];
+    
+    namelabel.text = [NSString stringWithFormat:@"%@",[storeList objectForKey:@"shopName"]];
+    namelabel.textColor = [UIColor colorWithHexColor:@"#2d333a"];
+    namelabel.font = [UIFont systemFontOfSize:15];
+    [contentView addSubview:namelabel];
+    [namelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headImageView.mas_right).offset(15);
+        make.centerY.equalTo(headImageView);
+        make.width.mas_equalTo(120);
+        make.height.mas_equalTo(20);
+    }];
+    
+    return contentView;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        
+    
+    if (section < self.dataAray.count - 2) {
+
         return 85;
     }
     return 0;
@@ -289,11 +218,35 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    if (indexPath.section == 1 &&indexPath.row == 0) {
-        CHInputAddressViewController *input = [CHInputAddressViewController new];
-        [self.navigationController pushViewController:input animated:YES];
+    
+    if (indexPath.section == self.dataAray.count - 2 ) {
+        if (indexPath.row == 0) {
+            CHInputAddressViewController *input = [CHInputAddressViewController new];
+            [self.navigationController pushViewController:input animated:YES];
+        } else if(indexPath.row == 1){
+            UIDatePicker *datePiker = [[UIDatePicker alloc]init];
+            datePiker.datePickerMode = UIDatePickerModeDateAndTime;
+            [self.view addSubview:datePiker];
+            [datePiker mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(200);
+                make.left.right.bottom.equalTo(self.view);
+            }];
+            
+            UIButton *donebutton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            [donebutton setTitle:@"完成" forState:(UIControlStateNormal)];
+            [donebutton addTarget:datePiker action:@selector(removeFromSuperview) forControlEvents:(UIControlEventTouchUpInside)];
+            donebutton.frame = CGRectMake(0, 0, 40, 30);
+            [datePiker.inputAccessoryView addSubview:donebutton];
+            
+        }
     }
+    
+    if (indexPath.section == self.dataAray.count - 1) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"暂不支持其他支付" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
+        [alertView show];
+    }
+    
+   
 }
 
 @end

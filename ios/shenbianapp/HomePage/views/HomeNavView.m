@@ -2,7 +2,7 @@
 //  HomeNavView.m
 //  Miaohi
 //
-//  Created by 杨绍智 on 17/5/8.
+//  Created by   on 17/5/8.
 //  Copyright © 2017 haiqiu. All rights reserved.
 //
 
@@ -41,6 +41,11 @@
                 [self.quikCollectionView reloadData];
             }
         }];
+        [RACObserve(GlobalData, currentCity) subscribeNext:^(id x) {
+            if (x) {
+                [self.locationButton setTitle:x forState:(UIControlStateNormal)];
+            }
+        }];
     }
     return self;
 }
@@ -48,7 +53,7 @@
 -(UIButton *)locationButton{
     if (_locationButton == nil) {
         _locationButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        _locationButton.frame = CGRectMake(20, 0, 40, 40);
+        _locationButton.frame = CGRectMake(20, 0, 60, 40);
         [_locationButton setImage:[UIImage imageNamed:@"sy_dw"] forState:(UIControlStateNormal)];
         [_locationButton setTitle:@"北京" forState:(UIControlStateNormal)];
         _locationButton.titleLabel.font = [UIFont systemFontOfSize:15];

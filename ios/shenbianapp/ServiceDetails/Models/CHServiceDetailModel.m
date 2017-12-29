@@ -8,6 +8,10 @@
 
 #import "CHServiceDetailModel.h"
 
+@interface CHServiceDetailModel()
+@property(nonatomic,strong)RACCommand *addToCartCommand;
+@end
+
 @implementation CHServiceDetailModel
 @synthesize loadPagedata = _loadPagedata;
 -(RACCommand *)loadPagedata{
@@ -29,6 +33,16 @@
         }];
     }
     return _loadPagedata;
+}
+
+-(RACCommand *)addToCartCommand{
+    if ( _addToCartCommand == nil) {
+        _addToCartCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+            RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:@"/v1/user/cart/add.htm"];
+            return signal;
+        }];
+    }
+    return _addToCartCommand;
 }
 
 @end

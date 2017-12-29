@@ -61,9 +61,6 @@
 -(RACSignal*)postRequestWithParam:(NSDictionary*)param withUrlString:(NSString*)urlString{
     
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        
-        
-        
        
         NSURLSessionDataTask *task =  [self.sessionManager POST:urlString parameters:param progress:^(NSProgress* uploadProgress){
             

@@ -19,4 +19,9 @@
 @property(nonatomic,copy)NSArray *commentList;
 @property(nonatomic,copy)NSString *locationStr;
 @property(nonatomic,copy)NSString *userName;
+@property(nonatomic,copy)NSArray *recommendList;
+@property(nonatomic,copy)NSArray *advertisementList;
+@property(nonatomic,copy)NSString *starRating;
+
+@property(nonatomic,strong,readonly)RACCommand *addToCartCommand;
 @end

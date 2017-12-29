@@ -6,8 +6,11 @@
 //  Copyright © 2017 helinkeji. All rights reserved.
 //
 
+typedef void(^didSwitchCategory)(NSUInteger index);
+
 #import <UIKit/UIKit.h>
 
 @interface CHFindServiceHeadView : UIView
 @property(nonatomic,copy)NSArray *categoryList;
+@property(nonatomic,copy)didSwitchCategory didSwitchCategory;
 @end

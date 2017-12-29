@@ -2,8 +2,8 @@
 //  RootMineViewController.m
 //  shenbianapp
 //
-//  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017 杨绍智. All rights reserved.
+//  Created by   on 17/7/12.
+//  Copyright © 2017  . All rights reserved.
 //
 
 #import "RootMineViewController.h"
@@ -19,6 +19,7 @@
 #import "CHStoreInfoViewController.h"
 #import "CHMyOrdersViewController.h"
 #import "CHMineModel.h"
+#import "CHLoginViewController.h"
 @interface RootMineViewController ()<UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong)UICollectionView * collectionView;
 @property (nonatomic,strong)MHMineHeaderCollectionReusableView *headView;
@@ -70,9 +71,15 @@
 
 -(void)bindViewControllerModel{
     self.viewModel = [CHMineModel new];
-    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"server_token"];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
     if (token) {
-       RACSignal *signal = [self.viewModel.loadPagedata execute:@{@"token":token}];
+        RACSignal *signal = [self.viewModel.loadPagedata execute:@{@"token":token}];
         [signal subscribeNext:^(id x) {
             NSLog(@"mine:%@",x);
             self.userDataList = [x objectForKey:@"data"];
@@ -81,15 +88,11 @@
             [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
         } error:^(NSError *error) {
             NSLog(@"mine -error:%@",error);
-
         }];
+    } else{
+        CHLoginViewController *login = [CHLoginViewController new];
+        [self.tabBarController presentViewController:login animated:YES completion:nil];
     }
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -146,7 +149,11 @@
                 make.width.mas_equalTo(120);
                 make.height.mas_equalTo(20);
             }];
-            label.text = [NSString stringWithFormat:@"￥%@",[self.userDataList objectForKey:@"income"] ];
+            NSString *income = [self.userDataList objectForKey:@"income"];
+            if (income == nil) {
+                income = @"";
+            }
+            label.text = [NSString stringWithFormat:@"￥%@",income];
             label.textAlignment = NSTextAlignmentRight;
 
         }else if (indexPath.row == 1){

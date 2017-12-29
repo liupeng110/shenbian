@@ -9,5 +9,5 @@
 #import "CHBaseNavgationViewController.h"
 
 @interface CHFindPeopleViewController : CHBaseNavgationViewController
-
+@property(nonatomic,copy)NSString *firstCategoryId;
 @end

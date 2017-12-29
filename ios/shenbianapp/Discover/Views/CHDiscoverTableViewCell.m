@@ -14,8 +14,10 @@
 @property(nonatomic,strong)UILabel *descriptionLabel;
 @property(nonatomic,strong)UIButton *editButton;
 @property(nonatomic,strong)UILabel *lastTimeLabel;
-@property(nonatomic,strong)UIButton *locationButton;
-@property(nonatomic,strong)UICollectionView *collectionView;
+@property(nonatomic,strong)UIImageView *locationImage;
+@property(nonatomic,strong)UILabel *locationLabel;
+
+@property(nonatomic,strong)UIImageView *materailImageView;
 @end
 
 @implementation CHDiscoverTableViewCell
@@ -50,25 +52,33 @@
         [self.lastTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.headImageView.mas_right).offset(10);
             make.top.equalTo(self.descriptionLabel.mas_bottom).offset(5);
-            make.width.mas_equalTo(100);
+            make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
         
-        [self addSubview:self.locationButton];
-        [self.locationButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self addSubview:self.locationImage];
+        [self.locationImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.lastTimeLabel.mas_right);
-            make.top.equalTo(self.descriptionLabel.mas_bottom).offset(5);
-            make.width.mas_equalTo(120);
-            make.height.mas_equalTo(20);
+            make.top.equalTo(self.lastTimeLabel).offset(5);
+            make.width.mas_equalTo(10);
+            make.height.mas_equalTo(13);
         }];
         
-        [self addSubview:self.collectionView];
-        [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self addSubview:self.locationLabel];
+        [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.locationImage.mas_right).offset(3);
+            make.centerY.equalTo(self.locationImage);
+            make.right.equalTo(self).offset(-15);
+            make.height.mas_equalTo(40);
+        }];
+        
+        [self addSubview:self.materailImageView];
+        [self.materailImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.right.equalTo(self).offset(-15);
 
-            make.bottom.equalTo(self).offset(-25);
-            make.top.equalTo(self.lastTimeLabel.mas_bottom).offset(15);
+            make.bottom.equalTo(self).offset(-15);
+            make.top.equalTo(self.lastTimeLabel.mas_bottom).offset(10);
         }];
 
         self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -80,8 +90,9 @@
 -(UIImageView *)headImageView{
 
     if (_headImageView == nil) {
-        _headImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
+        _headImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_headImage"]];
         _headImageView.layer.cornerRadius = 3;
+        _headImageView.contentMode = UIViewContentModeScaleAspectFill;
         _headImageView.clipsToBounds = YES;
     }
     return _headImageView;
@@ -135,33 +146,35 @@
     return _lastTimeLabel;
 }
 
--(UIButton *)locationButton{
-    if (_locationButton == nil) {
-        _locationButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_locationButton setImage:[UIImage imageNamed:@"fx_dw"] forState:(UIControlStateNormal)];
-        [_locationButton setTitle:@"  中关村创业大街" forState:(UIControlStateNormal)];
-        [_locationButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
-        [_locationButton setTitleColor:[UIColor colorWithHexColor:@"#8f959c"] forState:(UIControlStateNormal)];
+-(UIImageView *)locationImage{
+    if (_locationImage == nil) {
+        _locationImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"fx_dw"]];
     }
-    return _locationButton;
+    return _locationImage;
 }
 
--(UICollectionView *)collectionView{
+-(UILabel *)locationLabel{
+    
+    if (_locationLabel == nil) {
+        _locationLabel = [UILabel new];
+        _locationLabel.font = [UIFont systemFontOfSize:12];
+        _locationLabel.text = @"中关村创业大街";
+        _locationLabel.textColor = [UIColor colorWithHexColor:@"#8f959c"];
+        _locationLabel.numberOfLines = 0;
+    }
+    return _locationLabel;
+}
 
-    if (_collectionView == nil) {
-        UICollectionViewFlowLayout *flowout = [[UICollectionViewFlowLayout alloc]init];
-        flowout.minimumLineSpacing = 5;
-        flowout.minimumInteritemSpacing = 5;
-        _collectionView = [[UICollectionView alloc]initWithFrame:(CGRectZero) collectionViewLayout:flowout];
-        _collectionView.dataSource = self;
-        _collectionView.delegate = self;
-        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"pictureCell"];
-        _collectionView.backgroundColor = [UIColor clearColor];
-        _collectionView.scrollEnabled = NO;
-        
+-(UIImageView *)materailImageView{
+
+    if (_materailImageView == nil) {
+        _materailImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
+        _materailImageView.layer.cornerRadius = 3;
+        _materailImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _materailImageView.clipsToBounds = YES;
     }
     
-    return _collectionView;
+    return _materailImageView;
 
 }
 
@@ -193,8 +206,15 @@
     _modelDic = modelDic;
     self.nameLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"serviceTitle"]];
     self.lastTimeLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"releaseTime"]];
-    [self.locationButton setTitle:[NSString stringWithFormat:@"%@",[modelDic objectForKey:@"address"]] forState:(UIControlStateNormal)];
+    self.locationLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"address"]];
+   
     self.descriptionLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"serviceDescription"]];
+    NSString *homeUrl = [modelDic objectForKey:@"homeUrl"];
+    [self.headImageView setImageWithURL:[NSURL URLWithString:homeUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
+    
+    NSString *materialUrl = [modelDic objectForKey:@"materialUrl"];
+    [self.materailImageView setImageWithURL:[NSURL URLWithString:materialUrl] placeholder:[UIImage imageNamed:@"sy_sj_cover"]];
+    
 }
 
 @end

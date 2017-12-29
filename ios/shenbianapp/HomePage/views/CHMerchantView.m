@@ -81,9 +81,12 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-   
-    CHMerchentModel *model = [[CHMerchentModel alloc] init];
-    self.selectedMerchant(model);
+    NSDictionary *dic = [self.merchentList objectAtIndex:indexPath.row];
+
+    NSString *serviceId = [dic objectForKey:@"id"];
+    if (serviceId) {
+        self.selectedMerchant(serviceId);
+    }
 
 }
 

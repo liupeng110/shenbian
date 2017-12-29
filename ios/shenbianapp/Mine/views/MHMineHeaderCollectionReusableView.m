@@ -26,18 +26,17 @@
     [self.focusAndFansView addSubview:self.attentionsBtn];
     [self.focusAndFansView addSubview:self.fansBtn];
     
-   
     [self.myArticleButton addTarget:self action:@selector(clickMyArticleNButton:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.myService addTarget:self action:@selector(clickMyServiceButton:) forControlEvents:(UIControlEventTouchUpInside)];
 
     [RACObserve(self, userDataList) subscribeNext:^(id x) {
         if (x) {
-            [self.mhUserHeaderImgView setImageURL:[NSURL URLWithString:[x objectForKey:@"urserIcon"]]];
             self.mhUserNameLabel.text = [x objectForKey:@"userName"];
             self.publishedNOLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"publishedCount"]];
             self.collectedNOLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"collectCount"]];
             self.attentionNoLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"attentionCount"]];
             self.fansNOLabel.text = [NSString stringWithFormat:@"%@",[x objectForKey:@"fansCount"]];
+            [self.mhUserHeaderImgView setImageWithURL:[NSURL URLWithString:[x objectForKey:@"urserIcon"]] placeholder:[UIImage imageNamed:@"default_headImage"]];
         }
     }];
 }

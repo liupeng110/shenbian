@@ -68,7 +68,7 @@
             make.left.equalTo(self.coverImageView.mas_right).offset(15);
             make.bottom.equalTo(self).offset(-18);
             make.width.mas_equalTo(60);
-            make.height.mas_equalTo(24);
+            make.height.mas_equalTo(15);
         }];
         
         [self addSubview:self.soldOutLabel];
@@ -82,8 +82,8 @@
         [self addSubview:self.nameLabel];
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.coverImageView.mas_right).offset(12);
-            make.top.equalTo(self).offset(8);
-            make.width.mas_equalTo(80);
+            make.top.equalTo(self.coverImageView).offset(-3);
+            make.width.mas_equalTo(100);
             make.height.mas_equalTo(20);
         }];
         
@@ -157,7 +157,7 @@
     if (_tagName == nil) {
         _tagName = [[UILabel alloc]init];
         _tagName.backgroundColor = [UIColor colorWithHexString:@"#f0f0f0"];
-        _tagName.layer.cornerRadius = 12;
+        _tagName.layer.cornerRadius = 7.5;
         _tagName.font = [UIFont fontWithName:@"PingFangSC-Regular" size:13];
         _tagName.clipsToBounds = YES;
         _tagName.textAlignment = NSTextAlignmentCenter;

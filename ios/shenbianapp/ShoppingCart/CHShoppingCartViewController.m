@@ -11,15 +11,17 @@
 #import "CHSubmitOrderViewController.h"
 #import "CHServiceDetailsViewController.h"
 #import "CHShopingModel.h"
+#import "CHShopingCartViewModel.h"
 @interface CHShoppingCartViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)UIButton *makeOrderButton;
 @property(nonatomic,strong)NSMutableArray *orderModelList;
-@property(nonatomic,strong)NSMutableArray<CHShopingModel*> *shopingModelList;
+@property(nonatomic,strong)NSMutableArray *shopingModelList;
+@property(nonatomic,assign)NSUInteger totalCount;
 @end
 
 @implementation CHShoppingCartViewController
-
+@dynamic viewCModel;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -36,7 +38,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden = NO;
-
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,31 +47,30 @@
 }
 
 -(void)bindViewControllerModel{
-    self.shopingModelList = [NSMutableArray array];
-    self.orderModelList = [NSMutableArray  array];
-    for (int i = 0; i < 3; i++) {
-        CHOrderModel *orderModel = [CHOrderModel new];
-        orderModel.serviceTitle = @"找人写商业计划书";
-        orderModel.servicePrice = @"1";
-        orderModel.serviceAmount = @"2";
-        [self.orderModelList addObject:orderModel];
-    }
-    
-    for (int i = 0; i < 2; i++) {
-        CHShopingModel *shopingModel = [CHShopingModel new];
-        shopingModel.storeName = @"秋刀鱼";
-        shopingModel.orderList = self.orderModelList;
+    self.viewCModel = [CHShopingCartViewModel new];
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+    RACSignal *signal = [self.viewCModel.loadPagedata execute:@{@"token":token}];
+    [signal subscribeNext:^(id x) {
+        NSLog(@"ssss:%@",x);
+        self.shopingModelList = [NSMutableArray arrayWithArray:[x objectForKey:@"data"]];
+        [self.tableView reloadData];
         
-    }
+       
+        NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",self.totalCount];
+        [self.makeOrderButton setTitle:title forState:(UIControlStateNormal)];
+    } error:^(NSError *error) {
+        NSLog(@"error:%@",error);
+    }];
+    
     
 }
 
 -(void)setupViews{
-   
     
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-55);
         make.top.equalTo(self.view).offset(64);
     }];
     
@@ -96,21 +97,31 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-   return  self.shopingModelList.count;
+    return  self.shopingModelList.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.orderModelList.count;
+    NSDictionary *storeDic =  self.shopingModelList[section];
+
+    if (storeDic.count>0) {
+        NSArray *orderList = [storeDic objectForKey:@"carts"];
+        self.totalCount += orderList.count;
+
+        return [orderList count];
+    }
+    return 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHShoppingCartTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cartCell" forIndexPath:indexPath];
-    
+    NSDictionary *storeDic =  self.shopingModelList[indexPath.section];
+    NSArray *orderList = [storeDic objectForKey:@"carts"];
+    cell.orderDic = orderList[indexPath.row];
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     return 106;
 }
 
@@ -119,19 +130,20 @@
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-    CHShopingModel *model = self.shopingModelList[section];
+    NSDictionary *dict = self.shopingModelList[section];
     UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 85))];
     contentView.layer.borderWidth = 0.3;
     contentView.layer.borderColor = [UIColor colorWithHexColor:@"#ebebeb"].CGColor;
     contentView.backgroundColor = [UIColor whiteColor];
     UIImageView *headImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(15, 15, 50, 50))];
-    [headImageView setHighlightedImageWithURL:[NSURL URLWithString:model.iconUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
+    [headImageView setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"userIcon"]] placeholder:[UIImage imageNamed:@"default_headImage"]];
     headImageView.layer.cornerRadius = 25;
     headImageView.clipsToBounds = YES;
+    headImageView.contentMode = UIViewContentModeScaleAspectFit;
     [contentView addSubview:headImageView];
-
+    
     UILabel *namelabel = [UILabel new];
-    namelabel.text = model.storeName;
+    namelabel.text = [dict objectForKey:@"shopName"];
     namelabel.textColor = [UIColor colorWithHexColor:@"#2d333a"];
     namelabel.font = [UIFont systemFontOfSize:15];
     [contentView addSubview:namelabel];
@@ -145,30 +157,52 @@
     return contentView;
 }
 
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    return YES;
-}
-
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-
-}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     CHServiceDetailsViewController *serviceDetail = [CHServiceDetailsViewController new];
+    NSDictionary *storeDic =  self.shopingModelList[indexPath.section];
+    NSArray *orderList = [storeDic objectForKey:@"carts"];
+    NSDictionary *orderDic = orderList[indexPath.row];
+    NSString *serviceId = [orderDic objectForKey:@"serviceId"];
+    serviceDetail.serviceId = serviceId;
     [self.navigationController pushViewController:serviceDetail animated:YES];
     
 }
 
--(void)clickRightButton{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // 删除模型
+    
+    NSMutableDictionary *storeDic = [NSMutableDictionary dictionaryWithDictionary:self.shopingModelList[indexPath.section]];
+    NSMutableArray *orderList = [NSMutableArray arrayWithArray:[storeDic objectForKey:@"carts"]];
+    [orderList removeObjectAtIndex:indexPath.row];
+    [storeDic setObject:orderList forKey:@"carts"];
+    
+    self.shopingModelList[indexPath.section] = orderList;
+    // 刷新
+    [tableView beginUpdates];
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    [tableView endUpdates];
+    
+    NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",self.totalCount--];
+    [self.makeOrderButton setTitle:title forState:(UIControlStateNormal)];
+}
 
+-(void)clickRightButton{
+    if (self.tableView.editing) {
+        [self.tableView setEditing:NO];
+    } else {
+        [self.tableView setEditing:YES];
+    }
 }
 
 -(UIButton *)makeOrderButton{
-
+    
     if (_makeOrderButton == nil) {
+        
         _makeOrderButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_makeOrderButton setTitle:@"合计 11 下单" forState:(UIControlStateNormal)];
+        NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",self.shopingModelList.count];
+        [_makeOrderButton setTitle:title forState:(UIControlStateNormal)];
         _makeOrderButton.backgroundColor = [UIColor colorWithHexColor:@"#009698"];
         [_makeOrderButton addTarget:self action:@selector(clickMakeOrderButton) forControlEvents:(UIControlEventTouchUpInside)];
     }
@@ -178,11 +212,13 @@
 
 - (void)clickMakeOrderButton{
     
-    NSMutableArray *serviceList = [NSMutableArray array];
     
-    CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
-    submitOrder.orderModelList = serviceList;
-    [self.navigationController pushViewController:submitOrder animated:YES];
+    if (self.totalCount > 0) {
+        
+        CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
+        submitOrder.orderList = self.shopingModelList;
+        [self.navigationController pushViewController:submitOrder animated:YES];
+    }
 }
 
 @end

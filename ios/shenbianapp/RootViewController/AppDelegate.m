@@ -2,8 +2,8 @@
 //  AppDelegate.m
 //  shenbianapp
 //
-//  Created by 杨绍智 on 17/7/12.
-//  Copyright © 2017 杨绍智. All rights reserved.
+//  Created by   on 17/7/12.
+//  Copyright © 2017  . All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -29,7 +29,7 @@
     self.window.rootViewController = main;
     [self.window makeKeyAndVisible];
     [[AMapServices sharedServices] setEnableHTTPS:YES];
-    [AMapServices sharedServices].apiKey = @"0dc1126a57b00e8babb475778cd99e81";
+    [AMapServices sharedServices].apiKey = @"57b0342608d2bddf1cfba6b5627100fc";
     [[RCIM sharedRCIM] initWithAppKey:@"mgb7ka1nmwffg"];
     [[RCIM sharedRCIM] setScheme:@"userviceRedPacket" forExtensionModule:@"JrmfPacketManager"];
     [[RCIM sharedRCIM] connectWithToken:@"lZxlQOonERbH4OZlaoGCskfahqlL3dhxC0IyB1eTNaLD5DUa4755NDXSK1BuVqVEcoyQ3XWiZ83lPu8m+jj4uw==" success:^(NSString *userId) {
