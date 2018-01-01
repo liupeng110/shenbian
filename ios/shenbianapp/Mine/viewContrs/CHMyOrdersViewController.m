@@ -33,7 +33,7 @@
 -(void)bindViewControllerModel{
     self.viewCModel = [CHMyOrderViewModel new];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *token = [ud  objectForKey:@"toekn"];
+    NSString *token = [ud  objectForKey:@"token"];
     NSString *userId = [ud objectForKey:@"userId"];
     RACSignal *signal = [self.viewCModel.loadPagedata execute:@{@"token":token,@"userId":userId}];
     [signal subscribeNext:^(id x) {

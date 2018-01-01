@@ -12,6 +12,7 @@
 #import "CHServiceDetailsViewController.h"
 #import "CHShopingModel.h"
 #import "CHShopingCartViewModel.h"
+#import "CHLoginViewController.h"
 @interface CHShoppingCartViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)UIButton *makeOrderButton;
@@ -48,21 +49,21 @@
 
 -(void)bindViewControllerModel{
     self.viewCModel = [CHShopingCartViewModel new];
-    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+    
     RACSignal *signal = [self.viewCModel.loadPagedata execute:@{@"token":token}];
     [signal subscribeNext:^(id x) {
         NSLog(@"ssss:%@",x);
         self.shopingModelList = [NSMutableArray arrayWithArray:[x objectForKey:@"data"]];
         [self.tableView reloadData];
         
-       
+        
         NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",self.totalCount];
         [self.makeOrderButton setTitle:title forState:(UIControlStateNormal)];
     } error:^(NSError *error) {
         NSLog(@"error:%@",error);
     }];
-    
-    
+
 }
 
 -(void)setupViews{
@@ -102,11 +103,11 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSDictionary *storeDic =  self.shopingModelList[section];
-
+    
     if (storeDic.count>0) {
         NSArray *orderList = [storeDic objectForKey:@"carts"];
         self.totalCount += orderList.count;
-
+        
         return [orderList count];
     }
     return 0;
@@ -117,6 +118,7 @@
     NSDictionary *storeDic =  self.shopingModelList[indexPath.section];
     NSArray *orderList = [storeDic objectForKey:@"carts"];
     cell.orderDic = orderList[indexPath.row];
+    
     return cell;
 }
 
@@ -172,8 +174,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // 删除模型
-    
-    NSMutableDictionary *storeDic = [NSMutableDictionary dictionaryWithDictionary:self.shopingModelList[indexPath.section]];
+        NSMutableDictionary *storeDic = [NSMutableDictionary dictionaryWithDictionary:self.shopingModelList[indexPath.section]];
     NSMutableArray *orderList = [NSMutableArray arrayWithArray:[storeDic objectForKey:@"carts"]];
     [orderList removeObjectAtIndex:indexPath.row];
     [storeDic setObject:orderList forKey:@"carts"];
@@ -201,7 +202,7 @@
     if (_makeOrderButton == nil) {
         
         _makeOrderButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",self.shopingModelList.count];
+        NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",(unsigned long)self.shopingModelList.count];
         [_makeOrderButton setTitle:title forState:(UIControlStateNormal)];
         _makeOrderButton.backgroundColor = [UIColor colorWithHexColor:@"#009698"];
         [_makeOrderButton addTarget:self action:@selector(clickMakeOrderButton) forControlEvents:(UIControlEventTouchUpInside)];
@@ -216,7 +217,7 @@
     if (self.totalCount > 0) {
         
         CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
-        submitOrder.orderList = self.shopingModelList;
+        submitOrder.dataList = self.shopingModelList;
         [self.navigationController pushViewController:submitOrder animated:YES];
     }
 }

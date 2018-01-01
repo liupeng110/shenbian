@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^getNote)(NSString *note);
+
 @interface CHSubmitOrderTableViewCell : UITableViewCell
 @property(nonatomic,strong)NSArray *dataArray;
 @property(nonatomic,strong)NSIndexPath *indexPath;
-
+@property(nonatomic,strong)getNote getNote;
 @end

@@ -66,7 +66,7 @@
         serviceDetail.title = @"我的服务";
         [self.navigationController pushViewController:serviceDetail animated:YES];
     };
-    
+   
 }
 
 -(void)bindViewControllerModel{
@@ -77,7 +77,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     if (token) {
         RACSignal *signal = [self.viewModel.loadPagedata execute:@{@"token":token}];
         [signal subscribeNext:^(id x) {
@@ -89,10 +89,12 @@
         } error:^(NSError *error) {
             NSLog(@"mine -error:%@",error);
         }];
-    } else{
-        CHLoginViewController *login = [CHLoginViewController new];
-        [self.tabBarController presentViewController:login animated:YES completion:nil];
-    }
+    } else
+        {
+            CHLoginViewController *login = [CHLoginViewController new];
+            [self.tabBarController presentViewController:login animated:YES completion:nil];
+        }
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -139,7 +141,18 @@
         if (indexPath.row == 0){
             setCell.titleName.text = @"我的收入";
             setCell.iconImageView.image = [UIImage imageNamed:@"wd_sr"];
-            UILabel *label = [UILabel new];
+            UILabel *label;
+            
+            for (UIView *view in setCell.subviews) {
+                if (view.tag == 100) {
+                    label = (UILabel*)view;
+                }
+            }
+            
+            if (label == nil) {
+                label = [UILabel new];
+                label.tag = 100;
+            }
             [setCell.contentView addSubview:label];
             label.font = [UIFont systemFontOfSize:13];
             label.textColor = [UIColor colorWithHexColor:@"#2d333a"];

@@ -22,6 +22,8 @@
 @property(nonatomic,strong)CHOrderModel *orderModel;
 @property(nonatomic,strong)CHSubmitOrderModel *submitModel;
 @property(nonatomic,assign) float totalFee;
+@property(nonatomic,strong)NSMutableArray *orderList;
+@property(nonatomic,strong)NSString *note;
 @end
 
 @implementation CHSubmitOrderViewController
@@ -55,16 +57,31 @@
 -(void)bindViewControllerModel{
     self.submitModel = [CHSubmitOrderModel new];
     self.orderModel = [CHOrderModel new];
-    
-    self.dataAray = [self.orderList arrayByAddingObjectsFromArray:@[@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"微信支付"]]];
+    self.orderList = [NSMutableArray array];
+    self.dataAray = [self.dataList arrayByAddingObjectsFromArray:@[@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"微信支付"]]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(WXPaySuccess) name:kCHNotificationWXPaySuccess object:nil];
+    
+    
+    for (NSDictionary *storeDic in self.dataList) {
+        NSArray *orderList = [storeDic objectForKey:@"carts"];
+        
+        for (NSDictionary *order in orderList) {
+            float price = [[order objectForKey:@"price"] floatValue];
+            NSUInteger amount = [[order objectForKey:@"serviceAmount"] integerValue];
+            self.totalFee += (price * amount);
+            NSString *serviceId = [NSString stringWithFormat:@"%@",[order objectForKey:@"serviceId"]];
+            NSString *serviceAmount = [NSString stringWithFormat:@"%ld",amount];
+            NSDictionary *resultOrder = @{@"serviceId":serviceId,@"serviceAmount":serviceAmount};
+            [self.orderList addObject:resultOrder];
+        }
+    }
     
 }
 
 - (void)WXPaySuccess{
-    CHMyOrdersViewController *orderlist = [CHMyOrdersViewController new];
-    [self.navigationController pushViewController:orderlist animated:YES];
+    CHMyOrdersViewController *orderlistVC = [CHMyOrdersViewController new];
+    [self.navigationController pushViewController:orderlistVC animated:YES];
 }
 
 -(void)setupViews{
@@ -96,13 +113,23 @@
 
 -(void)clickPayButton{
     __block NSString *orderId = @"";
-    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
-    NSString *orderDetails = [@{@"serviceId":@"17",@"orderQuantity":@"1"} jsonStringEncoded];
-    NSDictionary *orderDic = @{@"orderDetails":orderDetails,@"note":@"暂无",@"createTime":@"2017-12-11 18:00:00",@"paymentType":@"1",@"address":@"",@"token":token};
+    
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+    
+    NSString *orderDetails = [self.orderList jsonStringEncoded];
+    NSDate *localDate = [NSDate dateWithTimeIntervalSinceNow:8* 24 *60];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:SS"];
+    NSString *dateString = [formatter stringFromDate:localDate];
+    NSString *address = @"";
+    NSDictionary *orderDic = @{@"orderDetails":orderDetails,@"note":self.note,@"createTime":dateString,@"paymentType":@"1",@"address":address,@"token":token};
+    
     RACSignal *addOrderSignal = [self.submitModel.addOrderCommand execute:orderDic];
+    
     [addOrderSignal subscribeNext:^(id x) {
         
         orderId = [x objectForKey:@"data"];
+        
         if (orderId==nil) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:[x objectForKey:@"error"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
             [alertView show];
@@ -156,15 +183,20 @@
     if (section >= self.dataAray.count - 2) {
         return [self.dataAray[section] count];
     }
-    NSDictionary *storeList = self.dataAray[section];
-    NSDictionary *orderList = [storeList objectForKey:@"carts"];
+    NSDictionary *storeDic = self.dataAray[section];
+    NSArray *orderList = [storeDic objectForKey:@"carts"];
+    
     return orderList.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHSubmitOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderCell" forIndexPath:indexPath];
     cell.dataArray = self.dataAray;
     cell.indexPath = indexPath;
-
+    if (cell.getNote) {
+        cell.getNote = ^(NSString *note) {
+            self.note = note;
+        };
+    }
     return cell;
 }
 
@@ -242,7 +274,7 @@
     }
     
     if (indexPath.section == self.dataAray.count - 1) {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"暂不支持其他支付" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"暂不支持其他支付方式" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
         [alertView show];
     }
     

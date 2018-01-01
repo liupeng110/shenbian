@@ -71,7 +71,7 @@
 
     self.bottomView.sendMessage = ^{
         @strongify(self);
-        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
 
         if (token) {
             CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:@"1"];
@@ -82,12 +82,12 @@
     };
     self.bottomView.makeOrder = ^{
         @strongify(self);
-        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
 
         if (token) {
             
             CHSubmitOrderViewController *submitOrder = [CHSubmitOrderViewController new];
-            submitOrder.orderList = @[@{@"carts":@[@{@"serviceTitle":self.serviceModel.serviceTitle,@"price":self.serviceModel.servicePrice,@"serviceAmount":@"1",@"createTime":@"",@"homeUrl":@"",@"serviceDescription":@""},],@"shopName":@"",@"userIcon":@""}];
+            submitOrder.dataList = @[@{@"carts":@[@{@"serviceTitle":self.serviceModel.serviceTitle,@"price":self.serviceModel.servicePrice,@"serviceAmount":@"1",@"createTime":@"",@"homeUrl":@"",@"serviceDescription":@""},],@"shopName":@"",@"userIcon":@""}];
             [self.navigationController pushViewController:submitOrder animated:YES];
        
         } else {
@@ -100,7 +100,7 @@
     self.topView.clickAddShopCart = ^{
         @strongify(self);
 
-        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
         RACSignal *signal = [self.serviceModel.addToCartCommand execute:@{@"serviceId":self.serviceId,@"token":token,@"amount":@"1"}];
         __block NSString *message = @"";
         [signal subscribeNext:^(id x) {

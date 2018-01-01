@@ -9,5 +9,5 @@
 #import "CHBaseNavgationViewController.h"
 #import "CHOrderModel.h"
 @interface CHSubmitOrderViewController : CHBaseNavgationViewController
-@property(nonatomic,strong)NSArray *orderList;
+@property(nonatomic,strong)NSArray *dataList;
 @end

@@ -24,7 +24,7 @@
 #import "CHShoppingCartViewController.h"
 #import "CHLoacationSearchViewController.h"
 #import "CHOverBalanceViewController.h"
-
+#import "CHLoginViewController.h"
 @interface RootHeaderViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong)HomeNavView *NavView;
@@ -48,13 +48,13 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-//    [self.mapView setMapZoomSacle:15 animated:NO];
+    //    [self.mapView setMapZoomSacle:15 animated:NO];
 }
 
 -(void)bindViewControllerModel{
     [super bindViewControllerModel];
     @weakify(self);
-
+    
     self.viewCModel = [[RootObjectModel alloc]init];
     
     [RACObserve(GlobalData, currentLocation) subscribeNext:^(id x) {
@@ -62,7 +62,7 @@
         if (x) {
             NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary: @{@"center":GlobalData.currentLocation,@"city":GlobalData.currentCity}];
             [self.viewCModel.loadTopData execute:param];
-           
+            
             NSDictionary *bottmParam = @{@"center":GlobalData.currentLocation,@"city":GlobalData.currentCity,@"page":@"1",@"limit":@"10",};
             [self.viewCModel.loadBottomData execute:bottmParam];
         }
@@ -106,13 +106,19 @@
         CHSeeMapViewController *seeMap = [[CHSeeMapViewController alloc]init];
         [self.navigationController pushViewController:seeMap animated:YES];
     };
-  
+    
     
     self.NavView.goShoppingCart = ^{
         @strongify(self);
-        CHShoppingCartViewController *shoppingCart = [[CHShoppingCartViewController alloc]init];
-        [self.navigationController pushViewController:shoppingCart animated:YES];
-        
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+        if (token) {
+            CHShoppingCartViewController *shoppingCart = [[CHShoppingCartViewController alloc]init];
+            [self.navigationController pushViewController:shoppingCart animated:YES];
+        } else {
+            CHLoginViewController *login = [CHLoginViewController new];
+            [self.tabBarController presentViewController:login animated:YES completion:nil];
+            
+        }
     };
     
     self.NavView.locationSearch = ^{
@@ -137,7 +143,7 @@
 -(void)setupViews{
     
     [self.view addSubview:self.NavView];
-
+    
     [self.view addSubview:self.wrapSrollview];
     [self.wrapSrollview mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.NavView.mas_bottom);
@@ -168,7 +174,7 @@
         make.right.equalTo(self.wrapSrollview).offset(-15);
         make.height.mas_equalTo(200);
     }];
-
+    
     [self.wrapSrollview addSubview:self.merchentView];
     [self.merchentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.overBalanceView.mas_bottom).offset(10);
@@ -193,18 +199,18 @@
 - (CHCardsPanelView*)headItemView{
     if (!_headItemView) {
         _headItemView = [[CHCardsPanelView alloc]init];
-
+        
     }
     return _headItemView;
 }
 
 -(CHOverbalanceView *)overBalanceView{
-
+    
     if (_overBalanceView == nil) {
         _overBalanceView = [[CHOverbalanceView alloc] init];
         _overBalanceView.layer.cornerRadius = 5;
     }
-
+    
     return _overBalanceView;
 }
 
@@ -216,7 +222,7 @@
 }
 
 - (UIScrollView *)wrapSrollview{
-
+    
     if (_wrapSrollview == nil) {
         _wrapSrollview = [[UIScrollView alloc]init];
         _wrapSrollview.showsVerticalScrollIndicator = NO;
@@ -228,7 +234,7 @@
 }
 
 -(CHMerchantView *)merchentView{
-
+    
     if (_merchentView == nil) {
         _merchentView = [[CHMerchantView alloc]init];
         _merchentView.backgroundColor = [UIColor redColor];

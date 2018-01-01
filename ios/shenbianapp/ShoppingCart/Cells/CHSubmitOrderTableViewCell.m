@@ -8,7 +8,7 @@
 
 #import "CHSubmitOrderTableViewCell.h"
 
-@interface CHSubmitOrderTableViewCell()
+@interface CHSubmitOrderTableViewCell()<UITextViewDelegate>
 @property(nonatomic,strong)UILabel *priceLabel;
 @property(nonatomic,strong)UILabel *numLabel;
 @property(nonatomic,strong)IQTextView *remarkTextView;
@@ -42,6 +42,12 @@
 
 -(void)setIndexPath:(NSIndexPath *)indexPath{
     
+    self.remarkLabel.text = @"";
+    [self.remarkTextView removeFromSuperview];
+    self.numLabel.text = @"";
+    self.priceLabel.text = @"";
+    self.accessoryType = UITableViewCellAccessoryNone;
+
     if (indexPath.section < self.dataArray.count - 2) {
         
         [self.contentView addSubview:self.priceLabel];
@@ -91,15 +97,11 @@
                 make.right.equalTo(self.contentView).offset(-15);
             }];
             self.remarkLabel.text = @"备注";
-
-        } else {
+            self.textLabel.text = @"";
             
-            self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
             self.textLabel.text = self.dataArray[indexPath.section][indexPath.row];
-            self.remarkLabel.text = @"";
-            self.remarkTextView = nil;
-            self.numLabel.text = @"";
-            self.priceLabel.text = @"";
+
         }
         
     }
@@ -132,9 +134,15 @@
         _remarkTextView = [[IQTextView alloc]init];
         _remarkTextView.placeholder = @"请输入其他要求";
         _remarkTextView.font = [UIFont systemFontOfSize:13];
+        _remarkTextView.delegate = self;
     }
     return _remarkTextView;
 }
 
+-(void)textViewDidChange:(UITextView *)textView{
+    if (self.getNote) {
+        self.getNote(textView.text);
+    }
+}
 
 @end

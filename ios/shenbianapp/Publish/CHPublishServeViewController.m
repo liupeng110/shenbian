@@ -311,7 +311,7 @@
 
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [self handlePictureAndText:image];
-    NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"toekn"];
+    NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     RACSignal *signal = [self.serviceModel.getTokenComand execute:@{@"token":token}];
     [signal subscribeNext:^(id x) {
         
@@ -640,7 +640,7 @@
 
 - (void)clickPublishButton{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *token = [ud objectForKey:@"toekn"];
+    NSString *token = [ud objectForKey:@"token"];
     
     NSString *errMsg;
     
