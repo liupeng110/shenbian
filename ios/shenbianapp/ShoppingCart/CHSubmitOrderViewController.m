@@ -24,6 +24,9 @@
 @property(nonatomic,assign) float totalFee;
 @property(nonatomic,strong)NSMutableArray *orderList;
 @property(nonatomic,strong)NSString *note;
+@property(nonatomic,strong)UIView *selectDateView;
+@property(nonatomic,strong)UIDatePicker *datePicker;
+
 @end
 
 @implementation CHSubmitOrderViewController
@@ -71,7 +74,7 @@
             NSUInteger amount = [[order objectForKey:@"serviceAmount"] integerValue];
             self.totalFee += (price * amount);
             NSString *serviceId = [NSString stringWithFormat:@"%@",[order objectForKey:@"serviceId"]];
-            NSString *serviceAmount = [NSString stringWithFormat:@"%ld",amount];
+            NSString *serviceAmount = [NSString stringWithFormat:@"%ld",(unsigned long)amount];
             NSDictionary *resultOrder = @{@"serviceId":serviceId,@"serviceAmount":serviceAmount};
             [self.orderList addObject:resultOrder];
         }
@@ -98,6 +101,13 @@
         make.left.right.bottom.equalTo(self.view);
         make.height.mas_equalTo(55);
     }];
+    [self.view addSubview:self.selectDateView];
+    [self.selectDateView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(240);
+        make.bottom.equalTo(self.view).offset(-55);
+    }];
+    
 }
 
 -(UIButton *)payButton{
@@ -159,6 +169,35 @@
     
 }
 
+
+-(UIView *)selectDateView{
+    if (!_selectDateView) {
+        _selectDateView = [UIView new];
+        UIDatePicker *datePicker = [[UIDatePicker alloc]init];
+        datePicker.minimumDate = [NSDate date];
+        [_selectDateView addSubview:datePicker];
+        [datePicker mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(200);
+            make.left.right.bottom.equalTo(_selectDateView);
+        }];
+        self.datePicker = datePicker;
+        
+        UIButton *donebutton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [donebutton setTitle:@"完成" forState:(UIControlStateNormal)];
+        [donebutton setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
+        //            donebutton.backgroundColor = [UIColor orangeColor];
+        [donebutton addTarget:self action:@selector(removeFromSuperview:) forControlEvents:(UIControlEventTouchUpInside)];
+        [_selectDateView addSubview:donebutton];
+        [donebutton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(_selectDateView).offset(-15);
+            make.top.equalTo(_selectDateView).offset(10);
+            make.width.mas_equalTo(40);
+            make.height.mas_equalTo(30);
+        }];
+        _selectDateView.hidden = YES;
+    }
+    return _selectDateView;
+}
 
 -(UITableView *)tableView{
     if (_tableView == nil) {
@@ -256,20 +295,9 @@
             CHInputAddressViewController *input = [CHInputAddressViewController new];
             [self.navigationController pushViewController:input animated:YES];
         } else if(indexPath.row == 1){
-            UIDatePicker *datePiker = [[UIDatePicker alloc]init];
-            datePiker.datePickerMode = UIDatePickerModeDateAndTime;
-            [self.view addSubview:datePiker];
-            [datePiker mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(200);
-                make.left.right.bottom.equalTo(self.view);
-            }];
-            
-            UIButton *donebutton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            [donebutton setTitle:@"完成" forState:(UIControlStateNormal)];
-            [donebutton addTarget:datePiker action:@selector(removeFromSuperview) forControlEvents:(UIControlEventTouchUpInside)];
-            donebutton.frame = CGRectMake(0, 0, 40, 30);
-            [datePiker.inputAccessoryView addSubview:donebutton];
-            
+           
+            self.selectDateView.hidden = NO;
+           
         }
     }
     
@@ -279,6 +307,15 @@
     }
     
    
+}
+
+-(void)removeFromSuperview:(id)datePicker{
+    NSDate *date = self.datePicker.date;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    NSString *dateString = [formatter stringFromDate:date];
+    NSLog(@"dateString:%@",dateString);
+
 }
 
 @end

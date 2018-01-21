@@ -77,7 +77,7 @@
             CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:@"1"];
             [self.navigationController pushViewController:chatRoom animated:YES];
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"needLogin" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationLogin object:nil];
         }
     };
     self.bottomView.makeOrder = ^{
@@ -92,7 +92,7 @@
        
         } else {
            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"needLogin" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationLogin object:nil];
 
         }
     };
@@ -101,6 +101,9 @@
         @strongify(self);
 
         NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+        if (token) {
+            
+        
         RACSignal *signal = [self.serviceModel.addToCartCommand execute:@{@"serviceId":self.serviceId,@"token":token,@"amount":@"1"}];
         __block NSString *message = @"";
         [signal subscribeNext:^(id x) {
@@ -112,6 +115,11 @@
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
             [alertView show];
         }];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationLogin object:nil];
+
+            
+        }
         
     };
 }

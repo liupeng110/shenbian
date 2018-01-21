@@ -32,7 +32,7 @@
     [self addChildVc:[[RootMineViewController alloc] init] title:@"我的" image:@"sy_wdb" selectedImage:@"sy_wda"];
     
     [self creatHQTabBar];//中间➕号
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startLogin) name:@"needLogin" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startLogin) name:kCHNotificationLogin object:nil];
 }
 
 - (void)addChildVc:(UIViewController *)childVc title:(NSString *)title image:(NSString *)image selectedImage:(NSString *)selectedImage

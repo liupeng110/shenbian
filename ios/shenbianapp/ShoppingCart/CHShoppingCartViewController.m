@@ -58,7 +58,7 @@
         [self.tableView reloadData];
         
         
-        NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",self.totalCount];
+        NSString *title = [NSString stringWithFormat:@"合计 %ld 下单",(unsigned long)self.totalCount];
         [self.makeOrderButton setTitle:title forState:(UIControlStateNormal)];
     } error:^(NSError *error) {
         NSLog(@"error:%@",error);
