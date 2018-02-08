@@ -13,6 +13,7 @@
 @property(nonatomic,strong)UIImageView *coverImageView;
 @property(nonatomic,strong)UILabel *titleLabel;
 @property(nonatomic,strong)UILabel *readLabel;
+@property(nonatomic,strong)UILabel *contentLabel;
 
 @end
 
@@ -39,9 +40,9 @@
         [self addSubview:self.readLabel];
         [self.readLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.coverImageView.mas_right).offset(15);
-            make.bottom.equalTo(self.coverImageView);
+//            make.bottom.equalTo(self.coverImageView);
             make.right.equalTo(self).offset(-15);
-        
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(5);
         }];
     }
     return self;
@@ -55,15 +56,17 @@
 
 -(void)setIndexPath:(NSIndexPath *)indexPath{
     _indexPath = indexPath;
-    self.titleLabel.text = @"文章标题文章标题文章标题文章标题文章标题文章标题文章标题";
-    self.readLabel.text = [NSString stringWithFormat: @"阅读 4  评论 6  喜欢 8"];
+    self.titleLabel.text = [self.dataDic objectForKey:@"serviceTitle"];
+    self.readLabel.text = [self.dataDic objectForKey:@"serviceDescription"];
+    [self.coverImageView setImageWithURL:[NSURL URLWithString:self.dataDic[@"homeUrl"]] placeholder:[UIImage imageNamed:@"sy_sj_cover"]];
 }
 
 -(UIImageView *)coverImageView{
 
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
-    
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _coverImageView.clipsToBounds = YES;
     }
     return _coverImageView;
 }

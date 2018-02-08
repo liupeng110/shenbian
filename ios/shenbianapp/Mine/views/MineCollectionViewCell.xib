@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -39,10 +39,22 @@
                         <rect key="frame" x="15" y="11" width="25" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aaa-zb-B4W">
+                        <rect key="frame" x="209" y="14" width="86" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="86" id="ncA-sb-nLg"/>
+                            <constraint firstAttribute="height" constant="21" id="tsY-f1-UYR"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="Aaa-zb-B4W" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="14" id="IHm-JK-Mxe"/>
                 <constraint firstAttribute="trailing" secondItem="DG8-cr-WRA" secondAttribute="trailing" constant="24" id="XH0-E8-N1h"/>
+                <constraint firstAttribute="trailing" secondItem="Aaa-zb-B4W" secondAttribute="trailing" constant="25" id="adg-Mm-8b2"/>
                 <constraint firstItem="9GQ-xa-dcw" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="54" id="dKi-rr-FtL"/>
                 <constraint firstAttribute="bottom" secondItem="DG8-cr-WRA" secondAttribute="bottom" id="e0z-Eo-QrX"/>
                 <constraint firstItem="9GQ-xa-dcw" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-2" id="hZ4-mt-R1k"/>
@@ -50,6 +62,7 @@
             </constraints>
             <connections>
                 <outlet property="iconImageView" destination="rEr-jF-Sbd" id="U9B-Fu-25H"/>
+                <outlet property="priceLabel" destination="Aaa-zb-B4W" id="Ppk-My-sa0"/>
                 <outlet property="titleName" destination="9GQ-xa-dcw" id="u8D-IY-1mV"/>
             </connections>
         </collectionViewCell>

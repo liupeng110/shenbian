@@ -137,8 +137,8 @@
 -(void)setupViews{
     
     [self.lefgtButton setImage:[UIImage imageNamed:@"tx_fh"] forState:(UIControlStateNormal)];
-    [self.rightTopButton setTitle:@"" forState:(UIControlStateNormal)];
-    [self.rightTopButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
+//    [self.rightTopButton setTitle:@"" forState:(UIControlStateNormal)];
+//    [self.rightTopButton setImage:[UIImage imageNamed:@"fbfw_wta"] forState:(UIControlStateNormal)];
     
     [self.topView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -219,7 +219,7 @@
         make.left.right.bottom.equalTo(self.lowerView);
         make.height.mas_equalTo(55);
     }];
-    
+    self.rightTopButton.hidden = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -404,7 +404,9 @@
 }
 
 -(BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange{
-    
+    UIViewController *agreeVC = [[UIViewController alloc]initWithNibName:@"CHLoginAgreement" bundle:nil];
+    agreeVC.title = @"用户服务协议";
+    [self.navigationController pushViewController:agreeVC animated:YES];
     //跳转服务协议
     return NO;
 }

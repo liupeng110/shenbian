@@ -14,5 +14,6 @@
 @property(nonatomic,strong)UIButton *backButton;
 @property(nonatomic,copy)ClickAddShopCart clickAddShopCart ;
 @property(nonatomic,strong)CHServiceDetailModel *model;
+@property(nonatomic,copy) TapHeadImagegGuesture tapHeadImagegGuesture;
 
 @end

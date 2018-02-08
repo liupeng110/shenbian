@@ -6,7 +6,7 @@
 //  Copyright © 2017 . All rights reserved.
 //
 
-#define HOST_URL @"https://www.helinkeji.cn"
+#define HOST_URL @"https://www.ufushenghuo.com"
 
 
 

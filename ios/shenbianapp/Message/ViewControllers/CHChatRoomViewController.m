@@ -13,7 +13,7 @@
 #import "CHChatLocationViewController.h"
 
 
-@interface CHChatRoomViewController ()<RCIMReceiveMessageDelegate,RCLocationPickerViewControllerDelegate,RCLocationPickerViewControllerDataSource>
+@interface CHChatRoomViewController ()<RCLocationPickerViewControllerDelegate,RCLocationPickerViewControllerDataSource>
 
 @end
 
@@ -22,12 +22,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"听海的声音";
+
     self.navigationController.navigationBarHidden = NO;
     self.tabBarController.tabBar.hidden = YES;
 
 
-    [RCIM sharedRCIM].receiveMessageDelegate = self;
 
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"tx_fh"] landscapeImagePhone:[UIImage imageNamed:@"tx_fh"] style:(UIBarButtonItemStyleDone) target:self action:@selector(clickBackButton)];
     self.navigationItem.leftBarButtonItem  = backItem;
@@ -38,11 +37,6 @@
 -(void)clickBackButton{
     [self.navigationController popViewControllerAnimated:YES];
 }
-
--(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left{
-
-}
-
 
 
 - (void)didReceiveMemoryWarning {

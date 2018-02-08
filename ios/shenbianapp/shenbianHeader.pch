@@ -26,5 +26,6 @@
 #import "UIView+Extension.h"
 #import "LXButton.h"
 #import "GlobalDataHeader.h"
+#import <WXApi.h>
 
 #endif 

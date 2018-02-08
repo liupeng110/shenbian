@@ -290,7 +290,15 @@
             break;
     }
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapHeadImageView)];
+    [self.headImageView addGestureRecognizer:tap];
     
+}
+
+-(void)tapHeadImageView{
+    if (self.tapHeadImagegGuesture) {
+        self.tapHeadImagegGuesture();
+    }
 }
 
 
@@ -300,6 +308,8 @@
         _headImageView.layer.cornerRadius = 20;
         _headImageView.backgroundColor = [UIColor purpleColor];
         _headImageView.clipsToBounds = YES;
+        _headImageView.userInteractionEnabled = YES;
+        _headImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _headImageView;
 }

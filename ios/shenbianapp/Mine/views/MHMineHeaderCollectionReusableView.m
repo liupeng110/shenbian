@@ -39,6 +39,9 @@
             [self.mhUserHeaderImgView setImageWithURL:[NSURL URLWithString:[x objectForKey:@"urserIcon"]] placeholder:[UIImage imageNamed:@"default_headImage"]];
         }
     }];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(clickMyServiceButton:)];
+    [self.mhUserHeaderImgView addGestureRecognizer:tap];
 }
 
 
@@ -47,6 +50,7 @@
 -(instancetype)initWithFrame:(CGRect)frame{
 
     if ([super initWithFrame:frame]) {
+       
        
        
     }

@@ -12,7 +12,7 @@
 
 #import "CHFocusViewController.h"
 #import "CHMyOrdersViewController.h"
-@interface CHMessageViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+@interface CHMessageViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,RCIMReceiveMessageDelegate>
 
 @property(nonatomic,strong)UIView *upperView;
 @property(nonatomic,strong)UIView* lowerView;
@@ -34,7 +34,7 @@
     [self.upperView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(64);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(200);
+        make.height.mas_equalTo(230);
     }];
     
     [self.upperView addSubview:self.scrollView];
@@ -48,13 +48,16 @@
         make.bottom.equalTo(self.upperView.mas_bottom);
     }];
     
-    for (int i = 0;  i < 5; i++) {
+    for (int i = 0;  i < 3; i++) {
         UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
-        imageView.frame = CGRectMake(kScreenWidth * i, 0, kScreenWidth, 200) ;
+
         [self.scrollView addSubview:imageView];
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.upperView);
+        }];
     }
     self.scrollView.contentSize = CGSizeMake(kScreenWidth * 5, 200);
-
+    
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -65,20 +68,42 @@
     NSMutableArray *tempArr = [NSMutableArray array];
     for (int i = 0; i < 3; i++) {
         CHMessageModel *model = [[CHMessageModel alloc]init];
-        model.headUrl = @"http://n.sinaimg.cn/default/8_img/uplaod/3933d981/20171022/rq-Y-fymzzpv8912460.jpg";
-        model.userName = @"我是关关";
+        model.headUrl = @"";
+        model.userName = @"用户";
         model.briefMessage = @"简要消息";
         model.lastTime = [NSString stringWithFormat:@"昨天 %d：%d",13 + i,20 - i];
         model.messageType = i;
         [tempArr addObject:model];
     }
     self.messageModelList = tempArr;
+    
+//    [RCIM sharedRCIM].userInfoDataSource = self;
+    
+//    [[RCIMClient sharedRCIMClient] setReceiveMessageDelegate:self object:nil];
+//    [RCIMClient sharedRCIMClient].enableMessageAttachUserInfo = YES;
+    [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = YES;
+    
+    NSArray *conversationList = [[RCIMClient sharedRCIMClient]
+                                 getConversationList:@[@(ConversationType_PRIVATE),
+                                                       @(ConversationType_DISCUSSION),
+                                                       @(ConversationType_GROUP),
+                                                       @(ConversationType_SYSTEM),
+                                                       @(ConversationType_APPSERVICE),
+                                                       @(ConversationType_PUBLICSERVICE)]];
+    for (RCConversation *conversation in conversationList) {
+        NSLog(@"会话类型：%@，目标会话ID：%@", conversation.conversationTitle, conversation.targetId);
+    }
+    if (conversationList.count > 0) {
+        RCConversation *conversation = conversationList.lastObject;
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -91,6 +116,7 @@
     if (_upperView == nil) {
         _upperView = [[UIView alloc]init];
         _upperView.userInteractionEnabled = YES;
+        _upperView.backgroundColor = [UIColor redColor];
     }
     return _upperView;
 }
@@ -103,6 +129,7 @@
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.delegate = self;
+        _scrollView.backgroundColor =[UIColor orangeColor];
     }
     return _scrollView;
 }
@@ -162,8 +189,15 @@
     
     switch (model.messageType) {
         case MessageTypeChat:{
-            CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:@"1"];
-            [self.navigationController pushViewController:chatRoom animated:YES];
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            NSString *im_userId = [ud objectForKey:@"im_userId"];
+            if (im_userId) {                
+                CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:im_userId];
+                [self.navigationController pushViewController:chatRoom animated:YES];
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"暂时还没有新消息哦" delegate:nil cancelButtonTitle:@"知晓" otherButtonTitles: nil];
+                [alertView show];
+            }
         }
             
             break;
@@ -185,5 +219,36 @@
     }
 }
 
+
+
+-(void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left{
+   
+    if ([message.content isMemberOfClass:[RCTextMessage class]]) {
+        RCTextMessage *testMessage = (RCTextMessage *)message.content;
+        NSLog(@"消息内容：%@", testMessage.content);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            CHMessageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            cell.briefMsgLabel.text = testMessage.content;
+            if (message.content.senderUserInfo) {
+                cell.userNameLabel.text = testMessage.senderUserInfo.name;
+                [cell.headImage setImageURL:[NSURL URLWithString:testMessage.senderUserInfo.portraitUri]];
+            }
+            
+            NSDate *sendDate = [NSDate dateWithTimeIntervalSince1970:message.sentTime/1000];
+            NSDateFormatter *formater = [NSDateFormatter new];
+            [formater setDateFormat:@"MM-dd HH:mm:ss"];
+            
+            cell.lastTimeLabel.text = [formater stringFromDate:sendDate];
+            NSUserDefaults *ud  = [NSUserDefaults standardUserDefaults];
+            [ud setObject:message.targetId forKey:@"im_userId"];
+            [ud setObject:testMessage.senderUserInfo.name forKey:@"im_userName"];
+            [ud synchronize];
+            
+        });
+    }
+
+    
+}
 
 @end

@@ -88,6 +88,7 @@
         }];
         
         UIImageView *headImageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_headImage"]];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
         headImageV.clipsToBounds = YES;
         headImageV.layer.cornerRadius = 20;
         headImageV.layer.borderWidth = 2;

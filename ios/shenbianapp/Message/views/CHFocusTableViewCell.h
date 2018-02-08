@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CHFocusTableViewCell : UITableViewCell
-
+@property(nonatomic,copy)NSDictionary *userDic;
 @end

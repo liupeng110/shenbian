@@ -10,7 +10,6 @@
 #import "CHOrderModel.h"
 #import "CHInputAddressViewController.h"
 //#import <IQTextView.h>
-#import <WXApi.h>
 #import "CHMyOrdersViewController.h"
 #import "CHSubmitOrderModel.h"
 #import "CHSubmitOrderTableViewCell.h"
@@ -26,6 +25,7 @@
 @property(nonatomic,strong)NSString *note;
 @property(nonatomic,strong)UIView *selectDateView;
 @property(nonatomic,strong)UIDatePicker *datePicker;
+@property(nonatomic,copy)NSString *serviceTime;
 
 @end
 
@@ -43,7 +43,15 @@
     self.tabBarController.tabBar.hidden = YES;
     [IQKeyboardManager sharedManager].enable = YES;
     
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:self.dataAray.count - 2 ];
+    CHSubmitOrderTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
+    NSUserDefaults *ud  = [NSUserDefaults standardUserDefaults];
+    NSString *name = [ud  objectForKey:@"contactName"];
+    NSString *address = [ud objectForKey:@"contactAddress"];
+    
+    cell.tailText = [NSString stringWithFormat:@"%@、%@",name,address];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -62,7 +70,7 @@
     self.orderModel = [CHOrderModel new];
     self.orderList = [NSMutableArray array];
     self.dataAray = [self.dataList arrayByAddingObjectsFromArray:@[@[@"添加位置、联系人",@"添加时间",@"备注"],@[@"微信支付"]]];
-    
+    self.note = @"";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(WXPaySuccess) name:kCHNotificationWXPaySuccess object:nil];
     
     
@@ -75,7 +83,7 @@
             self.totalFee += (price * amount);
             NSString *serviceId = [NSString stringWithFormat:@"%@",[order objectForKey:@"serviceId"]];
             NSString *serviceAmount = [NSString stringWithFormat:@"%ld",(unsigned long)amount];
-            NSDictionary *resultOrder = @{@"serviceId":serviceId,@"serviceAmount":serviceAmount};
+            NSDictionary *resultOrder = @{@"serviceId":serviceId,@"orderQuantity":serviceAmount};
             [self.orderList addObject:resultOrder];
         }
     }
@@ -131,15 +139,43 @@
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:SS"];
     NSString *dateString = [formatter stringFromDate:localDate];
-    NSString *address = @"";
-    NSDictionary *orderDic = @{@"orderDetails":orderDetails,@"note":self.note,@"createTime":dateString,@"paymentType":@"1",@"address":address,@"token":token};
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *errorMsg = nil;
+    NSString *contactPhone = [ud objectForKey:@"contactPhone"];
+    if (contactPhone.length != 11) {
+        errorMsg = @"您的电话号码不正确";
+    }
+    NSString *city = [ud objectForKey:@"contactCity"];
+    if (city.length == 0) {
+        errorMsg = @"请输入您的城市";
+    }
+    NSString *contactAddress = [ud objectForKey:@"contactAddress"];
+    if (contactAddress.length == 0) {
+        errorMsg = @"请输入您的详细地址";
+    }
+    NSString *contactHouseNO = [ud objectForKey:@"contactHouseNO"];
+    if (contactHouseNO.length == 0) {
+        errorMsg = @"请输入您的门牌号";
+    }
+    NSString *contactName = [ud objectForKey:@"contactName"];
+    if (contactName.length == 0) {
+        errorMsg = @"请输入联系人姓名";
+    }
+    if (self.serviceTime.length == 0) {
+        errorMsg = @"请选择服务时间";
+    }
+    if (errorMsg) {
+        UIAlertView *alert =[[UIAlertView alloc]initWithTitle:@"温馨提示" message:errorMsg delegate:nil cancelButtonTitle:@"知晓" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    NSDictionary *orderDic = @{@"orderDetails":orderDetails,@"note":self.note,@"createTime":dateString,@"paymentType":@"1",@"mobilePhone":contactPhone,@"cityName":city,@"detailStreet":contactAddress,@"contact":@"",@"houseName":contactHouseNO,@"token":token,@"serviceTime":self.serviceTime};
     
     RACSignal *addOrderSignal = [self.submitModel.addOrderCommand execute:orderDic];
     
     [addOrderSignal subscribeNext:^(id x) {
         
         orderId = [x objectForKey:@"data"];
-        
         if (orderId==nil) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:[x objectForKey:@"error"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
             [alertView show];
@@ -182,15 +218,24 @@
         }];
         self.datePicker = datePicker;
         
+        UIView *topView  =  [UIView new];
+        topView.backgroundColor = [UIColor lightGrayColor];
+        [_selectDateView addSubview:topView];
+
+        [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.equalTo(_selectDateView);
+            make.height.mas_equalTo(40);
+        }];
+        
         UIButton *donebutton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [donebutton setTitle:@"完成" forState:(UIControlStateNormal)];
         [donebutton setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
-        //            donebutton.backgroundColor = [UIColor orangeColor];
+        //donebutton.backgroundColor = [UIColor orangeColor];
         [donebutton addTarget:self action:@selector(removeFromSuperview:) forControlEvents:(UIControlEventTouchUpInside)];
         [_selectDateView addSubview:donebutton];
         [donebutton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_selectDateView).offset(-15);
-            make.top.equalTo(_selectDateView).offset(10);
+            make.top.equalTo(_selectDateView).offset(5);
             make.width.mas_equalTo(40);
             make.height.mas_equalTo(30);
         }];
@@ -248,19 +293,19 @@
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
+    NSDictionary *storeList = self.dataAray[section];
+
     UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 85))];
     contentView.layer.borderWidth = 0.3;
     contentView.layer.borderColor = [UIColor colorWithHexString:@"#ebebeb"].CGColor;
     contentView.backgroundColor = [UIColor whiteColor];
     UIImageView *headImageView = [[UIImageView alloc]initWithFrame:(CGRectMake(15, 15, 50, 50))];
-    headImageView.image = [UIImage imageNamed:@"default_headImage"];
+    [headImageView setImageWithURL:[NSURL URLWithString:[storeList objectForKey:@"userIcon"]] placeholder:[UIImage imageNamed:@"default_headImage"]];
     headImageView.layer.cornerRadius = 25;
     headImageView.clipsToBounds = YES;
     [contentView addSubview:headImageView];
     
     UILabel *namelabel = [UILabel new];
-    NSDictionary *storeList = self.dataAray[section];
-    
     namelabel.text = [NSString stringWithFormat:@"%@",[storeList objectForKey:@"shopName"]];
     namelabel.textColor = [UIColor colorWithHexColor:@"#2d333a"];
     namelabel.font = [UIFont systemFontOfSize:15];
@@ -295,9 +340,7 @@
             CHInputAddressViewController *input = [CHInputAddressViewController new];
             [self.navigationController pushViewController:input animated:YES];
         } else if(indexPath.row == 1){
-           
             self.selectDateView.hidden = NO;
-           
         }
     }
     
@@ -315,7 +358,11 @@
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     NSString *dateString = [formatter stringFromDate:date];
     NSLog(@"dateString:%@",dateString);
-
+    self.selectDateView.hidden = YES;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:self.dataAray.count - 2 ];
+    CHSubmitOrderTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.tailText = dateString;
+    self.serviceTime = dateString;
 }
 
 @end

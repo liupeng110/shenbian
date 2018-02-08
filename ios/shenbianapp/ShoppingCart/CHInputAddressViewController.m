@@ -126,6 +126,10 @@
 }
 
 -(void)clickRightButton{
+    NSUserDefaults *ud  = [NSUserDefaults standardUserDefaults];
+    NSString *name = [ud  objectForKey:@"contactName"];
+    NSString *address = [ud objectForKey:@"contactAddress"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationInputConnactInfo object:@{@"contactName":name,@"contactAddress":address}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

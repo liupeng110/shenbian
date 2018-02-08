@@ -67,8 +67,8 @@
         [self.tagName mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.coverImageView.mas_right).offset(15);
             make.bottom.equalTo(self).offset(-18);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(15);
+            make.width.mas_equalTo(40);
+            make.height.mas_equalTo(20);
         }];
         
         [self addSubview:self.soldOutLabel];
@@ -157,7 +157,7 @@
     if (_tagName == nil) {
         _tagName = [[UILabel alloc]init];
         _tagName.backgroundColor = [UIColor colorWithHexString:@"#f0f0f0"];
-        _tagName.layer.cornerRadius = 7.5;
+        _tagName.layer.cornerRadius = 10;
         _tagName.font = [UIFont fontWithName:@"PingFangSC-Regular" size:13];
         _tagName.clipsToBounds = YES;
         _tagName.textAlignment = NSTextAlignmentCenter;

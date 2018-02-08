@@ -14,6 +14,7 @@
 #define kCHNotificationWXPaySuccess @"kCHNotificationWXPaySuccessa"
 #define kCHNotificationDetailAddress @"kCHNotificationDetailAddress"
 #define kCHNotificationLogin @"kCHNotificationLogin"
+#define kCHNotificationInputConnactInfo @"kCHNotificationInputConnactInfo"
 
 #endif /* GlobalDataHeader_h */
 

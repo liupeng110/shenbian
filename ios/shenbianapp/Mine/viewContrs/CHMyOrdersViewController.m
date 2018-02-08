@@ -72,7 +72,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHMyOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderCell" forIndexPath:indexPath];
-    cell.dataDic = self.orderList[indexPath.row];
+    cell.dataDic = self.orderList[self.orderList.count - 1 - indexPath.row];
     return cell;
 }
 

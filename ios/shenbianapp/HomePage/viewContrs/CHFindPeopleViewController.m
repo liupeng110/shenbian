@@ -33,8 +33,8 @@
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#404040"];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
-    [self.rightButton setImage:[UIImage imageNamed:@"sy_gwc"] forState:(UIControlStateNormal)];
-    self.rightButton.hidden = NO;
+//    [self.rightButton setImage:[UIImage imageNamed:@"sy_gwc"] forState:(UIControlStateNormal)];
+//    self.rightButton.hidden = NO;
     
 }
 
@@ -105,19 +105,19 @@
     
     [self.view addSubview:self.headView];
     
-    [self.headView addSubview:self.panelButton];
-    [self.panelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.headView);
-        make.centerY.equalTo(self.headView);
-        make.width.height.mas_equalTo(60);
-    }];
+//    [self.headView addSubview:self.panelButton];
+//    [self.panelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.headView);
+//        make.centerY.equalTo(self.headView);
+//        make.width.height.mas_equalTo(60);
+//    }];
     
-    [self.view insertSubview:self.panelView belowSubview:self.headView];
-    [self.panelView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_top);
-        make.height.mas_equalTo(150);
-    }];
+//    [self.view insertSubview:self.panelView belowSubview:self.headView];
+//    [self.panelView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(self.view);
+//        make.bottom.equalTo(self.view.mas_top);
+//        make.height.mas_equalTo(150);
+//    }];
     
     [self.view insertSubview:self.optimizedView atIndex:0];
     [self.optimizedView mas_makeConstraints:^(MASConstraintMaker *make) {

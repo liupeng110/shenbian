@@ -9,6 +9,7 @@
 #import "CHBaseViewCModel.h"
 
 @interface CHServiceDetailModel : CHBaseViewCModel
+
 @property(nonatomic,copy)NSArray *coverImageUrlList;
 @property(nonatomic,copy)NSString *serviceTitle;
 @property(nonatomic,copy)NSString *serviceContent;
@@ -22,6 +23,8 @@
 @property(nonatomic,copy)NSArray *recommendList;
 @property(nonatomic,copy)NSArray *advertisementList;
 @property(nonatomic,copy)NSString *starRating;
+@property(nonatomic,copy)NSString *userId;
 
 @property(nonatomic,strong,readonly)RACCommand *addToCartCommand;
+@property(nonatomic,strong,readonly)RACCommand *focusCommand;
 @end

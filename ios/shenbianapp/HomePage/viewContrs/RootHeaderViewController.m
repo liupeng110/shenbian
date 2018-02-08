@@ -46,17 +46,12 @@
 @implementation RootHeaderViewController
 @dynamic viewCModel;
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //    [self.mapView setMapZoomSacle:15 animated:NO];
-}
 
--(void)bindViewControllerModel{
-    [super bindViewControllerModel];
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+
     @weakify(self);
-    
-    self.viewCModel = [[RootObjectModel alloc]init];
-    
     [RACObserve(GlobalData, currentLocation) subscribeNext:^(id x) {
         @strongify(self);
         if (x) {
@@ -67,6 +62,14 @@
             [self.viewCModel.loadBottomData execute:bottmParam];
         }
     }];
+}
+
+-(void)bindViewControllerModel{
+    
+    @weakify(self);
+    
+    self.viewCModel = [[RootObjectModel alloc]init];
+    
     
     
     [RACObserve(self.viewCModel, topDataList) subscribeNext:^(NSDictionary *x) {
@@ -133,11 +136,11 @@
         serviceDetailsVC.serviceId = serviceId;
         [self.navigationController pushViewController:serviceDetailsVC animated:YES];
     };
-    self.overBalanceView.seeAllCategory = ^{
-        @strongify(self);
-        CHServiceAllSerViewController *allCategory = [CHServiceAllSerViewController new];
-        [self.navigationController pushViewController:allCategory animated:YES];
-    };
+//    self.overBalanceView.seeAllCategory = ^{
+//        @strongify(self);
+//        CHServiceAllSerViewController *allCategory = [CHServiceAllSerViewController new];
+//        [self.navigationController pushViewController:allCategory animated:YES];
+//    };
 }
 
 -(void)setupViews{
@@ -156,7 +159,7 @@
     [self.headItemView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.wrapSrollview);
         make.left.right.equalTo(self.wrapSrollview);
-        make.height.mas_equalTo(210);
+        make.height.mas_equalTo(120);
         make.width.mas_equalTo(kScreenWidth);
     }];
     
@@ -216,7 +219,7 @@
 
 - (HomeNavView*)NavView{
     if (!_NavView) {
-        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, 109)];
+        _NavView = [[HomeNavView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, 64)];
     }
     return _NavView;
 }
@@ -247,9 +250,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-}
+
 
 @end

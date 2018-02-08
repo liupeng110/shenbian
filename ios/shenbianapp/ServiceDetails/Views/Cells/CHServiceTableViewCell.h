@@ -10,6 +10,7 @@
 #import "CHServiceCellModel.h"
 
 typedef void(^ClickAddShopCart)(void);
+typedef void(^TapHeadImagegGuesture)(void);
 
 @interface CHServiceTableViewCell : UITableViewCell
 
@@ -17,5 +18,5 @@ typedef void(^ClickAddShopCart)(void);
 @property(nonatomic,strong) CHServiceCellModel *cellModel;
 
 @property(nonatomic,copy) ClickAddShopCart clickAddShopCart;
-
+@property(nonatomic,copy) TapHeadImagegGuesture tapHeadImagegGuesture;
 @end

@@ -11,5 +11,5 @@
 @interface CHArticleListTableViewCell : UITableViewCell
 
 @property(nonatomic,strong)NSIndexPath *indexPath;
-
+@property(nonatomic,copy)NSDictionary *dataDic;
 @end

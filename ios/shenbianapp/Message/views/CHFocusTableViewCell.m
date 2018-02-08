@@ -46,7 +46,7 @@
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-15);
             make.top.equalTo(self.nameLabel);
-            make.width.mas_equalTo(80);
+            make.width.mas_equalTo(150);
             make.height.mas_equalTo(20);
         }];
     }
@@ -97,6 +97,17 @@
         _timeLabel.textAlignment = NSTextAlignmentRight;
     }
     return _timeLabel;
+}
+
+-(void)setUserDic:(NSDictionary *)userDic{
+   [self.headImageView setImageWithURL:[NSURL URLWithString:userDic[@"userIcon"]] placeholder:[UIImage imageNamed:@"default_headImage"]];
+    self.nameLabel.text = userDic[@"userName"];
+    NSTimeInterval traval = [userDic[@"updateTime"] integerValue];
+    NSDate *updateDate = [NSDate dateWithTimeIntervalSince1970:traval / 1000 ];
+    NSDateFormatter *stampFormatter = [[NSDateFormatter alloc] init];
+    [stampFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+   
+    self.timeLabel.text = [stampFormatter stringFromDate:updateDate];
 }
 
 @end

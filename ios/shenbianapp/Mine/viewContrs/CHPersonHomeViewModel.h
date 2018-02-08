@@ -12,6 +12,8 @@ typedef NS_ENUM(NSInteger, CHProvideType) {
     ProvideTypeArticle,
 };
 
-@interface CHMyArticleAndServiceViewModel : CHBaseViewCModel
+@interface CHPersonHomeViewModel : CHBaseViewCModel
 @property(nonatomic,assign)CHProvideType provideTye;
+
+@property(nonatomic,strong,readonly)RACCommand *focusCommand;
 @end

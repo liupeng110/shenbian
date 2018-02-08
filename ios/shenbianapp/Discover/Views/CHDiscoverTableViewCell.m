@@ -211,8 +211,9 @@
     self.descriptionLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"serviceDescription"]];
     NSString *homeUrl = [modelDic objectForKey:@"homeUrl"];
     [self.headImageView setImageWithURL:[NSURL URLWithString:homeUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
-    
-    NSString *materialUrl = [modelDic objectForKey:@"materialUrl"];
+    NSString *material_Urls = [modelDic objectForKey:@"materialUrl"];
+    NSArray *material_list = [material_Urls componentsSeparatedByString:@";"];
+    NSString *materialUrl = [material_list firstObject];
     [self.materailImageView setImageWithURL:[NSURL URLWithString:materialUrl] placeholder:[UIImage imageNamed:@"sy_sj_cover"]];
     
 }

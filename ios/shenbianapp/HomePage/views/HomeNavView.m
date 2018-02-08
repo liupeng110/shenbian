@@ -20,7 +20,7 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor colorWithHexColor:@"#008e8f"];
         [self addSubview:self.locationButton];
-        [self addSubview:self.searchButton];
+//        [self addSubview:self.searchButton];
         
         [self addSubview:self.shoppingCart];
         [self.shoppingCart mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -33,8 +33,8 @@
         [self.quikCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(10);
             make.right.equalTo(self).offset(-10);
-            make.bottom.equalTo(self).offset(-5);
-            make.top.equalTo(self.searchButton.mas_bottom).offset(5);
+            make.bottom.equalTo(self).offset(0);
+            make.top.equalTo(self).offset(30);
         }];
         [RACObserve(self, quikSearchList) subscribeNext:^(id x) {
             if (x) {
@@ -110,6 +110,7 @@
         [_quikCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"quikCell"];
         _quikCollectionView.backgroundColor = [UIColor clearColor];
         _quikCollectionView.showsHorizontalScrollIndicator = NO;
+//        _quikCollectionView.backgroundColor = [UIColor greenColor];
     }
     return _quikCollectionView;
 }

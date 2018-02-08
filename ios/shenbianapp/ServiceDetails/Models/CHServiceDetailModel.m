@@ -14,9 +14,11 @@
 
 @implementation CHServiceDetailModel
 @synthesize loadPagedata = _loadPagedata;
+@synthesize focusCommand = _focusCommand;
 -(RACCommand *)loadPagedata{
     
     if (_loadPagedata == nil) {
+       
         _loadPagedata = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
             
             RACSignal *signal = [CHNetWork loadDataWithParam:input withUrlString:@"/v1/service/details.htm"];
@@ -44,5 +46,17 @@
     }
     return _addToCartCommand;
 }
+
+-(RACCommand *)focusCommand{
+    if ( _focusCommand == nil) {
+        _focusCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+
+            return [CHNetWork loadDataWithParam:input withUrlString:@"/v1/collect/addOrRemove.htm"];
+            
+        }];
+    }
+    return _focusCommand;
+}
+
 
 @end

@@ -9,10 +9,7 @@
 #import "CHMessageTableViewCell.h"
 
 @interface CHMessageTableViewCell ()
-@property(nonatomic,strong)UIImageView *headImage;
-@property(nonatomic,strong)UILabel *userNameLabel;
-@property(nonatomic,strong)UILabel *briefMsgLabel;
-@property(nonatomic,strong)UILabel *lastTimeLabel;
+
 
 @end
 
@@ -48,7 +45,7 @@
         [self.lastTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-15);
             make.top.equalTo(self).offset(15);
-            make.width.mas_equalTo(100);
+            make.width.mas_equalTo(120);
             make.height.mas_equalTo(20);
         }];
     }
@@ -87,6 +84,7 @@
         _headImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
         _headImage.layer.cornerRadius = 25;
         _headImage.clipsToBounds = YES;
+        _headImage.contentMode = UIViewContentModeScaleAspectFill;
     }
 
     return _headImage;
@@ -121,7 +119,9 @@
         _lastTimeLabel = [UILabel new];
         _lastTimeLabel.text = @"00:00";
         _lastTimeLabel.textColor = [UIColor colorWithHexColor:@"#8f959c"];
-        _lastTimeLabel.font = [UIFont systemFontOfSize:15];
+        _lastTimeLabel.font = [UIFont systemFontOfSize:12];
+        _lastTimeLabel.textAlignment =NSTextAlignmentRight;
+
     }
     return _lastTimeLabel;
 }

@@ -30,15 +30,22 @@
     [self.window makeKeyAndVisible];
     [[AMapServices sharedServices] setEnableHTTPS:YES];
     [AMapServices sharedServices].apiKey = @"57b0342608d2bddf1cfba6b5627100fc";
-    [[RCIM sharedRCIM] initWithAppKey:@"mgb7ka1nmwffg"];
+    [[RCIM sharedRCIM] initWithAppKey:@"8w7jv4qb8caay"];
     [[RCIM sharedRCIM] setScheme:@"userviceRedPacket" forExtensionModule:@"JrmfPacketManager"];
-    [[RCIM sharedRCIM] connectWithToken:@"lZxlQOonERbH4OZlaoGCskfahqlL3dhxC0IyB1eTNaLD5DUa4755NDXSK1BuVqVEcoyQ3XWiZ83lPu8m+jj4uw==" success:^(NSString *userId) {
+    NSString *imToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"imToken"];
+    [RCIM sharedRCIM].enableMessageAttachUserInfo = YES;
+
+    if (imToken) {
         
-    } error:^(RCConnectErrorCode status) {
-        
-    } tokenIncorrect:^{
-        
-    }];
+        [[RCIM sharedRCIM] connectWithToken:imToken success:^(NSString *userId) {
+           
+            
+        } error:^(RCConnectErrorCode status) {
+            
+        } tokenIncorrect:^{
+            
+        }];
+    }
     [WXApi registerApp:@"wx647da34106a75ac2" ];
     [[IQKeyboardManager sharedManager] setEnable:NO];
     [IQKeyboardManager sharedManager].enableAutoToolbar = YES;

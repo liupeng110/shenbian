@@ -8,13 +8,14 @@
 
 #import "CHFocusViewController.h"
 #import "CHFocusTableViewCell.h"
-
-#import "CHArticleAndServiceListViewController.h"
+#import "CHFocusModel.h"
+#import "CHPersonHomeViewController.h"
 
 @interface CHFocusViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,copy)NSArray *focusList;
+@property(nonatomic,strong) CHFocusModel *viewModel;
 @end
 
 @implementation CHFocusViewController
@@ -23,6 +24,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"已关注";
+}
+
+-(CHFocusModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [CHFocusModel new];
+    }
+    return _viewModel;
+}
+
+-(void)bindViewControllerModel{
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];;
+    if (token) {
+        
+    RACSignal *singal = [self.viewModel.loadPagedata execute:@{@"token":token}];
+    @weakify(self);
+    [singal subscribeNext:^(id x) {
+        @strongify(self);
+        self.focusList = [x objectForKey:@"data"];
+        [self.tableView reloadData];
+    } error:^(NSError *error) {
+        NSLog(@"error:%@",error);
+    }];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationLogin object:nil];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -43,9 +69,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)bindViewControllerModel{
-    self.focusList = @[@"",@"",@""];
-}
 
 -(void)setupViews{
 
@@ -76,6 +99,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CHFocusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"focusCell" forIndexPath:indexPath];
+    cell.userDic = self.focusList[indexPath.row];
     return cell;
 }
 
@@ -86,7 +110,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    CHArticleAndServiceListViewController *personHome = [CHArticleAndServiceListViewController new];
+    CHPersonHomeViewController *personHome = [CHPersonHomeViewController new];
+    personHome.userId = self.focusList[indexPath.row][@"userId"];
+    personHome.userIcon = self.focusList[indexPath.row][@"userIcon"];
+    personHome.userName = self.focusList[indexPath.row][@"userName"];
     [self.navigationController pushViewController:personHome animated:YES];
 }
 

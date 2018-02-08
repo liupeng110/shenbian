@@ -7,7 +7,7 @@
 //
 
 #import "CHLoginVCModel.h"
-
+#import <RongIMKit/RongIMKit.h>
 
 @implementation CHLoginVCModel
 
@@ -68,9 +68,20 @@
                         NSString *token = [x objectForKey:@"token"];
                         [ud setObject:token forKey:@"token"];
                         [ud setObject:[x objectForKey:@"userId"] forKey:@"userId"];
+                        NSString *imToken = [x objectForKey:@"imToken"];
+                        [ud setObject:imToken forKey:@"imToken"];
+
                         [ud synchronize];
                         [subscriber sendNext:x];
                         [subscriber sendCompleted];
+                        
+                        [[RCIM sharedRCIM] connectWithToken:imToken success:^(NSString *userId) {
+                            
+                        } error:^(RCConnectErrorCode status) {
+                            
+                        } tokenIncorrect:^{
+                            
+                        }];
                     } else {
                         NSLog(@"error:%@",[x objectForKey:@"error"]);
                         [subscriber sendError:[NSError errorWithDomain:[x objectForKey:@"error"] code:100 userInfo:nil]];

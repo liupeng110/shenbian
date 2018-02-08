@@ -53,7 +53,7 @@
         _tableView.estimatedRowHeight = 0;
         _tableView.estimatedSectionFooterHeight = 0;
         _tableView.estimatedSectionHeaderHeight = 0;
-
+        _tableView.showsVerticalScrollIndicator = NO;
         if (@available(iOS 11.0, *)) {
             _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         } else {
@@ -109,6 +109,7 @@
         cell.cellModel = model;
 
     }
+    cell.tapHeadImagegGuesture = self.tapHeadImagegGuesture;
     
     return cell;
 }
@@ -165,8 +166,10 @@
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     if (section == 0) {
+        UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 220))];
         UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 220))];
-
+        [contentView addSubview:scrollView];
+        
         NSUInteger count = self.model.advertisementList.count;
         for (int i = 0; i < count; i++) {
             UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"default_image"]];
@@ -179,16 +182,17 @@
         scrollView.delegate = self;
         scrollView.pagingEnabled = YES;
         scrollView.contentSize = CGSizeMake(kScreenWidth * count, 220);
-        [scrollView addSubview:self.pageControl];
+        scrollView.showsHorizontalScrollIndicator = NO;
+        [contentView addSubview:self.pageControl];
 
-        return scrollView;
+        return contentView;
         
     } else if (section == 1){
         UIView *contentView = [[UIView alloc]initWithFrame:(CGRectMake(0, 0, kScreenWidth, 55))];
         contentView.backgroundColor = [UIColor colorWithHexString:@"#f6f6f6"];
         UILabel* _priceLabel = [UILabel new];
         NSString *price = self.model.servicePrice == nil ? @"": self.model.servicePrice;
-        _priceLabel.text = [NSString stringWithFormat:@"%@",price];
+        _priceLabel.text = [NSString stringWithFormat:@"￥%@",price];
         _priceLabel.font = [UIFont systemFontOfSize:22];
         _priceLabel.textColor = [UIColor colorWithHexString:@"#009698"];
         [contentView addSubview:_priceLabel];

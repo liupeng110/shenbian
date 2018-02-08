@@ -13,6 +13,7 @@
 @property(nonatomic,strong)UILabel *numLabel;
 @property(nonatomic,strong)IQTextView *remarkTextView;
 @property(nonatomic,strong)UILabel *remarkLabel;
+@property(nonatomic,strong)UILabel *tailLabel;
 @end
 
 @implementation CHSubmitOrderTableViewCell
@@ -101,13 +102,31 @@
             
         } else {
             self.textLabel.text = self.dataArray[indexPath.section][indexPath.row];
-
+            [self.contentView addSubview:self.tailLabel];
+            [self.tailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(self.contentView);
+                make.right.equalTo(self.contentView).offset(-15);
+                make.height.mas_equalTo(20);
+                make.width.mas_equalTo(180);
+                
+            }];
+            RAC(self.tailLabel,text) = RACObserve(self, tailText);
+            
         }
         
     }
     
 }
 
+-(UILabel *)tailLabel{
+    if (!_tailLabel) {
+        _tailLabel = [UILabel new];
+        _tailLabel.font = [UIFont systemFontOfSize:13];
+        _tailLabel.textColor = [UIColor grayColor];
+        _tailLabel.textAlignment = NSTextAlignmentRight;
+    }
+    return _tailLabel;
+}
 
 -(UILabel *)numLabel{
     

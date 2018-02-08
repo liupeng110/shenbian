@@ -62,6 +62,9 @@
 		FD9DCE9D1FDE9190005787F7 /* CHServiceListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9DCE9C1FDE9190005787F7 /* CHServiceListModel.m */; };
 		FDA1BF521FB68E0600AE64B7 /* CHFocusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */; };
 		FDA1BF551FB68F2500AE64B7 /* CHFocusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA1BF541FB68F2500AE64B7 /* CHFocusTableViewCell.m */; };
+		FDABBD622025E4150070EDAE /* CHFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDABBD612025E4150070EDAE /* CHFeedBackViewController.m */; };
+		FDABBD642025EA3D0070EDAE /* CHHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDABBD632025EA3D0070EDAE /* CHHelpViewController.xib */; };
+		FDABBD672025F3190070EDAE /* CHFocusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDABBD662025F3190070EDAE /* CHFocusModel.m */; };
 		FDAD40691FF3844B00F1AA5A /* CHSecondCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAD40681FF3844B00F1AA5A /* CHSecondCategoryModel.m */; };
 		FDAD406F1FF4F8DF00F1AA5A /* CHMyOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAD406E1FF4F8DF00F1AA5A /* CHMyOrderViewModel.m */; };
 		FDAD40721FF51A1500F1AA5A /* CHShopingCartViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAD40711FF51A1500F1AA5A /* CHShopingCartViewModel.m */; };
@@ -98,8 +101,8 @@
 		FDE397241FA5BABC00143D1B /* CHMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE396F61FA5BABC00143D1B /* CHMessageViewController.m */; };
 		FDE397251FA5BABC00143D1B /* CHMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE396F91FA5BABC00143D1B /* CHMessageTableViewCell.m */; };
 		FDE397261FA5BABC00143D1B /* CHArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE396FD1FA5BABC00143D1B /* CHArticleListTableViewCell.m */; };
-		FDE397271FA5BABC00143D1B /* CHArticleAndServiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397001FA5BABC00143D1B /* CHArticleAndServiceListViewController.m */; };
-		FDE397281FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397021FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m */; };
+		FDE397271FA5BABC00143D1B /* CHPersonHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397001FA5BABC00143D1B /* CHPersonHomeViewController.m */; };
+		FDE397281FA5BABC00143D1B /* CHPersonHomeViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397021FA5BABC00143D1B /* CHPersonHomeViewModel.m */; };
 		FDE397291FA5BABC00143D1B /* RootMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397041FA5BABC00143D1B /* RootMineViewController.m */; };
 		FDE3972A1FA5BABC00143D1B /* CellSPaceCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE397071FA5BABC00143D1B /* CellSPaceCollectionReusableView.m */; };
 		FDE3972B1FA5BABC00143D1B /* CellSPaceCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDE397081FA5BABC00143D1B /* CellSPaceCollectionReusableView.xib */; };
@@ -229,6 +232,11 @@
 		FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFocusViewController.m; sourceTree = "<group>"; };
 		FDA1BF531FB68F2500AE64B7 /* CHFocusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFocusTableViewCell.h; sourceTree = "<group>"; };
 		FDA1BF541FB68F2500AE64B7 /* CHFocusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFocusTableViewCell.m; sourceTree = "<group>"; };
+		FDABBD602025E4150070EDAE /* CHFeedBackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFeedBackViewController.h; sourceTree = "<group>"; };
+		FDABBD612025E4150070EDAE /* CHFeedBackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFeedBackViewController.m; sourceTree = "<group>"; };
+		FDABBD632025EA3D0070EDAE /* CHHelpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHHelpViewController.xib; sourceTree = "<group>"; };
+		FDABBD652025F3190070EDAE /* CHFocusModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHFocusModel.h; sourceTree = "<group>"; };
+		FDABBD662025F3190070EDAE /* CHFocusModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHFocusModel.m; sourceTree = "<group>"; };
 		FDAD40671FF3844B00F1AA5A /* CHSecondCategoryModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHSecondCategoryModel.h; sourceTree = "<group>"; };
 		FDAD40681FF3844B00F1AA5A /* CHSecondCategoryModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHSecondCategoryModel.m; sourceTree = "<group>"; };
 		FDAD406D1FF4F8DF00F1AA5A /* CHMyOrderViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHMyOrderViewModel.h; sourceTree = "<group>"; };
@@ -301,10 +309,10 @@
 		FDE396F91FA5BABC00143D1B /* CHMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHMessageTableViewCell.m; sourceTree = "<group>"; };
 		FDE396FC1FA5BABC00143D1B /* CHArticleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHArticleListTableViewCell.h; sourceTree = "<group>"; };
 		FDE396FD1FA5BABC00143D1B /* CHArticleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHArticleListTableViewCell.m; sourceTree = "<group>"; };
-		FDE396FF1FA5BABC00143D1B /* CHArticleAndServiceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHArticleAndServiceListViewController.h; sourceTree = "<group>"; };
-		FDE397001FA5BABC00143D1B /* CHArticleAndServiceListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHArticleAndServiceListViewController.m; sourceTree = "<group>"; };
-		FDE397011FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHMyArticleAndServiceViewModel.h; sourceTree = "<group>"; };
-		FDE397021FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHMyArticleAndServiceViewModel.m; sourceTree = "<group>"; };
+		FDE396FF1FA5BABC00143D1B /* CHPersonHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPersonHomeViewController.h; sourceTree = "<group>"; };
+		FDE397001FA5BABC00143D1B /* CHPersonHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPersonHomeViewController.m; sourceTree = "<group>"; };
+		FDE397011FA5BABC00143D1B /* CHPersonHomeViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPersonHomeViewModel.h; sourceTree = "<group>"; };
+		FDE397021FA5BABC00143D1B /* CHPersonHomeViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPersonHomeViewModel.m; sourceTree = "<group>"; };
 		FDE397031FA5BABC00143D1B /* RootMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootMineViewController.h; sourceTree = "<group>"; };
 		FDE397041FA5BABC00143D1B /* RootMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootMineViewController.m; sourceTree = "<group>"; };
 		FDE397061FA5BABC00143D1B /* CellSPaceCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellSPaceCollectionReusableView.h; sourceTree = "<group>"; };
@@ -401,17 +409,17 @@
 		A9DA46011F1630CA00E3DB17 /* shenbianapp */ = {
 			isa = PBXGroup;
 			children = (
+				FD9448AA1F52ED48001FC5CD /* Network */,
 				FD06FBC01FB59094008F70CB /* LoacationSearch */,
 				FD2F7DF41FA4BB5D00CF5B40 /* GlobalData */,
 				FD1774131F4950FB00476D98 /* CHExtension */,
 				FD24801C1F6836A600CA30BB /* RootViewController */,
 				FD2480001F682CDF00CA30BB /* BaseViewControllers */,
+				FD59192A1F63161100FD7913 /* Login */,
 				FDE396C81FA5BABC00143D1B /* HomePage */,
 				FDE396EA1FA5BABC00143D1B /* Message */,
 				FDE397491FA5C80600143D1B /* Discover */,
 				FDE396FA1FA5BABC00143D1B /* Mine */,
-				FD9448AA1F52ED48001FC5CD /* Network */,
-				FD59192A1F63161100FD7913 /* Login */,
 				A99FB6831F186C9600D6C447 /* shenbianTools */,
 				FDC3606D1F483D9E00AC4A81 /* Publish */,
 				FD2480181F682D8600CA30BB /* ServiceDetails */,
@@ -824,6 +832,8 @@
 			children = (
 				FDE396EC1FA5BABC00143D1B /* CHMessageModel.h */,
 				FDE396ED1FA5BABC00143D1B /* CHMessageModel.m */,
+				FDABBD652025F3190070EDAE /* CHFocusModel.h */,
+				FDABBD662025F3190070EDAE /* CHFocusModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -881,14 +891,17 @@
 			children = (
 				FDE397031FA5BABC00143D1B /* RootMineViewController.h */,
 				FDE397041FA5BABC00143D1B /* RootMineViewController.m */,
-				FDE396FF1FA5BABC00143D1B /* CHArticleAndServiceListViewController.h */,
-				FDE397001FA5BABC00143D1B /* CHArticleAndServiceListViewController.m */,
-				FDE397011FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.h */,
-				FDE397021FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m */,
+				FDE396FF1FA5BABC00143D1B /* CHPersonHomeViewController.h */,
+				FDE397001FA5BABC00143D1B /* CHPersonHomeViewController.m */,
+				FDE397011FA5BABC00143D1B /* CHPersonHomeViewModel.h */,
+				FDE397021FA5BABC00143D1B /* CHPersonHomeViewModel.m */,
 				FDE46CAA1FAB21790013F684 /* CHStoreInfoViewController.h */,
 				FDE46CAB1FAB21790013F684 /* CHStoreInfoViewController.m */,
 				FD06FBC91FB5E18E008F70CB /* CHMyOrdersViewController.h */,
 				FD06FBCA1FB5E18E008F70CB /* CHMyOrdersViewController.m */,
+				FDABBD602025E4150070EDAE /* CHFeedBackViewController.h */,
+				FDABBD612025E4150070EDAE /* CHFeedBackViewController.m */,
+				FDABBD632025EA3D0070EDAE /* CHHelpViewController.xib */,
 			);
 			path = viewContrs;
 			sourceTree = "<group>";
@@ -1051,6 +1064,7 @@
 				FD0CFF681F640A21004FA3CF /* CHLoginAgreement.xib in Resources */,
 				A9DA46121F1630CA00E3DB17 /* LaunchScreen.storyboard in Resources */,
 				FDE3972D1FA5BABC00143D1B /* MHMineHeaderCollectionReusableView.xib in Resources */,
+				FDABBD642025EA3D0070EDAE /* CHHelpViewController.xib in Resources */,
 				FD2480171F682CDF00CA30BB /* MHBaseNavigationBar.xib in Resources */,
 				A9DA460F1F1630CA00E3DB17 /* Assets.xcassets in Resources */,
 				FDE3972F1FA5BABC00143D1B /* MineCollectionViewCell.xib in Resources */,
@@ -1141,6 +1155,7 @@
 				FDFB68DF1FE81693000647DD /* CHSubmitOrderModel.m in Sources */,
 				FDE3971A1FA5BABC00143D1B /* CHMerchantView.m in Sources */,
 				FDE3971C1FA5BABC00143D1B /* CHOverbalanceCollectionViewCell.m in Sources */,
+				FDABBD672025F3190070EDAE /* CHFocusModel.m in Sources */,
 				FD9448AD1F52EE3D001FC5CD /* CHNetWorkHelper.m in Sources */,
 				FD2C93281F9363D8007984D0 /* CHPublishServiceModel.m in Sources */,
 				FDAD40691FF3844B00F1AA5A /* CHSecondCategoryModel.m in Sources */,
@@ -1162,7 +1177,7 @@
 				FDDDC1161F77C01500242F3E /* CHPublishArticleModel.m in Sources */,
 				FDE397141FA5BABC00143D1B /* CHOverbalanceModel.m in Sources */,
 				FDE397551FA5C80600143D1B /* CHDiscoverTableViewCell.m in Sources */,
-				FDE397271FA5BABC00143D1B /* CHArticleAndServiceListViewController.m in Sources */,
+				FDE397271FA5BABC00143D1B /* CHPersonHomeViewController.m in Sources */,
 				FDAD40721FF51A1500F1AA5A /* CHShopingCartViewModel.m in Sources */,
 				FDF4BAAE1FB024B3002A90A3 /* CHShoppingCartTableViewCell.m in Sources */,
 				FD7967B31F6ADB890049DCDB /* CHServiceBottomView.m in Sources */,
@@ -1207,7 +1222,7 @@
 				FD282B411FAACEA900B2D52D /* CHStoreInfoModel.m in Sources */,
 				FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */,
 				FDAD406F1FF4F8DF00F1AA5A /* CHMyOrderViewModel.m in Sources */,
-				FDE397281FA5BABC00143D1B /* CHMyArticleAndServiceViewModel.m in Sources */,
+				FDE397281FA5BABC00143D1B /* CHPersonHomeViewModel.m in Sources */,
 				FD06FBCE1FB5E2CF008F70CB /* CHMyOrderTableViewCell.m in Sources */,
 				FD9DCE9D1FDE9190005787F7 /* CHServiceListModel.m in Sources */,
 				FDE397151FA5BABC00143D1B /* RootObjectModel.m in Sources */,
@@ -1224,6 +1239,7 @@
 				FD06FBC31FB590AE008F70CB /* CHLoacationSearchViewController.m in Sources */,
 				FDE3971B1FA5BABC00143D1B /* CHMerchentTableViewCell.m in Sources */,
 				FD9DCE961FDE8179005787F7 /* CHOrderModel.m in Sources */,
+				FDABBD622025E4150070EDAE /* CHFeedBackViewController.m in Sources */,
 				FDE0A3B01FAF075800058149 /* CHAllServiceTableViewCell.m in Sources */,
 				FDE3972C1FA5BABC00143D1B /* MHMineHeaderCollectionReusableView.m in Sources */,
 				FDE397241FA5BABC00143D1B /* CHMessageViewController.m in Sources */,

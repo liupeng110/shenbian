@@ -14,4 +14,5 @@ typedef void(^getNote)(NSString *note);
 @property(nonatomic,strong)NSArray *dataArray;
 @property(nonatomic,strong)NSIndexPath *indexPath;
 @property(nonatomic,strong)getNote getNote;
+@property(nonatomic,copy)NSString *tailText;
 @end

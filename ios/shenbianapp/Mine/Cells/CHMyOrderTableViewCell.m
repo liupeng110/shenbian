@@ -24,16 +24,17 @@
 
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self addSubview:self.headImageView];
         [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.centerY.equalTo(self);
-            make.width.mas_equalTo(120);
-            make.height.mas_equalTo(90);
+            make.width.mas_equalTo(100);
+            make.height.mas_equalTo(80);
         }];
         [self addSubview:self.titleLabel];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.headImageView.mas_right).offset(10);
+            make.left.equalTo(self.headImageView.mas_right).offset(5);
             make.top.equalTo(self.headImageView).offset(3);
             make.width.mas_equalTo(200);
             make.height.mas_equalTo(20);
@@ -41,7 +42,7 @@
         
         [self addSubview:self.contentLabel];
         [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.headImageView.mas_right).offset(10);
+            make.left.equalTo(self.headImageView.mas_right).offset(5);
             make.top.equalTo(self.titleLabel.mas_bottom);
             make.right.equalTo(self).offset(-15);
             make.height.mas_equalTo(50);
@@ -57,7 +58,7 @@
         
         [self addSubview:self.payStatus];
         [self.payStatus mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentLabel.mas_bottom).offset(3);
+            make.bottom.equalTo(self).offset(-3);
             make.right.equalTo(self).offset(-15);
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
@@ -70,7 +71,7 @@
 
     if (_headImageView == nil) {
         _headImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sy_sj_cover"]];
-        _headImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _headImageView.contentMode = UIViewContentModeScaleAspectFill;
         _headImageView.clipsToBounds = YES;
         _headImageView.layer.cornerRadius = 2;
     }
@@ -119,13 +120,14 @@
         _payStatus = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [_payStatus setTitle:@"已支付" forState:(UIControlStateNormal)];
         _payStatus.titleLabel.font = [UIFont systemFontOfSize:13];
-        _payStatus.backgroundColor = [UIColor colorWithHexColor:@"#009698"];
+        _payStatus.backgroundColor = [UIColor colorWithHexColor:@"#a2a5aa"];
         _payStatus.layer.cornerRadius = 3;
     }
     return _payStatus;
 }
 
 -(void)setDataDic:(NSDictionary *)dataDic{
+    _dataDic = dataDic;
     NSString *coverImageUrl = [dataDic objectForKey:@"homeUrl"];
     [self.headImageView setImageWithURL:[NSURL URLWithString:coverImageUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
     self.titleLabel.text = [dataDic objectForKey:@"userName"];
@@ -148,5 +150,7 @@
             break;
     }
 }
+
+
 
 @end
