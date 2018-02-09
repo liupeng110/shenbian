@@ -65,7 +65,8 @@
     model.iconUrl = [NSString stringWithFormat:@"%@",[dic objectForKey:@"homeUrl"]];
     model.placeHolder = self.placeHolderList[indexPath.row];
     model.rating = [dic objectForKey:@"starRating"];
-    model.distance = [[dic objectForKey:@"distance"] floatValue];
+//    model.distance = [[dic objectForKey:@"distance"] floatValue];
+    model.location = [dic objectForKey:@"location"];
     model.merchentName = [dic objectForKey:@"serviceTitle"];
     model.content = [NSString stringWithFormat:@"%@",[dic objectForKey:@"serviceDescription"]];
     model.slodOut = [[dic objectForKey:@"soldCount"] integerValue];

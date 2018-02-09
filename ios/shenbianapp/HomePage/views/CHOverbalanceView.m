@@ -42,7 +42,7 @@
             make.top.equalTo(self.overBalanceLabel.mas_bottom);
         }];
         
-        self.placeHolderList = @[@"leftHolder",@"rightHolder"];
+        self.placeHolderList = @[@"default_cover",@"default_cover"];
         self.backgroundColor = [UIColor whiteColor];
         @weakify(self);
         [RACObserve(self,overBablanceList) subscribeNext:^(id x) {

@@ -12,7 +12,7 @@
 
 @property(nonatomic,strong)UIImageView *coverImageView;
 
-@property(nonatomic,strong)UIImageView *ratingImageView;
+//@property(nonatomic,strong)UIImageView *ratingImageView;
 @property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)UILabel *contentLabel;
 @property(nonatomic,strong)UILabel *ratingLabel;
@@ -37,15 +37,6 @@
             make.width.mas_equalTo(120);
         }];
         
-        
-        
-        [self addSubview:self.ratingLabel];
-        [self.ratingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.ratingImageView.mas_right).offset(5);
-            make.top.equalTo(self).offset(12);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(20);
-        }];
         
         [self addSubview:self.distanceLabel];
         [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -95,6 +86,13 @@
             make.height.mas_equalTo(40);
         }];
     
+        [self addSubview:self.ratingLabel];
+        [self.ratingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.coverImageView.mas_right).offset(80);
+            make.top.equalTo(self.nameLabel.mas_bottom).offset(0);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(20);
+        }];
        
     }
     return self;
@@ -115,23 +113,23 @@
 
     if (_coverImageView == nil) {
         _coverImageView = [[UIImageView alloc]init];
-        _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFit;
         _coverImageView.image = [UIImage imageNamed:@"sy_sj_cover"];
         _coverImageView.clipsToBounds = YES;
     }
     return _coverImageView;
 }
 
--(UIImageView *)ratingImageView{
-
-    if (_ratingImageView == nil) {
-        _ratingImageView = [[UIImageView alloc]init];
-        _ratingImageView.contentMode = UIViewContentModeScaleAspectFill;
-        _ratingImageView.image = [UIImage imageNamed:@"syxh_xx"];
-    }
-    
-    return _ratingImageView;
-}
+//-(UIImageView *)ratingImageView{
+//
+//    if (_ratingImageView == nil) {
+//        _ratingImageView = [[UIImageView alloc]init];
+//        _ratingImageView.contentMode = UIViewContentModeScaleAspectFill;
+//        _ratingImageView.image = [UIImage imageNamed:@"syxh_xx"];
+//    }
+//
+//    return _ratingImageView;
+//}
 
 -(UILabel *)distanceLabel{
 
@@ -197,8 +195,7 @@
     
     [self.coverImageView setImageWithURL:[NSURL URLWithString:model.iconUrl] placeholder:[UIImage imageNamed:model.placeHolder]];
     
-    self.ratingLabel.text = model.rating;
-    self.distanceLabel.text = [NSString stringWithFormat:@"%.fm",model.distance];
+    self.ratingLabel.text = [NSString stringWithFormat:@"(%@)",model.rating];
     self.nameLabel.text = model.merchentName;
     self.contentLabel.text = model.content;
     self.soldOutLabel.text = [NSString stringWithFormat:@"已售：%ld件",model.slodOut];
@@ -212,7 +209,19 @@
             make.top.equalTo(self.nameLabel.mas_bottom).offset(2);
             make.width.height.mas_equalTo(13);
         }];
+        
+       
     }
-    
+    @weakify(self);
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [GlobalData distacewithLocation:model.location result:^(NSString *distance) {
+            @strongify(self);
+            self.distanceLabel.text = distance;
+            
+        }];
+    });
+   
+   
 }
 @end

@@ -56,10 +56,11 @@
         @strongify(self);
         if (x) {
             NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary: @{@"center":GlobalData.currentLocation,@"city":GlobalData.currentCity}];
-            [self.viewCModel.loadTopData execute:param];
-            
+           [self.viewCModel.loadTopData execute:param];
+        
             NSDictionary *bottmParam = @{@"center":GlobalData.currentLocation,@"city":GlobalData.currentCity,@"page":@"1",@"limit":@"10",};
             [self.viewCModel.loadBottomData execute:bottmParam];
+           
         }
     }];
 }
@@ -69,7 +70,6 @@
     @weakify(self);
     
     self.viewCModel = [[RootObjectModel alloc]init];
-    
     
     
     [RACObserve(self.viewCModel, topDataList) subscribeNext:^(NSDictionary *x) {

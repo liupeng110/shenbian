@@ -86,9 +86,9 @@
 -(void)TabBarDidClickPlusButton:(HQTabBar *)tabBar{
 
     //判断登录
-    BOOL login = [[NSUserDefaults standardUserDefaults] boolForKey:@"login"];
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
 //    login = YES;
-    if (login) {
+    if (token) {
 
         CHPublishViewController *publish = [[CHPublishViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:publish];

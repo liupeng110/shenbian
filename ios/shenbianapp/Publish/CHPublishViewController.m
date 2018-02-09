@@ -117,10 +117,14 @@
 
     UIViewController *presentVC = self.presentingViewController;
     [self dismissViewControllerAnimated:NO completion:^{
-        
+        NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+        if (token == nil) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationLogin object:nil];
+        } else {
         CHPublishServeViewController *serveVC = [[CHPublishServeViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:serveVC];
         [presentVC presentViewController:nav animated:YES completion:nil];
+        }
     }];
     
 }

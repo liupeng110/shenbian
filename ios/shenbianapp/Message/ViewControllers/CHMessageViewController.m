@@ -12,6 +12,7 @@
 
 #import "CHFocusViewController.h"
 #import "CHMyOrdersViewController.h"
+#import "CHChatListViewController.h"
 @interface CHMessageViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,RCIMReceiveMessageDelegate>
 
 @property(nonatomic,strong)UIView *upperView;
@@ -89,21 +90,21 @@
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = YES;
-    
-    NSArray *conversationList = [[RCIMClient sharedRCIMClient]
-                                 getConversationList:@[@(ConversationType_PRIVATE),
-                                                       @(ConversationType_DISCUSSION),
-                                                       @(ConversationType_GROUP),
-                                                       @(ConversationType_SYSTEM),
-                                                       @(ConversationType_APPSERVICE),
-                                                       @(ConversationType_PUBLICSERVICE)]];
-    for (RCConversation *conversation in conversationList) {
-        NSLog(@"会话类型：%@，目标会话ID：%@", conversation.conversationTitle, conversation.targetId);
-    }
-    if (conversationList.count > 0) {
-        RCConversation *conversation = conversationList.lastObject;
-        
-    }
+//    
+//    NSArray *conversationList = [[RCIMClient sharedRCIMClient]
+//                                 getConversationList:@[@(ConversationType_PRIVATE),
+//                                                       @(ConversationType_DISCUSSION),
+//                                                       @(ConversationType_GROUP),
+//                                                       @(ConversationType_SYSTEM),
+//                                                       @(ConversationType_APPSERVICE),
+//                                                       @(ConversationType_PUBLICSERVICE)]];
+//    for (RCConversation *conversation in conversationList) {
+//        NSLog(@"会话类型：%@，目标会话ID：%@", conversation.conversationTitle, conversation.targetId);
+//    }
+//    if (conversationList.count > 0) {
+//        RCConversation *conversation = conversationList.lastObject;
+//
+//    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -189,15 +190,11 @@
     
     switch (model.messageType) {
         case MessageTypeChat:{
-            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-            NSString *im_userId = [ud objectForKey:@"im_userId"];
-            if (im_userId) {                
-                CHChatRoomViewController *chatRoom = [[CHChatRoomViewController alloc]initWithConversationType:ConversationType_PRIVATE targetId:im_userId];
-                [self.navigationController pushViewController:chatRoom animated:YES];
-            } else {
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"暂时还没有新消息哦" delegate:nil cancelButtonTitle:@"知晓" otherButtonTitles: nil];
-                [alertView show];
-            }
+
+            
+            CHChatListViewController *chatList = [CHChatListViewController new];
+            [self.navigationController pushViewController:chatList animated:YES];
+            
         }
             
             break;

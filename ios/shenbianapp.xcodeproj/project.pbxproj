@@ -16,6 +16,7 @@
 		A9DA460F1F1630CA00E3DB17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9DA460E1F1630CA00E3DB17 /* Assets.xcassets */; };
 		A9DA46121F1630CA00E3DB17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DA46101F1630CA00E3DB17 /* LaunchScreen.storyboard */; };
 		A9DDC3411F164FFB00CFB5F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */; };
+		C4E3CDB9202D3AE60098F536 /* CHChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E3CDB8202D3AE60098F536 /* CHChatListViewController.m */; };
 		E4B1833D8426DB219D7C009A /* libPods-shenbianapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75880CF1E4E8A7C0152AF9D9 /* libPods-shenbianapp.a */; };
 		FD06FBBF1FB31DEF008F70CB /* CHInputAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD06FBBE1FB31DEF008F70CB /* CHInputAddressViewController.m */; };
 		FD06FBC31FB590AE008F70CB /* CHLoacationSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD06FBC21FB590AE008F70CB /* CHLoacationSearchViewController.m */; };
@@ -144,6 +145,8 @@
 		A9DA461E1F1630CA00E3DB17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9DDC31D1F163B3A00CFB5F3 /* shenbianHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shenbianHeader.pch; sourceTree = "<group>"; };
 		A9DDC3401F164FFB00CFB5F3 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C4E3CDB7202D3AE60098F536 /* CHChatListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHChatListViewController.h; sourceTree = "<group>"; };
+		C4E3CDB8202D3AE60098F536 /* CHChatListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHChatListViewController.m; sourceTree = "<group>"; };
 		D0437902C935BCE328CB8E82 /* Pods-shenbianapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shenbianapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-shenbianapp/Pods-shenbianapp.release.xcconfig"; sourceTree = "<group>"; };
 		FD06FBBD1FB31DEF008F70CB /* CHInputAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHInputAddressViewController.h; sourceTree = "<group>"; };
 		FD06FBBE1FB31DEF008F70CB /* CHInputAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHInputAddressViewController.m; sourceTree = "<group>"; };
@@ -841,12 +844,14 @@
 		FDE396EE1FA5BABC00143D1B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				FDE396EF1FA5BABC00143D1B /* CHChatLocationViewController.h */,
-				FDE396F01FA5BABC00143D1B /* CHChatLocationViewController.m */,
-				FDE396F11FA5BABC00143D1B /* CHChatRoomViewController.h */,
-				FDE396F21FA5BABC00143D1B /* CHChatRoomViewController.m */,
 				FDE396F51FA5BABC00143D1B /* CHMessageViewController.h */,
 				FDE396F61FA5BABC00143D1B /* CHMessageViewController.m */,
+				C4E3CDB7202D3AE60098F536 /* CHChatListViewController.h */,
+				C4E3CDB8202D3AE60098F536 /* CHChatListViewController.m */,
+				FDE396F11FA5BABC00143D1B /* CHChatRoomViewController.h */,
+				FDE396F21FA5BABC00143D1B /* CHChatRoomViewController.m */,
+				FDE396EF1FA5BABC00143D1B /* CHChatLocationViewController.h */,
+				FDE396F01FA5BABC00143D1B /* CHChatLocationViewController.m */,
 				FDA1BF501FB68E0600AE64B7 /* CHFocusViewController.h */,
 				FDA1BF511FB68E0600AE64B7 /* CHFocusViewController.m */,
 			);
@@ -1220,6 +1225,7 @@
 				A9DA46041F1630CA00E3DB17 /* main.m in Sources */,
 				FDE397291FA5BABC00143D1B /* RootMineViewController.m in Sources */,
 				FD282B411FAACEA900B2D52D /* CHStoreInfoModel.m in Sources */,
+				C4E3CDB9202D3AE60098F536 /* CHChatListViewController.m in Sources */,
 				FDF4BAB11FB054E2002A90A3 /* CHSubmitOrderViewController.m in Sources */,
 				FDAD406F1FF4F8DF00F1AA5A /* CHMyOrderViewModel.m in Sources */,
 				FDE397281FA5BABC00143D1B /* CHPersonHomeViewModel.m in Sources */,
@@ -1372,6 +1378,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2D4PW32PQ8;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
@@ -1399,6 +1406,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2D4PW32PQ8;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;

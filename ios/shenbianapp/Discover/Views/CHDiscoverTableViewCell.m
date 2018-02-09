@@ -209,7 +209,7 @@
     self.locationLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"address"]];
    
     self.descriptionLabel.text = [NSString stringWithFormat:@"%@",[modelDic objectForKey:@"serviceDescription"]];
-    NSString *homeUrl = [modelDic objectForKey:@"homeUrl"];
+    NSString *homeUrl = [modelDic objectForKey:@"userIcon"];
     [self.headImageView setImageWithURL:[NSURL URLWithString:homeUrl] placeholder:[UIImage imageNamed:@"default_headImage"]];
     NSString *material_Urls = [modelDic objectForKey:@"materialUrl"];
     NSArray *material_list = [material_Urls componentsSeparatedByString:@";"];

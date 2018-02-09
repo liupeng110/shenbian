@@ -712,10 +712,15 @@
     NSDictionary *param = @{@"title":self.articleTitleTF.text,@"price":self.servicePrice,@"serviceFlag":@"2",@"serviceType":self.serviceType,@"center":self.position,@"descriptions":descriptions,@"token":token,@"parentClassificationId":self.firstServiceId,@"classificationId":self.secondServiceId,@"cityName":contactCity,@"contact":contactName,@"mobilePhone":contactPhone,@"detailStreet":contactAddress,@"houseName":contactHouseNO,@"receivableAccount":contactAccount};
     RACSignal *signal = [self.serviceModel.uploadComand execute:param];
     [signal subscribeNext:^(id x) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+
         if ([[x objectForKey:@"status"] integerValue] == 0) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"发布成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"知晓", nil];
             [alert show];
+            
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCHNotificationLogin object:nil];
         }
     }];
     

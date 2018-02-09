@@ -27,11 +27,11 @@
     self.tabBarController.tabBar.hidden = YES;
 
 
-
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"tx_fh"] landscapeImagePhone:[UIImage imageNamed:@"tx_fh"] style:(UIBarButtonItemStyleDone) target:self action:@selector(clickBackButton)];
     self.navigationItem.leftBarButtonItem  = backItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
+    
 }
 
 -(void)clickBackButton{

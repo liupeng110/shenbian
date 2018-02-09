@@ -16,6 +16,7 @@
 @property(nonatomic,assign)NSUInteger slodOut;//已售
 @property(nonatomic,assign)CGFloat distance;//距离
 @property(nonatomic,copy)NSString *tagName;//标签
+@property(nonatomic,copy)NSString *location;//标签
 
 @property(nonatomic,copy)NSString *placeHolder;//占位图名字
 

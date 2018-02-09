@@ -37,14 +37,15 @@
     if (_loadTopData == nil) {
         _loadTopData = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
             
-            RACSignal *singal = [CHNetWork loadDataWithParam:param withUrlString:HomeTopData];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                 
+                RACSignal *singal = [CHNetWork loadDataWithParam:param withUrlString:HomeTopData];
+
                 [singal subscribeNext:^(id x) {
                     
                     self.topDataList = x;
-                    
+                    [subscriber sendCompleted];
                 } error:^(NSError *error) {
                     NSLog(@"error:%@",error);
                     //模拟数据
@@ -53,7 +54,8 @@
                                                  @"imgInfo":@[@{@"text":@"找服务",@"url":@""},@{@"text":@"找人",@"url":@"" },@{@"text":@"找活动",@"url":@"" },@{@"text":@"找工作",@"url":@"" },@{@"text":@"找租房",@"url":@"" },@{@"text":@"学技能",@"url":@"" },@{@"text":@"修手机、修电脑",@"url":@""},@{@"text":@"全部分类",@"url":@"" }]},
                                          @"positions":@""
                                          };
-                    
+                    [subscriber sendCompleted];
+
                 }];
                 
                 return  nil;
@@ -74,16 +76,19 @@
         
         _loadBottomData = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(NSDictionary *param) {
             
-            RACSignal *singal = [CHNetWork loadDataWithParam:param withUrlString:HomeBottomData];
             
             return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-                
+                RACSignal *singal = [CHNetWork loadDataWithParam:param withUrlString:HomeBottomData];
+
                 [singal subscribeNext:^(id x) {
                     
                     self.bottomDataList = x;
-                    
+                    [subscriber sendCompleted];
+
                 } error:^(NSError *error) {
                     NSLog(@"error:%@",error);
+                    [subscriber sendCompleted];
+
                     //模拟数据
                     self.bottomDataList = @{@"data":@{
                                                     @"greatValue":@[@{@"homeUrl":@"",@"description":@"",},@{@"homeUrl":@"",@"serviceDescription":@""}],
