@@ -160,13 +160,13 @@ public class NineGridlayout extends ViewGroup {
     private CustomImageView generateImageView() {
         CustomImageView iv = new CustomImageView(getContext());
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        iv.setBackgroundColor(Color.parseColor("#f5f5f5"));
+//        iv.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        iv.setBackgroundColor(Color.parseColor("#f5f5f5"));
         return iv;
     }
 

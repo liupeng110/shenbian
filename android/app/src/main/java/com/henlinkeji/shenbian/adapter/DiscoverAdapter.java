@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.henlinkeji.shenbian.R;
 import com.henlinkeji.shenbian.base.view.CustomImageView;
 import com.henlinkeji.shenbian.base.view.NineGridlayout;
@@ -61,7 +62,7 @@ public class DiscoverAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.discover_item_layout, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.avar = (ImageView) convertView.findViewById(R.id.img);
+            viewHolder.avar = (SimpleDraweeView) convertView.findViewById(R.id.img);
             viewHolder.name = (TextView) convertView.findViewById(R.id.name);
             viewHolder.desc = (TextView) convertView.findViewById(R.id.desc);
             viewHolder.time = (TextView) convertView.findViewById(R.id.time);
@@ -75,12 +76,12 @@ public class DiscoverAdapter extends BaseAdapter {
         Discover.DataBean dataBean = datalist.get(position);
         if (dataBean.getHomeUrl() != null) {
             if (!TextUtils.isEmpty(dataBean.getHomeUrl())) {
-                Picasso.with(context).load(dataBean.getHomeUrl()).into(viewHolder.avar);
+                viewHolder.avar.setImageURI(dataBean.getHomeUrl());
             } else {
-                viewHolder.avar.setImageResource(R.mipmap.temp);
+                viewHolder.avar.setImageResource(R.mipmap.default_120_80);
             }
         } else {
-            viewHolder.avar.setImageResource(R.mipmap.temp);
+            viewHolder.avar.setImageResource(R.mipmap.default_120_80);
         }
         viewHolder.time.setText(dataBean.getReleaseTime());
         viewHolder.name.setText(dataBean.getServiceTitle());
@@ -139,7 +140,7 @@ public class DiscoverAdapter extends BaseAdapter {
     class ViewHolder {
         public NineGridlayout ivMore;
         public CustomImageView ivOne;
-        public ImageView avar;
+        public SimpleDraweeView avar;
         public TextView name;
         public TextView desc;
         public TextView time;

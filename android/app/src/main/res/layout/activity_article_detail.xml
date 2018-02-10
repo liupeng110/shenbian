@@ -74,7 +74,7 @@
                     app:roundAsCircle="true"
                     android:layout_marginLeft="15dp"
                     android:scaleType="fitXY"
-                    app:placeholderImage="@mipmap/temp"
+                    app:placeholderImage="@mipmap/default_120_80"
                     />
                 <TextView
                     android:id="@+id/user_name"

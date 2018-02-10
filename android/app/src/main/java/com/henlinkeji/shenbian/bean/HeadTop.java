@@ -1,12 +1,13 @@
 package com.henlinkeji.shenbian.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Miracler on 17/8/27.
  */
 
-public class HeadTop {
+public class HeadTop implements Serializable{
 
 
     /**
@@ -43,7 +44,7 @@ public class HeadTop {
         this.status = status;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private List<PositionsBean> positions;
         private List<String> categories;
         private List<ImgInfoBean> imgInfo;
@@ -72,7 +73,7 @@ public class HeadTop {
             this.imgInfo = imgInfo;
         }
 
-        public static class PositionsBean {
+        public static class PositionsBean implements Serializable{
             /**
              * _id : 1
              * _name : 测试1
@@ -178,7 +179,7 @@ public class HeadTop {
             }
         }
 
-        public static class ImgInfoBean {
+        public static class ImgInfoBean implements Serializable{
             /**
              * url : http://ouyv8tyz1.bkt.clouddn.com/image/index/sy_zfw@3x.png
              * text : 找服务
@@ -186,6 +187,7 @@ public class HeadTop {
 
             private String url;
             private String text;
+            private int classificationId;
 
             public String getUrl() {
                 return url;
@@ -201,6 +203,14 @@ public class HeadTop {
 
             public void setText(String text) {
                 this.text = text;
+            }
+
+            public int getClassificationId() {
+                return classificationId;
+            }
+
+            public void setClassificationId(int classificationId) {
+                this.classificationId = classificationId;
             }
         }
     }

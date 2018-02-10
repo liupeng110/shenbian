@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.henlinkeji.shenbian.adapter.ServiceTabVpAdapter;
+import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.fragments.classfy.OtherClassfyFragment;
 import com.henlinkeji.shenbian.fragments.classfy.PeopleClassfyFragment;
@@ -68,6 +69,7 @@ public class LookOtherActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
+        MyApplication.getInstance().addActivity(this);
         titleTv.setText("找服务");
         titleRl.setBackgroundColor(Color.parseColor("#404040"));
         backIv.setImageResource(R.mipmap.back2);
@@ -119,7 +121,7 @@ public class LookOtherActivity extends BaseActivity {
     private void showPop() {
         View mMenuView = LayoutInflater.from(this).inflate(R.layout.look_service_pop_layout, null);
         final PopupWindow popWindow = new PopupWindow(mMenuView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        GridView gridView = mMenuView.findViewById(R.id.classfy_second);
+        GridView gridView = (GridView) mMenuView.findViewById(R.id.classfy_second);
         final List<String> nameList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             nameList.add(titleList.get(classfyTab.getSelectedTabPosition()) + i);

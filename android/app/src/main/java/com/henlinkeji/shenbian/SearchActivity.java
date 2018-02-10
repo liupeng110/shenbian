@@ -2,11 +2,14 @@ package com.henlinkeji.shenbian;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.amap.api.maps.MapView;
+import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
+import com.henlinkeji.shenbian.base.utils.KeyboardUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +35,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
-
+        MyApplication.getInstance().addActivity(this);
     }
 
     @Override
@@ -45,8 +48,16 @@ public class SearchActivity extends BaseActivity {
         cancelTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KeyboardUtils.hideSoftInput(SearchActivity.this);
                 finish();
             }
         });
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        KeyboardUtils.hideSoftInput(SearchActivity.this);
+        return super.onKeyDown(keyCode, event);
     }
 }

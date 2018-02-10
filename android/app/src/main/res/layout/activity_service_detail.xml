@@ -2,6 +2,7 @@
                 xmlns:fresco="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/rel"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical">
 
@@ -10,6 +11,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_marginBottom="55dp"
         android:layout_alignParentStart="true">
 
         <LinearLayout
@@ -17,11 +19,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:background="#f9ee82"
-                android:scaleType="fitXY"/>
+                android:layout_height="230dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -35,7 +36,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     app:roundAsCircle="true"
-                    app:placeholderImage="@mipmap/temp"
+                    fresco:placeholderImage="@mipmap/icon_144"
                     />
 
                 <LinearLayout
@@ -50,7 +51,6 @@
                         android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="用户身边号"
                         android:textSize="17dp"/>
 
                     <LinearLayout
@@ -69,7 +69,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="9dp"
-                            android:text="据我1.5km"
                             android:textSize="13dp"/>
                     </LinearLayout>
 
@@ -83,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="标题标题"
                 android:textColor="#2d333a"
                 android:textSize="15dp"/>
 
@@ -109,7 +107,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="¥  65"
                     android:textColor="#009698"
                     android:textSize="22dp"/>
 
@@ -131,7 +128,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:text="加入购物车"
                         android:textColor="#009698"
@@ -155,7 +151,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="在线服务"
                 android:textColor="#4f5965"
                 android:textSize="13dp"/>
 
@@ -171,11 +166,11 @@
                 android:layout_height="40dp">
 
                 <TextView
+                    android:id="@+id/num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:text="777评论"
                     android:textColor="#4f5965"
                     android:textSize="13dp"/>
 
@@ -184,15 +179,18 @@
                     style="@style/roomRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"/>
 
+
                 <TextView
+                    android:id="@+id/score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:text="(4.9)"
                     android:textColor="#4f5965"
                     android:textSize="13dp"/>
             </LinearLayout>
@@ -200,7 +198,23 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginLeft="15dp"
                 android:background="#ebebeb"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="#2d333a"
+                android:layout_marginTop="7dp"
+                android:text="优质服务推荐"
+                android:textSize="15dp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recommend_recy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="15dp"/>
         </LinearLayout>
     </ScrollView>
 
@@ -255,9 +269,8 @@
             android:id="@+id/collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/share"
             android:padding="10dp"
-            android:src="@mipmap/collection1"/>
+            android:src="@mipmap/collection3"/>
     </RelativeLayout>
 </RelativeLayout>

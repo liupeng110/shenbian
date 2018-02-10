@@ -61,7 +61,7 @@ public class ShowDialog {
         dialog.show();
     }
 
-    public static void showSelectNoTitlePopup(Activity activity, String message, int okText, int cancelText, final OperationCallback okCallback, final OperationCallback cancelCallback) {
+    public static Dialog showSelectNoTitlePopup(Activity activity, String message, int okText, int cancelText, final OperationCallback okCallback, final OperationCallback cancelCallback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_select_no_title_popup_layout, null);
@@ -101,9 +101,10 @@ public class ShowDialog {
         });
 
         dialog.show();
+        return dialog;
     }
 
-    public static void showTipPopup(Activity activity, String message, int okText, final OperationCallback okCallback) {
+    public static Dialog showTipPopup(Activity activity, String message, int okText, final OperationCallback okCallback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_tip_popup_layout, null);
@@ -129,6 +130,7 @@ public class ShowDialog {
         });
 
         dialog.show();
+        return dialog;
     }
 
 }

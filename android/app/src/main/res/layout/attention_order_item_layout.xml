@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:fresco="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,36 +16,37 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:scaleType="fitXY"
-            fresco:placeholderImage="@mipmap/guanzhudingdan"
+            fresco:placeholderImage="@mipmap/guanzhuyiguanzhu"
             fresco:roundAsCircle="true"
             fresco:roundedCornerRadius="1dp"
             />
 
-        <TextView
-            android:id="@+id/user_name"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
+            android:orientation="vertical"
             android:layout_toRightOf="@+id/img"
-            android:singleLine="true"
-            android:text="用户名"
-            android:textColor="#2d333a"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:id="@+id/desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_name"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/img"
-            android:singleLine="true"
-            android:text="内容"
-            android:textColor="#4f5965"
-            android:textSize="13sp"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="#2d333a"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:textColor="#4f5965"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/time"
@@ -56,7 +57,6 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:singleLine="true"
-            android:text="12:00"
             android:textColor="#8f959c"
             android:textSize="15sp"/>
     </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.henlinkeji.shenbian.fragments.classfy;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,11 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.henlinkeji.shenbian.R;
+import com.henlinkeji.shenbian.ServiceDetailActivity;
 import com.henlinkeji.shenbian.base.ui.ViewPagerFragment;
+import com.henlinkeji.shenbian.bean.Classfy;
+import com.henlinkeji.shenbian.bean.ClassfyData;
+import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +33,18 @@ public class PeopleClassfyFragment extends ViewPagerFragment {
     private String name;
     @BindView(R.id.selected)
     GridView gridViewForScrollView;
+    @BindView(R.id.no_data)
+    TextView noTv;
 
     private boolean isPrepared;
     private View view;
 
-    public static PeopleClassfyFragment newInstance(String text) {
+    private List<ClassfyData.DataBean.ServiceInfosBeanX.ServiceInfosBean> list = new ArrayList<>();
+
+    public static PeopleClassfyFragment newInstance(List<ClassfyData.DataBean.ServiceInfosBeanX.ServiceInfosBean> list) {
         Bundle args = new Bundle();
         PeopleClassfyFragment fragment = new PeopleClassfyFragment();
-        args.putString("name", text);
+        args.putSerializable("list", (Serializable) list);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,9 +57,10 @@ public class PeopleClassfyFragment extends ViewPagerFragment {
         lazyLoad();
         return view;
     }
+
     @Override
     protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
+        if (!isPrepared || !isVisible) {
             return;
         }
         ButterKnife.bind(this, view);
@@ -57,17 +72,16 @@ public class PeopleClassfyFragment extends ViewPagerFragment {
 
     protected void initInstence() {
         Bundle parameters = getArguments();
-        name = parameters.getString("name");
+        list = (List<ClassfyData.DataBean.ServiceInfosBeanX.ServiceInfosBean>) parameters.getSerializable("list");
     }
 
     protected void initData() {
-
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            list.add("哈哈哈" + i);
+        gridViewForScrollView.setAdapter(new MyAdapter(getActivity()));
+        if (list.size()<=0){
+            noTv.setVisibility(View.VISIBLE);
+        }else {
+            noTv.setVisibility(View.GONE);
         }
-
-        gridViewForScrollView.setAdapter(new MyAdapter(getActivity(), list));
     }
 
     protected void initListener() {
@@ -75,11 +89,9 @@ public class PeopleClassfyFragment extends ViewPagerFragment {
 
     class MyAdapter extends BaseAdapter {
         private Context context;
-        private List<String> list;
 
-        MyAdapter(Context context, List<String> list) {
+        MyAdapter(Context context) {
             this.context = context;
-            this.list = list;
         }
 
         public int getCount() {
@@ -100,17 +112,46 @@ public class PeopleClassfyFragment extends ViewPagerFragment {
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.classfy_people_item_layout, null);
                 viewHolder = new MyAdapter.ViewHolder();
-                viewHolder.nameTv = (TextView) convertView.findViewById(R.id.title);
+                viewHolder.titleTv = (TextView) convertView.findViewById(R.id.title);
+                viewHolder.locTv = (TextView) convertView.findViewById(R.id.location);
+                viewHolder.descTv = (TextView) convertView.findViewById(R.id.desc);
+                viewHolder.starNumTv = (TextView) convertView.findViewById(R.id.star_count);
+                viewHolder.numTv = (TextView) convertView.findViewById(R.id.num);
+                viewHolder.avar = (SimpleDraweeView) convertView.findViewById(R.id.user_avator);
+                viewHolder.item = (LinearLayout) convertView.findViewById(R.id.item);
+                viewHolder.cover = (ImageView) convertView.findViewById(R.id.cover);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (MyAdapter.ViewHolder) convertView.getTag();
             }
-            viewHolder.nameTv.setText(list.get(position));
+            final ClassfyData.DataBean.ServiceInfosBeanX.ServiceInfosBean bean = list.get(position);
+            viewHolder.titleTv.setText(bean.getServiceTitle());
+            viewHolder.descTv.setText(bean.getServiceDescription());
+            viewHolder.locTv.setText(bean.getAddress());
+            viewHolder.starNumTv.setText(bean.getStarRating() + "(" + bean.getEvaluateCount() + ")");
+            viewHolder.numTv.setText("成交" + bean.getOrderQuantity() + "单");
+            viewHolder.avar.setImageURI(Uri.parse(bean.getUserIcon()));
+            Picasso.with(getActivity()).load(bean.getCoverImage()).into(viewHolder.cover);
+            viewHolder.item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+                    intent.putExtra("id", bean.getId());
+                    startActivity(intent);
+                }
+            });
             return convertView;
         }
 
         class ViewHolder {
-            public TextView nameTv;
+            public TextView titleTv;
+            public TextView locTv;
+            public TextView descTv;
+            public TextView starNumTv;
+            public TextView numTv;
+            public SimpleDraweeView avar;
+            public ImageView cover;
+            public LinearLayout item;
         }
     }
 

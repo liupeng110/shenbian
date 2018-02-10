@@ -13,13 +13,15 @@ public class MyConfig {
     public final static String SP_NAME = "sp_name";
     public final static String SP_TOKEN = "sp_token";
     public final static String SP_IMTOKEN = "sp_imtoken";
+    public final static String SP_ID= "sp_id";
     public final static String SP_LON = "sp_longitude";
     public final static String SP_LAT = "sp_latitude";
     public final static String SP_CITY = "sp_city";
+    public final static String SP_NEED_DO = "need_do";
     public static final String IMAGE_JPG_SUFFIX = ".jpg";
 
-//    public final static String HTTP = "http://60.205.220.80:8081/";
-    public final static String HTTP = "http://192.168.1.8:8080/shenbianhao/";
+    public final static String HTTP = "https://www.ufushenghuo.com/";
+//    public final static String HTTP = "http://192.168.1.10:8080/shenbianhao/";
 
     //首页上半部分
     public final static String HEAD_TOP = HTTP + "v1/index/query.htm";
@@ -49,8 +51,26 @@ public class MyConfig {
     public final static String DISCOVER = HTTP + "v1/service/find/query.htm";
     //下单
     public final static String COMMIT_ORDER = HTTP + "v1/order/add.htm";
-    //获取预支付字符串
+    //预支付字符串
     public final static String GET_PREPAY = HTTP + "v1/wxpay/unifiedOrder.htm";
-//    收藏和取消收藏接口 v1/collect/addOrRemove.htm   参数:serviceId 收藏文章或者服务的ID    collectionStatus:收藏状态 0：取消 1：收藏 token:系统token
-//关注接口 v1/user/concern.htm 参数 interestedUserId：被关注人ID token：系统token       concernStatus：关注状态  0：取消   1：关注
+    //订单列表
+    public final static String ORDER_LIST = HTTP + "v1/order/query.htm";
+    //添加收藏
+    public final static String COLLECT = HTTP + "v1/collect/addOrRemove.htm";
+    //个人信息
+    public final static String BASIC_INFO = HTTP + "v1/my/query.htm";
+    //分类数据
+    public final static String CLASS_DATA = HTTP + "v1/classification/service/query.htm";
+    //分类
+    public final static String GET_CLASSFY = HTTP + "v1/all/classification/query.htm";
+    //个人主页服务列表
+    public final static String GET_SERVICE = HTTP + "v1/my/all/query.htm";
+    //广告
+    public final static String GET_BANNER = HTTP + "v1/adv/query.htm";
+    //关注
+    public final static String ATTENTION = HTTP + "v1/user/concern.htm";
+    //帮助
+    public final static String HELP = HTTP + "v1/help/query.htm";
+    //安全与隐私
+    public final static String SECURITY = HTTP + "v1/security/query.htm";
 }

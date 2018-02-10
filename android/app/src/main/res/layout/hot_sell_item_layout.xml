@@ -13,8 +13,8 @@
         android:layout_height="80dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:scaleType="fitXY"
-        fresco:placeholderImage="@mipmap/temp"
+        fresco:placeholderImage="@mipmap/default_120_80"
+        android:scaleType="centerCrop"
         />
 
     <LinearLayout
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/head_user_tag_back"
                 android:textColor="#2d333a"
-                android:textSize="12dp"/>
+                android:textSize="10sp"/>
             <TextView
                 android:id="@+id/sell_count"
                 android:layout_width="wrap_content"

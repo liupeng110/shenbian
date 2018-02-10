@@ -1,5 +1,6 @@
 package com.henlinkeji.shenbian;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,7 +47,10 @@ public class SelectAddressActivity extends BaseActivity {
     EditText addressEt;
     @BindView(R.id.detail_et)
     EditText detailEt;
-
+    @BindView(R.id.account_rl)
+    RelativeLayout accountRl;
+    @BindView(R.id.account)
+    EditText accountEt;
 
     private ArrayList<Sub> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<Sub>> options2Items = new ArrayList<>();
@@ -54,6 +58,8 @@ public class SelectAddressActivity extends BaseActivity {
     private OptionsPickerView pvOptions;
 
     private MyApplication application;
+
+    private  int tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,7 @@ public class SelectAddressActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
+        MyApplication.getInstance().addActivity(this);
         titleTv.setText("添加位置");
         rightTv.setText("保存");
         toolbarRl.setBackgroundColor(Color.parseColor("#009698"));
@@ -80,24 +87,34 @@ public class SelectAddressActivity extends BaseActivity {
         backIv.setImageResource(R.mipmap.back2);
         application = (MyApplication) getApplication();
         initOptionPicker();
+        Intent intent = getIntent();
+        tag = intent.getIntExtra("tag", -1);
+        if (tag == 1) {
+            accountRl.setVisibility(View.VISIBLE);
+        } else {
+            accountRl.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void initData() {
-        if (!TextUtils.isEmpty(SPUtils.getDataString("name","",this))){
-            nameEt.setText(SPUtils.getDataString("name","",this));
+        if (!TextUtils.isEmpty(SPUtils.getDataString("name", "", this))) {
+            nameEt.setText(SPUtils.getDataString("name", "", this));
         }
-        if (!TextUtils.isEmpty(SPUtils.getDataString("phone","",this))){
-            phoneEt.setText(SPUtils.getDataString("phone","",this));
+        if (!TextUtils.isEmpty(SPUtils.getDataString("phone", "", this))) {
+            phoneEt.setText(SPUtils.getDataString("phone", "", this));
         }
-        if (!TextUtils.isEmpty(SPUtils.getDataString("city","",this))){
-            cityEt.setText(SPUtils.getDataString("city","",this));
+        if (!TextUtils.isEmpty(SPUtils.getDataString("city", "", this))) {
+            cityEt.setText(SPUtils.getDataString("city", "", this));
         }
-        if (!TextUtils.isEmpty(SPUtils.getDataString("address","",this))){
-            addressEt.setText(SPUtils.getDataString("address","",this));
+        if (!TextUtils.isEmpty(SPUtils.getDataString("address", "", this))) {
+            addressEt.setText(SPUtils.getDataString("address", "", this));
         }
-        if (!TextUtils.isEmpty(SPUtils.getDataString("detail","",this))){
-            detailEt.setText(SPUtils.getDataString("detail","",this));
+        if (!TextUtils.isEmpty(SPUtils.getDataString("detail", "", this))) {
+            detailEt.setText(SPUtils.getDataString("detail", "", this));
+        }
+        if (!TextUtils.isEmpty(SPUtils.getDataString("account", "", this))) {
+            accountEt.setText(SPUtils.getDataString("account", "", this));
         }
     }
 
@@ -120,7 +137,7 @@ public class SelectAddressActivity extends BaseActivity {
         rightTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               save();
+                save();
             }
         });
 
@@ -169,12 +186,12 @@ public class SelectAddressActivity extends BaseActivity {
         });
     }
 
-    private void save(){
+    private void save() {
         if (TextUtils.isEmpty(nameEt.getText().toString())) {
             ToastUtils.disPlayShort(SelectAddressActivity.this, "未输入联系人");
             return;
-        }else {
-            SPUtils.setDataString("name",nameEt.getText().toString(),this);
+        } else {
+            SPUtils.setDataString("name", nameEt.getText().toString(), this);
         }
         if (phoneEt.getText().toString().length() <= 0) {
             ToastUtils.disPlayShort(SelectAddressActivity.this, "未输入手机号");
@@ -182,26 +199,34 @@ public class SelectAddressActivity extends BaseActivity {
         } else if (!Utils.isMobileNumber(phoneEt.getText().toString().replace(" ", ""))) {
             ToastUtils.disPlayShort(SelectAddressActivity.this, "手机号格式不正确");
             return;
-        }else {
-            SPUtils.setDataString("phone",phoneEt.getText().toString(),this);
+        } else {
+            SPUtils.setDataString("phone", phoneEt.getText().toString(), this);
         }
         if (TextUtils.isEmpty(cityEt.getText().toString())) {
             ToastUtils.disPlayShort(SelectAddressActivity.this, "未输入城市");
             return;
-        }else {
-            SPUtils.setDataString("city",cityEt.getText().toString(),this);
+        } else {
+            SPUtils.setDataString("city", cityEt.getText().toString(), this);
         }
         if (TextUtils.isEmpty(addressEt.getText().toString())) {
             ToastUtils.disPlayShort(SelectAddressActivity.this, "未输入地址");
             return;
-        }else {
-            SPUtils.setDataString("address",addressEt.getText().toString(),this);
+        } else {
+            SPUtils.setDataString("address", addressEt.getText().toString(), this);
         }
         if (TextUtils.isEmpty(detailEt.getText().toString())) {
             ToastUtils.disPlayShort(SelectAddressActivity.this, "未输入门牌号");
             return;
-        }else {
-            SPUtils.setDataString("detail",detailEt.getText().toString(),this);
+        } else {
+            SPUtils.setDataString("detail", detailEt.getText().toString(), this);
+        }
+        if (tag == 1) {
+            if (TextUtils.isEmpty(accountEt.getText().toString())) {
+                ToastUtils.disPlayShort(SelectAddressActivity.this, "未输入收款账户");
+                return;
+            } else {
+                SPUtils.setDataString("account", accountEt.getText().toString(), this);
+            }
         }
         finish();
     }

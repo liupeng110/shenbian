@@ -1,8 +1,8 @@
 package com.henlinkeji.shenbian.fragments.home;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -10,27 +10,33 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
+import com.henlinkeji.shenbian.BuildConfig;
+import com.henlinkeji.shenbian.LoginActivity;
+import com.henlinkeji.shenbian.OrderListActivity;
 import com.henlinkeji.shenbian.R;
+import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.ui.BaseFragment;
 import com.henlinkeji.shenbian.base.utils.GlideImageLoader;
-import com.henlinkeji.shenbian.base.utils.LogUtil;
+import com.henlinkeji.shenbian.base.utils.HttpUtils;
+import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;
+import com.henlinkeji.shenbian.bean.BannerBean;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
-import io.rong.imlib.model.UserInfo;
 import io.rong.message.ImageMessage;
 import io.rong.message.InformationNotificationMessage;
 import io.rong.message.LocationMessage;
@@ -98,22 +104,13 @@ public class AttentionFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic1xjab4j30ci08cjrv.jpg");
-        images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
-        images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
-        images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
-        images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg");
-        titles.add("51巅峰钜惠");
-        titles.add("十大星级品牌联盟，全场2折起");
-        titles.add("生命不是要超越别人，而是要超越自己");
-        titles.add("己所不欲，勿施于人。——孔子");
-        titles.add("嗨购5折不要停");
+        getChat();
+        getBanner();
     }
 
     private void show(Conversation item) {
         MessageContent messageContent = item.getLatestMessage();
         String textMessageContent = null;
-        UserInfo userInfo = null;
         if (messageContent instanceof TextMessage) {// 文本消息
             TextMessage textMessage = (TextMessage) messageContent;
             textMessageContent = textMessage.getContent();
@@ -126,16 +123,13 @@ public class AttentionFragment extends BaseFragment {
         } else if (messageContent instanceof LocationMessage) {// 位置消息
             textMessageContent = "[位置]";
         }
-        userInfo = messageContent.getUserInfo();
-        if (userInfo == null) {
-            if (item.getSenderUserId() != null) {
-                nameTv.setText(item.getSenderUserId());
-            } else {
-                nameTv.setText("");
-            }
-        } else {
-            nameTv.setText(userInfo.getName());
-            userAvatorImg.setImageURI(userInfo.getPortraitUri());
+        if (!TextUtils.isEmpty(item.getConversationTitle())) {
+            nameTv.setText(item.getConversationTitle());
+        }else {
+            nameTv.setText("有新消息");
+        }
+        if (!TextUtils.isEmpty(item.getPortraitUrl())) {
+            userAvatorImg.setImageURI(item.getPortraitUrl());
         }
         if (textMessageContent == null) {
             descTv.setText("");
@@ -151,30 +145,12 @@ public class AttentionFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-        //设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
-        //设置banner样式
-        banner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
-        //设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
-        //设置图片集合
-        banner.setImages(images);
-        //设置banner动画效果
-        banner.setBannerAnimation(Transformer.ForegroundToBackground);
-        //设置标题集合（当banner样式有显示title时）
-        banner.setBannerTitles(titles);
-        //设置自动轮播，默认为true
-        banner.isAutoPlay(true);
-        //设置轮播时间
-        banner.setDelayTime(1500);
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-        //banner设置方法全部调用完毕时最后调用
-        banner.start();
         titleTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (BuildConfig.DEBUG) {
+                    SPUtils.setToken("", getActivity());
+                }
             }
         });
 
@@ -182,6 +158,59 @@ public class AttentionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (RongIM.getInstance() != null) RongIM.getInstance().startConversationList(getActivity());
+            }
+        });
+
+        orderRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(SPUtils.getToken(getActivity()))) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                } else {
+                    startActivity(new Intent(getActivity(), OrderListActivity.class));
+                }
+            }
+        });
+    }
+
+    private void getBanner() {
+        Map<String, String> params = new HashMap<>();
+        HttpUtils.post(getActivity(), MyConfig.GET_BANNER, params, new HttpUtils.HttpPostCallBackListener() {
+            @Override
+            public void onSuccess(String response) {
+                BannerBean bannerBean = new Gson().fromJson(response, BannerBean.class);
+                if (bannerBean.getStatus().equals("0000")) {
+                    for (int i = 0; i < bannerBean.getData().size(); i++) {
+                        titles.add(bannerBean.getData().get(i).getAdvDesc());
+                        images.add(bannerBean.getData().get(i).getAdvImgUrl());
+                    }
+                    if (images.size() > 0) {
+                        //设置图片加载器
+                        banner.setImageLoader(new GlideImageLoader());
+                        //设置banner样式
+                        banner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
+                        //设置图片加载器
+                        banner.setImageLoader(new GlideImageLoader());
+                        //设置图片集合
+                        banner.setImages(images);
+                        //设置banner动画效果
+                        banner.setBannerAnimation(Transformer.ForegroundToBackground);
+                        //设置标题集合（当banner样式有显示title时）
+                        banner.setBannerTitles(titles);
+                        //设置自动轮播，默认为true
+                        banner.isAutoPlay(true);
+                        //设置轮播时间
+                        banner.setDelayTime(3000);
+                        //设置指示器位置（当banner模式中有指示器时）
+                        banner.setIndicatorGravity(BannerConfig.CENTER);
+                        //banner设置方法全部调用完毕时最后调用
+                        banner.start();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String response) {
             }
         });
     }
@@ -201,22 +230,26 @@ public class AttentionFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            getChat();
+        }
+        super.onHiddenChanged(hidden);
+    }
+
+    private void getChat() {
         Conversation.ConversationType[] mConversationsTypes = new Conversation.ConversationType[]{Conversation.ConversationType.PRIVATE, Conversation.ConversationType.GROUP, Conversation.ConversationType.DISCUSSION, Conversation.ConversationType.SYSTEM};
         RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
             @Override
             public void onSuccess(List<Conversation> conversations) {
                 if (conversations != null && conversations.size() > 0) {
                     show(conversations.get(0));
-                    userAvatorImg.setVisibility(View.VISIBLE);
-                    Uri uri = Uri.parse("res://" + getActivity().getPackageName() + "/" + R.mipmap.default_avar);
-                    userAvatorImg.setImageURI(uri);
+                    descTv.setVisibility(View.VISIBLE);
                 } else {
                     timeTv.setText("");
                     nameTv.setText("暂无消息");
                     descTv.setText("");
-//                    userAvatorImg.setVisibility(View.GONE);
+                    descTv.setVisibility(View.GONE);
                 }
             }
 
@@ -225,8 +258,36 @@ public class AttentionFragment extends BaseFragment {
                 timeTv.setText("");
                 nameTv.setText("暂无消息");
                 descTv.setText("");
-                userAvatorImg.setVisibility(View.GONE);
+                descTv.setVisibility(View.GONE);
             }
         }, mConversationsTypes);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.post(runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.post(runnable);
+    }
+
+
+    private Runnable runnable = new Runnable() {
+        public void run() {
+            handler.sendEmptyMessage(1);
+        }
+    };
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 1:
+                    getChat();
+                    break;
+            }
+        }
+    };
 }

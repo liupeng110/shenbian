@@ -3,6 +3,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
+            android:scrollbars="none"
+            android:background="#fff"
             android:orientation="vertical">
 
     <LinearLayout
@@ -93,7 +95,7 @@
                         android:id="@+id/published_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="#2d333a"
                         android:textSize="15dp"/>
 
@@ -120,7 +122,7 @@
                         android:id="@+id/visited_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="122"
+                        android:text="0"
                         android:textColor="#2d333a"
                         android:textSize="15dp"/>
 
@@ -128,7 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="7日访客"
+                        android:text="收藏"
                         android:textColor="#2d333a"
                         android:textSize="15dp"/>
                 </LinearLayout>
@@ -147,7 +149,7 @@
                         android:id="@+id/attentioned_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="112"
+                        android:text="0"
                         android:textColor="#2d333a"
                         android:textSize="15dp"/>
 
@@ -174,7 +176,7 @@
                         android:id="@+id/followed_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="13452"
+                        android:text="0"
                         android:textColor="#2d333a"
                         android:textSize="15dp"/>
 
@@ -206,6 +208,7 @@
                     fresco:roundedCornerRadius="1dp"
                     />
                 <TextView
+                    android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:textSize="17dp"
                     android:textColor="#2d333a"

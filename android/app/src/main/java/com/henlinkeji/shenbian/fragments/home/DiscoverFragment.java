@@ -1,9 +1,11 @@
 package com.henlinkeji.shenbian.fragments.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.henlinkeji.shenbian.R;
+import com.henlinkeji.shenbian.ServiceDetailActivity;
 import com.henlinkeji.shenbian.adapter.DiscoverAdapter;
 import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
@@ -69,7 +72,7 @@ public class DiscoverFragment extends BaseFragment {
 
     @Override
     protected void initInstence() {
-        titleTv.setText("身边头条");
+        titleTv.setText("身边的服务");
         titleRl.setBackgroundColor(Color.parseColor("#009698"));
 
         loadingDialog = new LoadingDialog(getActivity(), true);
@@ -81,6 +84,14 @@ public class DiscoverFragment extends BaseFragment {
         getDiscover();
         discoverAdapter = new DiscoverAdapter(getActivity());
         discoverLv.setAdapter(discoverAdapter);
+        discoverLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+                intent.putExtra("id", dataBeanList.get(position).getId());
+                startActivity(intent);
+            }
+        });
 
         if (vRefreshLayout != null) {
             vRefreshLayout.setHeaderView(vRefreshLayout.getDefaultHeaderView());
@@ -96,7 +107,7 @@ public class DiscoverFragment extends BaseFragment {
                         getDiscover();
                     } else {
                         vRefreshLayout.refreshComplete();
-                        Toast.makeText(getActivity(), "当前网络不可用，请检查网络", Toast.LENGTH_LONG).show();
+                        ToastUtils.disPlayShort(getActivity(),"当前网络不可用，请检查网络");
                     }
                 }
             });

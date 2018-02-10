@@ -23,13 +23,17 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
+import com.henlinkeji.shenbian.base.application.MyApplication;
+import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.HttpUtils;
 import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
+import com.henlinkeji.shenbian.base.view.ShowDialog;
 import com.henlinkeji.shenbian.bean.QueryCart;
+import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.io.Serializable;
@@ -53,6 +57,8 @@ public class ShoppingCartActivity extends BaseActivity {
     ExpandableListView expandableListView;
     @BindView(R.id.order)
     TextView orderTv;
+    @BindView(R.id.no_data)
+    TextView noTv;
 
     private ShopcartAdapter selva;
 
@@ -76,6 +82,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
+        MyApplication.getInstance().addActivity(this);
         titleTv.setText("购物车");
         backImg.setImageResource(R.mipmap.back2);
         titleRl.setBackgroundColor(Color.parseColor("#009698"));
@@ -110,8 +117,19 @@ public class ShoppingCartActivity extends BaseActivity {
                 QueryCart queryCart = new Gson().fromJson(response, QueryCart.class);
                 if (queryCart.getStatus().equals("0000")) {
                     groups = queryCart.getData();
-                    initEvents();
+                    if (groups.size() == 0) {
+                        noTv.setVisibility(View.VISIBLE);
+                        expandableListView.setVisibility(View.GONE);
+                        orderTv.setVisibility(View.GONE);
+                    } else {
+                        noTv.setVisibility(View.GONE);
+                        expandableListView.setVisibility(View.VISIBLE);
+                        orderTv.setVisibility(View.VISIBLE);
+                        initEvents();
+                    }
                 }else {
+                    noTv.setVisibility(View.VISIBLE);
+                    expandableListView.setVisibility(View.GONE);
                     orderTv.setVisibility(View.GONE);
                 }
             }
@@ -391,12 +409,8 @@ public class ShoppingCartActivity extends BaseActivity {
             if (goodsInfo != null) {
                 if (goodsInfo.getHomeUrl() != null) {
                     if (!TextUtils.isEmpty(goodsInfo.getHomeUrl())) {
-                        cholder.serviceAvar.setImageURI(Uri.parse(goodsInfo.getHomeUrl()));
-                    } else {
-                        cholder.serviceAvar.setImageURI(Uri.parse(goodsInfo.getHomeUrl()));
+                        Picasso.with(ShoppingCartActivity.this).load(goodsInfo.getHomeUrl()).into(cholder.serviceAvar);
                     }
-                } else {
-                    cholder.serviceAvar.setImageResource(R.mipmap.temp);
                 }
 
                 cholder.serviceName.setText(goodsInfo.getServiceTitle());
@@ -480,6 +494,24 @@ public class ShoppingCartActivity extends BaseActivity {
                         context.startActivity(intent);
                     }
                 });
+
+                cholder.detail.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        ShowDialog.showSelectNoTitlePopup(ShoppingCartActivity.this, "确定删除该条服务吗?", R.string.sure, R.string.cancel, new OperationCallback() {
+                            @Override
+                            public void execute() {
+                                delete(goodsInfo.getServiceId());
+                            }
+                        }, new OperationCallback() {
+                            @Override
+                            public void execute() {
+
+                            }
+                        });
+                        return false;
+                    }
+                });
             }
             return convertView;
         }
@@ -497,6 +529,23 @@ public class ShoppingCartActivity extends BaseActivity {
             HttpUtils.post(ShoppingCartActivity.this, MyConfig.UPDATE_CART, params, new HttpUtils.HttpPostCallBackListener() {
                 @Override
                 public void onSuccess(String response) {
+                }
+
+                @Override
+                public void onFailure(String response) {
+                }
+            });
+        }
+
+        private void delete(int serviceId) {
+            Map<String, String> params = new HashMap<>();
+            params.put("token", SPUtils.getToken(ShoppingCartActivity.this));
+            params.put("serviceId", serviceId + "");
+            params.put("amount", 0 + "");
+            HttpUtils.post(ShoppingCartActivity.this, MyConfig.UPDATE_CART, params, new HttpUtils.HttpPostCallBackListener() {
+                @Override
+                public void onSuccess(String response) {
+                    getCart();
                 }
 
                 @Override

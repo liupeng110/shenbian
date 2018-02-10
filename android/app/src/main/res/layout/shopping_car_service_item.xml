@@ -28,8 +28,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20px"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/temp"/>
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="safasf"
                 android:textColor="#2d333a"
                 android:textSize="15dp"/>
 
@@ -52,7 +50,6 @@
                 android:id="@+id/shopping_service_item_intr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="sdfdsfds"
                 android:textColor="#4f5965"
                 android:textSize="13dp"/>
 
@@ -65,7 +62,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12px"
-                    android:text="dsfdsf"
                     android:textColor="#df8a7e"
                     android:textSize="13dp"/>
 

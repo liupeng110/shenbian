@@ -29,8 +29,19 @@
         android:layout_alignParentBottom="true"
         android:textSize="17dp"
         android:gravity="center"
+        android:visibility="invisible"
         android:textColor="#fff"
         android:background="#01b0f0"/>
+
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#8f959c"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:text="暂无数据"/>
 
 
 </RelativeLayout>

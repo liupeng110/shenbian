@@ -4,7 +4,7 @@
 
     <solid android:color="#f0f0f0" />
 
-    <corners android:radius="5dp" />
+    <corners android:radius="10dp" />
 
     <!--描边-->
     <stroke
@@ -12,8 +12,8 @@
         android:color="#333333"></stroke>
 
     <padding
-        android:left="10dp"
-        android:right="10dp"
-        android:top="5dp"
-        android:bottom="5dp"/>
+        android:left="11dp"
+        android:right="11dp"
+        android:top="4dp"
+        android:bottom="4dp"/>
 </shape>

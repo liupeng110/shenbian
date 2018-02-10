@@ -5,22 +5,47 @@ package com.henlinkeji.shenbian.bean;
  */
 
 public class CommitOrderResult {
-    private int serviceId;
-    private int orderQuantity;
 
-    public int getServiceId() {
-        return serviceId;
+    /**
+     * data : 1000000909456226
+     * success : 查询成功
+     * status : 0000
+     */
+
+    private String data;
+    private String success;
+    private String error;
+    private String status;
+
+    public String getData() {
+        return data;
     }
 
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
+    public void setData(String data) {
+        this.data = data;
     }
 
-    public int getOrderQuantity() {
-        return orderQuantity;
+    public String getSuccess() {
+        return success;
     }
 
-    public void setOrderQuantity(int orderQuantity) {
-        this.orderQuantity = orderQuantity;
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

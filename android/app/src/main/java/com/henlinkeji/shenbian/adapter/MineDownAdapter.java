@@ -22,9 +22,16 @@ public class MineDownAdapter extends BaseAdapter {
     private List<MineDownList> mineDownLists;
     private LayoutInflater inflater;
 
+    private String income;
+
     public MineDownAdapter(List<MineDownList> list, Context context) {
         this.mineDownLists = list;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public void setIncome(String income){
+        this.income=income;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -50,20 +57,27 @@ public class MineDownAdapter extends BaseAdapter {
             holder = new ViewHolder();
                     /*得到各个控件的对象*/
             holder.title = (TextView) convertView.findViewById(R.id.title);
+            holder.num = (TextView) convertView.findViewById(R.id.num);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
             convertView.setTag(holder);//绑定ViewHolder对象
-
         } else {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象                   }
         }
         MineDownList mineDown=mineDownLists.get(position);
         holder.title.setText(mineDown.getTitle());
         holder.img.setImageResource(mineDown.getImg());
+        if (position==0){
+            holder.num.setVisibility(View.VISIBLE);
+            holder.num.setText(income);
+        }else {
+            holder.num.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
     class ViewHolder {
         public TextView title;
+        public TextView num;
         public ImageView img;
     }
 

@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
+import com.henlinkeji.shenbian.CrashHandler;
 import com.henlinkeji.shenbian.R;
 import com.henlinkeji.shenbian.base.utils.Utils;
 import com.henlinkeji.shenbian.bean.Address;
@@ -30,7 +31,6 @@ public class MyApplication extends Application {
     private ArrayList<Sub> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<Sub>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<Sub>>> options3Items = new ArrayList<>();
-
 
     @Override
     public void onCreate() {
@@ -90,7 +90,8 @@ public class MyApplication extends Application {
         setOptions1Items(options1Items);
         setOptions2Items(options2Items);
         setOptions3Items(options3Items);
-
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     public static MyApplication getInstance() {

@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="#fff"
               xmlns:fresco="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
 
@@ -68,6 +69,7 @@
             android:layout_toRightOf="@+id/order_img"
             android:singleLine="true"
             android:text="内容"
+            android:visibility="gone"
             android:textColor="#4f5965"
             android:textSize="13sp"/>
 
@@ -81,6 +83,7 @@
             android:layout_marginTop="20dp"
             android:singleLine="true"
             android:text="12:00"
+            android:visibility="gone"
             android:textColor="#8f959c"
             android:textSize="15sp"/>
     </RelativeLayout>
@@ -95,6 +98,7 @@
         android:id="@+id/attention_rl"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:visibility="gone"
         android:background="#fff">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -144,7 +148,6 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:singleLine="true"
-            android:text="12:00"
             android:textColor="#8f959c"
             android:textSize="15sp"/>
     </RelativeLayout>

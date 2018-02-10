@@ -72,20 +72,20 @@ public class Utils {
             int targetDay = (int)(timeMillis / 86400000L);
             int nowDay = (int)(System.currentTimeMillis() / 86400000L);
             if(targetDay == nowDay) {
-                result = fromatDate(timeMillis, "HH:mm");
+                result = formatDate(timeMillis, "HH:mm");
             } else if(targetDay + 1 == nowDay) {
                 Context context = RongContext.getInstance().getBaseContext();
                 String formatString = context.getResources().getString(io.rong.imkit.R.string.rc_yesterday_format);
-                result = String.format(formatString, new Object[]{fromatDate(timeMillis, "HH:mm")});
+                result = String.format(formatString, new Object[]{formatDate(timeMillis, "HH:mm")});
             } else {
-                result = fromatDate(timeMillis, "yyyy-MM-dd HH:mm");
+                result = formatDate(timeMillis, "yyyy-MM-dd HH:mm");
             }
 
             return result;
         }
     }
 
-    private static String fromatDate(long timeMillis, String fromat) {
+    public static String formatDate(long timeMillis, String fromat) {
         SimpleDateFormat sdf = new SimpleDateFormat(fromat);
         return sdf.format(new Date(timeMillis));
     }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.view.rvadapter.CommonAdapter;
 import com.henlinkeji.shenbian.base.view.rvadapter.base.ViewHolder;
@@ -52,6 +53,7 @@ public class AllClassfyActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
+        MyApplication.getInstance().addActivity(this);
         titleTv.setText("全部分类");
         titleRl.setBackgroundColor(Color.parseColor("#009698"));
         backIv.setImageResource(R.mipmap.back2);

@@ -23,14 +23,17 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="80dp"
             android:layout_centerInParent="true">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/avator"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/default_avar"
+                app:roundAsCircle="true"
+                app:placeholderImage="@mipmap/icon_144"
                 android:layout_alignParentRight="true"/>
 
             <TextView
@@ -39,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fff"
-                android:text="标题"
+                android:singleLine="true"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"/>
 
@@ -54,6 +57,7 @@
             android:background="@drawable/merchant_attention_back"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
+            android:visibility="visible"
             android:layout_alignParentRight="true"
             android:textSize="12dp"/>
 

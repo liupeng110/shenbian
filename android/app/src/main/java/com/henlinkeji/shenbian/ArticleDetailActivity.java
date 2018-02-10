@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 
 import butterknife.BindView;
@@ -29,7 +30,7 @@ public class ArticleDetailActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
-
+        MyApplication.getInstance().addActivity(this);
     }
 
     @Override

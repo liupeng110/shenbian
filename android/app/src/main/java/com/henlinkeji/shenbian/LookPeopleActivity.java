@@ -1,12 +1,14 @@
 package com.henlinkeji.shenbian;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,23 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.henlinkeji.shenbian.adapter.ServiceTabVpAdapter;
+import com.henlinkeji.shenbian.base.application.MyApplication;
+import com.henlinkeji.shenbian.base.config.MyConfig;
+import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
+import com.henlinkeji.shenbian.base.utils.HttpUtils;
+import com.henlinkeji.shenbian.base.utils.SPUtils;
+import com.henlinkeji.shenbian.bean.ClassfyData;
+import com.henlinkeji.shenbian.bean.MyInfo;
 import com.henlinkeji.shenbian.fragments.classfy.PeopleClassfyFragment;
 import com.henlinkeji.shenbian.fragments.classfy.ServiceClassfyFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +62,11 @@ public class LookPeopleActivity extends BaseActivity {
 
     private HashMap<Integer, Integer> selMap = new HashMap<>();
 
+    private String name;
+    private String city;
+    private String center;
+    private int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +84,7 @@ public class LookPeopleActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
-        titleTv.setText("找服务");
+        MyApplication.getInstance().addActivity(this);
         titleRl.setBackgroundColor(Color.parseColor("#404040"));
         backIv.setImageResource(R.mipmap.back2);
         rightIv.setImageResource(R.mipmap.shoping_car);
@@ -78,30 +94,20 @@ public class LookPeopleActivity extends BaseActivity {
     protected void initData() {
         fragmentList = new ArrayList<>();
 
-        titleList = new ArrayList<>();
-        titleList.add("设计师");
-        titleList.add("媒体");
-        titleList.add("教练");
-        titleList.add("投资人");
-        titleList.add("医生");
-        titleList.add("护士");
-        titleList.add("工程师");
-        titleList.add("产品");
+        Intent intent = getIntent();
+        center = intent.getStringExtra("center");
+        name = intent.getStringExtra("name");
+        city = intent.getStringExtra("city");
+        id = intent.getIntExtra("id", 0);
 
-        for (int i = 0; i < titleList.size(); i++) {
-            fragmentList.add(PeopleClassfyFragment.newInstance(titleList.get(i)));
-            classfyTab.addTab(classfyTab.newTab().setText(titleList.get(i)));
-            selMap.put(i, 0);
-        }
+        titleList = new ArrayList<>();
+        titleTv.setText(name);
+        getData();
     }
 
     @Override
     protected void initListener() {
         classfyTab.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-        ServiceTabVpAdapter fAdapter = new ServiceTabVpAdapter(getSupportFragmentManager(), fragmentList, titleList);
-        classfyVp.setAdapter(fAdapter);
-        classfyTab.setupWithViewPager(classfyVp);
 
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,12 +122,23 @@ public class LookPeopleActivity extends BaseActivity {
                 showPop();
             }
         });
+
+        rightIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(SPUtils.getToken(LookPeopleActivity.this))) {
+                    startActivity(new Intent(LookPeopleActivity.this, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(LookPeopleActivity.this, ShoppingCartActivity.class));
+                }
+            }
+        });
     }
 
     private void showPop() {
         View mMenuView = LayoutInflater.from(this).inflate(R.layout.look_service_pop_layout, null);
         final PopupWindow popWindow = new PopupWindow(mMenuView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        GridView gridView = mMenuView.findViewById(R.id.classfy_second);
+        GridView gridView = (GridView) mMenuView.findViewById(R.id.classfy_second);
         final List<String> nameList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             nameList.add(titleList.get(classfyTab.getSelectedTabPosition()) + i);
@@ -139,6 +156,48 @@ public class LookPeopleActivity extends BaseActivity {
         popWindow.setBackgroundDrawable(dw);
 
         popWindow.showAsDropDown(classfyTab, 0, 0);
+    }
+
+    private void getData() {
+        final LoadingDialog loadingDialog = new LoadingDialog(this, false);
+        loadingDialog.show("获取列表中……");
+        Map<String, String> params = new HashMap<>();
+        params.put("center",center);
+        params.put("city",city);
+        params.put("classificationId",id+"");
+        HttpUtils.post(this, MyConfig.CLASS_DATA, params, new HttpUtils.HttpPostCallBackListener() {
+            @Override
+            public void onSuccess(String response) {
+                if (loadingDialog != null) {
+                    loadingDialog.exit();
+                }
+                ClassfyData classfyData=new Gson().fromJson(response,ClassfyData.class);
+                if (classfyData.getStatus().equals("0000")){
+                    for (int i = 0; i <classfyData.getData().getServiceInfos().size() ; i++) {
+                        titleList.add(classfyData.getData().getServiceInfos().get(i).getServiceClassification());
+                        classfyTab.addTab(classfyTab.newTab().setText(titleList.get(i)));
+                        List<ClassfyData.DataBean.ServiceInfosBeanX.ServiceInfosBean> list=new ArrayList<>();
+                        for (int j = 0; j <classfyData.getData().getServiceInfos().get(i).getServiceInfos().size() ; j++) {
+                            list.add(classfyData.getData().getServiceInfos().get(i).getServiceInfos().get(j));
+                        }
+                        fragmentList.add(PeopleClassfyFragment.newInstance(list));
+                        selMap.put(i, 0);
+                    }
+
+
+                    ServiceTabVpAdapter fAdapter = new ServiceTabVpAdapter(getSupportFragmentManager(), fragmentList, titleList);
+                    classfyVp.setAdapter(fAdapter);
+                    classfyTab.setupWithViewPager(classfyVp);
+                }
+            }
+
+            @Override
+            public void onFailure(String response) {
+                if (loadingDialog != null) {
+                    loadingDialog.exit();
+                }
+            }
+        });
     }
 
     class MyAdapter extends BaseAdapter {

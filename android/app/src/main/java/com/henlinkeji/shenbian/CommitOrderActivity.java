@@ -4,54 +4,48 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
+import android.os.Handler;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
+import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.HttpUtils;
+import com.henlinkeji.shenbian.base.utils.InputTools;
+import com.henlinkeji.shenbian.base.utils.LogUtil;
 import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.view.CustomDatePicker;
 import com.henlinkeji.shenbian.base.view.ExpandableListViewForScrollView;
-import com.henlinkeji.shenbian.base.view.NoScrollRecyclerView;
 import com.henlinkeji.shenbian.base.view.ShowDialog;
-import com.henlinkeji.shenbian.base.view.rvadapter.CommonAdapter;
-import com.henlinkeji.shenbian.base.view.rvadapter.base.ViewHolder;
 import com.henlinkeji.shenbian.bean.CommitOrder;
 import com.henlinkeji.shenbian.bean.CommitOrderResult;
+import com.henlinkeji.shenbian.bean.PrePayResult;
 import com.henlinkeji.shenbian.bean.QueryCart;
-import com.henlinkeji.shenbian.bean.SendCode;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -85,12 +79,15 @@ public class CommitOrderActivity extends BaseActivity {
 
     private String nowTime;
 
-    private List<CommitOrder> list=new ArrayList<>();
+    private List<CommitOrder> list = new ArrayList<>();
+
+    private IWXAPI api;
+
+    public static CommitOrderActivity commitOrderActivity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -105,10 +102,15 @@ public class CommitOrderActivity extends BaseActivity {
 
     @Override
     protected void initInstence() {
+        MyApplication.getInstance().addActivity(this);
+        SPUtils.setNeedDo(true,this);
         titleTv.setText("提交订单");
         backImg.setImageResource(R.mipmap.back2);
         titleRl.setBackgroundColor(Color.parseColor("#009698"));
-
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+        // 将该app注册到微信
+        api.registerApp(Constants.APP_ID);
+        commitOrderActivity=this;
     }
 
     @Override
@@ -116,9 +118,9 @@ public class CommitOrderActivity extends BaseActivity {
         if (getIntent() != null) {
             groups = (List<QueryCart.DataBean>) getIntent().getSerializableExtra("orderlist");
         }
-        if (groups!=null){
-            for (int i = 0; i <groups.size() ; i++) {
-                CommitOrder commitOrder=new CommitOrder();
+        if (groups != null) {
+            for (int i = 0; i < groups.size(); i++) {
+                CommitOrder commitOrder = new CommitOrder();
                 for (int j = 0; j < groups.get(i).getCarts().size(); j++) {
                     commitOrder.setOrderQuantity(groups.get(i).getCarts().get(j).getServiceAmount());
                     commitOrder.setServiceId(groups.get(i).getCarts().get(j).getServiceId());
@@ -156,7 +158,9 @@ public class CommitOrderActivity extends BaseActivity {
         addressRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CommitOrderActivity.this, SelectAddressActivity.class));
+                Intent intent = new Intent(CommitOrderActivity.this, SelectAddressActivity.class);
+                intent.putExtra("tag", 0);
+                startActivity(intent);
             }
         });
         timeRl.setOnClickListener(new View.OnClickListener() {
@@ -168,53 +172,64 @@ public class CommitOrderActivity extends BaseActivity {
         orderTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputTools.HideKeyboard(v);
                 commit();
             }
         });
     }
 
-    private void commit(){
-        if (TextUtils.isEmpty(addressTv.getText().toString())){
-            ToastUtils.disPlayShort(this,"位置、联系人未填写");
+    private void commit() {
+        if (TextUtils.isEmpty(addressTv.getText().toString())) {
+            ToastUtils.disPlayShort(this, "位置、联系人未填写");
             return;
         }
-        if (TextUtils.isEmpty(timeTv.getText().toString())){
-            ToastUtils.disPlayShort(this,"时间未填写");
+        if (TextUtils.isEmpty(timeTv.getText().toString())) {
+            ToastUtils.disPlayShort(this, "时间未填写");
             return;
         }
         Map<String, String> params = new HashMap<>();
         params.put("token", SPUtils.getToken(this));
-        params.put("paymentType", "wechat");
-        params.put("createTime", timeTv.getText().toString());
+        params.put("paymentType", 1 + "");
+        params.put("serviceTime", timeTv.getText().toString());
         params.put("note", msgEt.getText().toString());
         params.put("orderDetails", new Gson().toJson(list));
-        params.put("address", "");
+        params.put("address", addressTv.getText().toString());
+        params.put("cityName", SPUtils.getDataString("city", "", CommitOrderActivity.this));
+        params.put("contact", SPUtils.getDataString("name", "", CommitOrderActivity.this));
+        params.put("houseName", SPUtils.getDataString("detail", "", CommitOrderActivity.this));
+        params.put("mobilePhone", SPUtils.getDataString("phone", "", CommitOrderActivity.this).replace(" ", ""));
+        params.put("detailStreet", SPUtils.getDataString("address", "", CommitOrderActivity.this));
         final LoadingDialog loadingDialog = new LoadingDialog(this, false);
         loadingDialog.show("下单中");
         HttpUtils.post(this, MyConfig.COMMIT_ORDER, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
-//                CommitOrderResult result = new Gson().fromJson(response, CommitOrderResult.class);
-//                if (sendCode.getStatus().equals("0000")) {
-//                    if (sendCode.getData() != null) {
-//                        getPrePay();
-//                    }
-//                } else {
-//                    ShowDialog.showTipPopup(CommitOrderActivity.this, result.getSuccess(), R.string.sure, new OperationCallback() {
-//                        @Override
-//                        public void execute() {
-//
-//                        }
-//                    });
-//                }
+                CommitOrderResult result = new Gson().fromJson(response, CommitOrderResult.class);
+                if (result.getStatus().equals("0000")) {
+                    boolean sIsWXAppInstalledAndSupported = api.isWXAppInstalled() && api.isWXAppSupportAPI();
+                    if (!sIsWXAppInstalledAndSupported) {
+                        Toast.makeText(CommitOrderActivity.this, "您的手机尚未安装微信或微信版本不支持支付功能", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(new Intent(CommitOrderActivity.this, OrderListActivity.class));
+                    } else {
+                        getPrePay(result.getData());
+                    }
+                } else {
+                    ShowDialog.showTipPopup(CommitOrderActivity.this, result.getError(), R.string.sure, new OperationCallback() {
+                        @Override
+                        public void execute() {
+
+                        }
+                    });
+                }
             }
 
             @Override
             public void onFailure(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
                 ShowDialog.showTipPopup(CommitOrderActivity.this, "下单失败", R.string.sure, new OperationCallback() {
@@ -227,8 +242,48 @@ public class CommitOrderActivity extends BaseActivity {
         });
     }
 
-    private void getPrePay(String id){
+    private void getPrePay(String id) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", SPUtils.getToken(this));
+        params.put("orderId", id);
+        final LoadingDialog loadingDialog = new LoadingDialog(this, false);
+        loadingDialog.show("");
+        HttpUtils.post(this, MyConfig.GET_PREPAY, params, new HttpUtils.HttpPostCallBackListener() {
+            @Override
+            public void onSuccess(String response) {
+                if (loadingDialog != null) {
+                    loadingDialog.exit();
+                }
+                PrePayResult result = new Gson().fromJson(response, PrePayResult.class);
+                if (result.getStatus().equals("0000")) {
+                    PayReq req = new PayReq();
+                    req.appId = result.getData().getAppid();
+                    req.partnerId = result.getData().getPartnerid();
+                    req.prepayId = result.getData().getPrepayid();
+                    req.nonceStr = result.getData().getNoncestr();
+                    req.timeStamp = result.getData().getTimestamp();
+                    req.packageValue = result.getData().getPackage_();
+                    req.sign = result.getData().getSign();
+                    api.sendReq(req);
+                } else {
+                    finish();
+                }
+            }
 
+            @Override
+            public void onFailure(String response) {
+                if (loadingDialog != null) {
+                    loadingDialog.exit();
+                }
+                ShowDialog.showTipPopup(CommitOrderActivity.this, "支付失败", R.string.sure, new OperationCallback() {
+                    @Override
+                    public void execute() {
+                        finish();
+                        startActivity(new Intent(CommitOrderActivity.this, OrderListActivity.class));
+                    }
+                });
+            }
+        });
     }
 
     private void calculate() {
@@ -237,11 +292,9 @@ public class CommitOrderActivity extends BaseActivity {
             List<QueryCart.DataBean.CartsBean> childs = groups.get(i).getCarts();
             for (int j = 0; j < childs.size(); j++) {
                 QueryCart.DataBean.CartsBean product = childs.get(j);
-                if (product.isChoosed()) {
-                    if (product.getPrice() != null) {
-                        if (!TextUtils.isEmpty(product.getPrice()))
-                            totalPrice += Double.valueOf(product.getPrice()) * product.getServiceAmount();
-                    }
+                if (product.getPrice() != null) {
+                    if (!TextUtils.isEmpty(product.getPrice()))
+                        totalPrice += Double.valueOf(product.getPrice()) * product.getServiceAmount();
                 }
             }
         }
@@ -415,21 +468,21 @@ public class CommitOrderActivity extends BaseActivity {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 1:
-                    String address="";
-                    if (!TextUtils.isEmpty(SPUtils.getDataString("name","",CommitOrderActivity.this))){
-                        address=address+SPUtils.getDataString("name","",CommitOrderActivity.this);
+                    String address = "";
+                    if (!TextUtils.isEmpty(SPUtils.getDataString("name", "", CommitOrderActivity.this))) {
+                        address = address + SPUtils.getDataString("name", "", CommitOrderActivity.this);
                     }
-                    if (!TextUtils.isEmpty(SPUtils.getDataString("phone","",CommitOrderActivity.this))){
-                        address=address+SPUtils.getDataString("phone","",CommitOrderActivity.this);
+                    if (!TextUtils.isEmpty(SPUtils.getDataString("phone", "", CommitOrderActivity.this))) {
+                        address = address + SPUtils.getDataString("phone", "", CommitOrderActivity.this);
                     }
-                    if (!TextUtils.isEmpty(SPUtils.getDataString("city","",CommitOrderActivity.this))){
-                        address=address+SPUtils.getDataString("city","",CommitOrderActivity.this);
+                    if (!TextUtils.isEmpty(SPUtils.getDataString("city", "", CommitOrderActivity.this))) {
+                        address = address + SPUtils.getDataString("city", "", CommitOrderActivity.this);
                     }
-                    if (!TextUtils.isEmpty(SPUtils.getDataString("address","",CommitOrderActivity.this))){
-                        address=address+SPUtils.getDataString("address","",CommitOrderActivity.this);
+                    if (!TextUtils.isEmpty(SPUtils.getDataString("address", "", CommitOrderActivity.this))) {
+                        address = address + SPUtils.getDataString("address", "", CommitOrderActivity.this);
                     }
-                    if (!TextUtils.isEmpty(SPUtils.getDataString("detail","",CommitOrderActivity.this))){
-                        address=address+SPUtils.getDataString("detail","",CommitOrderActivity.this);
+                    if (!TextUtils.isEmpty(SPUtils.getDataString("detail", "", CommitOrderActivity.this))) {
+                        address = address + SPUtils.getDataString("detail", "", CommitOrderActivity.this);
                     }
                     addressTv.setText(address);
                     break;

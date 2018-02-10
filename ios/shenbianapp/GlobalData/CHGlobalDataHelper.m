@@ -19,6 +19,7 @@ typedef  NS_ENUM(NSInteger,CHLoctionType){
 @property(nonatomic,strong)CLLocation *outLocation;
 @property(nonatomic,copy)GetCurrentLocation getLocation;
 @property(nonatomic,assign)CHLoctionType loctionType;
+@property(nonatomic,strong)CLLocation *location;
 
 @end
 
@@ -38,8 +39,8 @@ typedef  NS_ENUM(NSInteger,CHLoctionType){
     if (self = [super init]) {
         _locationManager = [[AMapLocationManager alloc]init];
         _locationManager.delegate = self;
-        [self.locationManager setLocatingWithReGeocode:YES];
-        [self.locationManager startUpdatingLocation];
+        [_locationManager setLocatingWithReGeocode:YES];
+        [_locationManager startUpdatingLocation];
 
     }
     return self;
@@ -55,13 +56,13 @@ typedef  NS_ENUM(NSInteger,CHLoctionType){
     self.caculateResult = caculateResult;
     self.loctionType = CHLoctionTypeDistance;
     [self.locationManager startUpdatingLocation];
-    
+ 
 }
 
 -(void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
     
     /*旧值*/
-   
+    self.location = location;
     if (self.loctionType == CHLoctionTypeDistance && self.caculateResult) {
         
         double distance = [location distanceFromLocation:self.outLocation];
@@ -82,8 +83,10 @@ typedef  NS_ENUM(NSInteger,CHLoctionType){
     {
         NSLog(@"reGeocode:%@", reGeocode);
         self.currentCity = reGeocode.city;
-        self.currentLocation = [NSString stringWithFormat:@"%f,%f",location.coordinate.longitude,location.coordinate.latitude];
-        
+        NSString *locationStr = [NSString stringWithFormat:@"%f,%f",location.coordinate.longitude,location.coordinate.latitude];
+        if(![locationStr isEqualToString:self.currentLocation ]){
+            self.currentLocation = locationStr;
+        }
         [self.locationManager stopUpdatingLocation];
 
     }
@@ -100,7 +103,5 @@ typedef  NS_ENUM(NSInteger,CHLoctionType){
     [self.locationManager startUpdatingLocation];
 
 }
-
-
 
 @end

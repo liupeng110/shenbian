@@ -8,8 +8,9 @@ import java.util.List;
 
 public class ServiceDetail {
 
+
     /**
-     * data : {"id":68,"userId":1,"userName":null,"userIcon":null,"serviceTitle":"出来了","serviceDescription":"<img src='http://ouyv8tyz1.bkt.clouddn.com/5d56b5fd83884cb8b5fe5f93395764d6/>","servicePrice":null,"serviceType":1,"addressId":69,"location":"116.636384,39.927192","evaluateCount":0,"coverImage":null,"materialInfos":[{"id":68,"materialUrl":"5d56b5fd83884cb8b5fe5f93395764d6","serviceId":null,"materialHash":null,"materialSize":null,"materialBytes":null,"materialFormat":null,"materialShowTime":0,"createTime":null,"updateTime":null,"materialDescription":null,"materialHomeUrl":null}],"advs":[]}
+     * data : {"id":1,"userId":1,"userName":"66综合服务中心","userIcon":"http://ouyv8tyz1.bkt.clouddn.com/980afabe697a40c2a3f11171b20f2294","serviceTitle":"美容美发","serviceDescription":"专业美容美发<img src='http://ouyv8tyz1.bkt.clouddn.com/9e85f1724a804951a61d746e9f000987'> 美发，我们是专业的","servicePrice":0.01,"serviceType":2,"addressId":113,"location":"116.63679376244545,39.92743791578387","evaluateCount":100,"coverImage":"","categoryId":"","orderQuantity":"","address":"","starRating":"4.1","collectFlag":0,"recommends":[{"homeUrl":"http://ouyv8tyz1.bkt.clouddn.com/3a187f3f95f64585880620199613c900","id":3},{"homeUrl":"http://ouyv8tyz1.bkt.clouddn.com/0d7aece251fe4a4e80290edb3f73ba1f","id":2},{"homeUrl":"http://ouyv8tyz1.bkt.clouddn.com/9e85f1724a804951a61d746e9f000987","id":1}],"materialInfos":[{"id":"","materialUrl":"","serviceId":"","materialHash":"","materialSize":"","materialBytes":"","materialFormat":"","materialShowTime":0,"createTime":"","updateTime":"","materialDescription":"专业美容美发","materialHomeUrl":""},{"id":"","materialUrl":"9e85f1724a804951a61d746e9f000987","serviceId":"","materialHash":"","materialSize":"","materialBytes":"","materialFormat":"","materialShowTime":0,"createTime":"","updateTime":"","materialDescription":"","materialHomeUrl":"9e85f1724a804951a61d746e9f000987"},{"id":"","materialUrl":"","serviceId":"","materialHash":"","materialSize":"","materialBytes":"","materialFormat":"","materialShowTime":0,"createTime":"","updateTime":"","materialDescription":" 美发，我们是专业的","materialHomeUrl":""}],"advs":[{"id":1,"advImgUrl":"http://ouyv8tyz1.bkt.clouddn.com/9e85f1724a804951a61d746e9f000987","advLinkUrl":"","advStatus":1,"advShowPage":"1","uploadUserId":"1","createTime":1514079934000,"updateTime":1514079934000,"advDesc":"这是一个广告图片"}],"evaluates":[]}
      * success : 查询成功
      * status : 0000
      */
@@ -44,20 +45,27 @@ public class ServiceDetail {
 
     public static class DataBean {
         /**
-         * id : 68
+         * id : 1
          * userId : 1
-         * userName : null
-         * userIcon : null
-         * serviceTitle : 出来了
-         * serviceDescription : <img src='http://ouyv8tyz1.bkt.clouddn.com/5d56b5fd83884cb8b5fe5f93395764d6/>
-         * servicePrice : null
-         * serviceType : 1
-         * addressId : 69
-         * location : 116.636384,39.927192
-         * evaluateCount : 0
-         * coverImage : null
-         * materialInfos : [{"id":68,"materialUrl":"5d56b5fd83884cb8b5fe5f93395764d6","serviceId":null,"materialHash":null,"materialSize":null,"materialBytes":null,"materialFormat":null,"materialShowTime":0,"createTime":null,"updateTime":null,"materialDescription":null,"materialHomeUrl":null}]
-         * advs : []
+         * userName : 66综合服务中心
+         * userIcon : http://ouyv8tyz1.bkt.clouddn.com/980afabe697a40c2a3f11171b20f2294
+         * serviceTitle : 美容美发
+         * serviceDescription : 专业美容美发<img src='http://ouyv8tyz1.bkt.clouddn.com/9e85f1724a804951a61d746e9f000987'> 美发，我们是专业的
+         * servicePrice : 0.01
+         * serviceType : 2
+         * addressId : 113
+         * location : 116.63679376244545,39.92743791578387
+         * evaluateCount : 100
+         * coverImage :
+         * categoryId :
+         * orderQuantity :
+         * address :
+         * starRating : 4.1
+         * collectFlag : 0
+         * recommends : [{"homeUrl":"http://ouyv8tyz1.bkt.clouddn.com/3a187f3f95f64585880620199613c900","id":3},{"homeUrl":"http://ouyv8tyz1.bkt.clouddn.com/0d7aece251fe4a4e80290edb3f73ba1f","id":2},{"homeUrl":"http://ouyv8tyz1.bkt.clouddn.com/9e85f1724a804951a61d746e9f000987","id":1}]
+         * materialInfos : [{"id":"","materialUrl":"","serviceId":"","materialHash":"","materialSize":"","materialBytes":"","materialFormat":"","materialShowTime":0,"createTime":"","updateTime":"","materialDescription":"专业美容美发","materialHomeUrl":""},{"id":"","materialUrl":"9e85f1724a804951a61d746e9f000987","serviceId":"","materialHash":"","materialSize":"","materialBytes":"","materialFormat":"","materialShowTime":0,"createTime":"","updateTime":"","materialDescription":"","materialHomeUrl":"9e85f1724a804951a61d746e9f000987"},{"id":"","materialUrl":"","serviceId":"","materialHash":"","materialSize":"","materialBytes":"","materialFormat":"","materialShowTime":0,"createTime":"","updateTime":"","materialDescription":" 美发，我们是专业的","materialHomeUrl":""}]
+         * advs : [{"id":1,"advImgUrl":"http://ouyv8tyz1.bkt.clouddn.com/9e85f1724a804951a61d746e9f000987","advLinkUrl":"","advStatus":1,"advShowPage":"1","uploadUserId":"1","createTime":1514079934000,"updateTime":1514079934000,"advDesc":"这是一个广告图片"}]
+         * evaluates : []
          */
 
         private int id;
@@ -66,14 +74,21 @@ public class ServiceDetail {
         private String userIcon;
         private String serviceTitle;
         private String serviceDescription;
-        private String servicePrice;
+        private double servicePrice;
         private int serviceType;
         private int addressId;
         private String location;
         private int evaluateCount;
         private String coverImage;
+        private String categoryId;
+        private String orderQuantity;
+        private String address;
+        private String starRating;
+        private int collectFlag;
+        private List<RecommendsBean> recommends;
         private List<MaterialInfosBean> materialInfos;
-        private List<?> advs;
+        private List<AdvsBean> advs;
+        private List<?> evaluates;
 
         public int getId() {
             return id;
@@ -123,11 +138,11 @@ public class ServiceDetail {
             this.serviceDescription = serviceDescription;
         }
 
-        public String getServicePrice() {
+        public double getServicePrice() {
             return servicePrice;
         }
 
-        public void setServicePrice(String servicePrice) {
+        public void setServicePrice(double servicePrice) {
             this.servicePrice = servicePrice;
         }
 
@@ -171,6 +186,54 @@ public class ServiceDetail {
             this.coverImage = coverImage;
         }
 
+        public String getCategoryId() {
+            return categoryId;
+        }
+
+        public void setCategoryId(String categoryId) {
+            this.categoryId = categoryId;
+        }
+
+        public String getOrderQuantity() {
+            return orderQuantity;
+        }
+
+        public void setOrderQuantity(String orderQuantity) {
+            this.orderQuantity = orderQuantity;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getStarRating() {
+            return starRating;
+        }
+
+        public void setStarRating(String starRating) {
+            this.starRating = starRating;
+        }
+
+        public int getCollectFlag() {
+            return collectFlag;
+        }
+
+        public void setCollectFlag(int collectFlag) {
+            this.collectFlag = collectFlag;
+        }
+
+        public List<RecommendsBean> getRecommends() {
+            return recommends;
+        }
+
+        public void setRecommends(List<RecommendsBean> recommends) {
+            this.recommends = recommends;
+        }
+
         public List<MaterialInfosBean> getMaterialInfos() {
             return materialInfos;
         }
@@ -179,31 +242,65 @@ public class ServiceDetail {
             this.materialInfos = materialInfos;
         }
 
-        public List<?> getAdvs() {
+        public List<AdvsBean> getAdvs() {
             return advs;
         }
 
-        public void setAdvs(List<?> advs) {
+        public void setAdvs(List<AdvsBean> advs) {
             this.advs = advs;
+        }
+
+        public List<?> getEvaluates() {
+            return evaluates;
+        }
+
+        public void setEvaluates(List<?> evaluates) {
+            this.evaluates = evaluates;
+        }
+
+        public static class RecommendsBean {
+            /**
+             * homeUrl : http://ouyv8tyz1.bkt.clouddn.com/3a187f3f95f64585880620199613c900
+             * id : 3
+             */
+
+            private String homeUrl;
+            private int id;
+
+            public String getHomeUrl() {
+                return homeUrl;
+            }
+
+            public void setHomeUrl(String homeUrl) {
+                this.homeUrl = homeUrl;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
         }
 
         public static class MaterialInfosBean {
             /**
-             * id : 68
-             * materialUrl : 5d56b5fd83884cb8b5fe5f93395764d6
-             * serviceId : null
-             * materialHash : null
-             * materialSize : null
-             * materialBytes : null
-             * materialFormat : null
+             * id :
+             * materialUrl :
+             * serviceId :
+             * materialHash :
+             * materialSize :
+             * materialBytes :
+             * materialFormat :
              * materialShowTime : 0
-             * createTime : null
-             * updateTime : null
-             * materialDescription : null
-             * materialHomeUrl : null
+             * createTime :
+             * updateTime :
+             * materialDescription : 专业美容美发
+             * materialHomeUrl :
              */
 
-            private int id;
+            private String id;
             private String materialUrl;
             private String serviceId;
             private String materialHash;
@@ -216,11 +313,11 @@ public class ServiceDetail {
             private String materialDescription;
             private String materialHomeUrl;
 
-            public int getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 this.id = id;
             }
 
@@ -310,6 +407,102 @@ public class ServiceDetail {
 
             public void setMaterialHomeUrl(String materialHomeUrl) {
                 this.materialHomeUrl = materialHomeUrl;
+            }
+        }
+
+        public static class AdvsBean {
+            /**
+             * id : 1
+             * advImgUrl : http://ouyv8tyz1.bkt.clouddn.com/9e85f1724a804951a61d746e9f000987
+             * advLinkUrl :
+             * advStatus : 1
+             * advShowPage : 1
+             * uploadUserId : 1
+             * createTime : 1514079934000
+             * updateTime : 1514079934000
+             * advDesc : 这是一个广告图片
+             */
+
+            private int id;
+            private String advImgUrl;
+            private String advLinkUrl;
+            private int advStatus;
+            private String advShowPage;
+            private String uploadUserId;
+            private long createTime;
+            private long updateTime;
+            private String advDesc;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getAdvImgUrl() {
+                return advImgUrl;
+            }
+
+            public void setAdvImgUrl(String advImgUrl) {
+                this.advImgUrl = advImgUrl;
+            }
+
+            public String getAdvLinkUrl() {
+                return advLinkUrl;
+            }
+
+            public void setAdvLinkUrl(String advLinkUrl) {
+                this.advLinkUrl = advLinkUrl;
+            }
+
+            public int getAdvStatus() {
+                return advStatus;
+            }
+
+            public void setAdvStatus(int advStatus) {
+                this.advStatus = advStatus;
+            }
+
+            public String getAdvShowPage() {
+                return advShowPage;
+            }
+
+            public void setAdvShowPage(String advShowPage) {
+                this.advShowPage = advShowPage;
+            }
+
+            public String getUploadUserId() {
+                return uploadUserId;
+            }
+
+            public void setUploadUserId(String uploadUserId) {
+                this.uploadUserId = uploadUserId;
+            }
+
+            public long getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(long createTime) {
+                this.createTime = createTime;
+            }
+
+            public long getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(long updateTime) {
+                this.updateTime = updateTime;
+            }
+
+            public String getAdvDesc() {
+                return advDesc;
+            }
+
+            public void setAdvDesc(String advDesc) {
+                this.advDesc = advDesc;
             }
         }
     }

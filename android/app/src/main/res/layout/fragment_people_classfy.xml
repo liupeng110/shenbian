@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -19,5 +19,14 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="15dp"/>
 
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#8f959c"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:text="暂无数据"/>
 
-</FrameLayout>
+</RelativeLayout>

@@ -5,26 +5,32 @@
              xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/service_back"
         android:orientation="vertical">
         <ImageView
+            android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:background="#f00"
-            android:scaleType="fitXY"/>
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:textColor="#2d333a"
-                android:text="我是人名"/>
+                android:singleLine="true"
+                android:layout_marginRight="70dp"
+                android:textColor="#2d333a"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,23 +49,24 @@
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
                 android:textColor="#8f959c"
+                android:singleLine="true"
                 android:layout_alignParentRight="true"
-                android:text="中关村"/>
+                />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:layout_marginTop="5dp"
             android:textColor="#2d333a"
-            android:singleLine="true"
-            android:text="标题标题标题"/>
+            android:singleLine="true"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:gravity="center_vertical"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="wrap_content"
@@ -74,13 +81,16 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="#ffd332"/>
             <TextView
+                android:id="@+id/num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="成交123单"
+                android:textColor="#8f959c"
+                android:paddingRight="5dp"
                 android:gravity="right"/>
         </LinearLayout>
     </LinearLayout>
     <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/user_avator"
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:layout_marginTop="87dp"

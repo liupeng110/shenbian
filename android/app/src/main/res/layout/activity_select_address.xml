@@ -132,34 +132,72 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="15dp"/>
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="#fff"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:background="#fff">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="门牌号"
-            android:layout_marginLeft="15dp"
-            android:textSize="15dp"
             android:layout_centerVertical="true"
-            android:textColor="#4f5965"/>
+            android:layout_marginLeft="15dp"
+            android:text="门牌号"
+            android:textColor="#4f5965"
+            android:textSize="15dp"/>
+
         <EditText
             android:id="@+id/detail_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="80dp"
             android:background="@null"
             android:gravity="center_vertical"
-            android:textColorHint="#a2a5aa"
-            android:textColor="#2d333a"
-            android:layout_marginLeft="80dp"
             android:hint="3号楼4单元"
+            android:textColor="#2d333a"
+            android:textColorHint="#a2a5aa"
             android:textSize="15dp"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#ebebeb"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"
+            android:background="#ebebeb"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/account_rl"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="收款账户"
+            android:textColor="#4f5965"
+            android:textSize="15dp"/>
+
+        <EditText
+            android:id="@+id/account"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="80dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="请输入您的微信收款账户"
+            android:textColor="#2d333a"
+            android:textColorHint="#a2a5aa"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:background="#ebebeb"/>
     </RelativeLayout>
 </LinearLayout>

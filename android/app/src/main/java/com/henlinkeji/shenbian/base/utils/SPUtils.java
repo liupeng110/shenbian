@@ -51,6 +51,19 @@ public class SPUtils {
         SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
         return sp.getString(MyConfig.SP_TOKEN, "");
     }
+    //保存token
+    public static boolean setUserId(String object, Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(MyConfig.SP_ID, object);
+        return editor.commit();
+    }
+
+    //获取token
+    public static String getUserId(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        return sp.getString(MyConfig.SP_ID, "");
+    }
 
     //保存IMToken
     public static boolean setIMToken(String object, Context context) {
@@ -104,6 +117,17 @@ public class SPUtils {
     public static String getCity(Context context) {
         SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
         return sp.getString(MyConfig.SP_CITY, "");
+    }
+    public static boolean setNeedDo(Boolean object, Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(MyConfig.SP_NEED_DO, object);
+        return editor.commit();
+    }
+
+    public static boolean getNeedDo(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        return sp.getBoolean(MyConfig.SP_NEED_DO, false);
     }
 
     public static boolean setDataInt(String key, int object, Context context) {

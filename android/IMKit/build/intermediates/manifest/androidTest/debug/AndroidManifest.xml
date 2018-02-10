@@ -86,14 +86,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" /> <!-- imlib config begin -->
         <!-- 生产环境 -->
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="8w7jv4qb8caay" /> <!-- 开发环境 -->
         <!-- <meta-data -->
         <!-- android:name="RONG_CLOUD_APP_KEY" -->
         <!-- android:value="mgb7ka1nmwffg" /> -->
-        <!-- 开发环境 -->
-        <meta-data
-            android:name="RONG_CLOUD_APP_KEY"
-            android:value="mgb7ka1nmwffg" />
-
         <service
             android:name="io.rong.imlib.ipc.RongService"
             android:exported="true"

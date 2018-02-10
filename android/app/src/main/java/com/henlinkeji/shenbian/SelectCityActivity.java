@@ -36,6 +36,7 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.henlinkeji.shenbian.base.amap.InputTipTask;
 import com.henlinkeji.shenbian.base.amap.LocationBean;
 import com.henlinkeji.shenbian.base.amap.PoiSearchTask;
+import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.listener.EndLessOnScrollListener;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
@@ -96,6 +97,7 @@ public class SelectCityActivity extends BaseActivity implements PoiSearch.OnPoiS
 
     @Override
     protected void initInstence() {
+        MyApplication.getInstance().addActivity(this);
         mapList.setLayoutManager(new LinearLayoutManager(this));
         loadingDialog = new LoadingDialog(this, true);
         loadingDialog.show("加载城市中");

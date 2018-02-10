@@ -1,11 +1,14 @@
 package com.henlinkeji.shenbian;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -20,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.henlinkeji.shenbian.base.application.MyApplication;
+import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.LocationUtil;
 import com.henlinkeji.shenbian.base.utils.LogUtil;
@@ -27,6 +31,7 @@ import com.henlinkeji.shenbian.base.utils.PermissionsChecker;
 import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;
+import com.henlinkeji.shenbian.base.view.ShowDialog;
 import com.henlinkeji.shenbian.fragments.home.AttentionFragment;
 import com.henlinkeji.shenbian.fragments.home.HeadFragment;
 import com.henlinkeji.shenbian.fragments.home.MineFragment;
@@ -78,6 +83,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int REQUEST_CODE = 0; // 请求码
 
+    private boolean hasShow;
+
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
 
@@ -114,10 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startPermissionsActivity();
             }
         }
-        if (SPUtils.getIMToken(this) != null) {
-            connect(SPUtils.getIMToken(MainActivity.this));
-        }
-        LogUtil.e("==imtoken===" + SPUtils.getIMToken(this));
+        LogUtil.e("==token=="+SPUtils.getToken(this));
     }
 
     @Override
@@ -155,7 +159,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 myTv.setTextColor(Color.parseColor("#8f959c"));
                 break;
             case R.id.rl_add:
-                showPop();
+//                showPop();
+                if (TextUtils.isEmpty(SPUtils.getToken(MainActivity.this))) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(MainActivity.this, AddServiceActivity.class));
+                }
                 break;
             case R.id.rl_discover:
                 showFragment(3);
@@ -169,15 +178,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 myTv.setTextColor(Color.parseColor("#8f959c"));
                 break;
             case R.id.rl_my:
-                showFragment(4);
-                headImg.setBackgroundResource(R.mipmap.head);
-                attentionImg.setBackgroundResource(R.mipmap.attention);
-                diacoverImg.setBackgroundResource(R.mipmap.discover);
-                myImg.setBackgroundResource(R.mipmap.mine_selected);
-                headTv.setTextColor(Color.parseColor("#8f959c"));
-                attentionTv.setTextColor(Color.parseColor("#8f959c"));
-                diacoverTv.setTextColor(Color.parseColor("#8f959c"));
-                myTv.setTextColor(Color.parseColor("#009698"));
+                if (TextUtils.isEmpty(SPUtils.getToken(MainActivity.this))) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else {
+                    showFragment(4);
+                    headImg.setBackgroundResource(R.mipmap.head);
+                    attentionImg.setBackgroundResource(R.mipmap.attention);
+                    diacoverImg.setBackgroundResource(R.mipmap.discover);
+                    myImg.setBackgroundResource(R.mipmap.mine_selected);
+                    headTv.setTextColor(Color.parseColor("#8f959c"));
+                    attentionTv.setTextColor(Color.parseColor("#8f959c"));
+                    diacoverTv.setTextColor(Color.parseColor("#8f959c"));
+                    myTv.setTextColor(Color.parseColor("#009698"));
+                }
                 break;
         }
 
@@ -313,6 +326,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        if (!TextUtils.isEmpty(SPUtils.getIMToken(this))) {
+            if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+                connect(SPUtils.getIMToken(MainActivity.this));
+            }
+        }
     }
 
     private void startPermissionsActivity() {
@@ -325,6 +343,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
         if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
             ToastUtils.disPlayLongCenter(this, "重要权限未授予会导致应用基础功能无法使用，建议授予必要权限");
+            MyApplication.getInstance().exit();
         }
         if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_GRANTED) {
             LocationUtil.init(this);
@@ -342,7 +361,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                  */
                 @Override
                 public void onTokenIncorrect() {
-                    LogUtil.e("==Token 错误==");
+                    LogUtil.e("==连接融云错误==");
+                    handler.post(runnable);
                 }
 
                 /**
@@ -360,9 +380,55 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                  */
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
-                    LogUtil.e("==连接融云失败==");
+                    LogUtil.e("==连接融云失败==" + errorCode);
                 }
             });
         }
     }
+
+
+    private Runnable runnable = new Runnable() {
+        public void run() {
+            handler.sendEmptyMessage(1);
+        }
+    };
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 1:
+                    if (!hasShow) {
+                        hasShow = true;
+                        Dialog dialog = ShowDialog.showSelectNoTitlePopup(MainActivity.this, "未能搭上您与提供服务者的桥梁，这将导致您无法与其进行很好的沟通", R.string.loginagain, R.string.loginlater, new OperationCallback() {
+                            @Override
+                            public void execute() {
+                                SPUtils.setToken("", MainActivity.this);
+                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                timer.start();
+                            }
+                        }, new OperationCallback() {
+                            @Override
+                            public void execute() {
+                                SPUtils.setToken("", MainActivity.this);
+                                timer.start();
+                            }
+                        });
+                        dialog.setCanceledOnTouchOutside(false);
+                        dialog.setCancelable(false);
+                    }
+                    break;
+            }
+        }
+    };
+
+    private CountDownTimer timer = new CountDownTimer(600000, 600000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+        @Override
+        public void onFinish() {
+            hasShow = false;
+        }
+    };
 }

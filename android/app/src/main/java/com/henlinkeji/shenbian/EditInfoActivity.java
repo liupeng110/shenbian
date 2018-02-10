@@ -31,9 +31,11 @@ import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
+import com.henlinkeji.shenbian.base.utils.FileUtils;
 import com.henlinkeji.shenbian.base.utils.HttpUtils;
 import com.henlinkeji.shenbian.base.utils.ImageUtils;
 import com.henlinkeji.shenbian.base.utils.InputTools;
+import com.henlinkeji.shenbian.base.utils.KeyboardUtils;
 import com.henlinkeji.shenbian.base.utils.LogUtil;
 import com.henlinkeji.shenbian.base.utils.PermissionsChecker;
 import com.henlinkeji.shenbian.base.utils.SPUtils;
@@ -159,6 +161,7 @@ public class EditInfoActivity extends BaseActivity {
         rightTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KeyboardUtils.hideSoftInput(EditInfoActivity.this);
                 if (TextUtils.isEmpty(picturePath)) {
                     commitInfo();
                 } else {
@@ -211,6 +214,7 @@ public class EditInfoActivity extends BaseActivity {
             return;
         } else {
             params.put("merchantReceivableAccount", accountEdt.getText().toString());
+            SPUtils.setDataString("account", accountEdt.getText().toString(), this);
         }
         if (!TextUtils.isEmpty(hash)) {
             params.put("userIcon", hash);
@@ -221,7 +225,7 @@ public class EditInfoActivity extends BaseActivity {
         HttpUtils.post(this, MyConfig.EDIT_INFO, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
                 GetUpToken getUpToken = new Gson().fromJson(response, GetUpToken.class);
@@ -240,7 +244,7 @@ public class EditInfoActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
             }
@@ -255,7 +259,7 @@ public class EditInfoActivity extends BaseActivity {
         HttpUtils.post(this, MyConfig.QUERY_INFO, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
                 UserInfo userInfo = new Gson().fromJson(response, UserInfo.class);
@@ -266,7 +270,7 @@ public class EditInfoActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
             }
@@ -275,10 +279,14 @@ public class EditInfoActivity extends BaseActivity {
 
     private void initUserInfo(UserInfo.DataBean userInfo) {
         if (userInfo.getUserIcon() != null) {
-            if (!TextUtils.isEmpty(userInfo.getUserIcon())) avatorIv.setImageURI(Uri.parse(userInfo.getUserIcon()));
+            if (!TextUtils.isEmpty(userInfo.getUserIcon())) {
+                avatorIv.setImageURI(Uri.parse(userInfo.getUserIcon()));
+            }
         }
         if (userInfo.getUserName() != null) {
-            if (!TextUtils.isEmpty(userInfo.getUserName())) nameEdt.setText(userInfo.getUserName());
+            if (!TextUtils.isEmpty(userInfo.getUserName())) {
+                nameEdt.setText(userInfo.getUserName());
+            }
         }
         if (userInfo.getUserTags() != null) {
             if (!TextUtils.isEmpty(userInfo.getUserTags())) tagEdt.setText(userInfo.getUserTags());
@@ -415,14 +423,7 @@ public class EditInfoActivity extends BaseActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri uri = data.getData();
                 avatorIv.setImageURI(uri);
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                picturePath = cursor.getString(columnIndex);
-                cursor.close();
+                picturePath = FileUtils.getPath(this, uri);
             } else if (requestCode == SELECT_CAMER) {
                 Uri uri = Uri.parse("file://" + picturePath);
                 avatorIv.setImageURI(uri);
@@ -439,7 +440,7 @@ public class EditInfoActivity extends BaseActivity {
         HttpUtils.post(this, MyConfig.GET_UPLOAD_TOKEN, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
                 GetUpToken generalBean = new Gson().fromJson(response, GetUpToken.class);
@@ -455,7 +456,7 @@ public class EditInfoActivity extends BaseActivity {
 
             @Override
             public void onFailure(String response) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
             }
@@ -472,12 +473,12 @@ public class EditInfoActivity extends BaseActivity {
         this.uploadManager.put(uploadFile, UUID.randomUUID().toString().replaceAll("-", ""), uploadToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
-                if (loadingDialog!=null) {
+                if (loadingDialog != null) {
                     loadingDialog.exit();
                 }
                 if (respInfo.isOK()) {
                     PicTextBean b1 = new Gson().fromJson(jsonData.toString(), PicTextBean.class);
-                    hash = b1.getHash();
+                    hash = b1.getKey();
                     commitInfo();
                 } else {
                     ToastUtils.disPlayShort(EditInfoActivity.this, "保存失败请重新保存");

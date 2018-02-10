@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.henlinkeji.shenbian.FeedBackActivity">
+
+    <include
+        layout="@layout/toolbar_img_layout"/>
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="请输入您的反馈意见"
+        android:padding="10dp"
+        android:gravity="left|top"
+        android:maxEms="500"
+        android:background="@drawable/feed_back_back"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="提交"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:background="@drawable/submit_back"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#fff"
+        android:layout_marginTop="20dp"
+        />
+</LinearLayout>

@@ -49,6 +49,7 @@ import com.henlinkeji.shenbian.base.amap.InputTipTask;
 import com.henlinkeji.shenbian.base.amap.LatLngEntity;
 import com.henlinkeji.shenbian.base.amap.LocationBean;
 import com.henlinkeji.shenbian.base.amap.PoiSearchTask;
+import com.henlinkeji.shenbian.base.application.MyApplication;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.ui.BaseActivity;
 import com.henlinkeji.shenbian.base.utils.InputTools;
@@ -114,6 +115,7 @@ public class SelectPositionActivity extends BaseActivity implements AMapLocation
 
     @Override
     protected void initInstence() {
+        MyApplication.getInstance().addActivity(this);
         titleTv.setText("位置信息");
         rightTv.setText("确定");
         rightTv.setTextColor(Color.parseColor("#ff0000"));

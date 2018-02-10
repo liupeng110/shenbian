@@ -1,7 +1,9 @@
 package com.henlinkeji.shenbian.fragments.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +15,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -33,6 +37,7 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.henlinkeji.shenbian.AllClassfyActivity;
@@ -47,8 +52,10 @@ import com.henlinkeji.shenbian.SearchActivity;
 import com.henlinkeji.shenbian.SelectCityActivity;
 import com.henlinkeji.shenbian.ServiceDetailActivity;
 import com.henlinkeji.shenbian.ShoppingCartActivity;
+import com.henlinkeji.shenbian.adapter.MineDownAdapter;
 import com.henlinkeji.shenbian.adapter.RecyclerGridViewAdapter;
 import com.henlinkeji.shenbian.base.amap.LocationBean;
+import com.henlinkeji.shenbian.base.callback.OperationCallback;
 import com.henlinkeji.shenbian.base.config.MyConfig;
 import com.henlinkeji.shenbian.base.load.LoadingDialog;
 import com.henlinkeji.shenbian.base.utils.HttpUtils;
@@ -57,14 +64,21 @@ import com.henlinkeji.shenbian.base.utils.SPUtils;
 import com.henlinkeji.shenbian.base.utils.ToastUtils;
 import com.henlinkeji.shenbian.base.utils.Utils;
 import com.henlinkeji.shenbian.base.view.FullyLinearLayoutManager;
+import com.henlinkeji.shenbian.base.view.ListViewForScrollView;
+import com.henlinkeji.shenbian.base.view.ShowDialog;
 import com.henlinkeji.shenbian.base.view.rvadapter.CommonAdapter;
 import com.henlinkeji.shenbian.base.view.rvadapter.MultiItemTypeAdapter;
 import com.henlinkeji.shenbian.base.view.rvadapter.base.ViewHolder;
+import com.henlinkeji.shenbian.bean.GetUpToken;
 import com.henlinkeji.shenbian.bean.HeadBottom;
 import com.henlinkeji.shenbian.bean.HeadTop;
 import com.henlinkeji.shenbian.bean.HotSell;
+import com.henlinkeji.shenbian.bean.MineDownList;
+import com.henlinkeji.shenbian.refresh.VRefreshLayout;
 import com.zhy.autolayout.utils.AutoUtils;
 
+import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -97,22 +111,25 @@ public class HeadFragment extends Fragment {
     @BindView(R.id.classfy_recy)
     RecyclerView classfyRecy;
     @BindView(R.id.hot_recy)
-    RecyclerView hotRecy;
+    ListViewForScrollView hotRecy;
     @BindView(R.id.chaozhi_img1)
     SimpleDraweeView chaoZhiImg1;
     @BindView(R.id.chaozhi_img2)
     SimpleDraweeView chaoZhiImg2;
     @BindView(R.id.see_map_rl)
     RelativeLayout seeMapRl;
+    @BindView(R.id.refresh_layout)
+    VRefreshLayout vRefreshLayout;
 
     private CommonAdapter<String> quickSearchAdapter;
-    private CommonAdapter<HeadBottom.DataBean.VosBean> hotSellAdapter;
+//    private CommonAdapter<HeadBottom.DataBean.VosBean> hotSellAdapter;
     private List<String> searchList = new ArrayList<>();
 
     private List<String> classfyTextList = new ArrayList<>();
 
     private List<String> classfyImgList1 = new ArrayList<>();
     private List<Integer> classfyImgList2 = new ArrayList<>();
+    private List<Integer> classfyIdList = new ArrayList<>();
 
     private List<HeadBottom.DataBean.VosBean> hotSellList = new ArrayList<>();
 
@@ -133,6 +150,11 @@ public class HeadFragment extends Fragment {
     private AMap aMap;
 
     private boolean isGetJW = false;
+
+    private int chaozhi1;
+    private int chaozhi2;
+
+    List<HeadTop.DataBean.PositionsBean> posList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -158,17 +180,21 @@ public class HeadFragment extends Fragment {
         classfyRecy.setLayoutManager(gridLayoutManager);
 
         //设置布局管理器
-        hotRecy.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        hotRecy.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mlocationClient = new AMapLocationClient(getActivity().getApplicationContext());
         //声明mLocationOption对象
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+        MyLocationStyle myLocationStyle = new MyLocationStyle();
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_SHOW);//定位一次，且将视角移动到地图中心点。
+        aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
         //设置定位间隔,单位毫秒,默认为100000ms
 //        mLocationOption.setInterval(100000);
         //设置定位参数
         mlocationClient.setLocationOption(mLocationOption);
+        aMap.getUiSettings().setZoomControlsEnabled(false);
         // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
         // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
         // 在定位结束后，在合适的生命周期调用onDestroy()方法
@@ -181,23 +207,29 @@ public class HeadFragment extends Fragment {
 
     protected void initData() {
         classfyTextList.clear();
-        classfyTextList.add("找服务");
-        classfyTextList.add("找人");
-        classfyTextList.add("找活动");
-        classfyTextList.add("找工作");
-        classfyTextList.add("找租房");
-        classfyTextList.add("学技能");
-        classfyTextList.add("修手机、电脑");
-        classfyTextList.add("全部");
-
+        classfyTextList.add("教育学习");
+        classfyTextList.add("生活服务");
+        classfyTextList.add("艺术培养");
+        classfyTextList.add("工作辅导");
+//        classfyTextList.add("找租房");
+//        classfyTextList.add("学技能");
+//        classfyTextList.add("修手机、电脑");
+//        classfyTextList.add("全部");
+        classfyImgList2.clear();
         classfyImgList2.add(R.mipmap.zhaofuwu);
         classfyImgList2.add(R.mipmap.zhaoren);
         classfyImgList2.add(R.mipmap.zhaohuodong);
         classfyImgList2.add(R.mipmap.zhaogongzuo);
-        classfyImgList2.add(R.mipmap.zhaozufang);
-        classfyImgList2.add(R.mipmap.xuejineng);
-        classfyImgList2.add(R.mipmap.xiushouji);
-        classfyImgList2.add(R.mipmap.quanbu);
+//        classfyImgList2.add(R.mipmap.zhaozufang);
+//        classfyImgList2.add(R.mipmap.xuejineng);
+//        classfyImgList2.add(R.mipmap.xiushouji);
+//        classfyImgList2.add(R.mipmap.quanbu);
+
+        classfyIdList.clear();
+        classfyIdList.add(1);
+        classfyIdList.add(2);
+        classfyIdList.add(3);
+        classfyIdList.add(4);
 
         quickSearchAdapter = new CommonAdapter<String>(getActivity(), R.layout.quick_search_item_layout) {
             @Override
@@ -219,56 +251,73 @@ public class HeadFragment extends Fragment {
         recyclerGridViewAdapter.setLocalData(classfyTextList, classfyImgList2);
         recyclerGridViewAdapter.notifyDataSetChanged();
 
-        hotSellAdapter = new CommonAdapter<HeadBottom.DataBean.VosBean>(getActivity(), R.layout.hot_sell_item_layout) {
-            @Override
-            protected void convert(ViewHolder holder, final HeadBottom.DataBean.VosBean hotSell, int position) {
-                holder.setText(R.id.name, hotSell.getServiceTitle());
-                holder.setText(R.id.content, hotSell.getServiceDescription());
-                holder.setText(R.id.star_count, hotSell.getStarRating() + "(" + hotSell.getSoldCount() + ")");
-                holder.setText(R.id.sell_count, "已售" + hotSell.getSoldCount() + "件");
-                if (hotSell.getUserTags() != null) {
-                    holder.setText(R.id.mark, hotSell.getUserTags());
-                } else {
-                    holder.setVisible(R.id.mark, false);
-                }
-                LatLng latLng1 = new LatLng(currentLatitude, currentLongitude);
-                if (!TextUtils.isEmpty(hotSell.getLocation())) {
-                    String[] locs = hotSell.getLocation().split(",");
-                    LatLng latLng2 = null;
-                    if (locs.length >= 1) {
-                        latLng2 = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
-                    }
-                    float dis = AMapUtils.calculateLineDistance(latLng1, latLng2);
-                    if (dis < 1000) {
-                        holder.setText(R.id.distance, dis + "m");
+//        hotSellAdapter = new CommonAdapter<HeadBottom.DataBean.VosBean>(getActivity(), R.layout.hot_sell_item_layout) {
+//            @Override
+//            protected void convert(ViewHolder holder, final HeadBottom.DataBean.VosBean hotSell, int position) {
+//                holder.setText(R.id.name, hotSell.getServiceTitle());
+//                holder.setText(R.id.content, hotSell.getServiceDescription());
+//                holder.setText(R.id.star_count, hotSell.getStarRating() + "(" + hotSell.getSoldCount() + ")");
+//                holder.setText(R.id.sell_count, "已售" + hotSell.getSoldCount() + "件");
+//                if (hotSell.getUserTags() != null) {
+//                    holder.setText(R.id.mark, hotSell.getUserTags());
+//                } else {
+//                    holder.setVisible(R.id.mark, false);
+//                }
+//                LatLng latLng1 = new LatLng(currentLatitude, currentLongitude);
+//                if (!TextUtils.isEmpty(hotSell.getLocation())) {
+//                    String[] locs = hotSell.getLocation().split(",");
+//                    LatLng latLng2 = null;
+//                    if (locs.length >= 1) {
+//                        latLng2 = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
+//                    }
+//                    float dis = AMapUtils.calculateLineDistance(latLng1, latLng2);
+//                    if (dis < 1000) {
+//                        DecimalFormat decimalFormat = new DecimalFormat("0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+//                        holder.setText(R.id.distance, decimalFormat.format(dis) + "m");
+//                    } else {
+//                        holder.setText(R.id.distance, Utils.mToKm(dis));
+//                    }
+//                }
+//                if (hotSell.getHomeUrl() != null) {
+//                    SimpleDraweeView img = holder.getView(R.id.img);
+//                    img.setImageURI(Uri.parse(hotSell.getHomeUrl()));
+//                }
+//                holder.setOnClickListener(R.id.hot_sell_rl, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+//                        intent.putExtra("id", hotSell.getId());
+//                        startActivity(intent);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onViewHolderCreated(ViewHolder holder, View itemView) {
+//                super.onViewHolderCreated(holder, itemView);
+//                AutoUtils.autoSize(itemView);
+//            }
+//        };
+//        hotRecy.setAdapter(hotSellAdapter);
+
+        if (vRefreshLayout != null) {
+            vRefreshLayout.setHeaderView(vRefreshLayout.getDefaultHeaderView());
+            vRefreshLayout.setBackgroundColor(Color.WHITE);
+            vRefreshLayout.setAutoRefreshDuration(400);
+            vRefreshLayout.setRatioOfHeaderHeightToReach(1.5f);
+            vRefreshLayout.addOnRefreshListener(new VRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if (Utils.isNetworkAvailable(getActivity())) {
+                        getHead();
+                        getHeadBottom();
                     } else {
-                        holder.setText(R.id.distance, Utils.mToKm(dis));
+                        vRefreshLayout.refreshComplete();
+                        Toast.makeText(getActivity(), "当前网络不可用，请检查网络", Toast.LENGTH_LONG).show();
                     }
                 }
-                if (hotSell.getHomeUrl() != null) {
-                    SimpleDraweeView img = holder.getView(R.id.img);
-                    img.setImageURI(Uri.parse(hotSell.getHomeUrl()));
-                }
-                holder.setOnClickListener(R.id.hot_sell_rl, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
-                        intent.putExtra("id", hotSell.getId());
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            @Override
-            public void onViewHolderCreated(ViewHolder holder, View itemView) {
-                super.onViewHolderCreated(holder, itemView);
-                AutoUtils.autoSize(itemView);
-            }
-        };
-        hotRecy.setAdapter(hotSellAdapter);
-
-        aMap.getUiSettings().setZoomControlsEnabled(false);
-
+            });
+        }
     }
 
     protected void initListener() {
@@ -284,31 +333,18 @@ public class HeadFragment extends Fragment {
                         currentLongitude = aMapLocation.getLongitude();//获取经度
                         SPUtils.setLatitude(currentLatitude + "", getActivity());
                         SPUtils.setLongitude(currentLongitude + "", getActivity());
-                        aMapLocation.getAccuracy();//获取精度信息
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = new Date(aMapLocation.getTime());
-                        df.format(date);//定位时间
-//                            ToastUtils.disPlayShort(getActivity(), aMapLocation.getAddress() +//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-//                                    aMapLocation.getCountry() +//国家信息
-//                                    aMapLocation.getProvince() +//省信息
-//                                    aMapLocation.getCity() +//城市信息
-//                                    aMapLocation.getDistrict() +//城区信息
-//                                    aMapLocation.getStreet() +//街道信息
-//                                    aMapLocation.getStreetNum());//街道门牌号信息);
                         if (!isSlect) {
                             locTv.setText(aMapLocation.getCity());
                         }
                         city = aMapLocation.getCity();
                         SPUtils.setCity(city, getActivity());
-                        //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
-//                        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15, 0, 0));
-//                        aMap.moveCamera(mCameraUpdate);
                         if (!isGetJW) {
                             isGetJW = true;
                             getHead();
                             getHeadBottom();
                         }
                     } else {
+                        mlocationClient.startLocation();
                         locTv.setText("定位失败");
                     }
                 }
@@ -318,7 +354,7 @@ public class HeadFragment extends Fragment {
         quickSearchAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                ToastUtils.disPlayShortCenter(getActivity(), searchList.get(position));
+//                ToastUtils.disPlayShortCenter(getActivity(), searchList.get(position));
             }
 
             @Override
@@ -330,24 +366,29 @@ public class HeadFragment extends Fragment {
         headLocLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SelectCityActivity.class);
-                intent.putExtra("city", city);
-                startActivityForResult(intent, SELECT_CITY);
+//                Intent intent = new Intent(getActivity(), SelectCityActivity.class);
+//                intent.putExtra("city", city);
+//                startActivityForResult(intent, SELECT_CITY);
             }
         });
 
         recyclerGridViewAdapter.setOnRecyclerViewItemListener(new RecyclerGridViewAdapter.OnRecyclerViewItemListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                if (position == 0) {
-                    startActivity(new Intent(getActivity(), LookServiceActivity.class));
-                } else if (position == 1) {
-                    startActivity(new Intent(getActivity(), LookPeopleActivity.class));
-                }else if (position==7){
-                    startActivity(new Intent(getActivity(), AllClassfyActivity.class));
-                }else {
-                    startActivity(new Intent(getActivity(), LookOtherActivity.class));
-                }
+//                if (position == 0) {
+//                    startActivity(new Intent(getActivity(), LookServiceActivity.class));
+//                } else if (position == 1) {
+                Intent intent = new Intent(getActivity(), LookPeopleActivity.class);
+                intent.putExtra("center", "116.542951,39.639531");
+                intent.putExtra("city", city);
+                intent.putExtra("id", classfyIdList.get(position));
+                intent.putExtra("name", classfyTextList.get(position));
+                startActivity(intent);
+//                }else if (position==7){
+//                    startActivity(new Intent(getActivity(), AllClassfyActivity.class));
+//                }else {
+//                    startActivity(new Intent(getActivity(), LookOtherActivity.class));
+//                }
             }
 
             @Override
@@ -375,20 +416,42 @@ public class HeadFragment extends Fragment {
         chaoZhiImg1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ArticleDetailActivity.class));
+                Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+                intent.putExtra("id", chaozhi1);
+                startActivity(intent);
             }
         });
         chaoZhiImg2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ServiceDetailActivity.class));
+                Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+                intent.putExtra("id", chaozhi2);
+                startActivity(intent);
             }
         });
 
         seeMapRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LookMapActivity.class));
+                Intent intent = new Intent(getActivity(), LookMapActivity.class);
+                if (posList != null) {
+                    if (posList.size() > 0) {
+                        intent.putExtra("list", (Serializable) posList);
+                    }
+                }
+                startActivity(intent);
+            }
+        });
+        mMapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LookMapActivity.class);
+                if (posList != null) {
+                    if (posList.size() > 0) {
+                        intent.putExtra("list", (Serializable) posList);
+                    }
+                }
+                startActivity(intent);
             }
         });
     }
@@ -419,14 +482,16 @@ public class HeadFragment extends Fragment {
     private void getHead() {
         Map<String, String> params = new HashMap<>();
         params.put("city", city);
-        params.put("center", currentLatitude + "," + currentLongitude);
-        params.put("center", "116.542951,39.639531");
+        params.put("center", currentLongitude + "," + currentLatitude);
         HttpUtils.post(getActivity(), MyConfig.HEAD_TOP, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
             public void onSuccess(String response) {
                 loadingDialog.exit();
                 classfyTextList.clear();
                 classfyImgList1.clear();
+                classfyIdList.clear();
+                searchList.clear();
+                vRefreshLayout.refreshComplete();
                 HeadTop headTop = new Gson().fromJson(response, HeadTop.class);
                 if (!TextUtils.isEmpty(headTop.getStatus())) {
                     if (headTop.getStatus().equals("0000")) {
@@ -438,11 +503,13 @@ public class HeadFragment extends Fragment {
                         for (int i = 0; i < headTop.getData().getImgInfo().size(); i++) {
                             classfyTextList.add(headTop.getData().getImgInfo().get(i).getText());
                             classfyImgList1.add(headTop.getData().getImgInfo().get(i).getUrl());
+                            classfyIdList.add(headTop.getData().getImgInfo().get(i).getClassificationId());
                         }
                         recyclerGridViewAdapter.setNetData(classfyTextList, classfyImgList1);
                         recyclerGridViewAdapter.notifyDataSetChanged();
-                        for (int i = 0; i < headTop.getData().getPositions().size(); i++) {
-                            String loc = headTop.getData().getPositions().get(i).get_location();
+                        posList = headTop.getData().getPositions();
+                        for (int i = 0; i < posList.size(); i++) {
+                            String loc = posList.get(i).get_location();
                             String[] locs = loc.split(",");
                             if (locs.length >= 1) {
                                 LatLng latLng = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
@@ -454,9 +521,14 @@ public class HeadFragment extends Fragment {
                                 // 将Marker设置为贴地显示，可以双指下拉地图查看效果
                                 markerOption.setFlat(false);//设置marker平贴地图效果
                                 marker.setMarkerOptions(markerOption);
-                                CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0])), 10, 0, 0));
-                                aMap.moveCamera(mCameraUpdate);
                             }
+                        }
+                        if (posList.size() >= 1) {
+                            String loc = posList.get(0).get_location();
+                            String[] locs = loc.split(",");
+                            //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
+                            CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0])), 15, 0, 0));
+                            aMap.moveCamera(mCameraUpdate);
                         }
                     }
                 }
@@ -465,6 +537,7 @@ public class HeadFragment extends Fragment {
             @Override
             public void onFailure(String response) {
                 loadingDialog.exit();
+                vRefreshLayout.refreshComplete();
             }
         });
     }
@@ -472,8 +545,7 @@ public class HeadFragment extends Fragment {
     private void getHeadBottom() {
         Map<String, String> params = new HashMap<>();
         params.put("city", city);
-//        params.put("center", currentLatitude + "," + currentLongitude);
-        params.put("center", "116.542951,39.639531");
+        params.put("center", currentLongitude + "," + currentLatitude);
         params.put("page", 1 + "");
         HttpUtils.post(getActivity(), MyConfig.HEAD_BOTTOM, params, new HttpUtils.HttpPostCallBackListener() {
             @Override
@@ -481,24 +553,149 @@ public class HeadFragment extends Fragment {
                 HeadBottom headBottom = new Gson().fromJson(response, HeadBottom.class);
                 if (headBottom.getStatus().equals("0000")) {
                     hotSellList = headBottom.getData().getVos();
-                    hotSellAdapter.setDatas(hotSellList);
+//                    hotSellAdapter.setDatas(hotSellList);
+                    hotRecy.setAdapter(new HotAdapter(hotSellList,getActivity()) );
                     List<HeadBottom.DataBean.GreatValueBean> greatValueBeanList = headBottom.getData().getGreatValue();
-                    if (greatValueBeanList.size() >= 2) {
-                        if (greatValueBeanList.get(0).getHomeUrl() != null)
-                            chaoZhiImg2.setImageURI(Uri.parse(greatValueBeanList.get(1).getHomeUrl()));
-                        if (greatValueBeanList.get(1).getHomeUrl() != null)
-                            chaoZhiImg1.setImageURI(Uri.parse(greatValueBeanList.get(0).getHomeUrl()));
+                    if (greatValueBeanList != null) {
+                        if (greatValueBeanList.size() >= 2) {
+                            chaoZhiImg2.setVisibility(View.VISIBLE);
+                            chaoZhiImg1.setVisibility(View.VISIBLE);
+                            if (greatValueBeanList.get(1).getHomeUrl() != null) {
+                                chaoZhiImg2.setImageURI(Uri.parse(greatValueBeanList.get(1).getHomeUrl()));
+                            } else {
+                                chaoZhiImg2.setVisibility(View.GONE);
+                            }
+                            if (greatValueBeanList.get(0).getHomeUrl() != null) {
+                                chaoZhiImg1.setImageURI(Uri.parse(greatValueBeanList.get(0).getHomeUrl()));
+                            } else {
+                                chaoZhiImg1.setVisibility(View.GONE);
+                            }
+                            chaozhi1 = greatValueBeanList.get(0).getId();
+                            chaozhi2 = greatValueBeanList.get(1).getId();
+                        } else if (greatValueBeanList.size() == 1) {
+                            chaoZhiImg2.setVisibility(View.INVISIBLE);
+                            chaoZhiImg1.setVisibility(View.VISIBLE);
+                            if (greatValueBeanList.get(0).getHomeUrl() != null) {
+                                chaoZhiImg1.setImageURI(Uri.parse(greatValueBeanList.get(0).getHomeUrl()));
+                            }
+                            chaozhi1 = greatValueBeanList.get(0).getId();
+                        } else if (greatValueBeanList.size() == 0) {
+                            chaoZhiImg2.setVisibility(View.GONE);
+                            chaoZhiImg1.setVisibility(View.GONE);
+                        }
+                    } else {
+                        chaoZhiImg2.setVisibility(View.GONE);
+                        chaoZhiImg1.setVisibility(View.GONE);
                     }
                 }
                 loadingDialog.exit();
+                vRefreshLayout.refreshComplete();
             }
 
             @Override
             public void onFailure(String response) {
                 loadingDialog.exit();
+                vRefreshLayout.refreshComplete();
             }
         });
     }
+
+    class HotAdapter extends BaseAdapter {
+
+        private List<HeadBottom.DataBean.VosBean> mineDownLists;
+        private LayoutInflater inflater;
+
+        public HotAdapter(List<HeadBottom.DataBean.VosBean> list, Context context) {
+            this.mineDownLists = list;
+            this.inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return mineDownLists == null ? 0 : mineDownLists.size();
+        }
+
+        @Override
+        public HeadBottom.DataBean.VosBean getItem(int position) {
+            return mineDownLists.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.hot_sell_item_layout, null);
+                holder = new ViewHolder();
+                    /*得到各个控件的对象*/
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.content = (TextView) convertView.findViewById(R.id.content);
+                holder.star_count = (TextView) convertView.findViewById(R.id.star_count);
+                holder.sell_count = (TextView) convertView.findViewById(R.id.sell_count);
+                holder.mark = (TextView) convertView.findViewById(R.id.mark);
+                holder.distance = (TextView) convertView.findViewById(R.id.distance);
+                holder.hot_sell_rl = (RelativeLayout) convertView.findViewById(R.id.hot_sell_rl);
+                holder.img = (ImageView) convertView.findViewById(R.id.img);
+                convertView.setTag(holder);//绑定ViewHolder对象
+            } else {
+                holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象                   }
+            }
+            final HeadBottom.DataBean.VosBean hotSell = mineDownLists.get(position);
+            holder.name.setText(hotSell.getServiceTitle());
+            holder.content.setText(hotSell.getServiceDescription());
+            holder.star_count.setText(hotSell.getStarRating() + "(" + hotSell.getSoldCount() + ")");
+            holder.sell_count.setText("已售" + hotSell.getSoldCount() + "件");
+            if (hotSell.getUserTags() != null) {
+                holder.mark.setText(hotSell.getUserTags());
+            } else {
+                holder.mark.setVisibility(View.GONE);
+            }
+            LatLng latLng1 = new LatLng(currentLatitude, currentLongitude);
+            if (!TextUtils.isEmpty(hotSell.getLocation())) {
+                String[] locs = hotSell.getLocation().split(",");
+                LatLng latLng2 = null;
+                if (locs.length >= 1) {
+                    latLng2 = new LatLng(Double.valueOf(locs[1]), Double.valueOf(locs[0]));
+                }
+                float dis = AMapUtils.calculateLineDistance(latLng1, latLng2);
+                if (dis < 1000) {
+                    DecimalFormat decimalFormat = new DecimalFormat("0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+                    holder.distance.setText(decimalFormat.format(dis) + "m");
+                } else {
+                    holder.distance.setText(Utils.mToKm(dis));
+                }
+            }
+            if (hotSell.getHomeUrl() != null) {
+                holder.img.setImageURI(Uri.parse(hotSell.getHomeUrl()));
+            }
+            holder.hot_sell_rl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ServiceDetailActivity.class);
+                    intent.putExtra("id", hotSell.getId());
+                    startActivity(intent);
+                }
+            });
+            return convertView;
+        }
+
+        class ViewHolder {
+            public TextView name;
+            public TextView content;
+            public TextView star_count;
+            public TextView sell_count;
+            public TextView mark;
+            public TextView distance;
+            public ImageView img;
+            public RelativeLayout hot_sell_rl;
+        }
+
+    }
+
 
     @Override
     public void onPause() {
